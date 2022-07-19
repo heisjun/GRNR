@@ -1,9 +1,9 @@
 import React from 'react';
-import { Home } from '../src/pages';
+import { Navigation } from 'navigations';
 function App() {
     return (
         <div>
-            <Home />
+            <Navigation />
         </div>
     );
 }

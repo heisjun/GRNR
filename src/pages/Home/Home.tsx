@@ -1,12 +1,7 @@
-import { HeadBar } from '../../domains';
 import styled from 'styled-components';
 
 const Home: React.FC = () => {
-    return (
-        <StyledHomeContainer>
-            <HeadBar />
-        </StyledHomeContainer>
-    );
+    return <StyledHomeContainer></StyledHomeContainer>;
 };
 
 const StyledHomeContainer = styled.div`
