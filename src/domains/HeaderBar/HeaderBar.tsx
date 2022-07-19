@@ -1,24 +1,29 @@
 import { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
-
 import { IHeaderBar } from './HeaderBar.type';
+import styled, { keyframes } from 'styled-components';
 
 const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const { children } = props;
     const [scrollDownToggle, setScrollDownToggle] = useState<boolean>(false);
-    const [currentPosY, setCurentPosY] = useState<number>(0);
+    const [prevPosY, setPrevPosY] = useState<number>(0);
+    const [crntPosY, setCrntPosY] = useState<number>(0);
+    const [headerAnim, setHeaderAnim] = useState<any>();
 
     const scrollHandler = () => {
-        setCurentPosY(window.scrollY);
-        if (window.scrollY > currentPosY) {
+        setCrntPosY(window.scrollY);
+    };
+
+    useEffect(() => {
+        if (crntPosY > prevPosY) {
             setScrollDownToggle(true);
         } else {
             setScrollDownToggle(false);
         }
-    };
+        setPrevPosY(crntPosY);
+    }, [crntPosY]);
 
     useEffect(() => {
-        console.log(scrollDownToggle);
+        scrollDownToggle === true ? setHeaderAnim(headerFadeOut) : setHeaderAnim(headerFadeIn);
     }, [scrollDownToggle]);
 
     useEffect(() => {
@@ -30,7 +35,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
 
     return (
         <StyledContainer>
-            <StyledHeaderBarContainer toggle={scrollDownToggle}>
+            <StyledHeaderBarContainer fadeAnim={headerAnim}>
                 <StyledHeaderBar>
                     <StyledMenuButton />
                     <StyledTitleBlock>오늘의집</StyledTitleBlock>
@@ -110,7 +115,7 @@ const StyledContentContainer = styled.div`
     }
 `;
 
-const StyledHeaderBarContainer = styled.div<{ toggle: boolean }>`
+const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     position: fixed;
     top: 0px;
     display: flex;
@@ -121,7 +126,10 @@ const StyledHeaderBarContainer = styled.div<{ toggle: boolean }>`
     background-color: white;
     border-bottom: solid 1px;
     border-color: #eaeaea;
-    animation: ${headerFadeIn} 0.5s;
+    @media screen and (max-width: 800px) {
+        animation: ${({ fadeAnim }) => fadeAnim} 0.5s;
+        animation-fill-mode: forwards;
+    }
 `;
 
 const StyledHeaderBar = styled.div`
