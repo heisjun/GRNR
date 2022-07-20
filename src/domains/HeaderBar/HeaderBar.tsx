@@ -123,6 +123,9 @@ const StyledTitleBlock = styled.h1`
 
 const StyledContentBlock = styled.div`
     width: 100%;
+    @media screen and (min-width: 800px) {
+        padding: 0px 30px 0px 30px;
+    }
     @media screen and (min-width: 1100px) {
         width: 1100px;
     }

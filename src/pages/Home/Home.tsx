@@ -5,9 +5,8 @@ const Home: React.FC = () => {
 };
 
 const StyledHomeContainer = styled.div`
-    display: flex;
     width: 100%;
-    height: 100%;
+    height: 10000px;
 `;
 
 export default Home;

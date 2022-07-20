@@ -13,7 +13,13 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
 
     return (
         <StyledSubTabBarContainer fadeAnim={fadeAnim}>
-            <StyledSubTabBarBlock>d</StyledSubTabBarBlock>
+            <StyledSubTabBarBlock>
+                <StyledMenuItem>메뉴1</StyledMenuItem>
+                <StyledMenuItem>메뉴2</StyledMenuItem>
+                <StyledMenuItem>메뉴3</StyledMenuItem>
+                <StyledMenuItem>메뉴4</StyledMenuItem>
+                <StyledMenuItem>메뉴5</StyledMenuItem>
+            </StyledSubTabBarBlock>
         </StyledSubTabBarContainer>
     );
 };
@@ -37,8 +43,17 @@ const subTabBarFadeOut = keyframes`
     }
 `;
 
+const StyledMenuItem = styled.h2`
+    font-size: 17px;
+    margin-right: 30px;
+`;
+
 const StyledSubTabBarBlock = styled.div`
     width: 100%;
+    display: flex;
+    @media screen and (min-width: 800px) {
+        padding: 0px 30px 0px 30px;
+    }
     @media screen and (min-width: 1100px) {
         width: 1100px;
     }
