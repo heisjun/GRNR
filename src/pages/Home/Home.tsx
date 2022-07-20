@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Home: React.FC = () => {
-    return <StyledHomeContainer></StyledHomeContainer>;
+    return <StyledHomeContainer>Home</StyledHomeContainer>;
 };
 
 const StyledHomeContainer = styled.div`

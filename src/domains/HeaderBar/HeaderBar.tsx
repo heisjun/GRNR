@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IHeaderBar } from './HeaderBar.type';
+import { SubTabBar } from 'domains/SubTabBar';
 import styled, { keyframes } from 'styled-components';
 
 const HeaderBar: React.FC<IHeaderBar> = (props) => {
@@ -7,7 +8,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [scrollDownToggle, setScrollDownToggle] = useState<boolean>(false);
     const [prevPosY, setPrevPosY] = useState<number>(0);
     const [crntPosY, setCrntPosY] = useState<number>(0);
-    const [headerAnim, setHeaderAnim] = useState<any>();
+    const [fadeAnim, setFadeAnim] = useState<any>();
 
     const scrollHandler = () => {
         setCrntPosY(window.scrollY);
@@ -23,7 +24,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     }, [crntPosY]);
 
     useEffect(() => {
-        scrollDownToggle === true ? setHeaderAnim(headerFadeOut) : setHeaderAnim(headerFadeIn);
+        scrollDownToggle === true ? setFadeAnim(headerFadeOut) : setFadeAnim(headerFadeIn);
     }, [scrollDownToggle]);
 
     useEffect(() => {
@@ -35,7 +36,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
 
     return (
         <StyledContainer>
-            <StyledHeaderBarContainer fadeAnim={headerAnim}>
+            <StyledHeaderBarContainer fadeAnim={fadeAnim}>
                 <StyledHeaderBar>
                     <StyledMenuButton />
                     <StyledTitleBlock>오늘의집</StyledTitleBlock>
@@ -43,7 +44,12 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                     <StyledCartButton />
                 </StyledHeaderBar>
             </StyledHeaderBarContainer>
-            <StyledContentContainer>{children}</StyledContentContainer>
+            <StyledSubTabBarBlock>
+                <SubTabBar visible={!scrollDownToggle} />
+            </StyledSubTabBarBlock>
+            <StyledContentContainer>
+                <StyledContentBlock>{children}</StyledContentBlock>
+            </StyledContentContainer>
         </StyledContainer>
     );
 };
@@ -63,6 +69,15 @@ const headerFadeOut = keyframes`
     }
     100% {
         transform: translateY(-100%);
+    }
+`;
+
+const StyledSubTabBarBlock = styled.div`
+    position: fixed;
+    width: 100%;
+    top: 50px;
+    @media screen and (min-width: 800px) {
+        top: 80px;
     }
 `;
 
@@ -106,12 +121,20 @@ const StyledTitleBlock = styled.h1`
     }
 `;
 
+const StyledContentBlock = styled.div`
+    width: 100%;
+    @media screen and (min-width: 1100px) {
+        width: 1100px;
+    }
+`;
+
 const StyledContentContainer = styled.div`
-    height: 5000px;
-    background-color: silver;
-    margin-top: 50px;
+    background-color: white;
+    display: flex;
+    margin-top: 100px;
+    justify-content: center;
     @media screen and (min-width: 800px) {
-        margin-top: 80px;
+        margin-top: 140px;
     }
 `;
 
@@ -119,7 +142,7 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     position: fixed;
     top: 0px;
     display: flex;
-    flex-direction: row;
+    z-index: 1;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -127,14 +150,13 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     border-bottom: solid 1px;
     border-color: #eaeaea;
     @media screen and (max-width: 800px) {
-        animation: ${({ fadeAnim }) => fadeAnim} 0.5s;
+        animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
         animation-fill-mode: forwards;
     }
 `;
 
 const StyledHeaderBar = styled.div`
     display: flex;
-    flex-direction: row;
     align-items: center;
     width: 100%;
     height: 50px;
@@ -143,8 +165,8 @@ const StyledHeaderBar = styled.div`
         height: 80px;
         padding: 0px 30px 0px 30px;
     }
-    @media screen and (min-width: 1200px) {
-        width: 1200px;
+    @media screen and (min-width: 1100px) {
+        width: 1100px;
     }
 `;
 const StyledContainer = styled.div`
