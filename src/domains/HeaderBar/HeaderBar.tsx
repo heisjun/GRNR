@@ -15,7 +15,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     };
 
     useEffect(() => {
-        if (crntPosY > prevPosY) {
+        if (crntPosY >= 50 && crntPosY > prevPosY) {
             setScrollDownToggle(true);
         } else {
             setScrollDownToggle(false);
