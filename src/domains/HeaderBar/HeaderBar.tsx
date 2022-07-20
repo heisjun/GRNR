@@ -39,7 +39,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
             <StyledHeaderBarContainer fadeAnim={fadeAnim}>
                 <StyledHeaderBar>
                     <StyledMenuButton />
-                    <StyledTitleBlock>오늘의집</StyledTitleBlock>
+                    <StyledTitleBlock>홈페이지 제목</StyledTitleBlock>
                     <StyledSearchButton />
                     <StyledCartButton />
                 </StyledHeaderBar>
