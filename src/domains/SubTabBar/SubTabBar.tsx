@@ -1,24 +1,36 @@
 import { useState, useEffect } from 'react';
-import { ISubTabBar } from './SubTabBar.type';
-
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
+import { ISubTabBar } from './SubTabBar.type';
+import { subTabBarItems } from 'common/data';
+
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const SubTabBar: React.FC<ISubTabBar> = (props) => {
-    const { visible } = props;
+    const { page, visible } = props;
     const [fadeAnim, setFadeAnim] = useState<any>();
+    const [subPage, setSubPage] = useState<number>(0);
 
     useEffect(() => {
         visible ? setFadeAnim(subTabBarFadeIn) : setFadeAnim(subTabBarFadeOut);
     }, [visible]);
 
+    useEffect(() => {
+        setFadeAnim(null);
+    }, []);
     return (
         <StyledSubTabBarContainer fadeAnim={fadeAnim}>
             <StyledSubTabBarBlock>
-                <StyledMenuItem>메뉴1</StyledMenuItem>
-                <StyledMenuItem>메뉴2</StyledMenuItem>
-                <StyledMenuItem>메뉴3</StyledMenuItem>
-                <StyledMenuItem>메뉴4</StyledMenuItem>
-                <StyledMenuItem>메뉴5</StyledMenuItem>
+                {subTabBarItems[page].map((item, index) => (
+                    <StyledMenuItemBlock key={index}>
+                        <Link to={item.link} style={{ textDecoration: 'none' }} onClick={() => setSubPage(index)}>
+                            <StyledMenuItemText color={index === subPage ? 'black' : 'grey'}>
+                                {item.name}
+                            </StyledMenuItemText>
+                        </Link>
+                    </StyledMenuItemBlock>
+                ))}
             </StyledSubTabBarBlock>
         </StyledSubTabBarContainer>
     );
@@ -43,19 +55,27 @@ const subTabBarFadeOut = keyframes`
     }
 `;
 
-const StyledMenuItem = styled.h2`
-    font-size: 17px;
+const StyledMenuItemText = styled.h2<{ color: string }>`
+    font-size: 15px;
+    color: ${({ color }) => color};
+    cursor: pointer;
+    &:hover {
+        color: #bce55c;
+    }
+`;
+
+const StyledMenuItemBlock = styled.div`
     margin-right: 30px;
 `;
 
 const StyledSubTabBarBlock = styled.div`
     width: 100%;
     display: flex;
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${boundaryWidth}px) {
         padding: 0px 30px 0px 30px;
     }
-    @media screen and (min-width: 1100px) {
-        width: 1100px;
+    @media screen and (min-width: ${maxWidth}px) {
+        width: ${maxWidth}px;
     }
 `;
 

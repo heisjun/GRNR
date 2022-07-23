@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
-import { IHeaderBar } from './HeaderBar.type';
-import { SubTabBar } from 'domains/SubTabBar';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
+import { IHeaderBar } from './HeaderBar.type';
+import { SubTabBar } from 'domains';
+import { headerItems } from 'common/data';
+
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const { children } = props;
@@ -9,6 +14,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [prevPosY, setPrevPosY] = useState<number>(0);
     const [crntPosY, setCrntPosY] = useState<number>(0);
     const [fadeAnim, setFadeAnim] = useState<any>();
+    const [overPage, setOverPage] = useState<number>(0);
+    const [crntPage, setCrntPage] = useState<number>(0);
 
     const scrollHandler = () => {
         setCrntPosY(window.scrollY);
@@ -28,24 +35,49 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     }, [scrollDownToggle]);
 
     useEffect(() => {
+        setFadeAnim(null);
         window.addEventListener('scroll', scrollHandler);
         return () => {
             window.removeEventListener('scroll', scrollHandler);
         };
     }, []);
 
+    useEffect(() => {
+        setOverPage(crntPage);
+    }, [crntPage]);
+
     return (
-        <StyledContainer>
+        <StyledContainer onMouseLeave={() => setOverPage(crntPage)}>
             <StyledHeaderBarContainer fadeAnim={fadeAnim}>
                 <StyledHeaderBar>
                     <StyledMenuButton />
-                    <StyledTitleBlock>홈페이지 제목</StyledTitleBlock>
+                    <StyledTitleBlock>
+                        <Link to="/" style={{ textDecoration: 'none' }}>
+                            <StyledTitleText>로고</StyledTitleText>
+                        </Link>
+                    </StyledTitleBlock>
+
+                    {headerItems.map((item, index) => (
+                        <StyledMenuItemBlock key={index}>
+                            <Link
+                                to={item.link}
+                                style={{ textDecoration: 'none' }}
+                                onClick={() => setCrntPage(index)}
+                                onMouseEnter={() => setOverPage(index)}
+                            >
+                                <StyledMenuItemText color={index === crntPage ? 'black' : 'silver'}>
+                                    {item.name}
+                                </StyledMenuItemText>
+                            </Link>
+                        </StyledMenuItemBlock>
+                    ))}
+
                     <StyledSearchButton />
                     <StyledCartButton />
                 </StyledHeaderBar>
             </StyledHeaderBarContainer>
             <StyledSubTabBarBlock>
-                <SubTabBar visible={!scrollDownToggle} />
+                <SubTabBar page={overPage} visible={!scrollDownToggle} />
             </StyledSubTabBarBlock>
             <StyledContentContainer>
                 <StyledContentBlock>{children}</StyledContentBlock>
@@ -76,7 +108,7 @@ const StyledSubTabBarBlock = styled.div`
     position: fixed;
     width: 100%;
     top: 50px;
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${boundaryWidth}px) {
         top: 80px;
     }
 `;
@@ -86,7 +118,7 @@ const StyledMenuButton = styled.div`
     height: 20px;
     border-radius: 20px;
     background-color: silver;
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${boundaryWidth}px) {
         display: none;
     }
 `;
@@ -96,7 +128,7 @@ const StyledSearchButton = styled.div`
     height: 20px;
     border-radius: 20px;
     background-color: silver;
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${boundaryWidth}px) {
         display: none;
     }
 `;
@@ -106,28 +138,52 @@ const StyledCartButton = styled.div`
     height: 20px;
     border-radius: 20px;
     background-color: silver;
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${boundaryWidth}px) {
         display: none;
     }
 `;
 
-const StyledTitleBlock = styled.h1`
+const StyledTitleText = styled.h1`
     font-size: 20px;
-    @media screen and (max-width: 800px) {
+    cursor: pointer;
+    color: black;
+    &:hover {
+        color: #bce55c;
+    }
+`;
+
+const StyledTitleBlock = styled.div`
+    @media screen and (max-width: ${boundaryWidth}px) {
         margin: 0 auto;
     }
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 25px;
+    }
+`;
+
+const StyledMenuItemText = styled.text<{ color: string }>`
+    font-size: 15px;
+    cursor: pointer;
+    color: ${({ color }) => color};
+    &:hover {
+        color: #bce55c;
+    }
+`;
+
+const StyledMenuItemBlock = styled.h2`
+    margin-left: 50px;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        display: none;
     }
 `;
 
 const StyledContentBlock = styled.div`
     width: 100%;
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${boundaryWidth}px) {
         padding: 0px 30px 0px 30px;
     }
-    @media screen and (min-width: 1100px) {
-        width: 1100px;
+    @media screen and (min-width: ${maxWidth}px) {
+        width: ${maxWidth}px;
     }
 `;
 
@@ -136,8 +192,8 @@ const StyledContentContainer = styled.div`
     display: flex;
     margin-top: 100px;
     justify-content: center;
-    @media screen and (min-width: 800px) {
-        margin-top: 140px;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        margin-top: 150px;
     }
 `;
 
@@ -152,7 +208,7 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     background-color: white;
     border-bottom: solid 1px;
     border-color: #eaeaea;
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: ${boundaryWidth}px) {
         animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
         animation-fill-mode: forwards;
     }
@@ -164,12 +220,12 @@ const StyledHeaderBar = styled.div`
     width: 100%;
     height: 50px;
     padding-right: 20px;
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${boundaryWidth}px) {
         height: 80px;
         padding: 0px 30px 0px 30px;
     }
-    @media screen and (min-width: 1100px) {
-        width: 1100px;
+    @media screen and (min-width: ${maxWidth}px) {
+        width: ${maxWidth}px;
     }
 `;
 const StyledContainer = styled.div`

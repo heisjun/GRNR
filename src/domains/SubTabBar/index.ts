@@ -1,1 +1,1 @@
-export { default as SubTabBar } from './SubTabBar';
+export { default } from './SubTabBar';
