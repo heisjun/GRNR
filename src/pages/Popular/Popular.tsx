@@ -16,9 +16,25 @@ const Popular: React.FC = () => {
                 <StyledDailyPlantBlock></StyledDailyPlantBlock>
             </StyledLineContainer>
             <StyledBorderLine />
+            <StyledLineContainer>
+                <StyledPictureBlock />
+            </StyledLineContainer>
         </StyledPopularContainer>
     );
 };
+
+const StyledPictureItem = styled.div<{ marginRight: string }>`
+    width: 
+    margin-right: ${({ marginRight }) => marginRight};
+`;
+
+const StyledPictureBlock = styled.div`
+    width: 100%;
+    height: 500px;
+    border: solid 2px;
+    border-radius: 5px;
+    border-color: silver;
+`;
 
 const StyledTipTitleText = styled.text`
     font-size: 3vw;
@@ -55,6 +71,7 @@ const StyledTipBlock = styled.div`
     border: solid 2px;
     border-radius: 5px;
     border-color: silver;
+    cursor: pointer;
 `;
 
 const StyledDailyPlantBlock = styled.div`
@@ -67,6 +84,7 @@ const StyledDailyPlantBlock = styled.div`
     border: solid 2px;
     border-radius: 5px;
     border-color: silver;
+    cursor: pointer;
 `;
 
 const StyledBorderLine = styled.div`

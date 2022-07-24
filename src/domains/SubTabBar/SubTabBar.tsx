@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ISubTabBar } from './SubTabBar.type';
-import { subTabBarItems } from 'common/data';
+import { subTabBarItems } from 'navigations/data';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -56,11 +56,15 @@ const subTabBarFadeOut = keyframes`
 `;
 
 const StyledMenuItemText = styled.h2<{ color: string }>`
-    font-size: 15px;
+    font-size: 13px;
+
     color: ${({ color }) => color};
     cursor: pointer;
     &:hover {
         color: #bce55c;
+    }
+    @media screen and (min-width: ${boundaryWidth}px) {
+        font-size: 15px;
     }
 `;
 
@@ -81,8 +85,8 @@ const StyledSubTabBarBlock = styled.div`
 
 const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
     width: 100%;
-    height: 50px;
-    z-index: 0;
+    height: 40px;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,6 +95,9 @@ const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
     border-color: #eaeaea;
     animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
     animation-fill-mode: forwards;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        height: 50px;
+    }
 `;
 
 export default SubTabBar;

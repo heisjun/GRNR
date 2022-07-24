@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IHeaderBar } from './HeaderBar.type';
 import { SubTabBar } from 'domains';
-import { headerItems } from 'common/data';
+import { headerItems } from 'navigations/data';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -108,6 +108,7 @@ const StyledSubTabBarBlock = styled.div`
     position: fixed;
     width: 100%;
     top: 50px;
+    z-index: 1;
     @media screen and (min-width: ${boundaryWidth}px) {
         top: 80px;
     }
@@ -190,8 +191,9 @@ const StyledContentBlock = styled.div`
 const StyledContentContainer = styled.div`
     background-color: white;
     display: flex;
-    margin-top: 100px;
+    margin-top: 90px;
     justify-content: center;
+    z-index: 0;
     @media screen and (min-width: ${boundaryWidth}px) {
         margin-top: 150px;
     }
@@ -201,7 +203,7 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     position: fixed;
     top: 0px;
     display: flex;
-    z-index: 1;
+    z-index: 2;
     justify-content: center;
     align-items: center;
     width: 100%;
