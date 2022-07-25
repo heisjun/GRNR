@@ -19,8 +19,8 @@ export const subTabBarItems = [
         { name: 'Q&A', link: 'community/question' },
     ],
     [
-        { name: '스토어 메뉴1', link: '/' },
-        { name: '스토어 메뉴2', link: '/' },
-        { name: '스토어 메뉴3', link: '/' },
+        { name: '스토어 메뉴1', link: 'store/menu1' },
+        { name: '스토어 메뉴2', link: 'store/menu2' },
+        { name: '스토어 메뉴3', link: 'store/menu3' },
     ],
 ];

@@ -16,6 +16,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [fadeAnim, setFadeAnim] = useState<any>();
     const [overPage, setOverPage] = useState<number>(0);
     const [crntPage, setCrntPage] = useState<number>(0);
+    const [subPage, setSubPage] = useState<number>(0);
 
     const scrollHandler = () => {
         setCrntPosY(window.scrollY);
@@ -47,38 +48,61 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     }, [crntPage]);
 
     return (
-        <StyledContainer onMouseLeave={() => setOverPage(crntPage)}>
-            <StyledHeaderBarContainer fadeAnim={fadeAnim}>
-                <StyledHeaderBar>
-                    <StyledMenuButton />
-                    <StyledTitleBlock>
-                        <Link to="/" style={{ textDecoration: 'none' }}>
-                            <StyledTitleText>로고</StyledTitleText>
-                        </Link>
-                    </StyledTitleBlock>
-
-                    {headerItems.map((item, index) => (
-                        <StyledMenuItemBlock key={index}>
+        <StyledContainer>
+            <StyledTabsContainer onMouseLeave={() => setOverPage(crntPage)}>
+                <StyledHeaderBarContainer fadeAnim={fadeAnim}>
+                    <StyledHeaderBar>
+                        <StyledMenuButton />
+                        <StyledTitleBlock>
                             <Link
-                                to={item.link}
+                                to="/"
                                 style={{ textDecoration: 'none' }}
-                                onClick={() => setCrntPage(index)}
-                                onMouseEnter={() => setOverPage(index)}
+                                onClick={() => {
+                                    setCrntPage(0);
+                                    setOverPage(0);
+                                    setSubPage(0);
+                                }}
                             >
-                                <StyledMenuItemText color={index === crntPage ? 'black' : 'silver'}>
-                                    {item.name}
-                                </StyledMenuItemText>
+                                <StyledTitleText>로고</StyledTitleText>
                             </Link>
-                        </StyledMenuItemBlock>
-                    ))}
+                        </StyledTitleBlock>
 
-                    <StyledSearchButton />
-                    <StyledCartButton />
-                </StyledHeaderBar>
-            </StyledHeaderBarContainer>
-            <StyledSubTabBarBlock>
-                <SubTabBar page={overPage} visible={!scrollDownToggle} />
-            </StyledSubTabBarBlock>
+                        <StyledMenuItemsContainer>
+                            {headerItems.map((item, index) => (
+                                <StyledMenuItemBlock key={index}>
+                                    <Link
+                                        to={item.link}
+                                        style={{ textDecoration: 'none' }}
+                                        onClick={() => {
+                                            setCrntPage(index);
+                                            setSubPage(0);
+                                        }}
+                                        onMouseEnter={() => setOverPage(index)}
+                                    >
+                                        <StyledMenuItemText color={index === crntPage ? 'black' : 'silver'}>
+                                            {item.name}
+                                        </StyledMenuItemText>
+                                    </Link>
+                                </StyledMenuItemBlock>
+                            ))}
+                        </StyledMenuItemsContainer>
+                        <StyledButtonsCotainer>
+                            <StyledSearchButton />
+                            <StyledCartButton />
+                        </StyledButtonsCotainer>
+                    </StyledHeaderBar>
+                </StyledHeaderBarContainer>
+                <StyledSubTabBarBlock>
+                    <SubTabBar
+                        visible={!scrollDownToggle}
+                        crntPage={crntPage}
+                        overPage={overPage}
+                        subPage={subPage}
+                        setCrntPage={setCrntPage}
+                        setSubPage={setSubPage}
+                    />
+                </StyledSubTabBarBlock>
+            </StyledTabsContainer>
             <StyledContentContainer>
                 <StyledContentBlock>{children}</StyledContentBlock>
             </StyledContentContainer>
@@ -115,33 +139,43 @@ const StyledSubTabBarBlock = styled.div`
 `;
 
 const StyledMenuButton = styled.div`
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
     background-color: silver;
+    cursor: pointer;
     @media screen and (min-width: ${boundaryWidth}px) {
         display: none;
     }
 `;
 
 const StyledSearchButton = styled.div`
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
     background-color: silver;
+    cursor: pointer;
+    margin-right: 2px;
     @media screen and (min-width: ${boundaryWidth}px) {
-        display: none;
+        width: 30px;
+        height: 30px;
     }
 `;
 
 const StyledCartButton = styled.div`
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
     background-color: silver;
+    cursor: pointer;
     @media screen and (min-width: ${boundaryWidth}px) {
-        display: none;
+        width: 30px;
+        height: 30px;
     }
+`;
+
+const StyledButtonsCotainer = styled.div`
+    display: flex;
 `;
 
 const StyledTitleText = styled.h1`
@@ -162,7 +196,15 @@ const StyledTitleBlock = styled.div`
     }
 `;
 
-const StyledMenuItemText = styled.text<{ color: string }>`
+const StyledMenuItemsContainer = styled.div`
+    flex: 1;
+    display: flex;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        display: none;
+    }
+`;
+
+const StyledMenuItemText = styled.div<{ color: string }>`
     font-size: 15px;
     cursor: pointer;
     color: ${({ color }) => color};
@@ -199,9 +241,12 @@ const StyledContentContainer = styled.div`
     }
 `;
 
+const StyledTabsContainer = styled.div``;
+
 const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     position: fixed;
     top: 0px;
+    left: 0px;
     display: flex;
     z-index: 2;
     justify-content: center;
@@ -221,7 +266,7 @@ const StyledHeaderBar = styled.div`
     align-items: center;
     width: 100%;
     height: 50px;
-    padding-right: 20px;
+    padding: 0px 10px 0px 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 80px;
         padding: 0px 30px 0px 30px;
@@ -230,6 +275,7 @@ const StyledHeaderBar = styled.div`
         width: ${maxWidth}px;
     }
 `;
+
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;

@@ -8,9 +8,8 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const SubTabBar: React.FC<ISubTabBar> = (props) => {
-    const { page, visible } = props;
+    const { visible, crntPage, overPage, subPage, setCrntPage, setSubPage } = props;
     const [fadeAnim, setFadeAnim] = useState<any>();
-    const [subPage, setSubPage] = useState<number>(0);
 
     useEffect(() => {
         visible ? setFadeAnim(subTabBarFadeIn) : setFadeAnim(subTabBarFadeOut);
@@ -22,10 +21,17 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
     return (
         <StyledSubTabBarContainer fadeAnim={fadeAnim}>
             <StyledSubTabBarBlock>
-                {subTabBarItems[page].map((item, index) => (
+                {subTabBarItems[overPage].map((item, index) => (
                     <StyledMenuItemBlock key={index}>
-                        <Link to={item.link} style={{ textDecoration: 'none' }} onClick={() => setSubPage(index)}>
-                            <StyledMenuItemText color={index === subPage ? 'black' : 'grey'}>
+                        <Link
+                            to={item.link}
+                            style={{ textDecoration: 'none' }}
+                            onClick={() => {
+                                setSubPage(index);
+                                setCrntPage(overPage);
+                            }}
+                        >
+                            <StyledMenuItemText color={overPage === crntPage && index === subPage ? 'black' : 'grey'}>
                                 {item.name}
                             </StyledMenuItemText>
                         </Link>

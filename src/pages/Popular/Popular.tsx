@@ -1,7 +1,10 @@
 import styled from 'styled-components';
+import { PictureList } from 'common/components';
 
-const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 60;
+const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+
+const data = [{}, {}, {}, {}, {}, {}, {}, {}];
 
 const Popular: React.FC = () => {
     return (
@@ -17,26 +20,28 @@ const Popular: React.FC = () => {
             </StyledLineContainer>
             <StyledBorderLine />
             <StyledLineContainer>
-                <StyledPictureBlock />
+                <StyledPictureBlock>
+                    <PictureList width="100%" height="100%" cols={4} gap={1.4} items={data} />
+                </StyledPictureBlock>
             </StyledLineContainer>
         </StyledPopularContainer>
     );
 };
 
-const StyledPictureItem = styled.div<{ marginRight: string }>`
-    width: 
-    margin-right: ${({ marginRight }) => marginRight};
-`;
-
 const StyledPictureBlock = styled.div`
     width: 100%;
-    height: 500px;
-    border: solid 2px;
+    height: 46vw;
     border-radius: 5px;
     border-color: silver;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        height: 48vw;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        height: ${maxWidth * 0.46}px;
+    }
 `;
 
-const StyledTipTitleText = styled.text`
+const StyledTipTitleText = styled.div`
     font-size: 3vw;
     font-weight: bold;
     color: grey;
@@ -46,7 +51,7 @@ const StyledTipTitleText = styled.text`
     }
 `;
 
-const StyledTipWriterText = styled.text`
+const StyledTipWriterText = styled.div`
     font-size: 12px;
     font-weight: 500;
     color: grey;
@@ -62,12 +67,15 @@ const StyledTipSummaryBlock = styled.div`
 
 const StyledTipBlock = styled.div`
     position: relative;
-    width: 69%;
+    width: 75%;
     height: 40vw;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        height: 42vw;
+    }
     @media screen and (min-width: ${maxWidth}px) {
         height: ${maxWidth * 0.4}px;
     }
-    margin-right: 2%;
+    margin-right: 1%;
     border: solid 2px;
     border-radius: 5px;
     border-color: silver;
@@ -75,8 +83,11 @@ const StyledTipBlock = styled.div`
 `;
 
 const StyledDailyPlantBlock = styled.div`
-    width: 29%;
+    width: 24%;
     height: 40vw;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        height: 42vw;
+    }
     @media screen and (min-width: ${maxWidth}px) {
         height: ${maxWidth * 0.4}px;
     }

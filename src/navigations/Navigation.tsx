@@ -14,6 +14,9 @@ const Navigation: React.FC = () => {
                     <Route path="/community/dictionary" element={null} />
                     <Route path="/community/question" element={null} />
                     <Route path="/store" element={null} />
+                    <Route path="/store/menu1" element={null} />
+                    <Route path="/store/menu2" element={null} />
+                    <Route path="/store/menu3" element={null} />
                 </Routes>
             </HeaderBar>
         </Router>
