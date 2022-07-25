@@ -24,6 +24,7 @@ const Popular: React.FC = () => {
                     <PictureList width="100%" height="100%" cols={4} gap={1.4} items={data} />
                 </StyledPictureBlock>
             </StyledLineContainer>
+            <StyledBorderLine />
         </StyledPopularContainer>
     );
 };
@@ -34,7 +35,7 @@ const StyledPictureBlock = styled.div`
     border-radius: 5px;
     border-color: silver;
     @media screen and (max-width: ${boundaryWidth}px) {
-        height: 48vw;
+        height: 50vw;
     }
     @media screen and (min-width: ${maxWidth}px) {
         height: ${maxWidth * 0.46}px;
@@ -70,7 +71,7 @@ const StyledTipBlock = styled.div`
     width: 75%;
     height: 40vw;
     @media screen and (max-width: ${boundaryWidth}px) {
-        height: 42vw;
+        height: 44vw;
     }
     @media screen and (min-width: ${maxWidth}px) {
         height: ${maxWidth * 0.4}px;
@@ -86,7 +87,7 @@ const StyledDailyPlantBlock = styled.div`
     width: 24%;
     height: 40vw;
     @media screen and (max-width: ${boundaryWidth}px) {
-        height: 42vw;
+        height: 44vw;
     }
     @media screen and (min-width: ${maxWidth}px) {
         height: ${maxWidth * 0.4}px;
