@@ -14,6 +14,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [prevPosY, setPrevPosY] = useState<number>(0);
     const [crntPosY, setCrntPosY] = useState<number>(0);
     const [fadeAnim, setFadeAnim] = useState<any>();
+    const [subTabVisible, setSubTabVisible] = useState<boolean>(true);
     const [overPage, setOverPage] = useState<number>(0);
     const [crntPage, setCrntPage] = useState<number>(0);
     const [subPage, setSubPage] = useState<number>(0);
@@ -50,7 +51,14 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     return (
         <StyledContainer>
             <StyledTabsContainer onMouseLeave={() => setOverPage(crntPage)}>
-                <StyledHeaderBarContainer fadeAnim={fadeAnim}>
+                <StyledHeaderBarContainer
+                    fadeAnim={fadeAnim}
+                    onMouseEnter={() => {
+                        setSubTabVisible(!scrollDownToggle);
+                        setScrollDownToggle(false);
+                    }}
+                    onMouseLeave={() => setScrollDownToggle(!subTabVisible)}
+                >
                     <StyledHeaderBar>
                         <StyledMenuButton />
                         <StyledTitleBlock>
