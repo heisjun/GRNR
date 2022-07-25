@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { IPictureList } from './PictureList.type';
 import { PictureItem } from 'common/components';
+
 const PictureList: React.FC<IPictureList> = (props) => {
     const { width, height, gap, cols, items } = props;
     const length = String((100 - (cols - 1) * gap - 0) / cols - 0.1) + '%';
