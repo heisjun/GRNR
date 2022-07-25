@@ -4,7 +4,6 @@ import { PictureItem } from 'common/components';
 const PictureList: React.FC<IPictureList> = (props) => {
     const { width, height, gap, cols, items } = props;
     const length = String((100 - (cols - 1) * gap - 0) / cols - 0.1) + '%';
-    console.log(length);
     return (
         <StyledPictureListContainer width={width} height={height}>
             {items.map((item, index) => (
