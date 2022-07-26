@@ -50,14 +50,18 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
 
     return (
         <StyledContainer>
-            <StyledTabsContainer onMouseLeave={() => setOverPage(crntPage)}>
+            <StyledTabsContainer
+                onMouseLeave={() => {
+                    setOverPage(crntPage);
+                    setScrollDownToggle(!subTabVisible);
+                }}
+            >
                 <StyledHeaderBarContainer
                     fadeAnim={fadeAnim}
                     onMouseEnter={() => {
                         setSubTabVisible(!scrollDownToggle);
                         setScrollDownToggle(false);
                     }}
-                    onMouseLeave={() => setScrollDownToggle(!subTabVisible)}
                 >
                     <StyledHeaderBar>
                         <StyledMenuButton />
