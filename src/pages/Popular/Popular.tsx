@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { PictureList } from 'common/components';
+import { PictureList, ArticleList } from 'common/components';
 
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
-const data = [{}, {}, {}, {}, {}, {}, {}, {}];
+const picData = [{}, {}, {}, {}, {}, {}, {}, {}];
+const artData = [{}, {}, {}];
 
 const Popular: React.FC = () => {
     return (
@@ -21,25 +22,26 @@ const Popular: React.FC = () => {
             <StyledBorderLine />
             <StyledLineContainer>
                 <StyledPictureBlock>
-                    <PictureList width="100%" height="100%" cols={4} gap={1.4} items={data} />
+                    <PictureList width="100%" height="100%" cols={4} gap={1.4} items={picData} />
                 </StyledPictureBlock>
+            </StyledLineContainer>
+            <StyledBorderLine />
+            <StyledLineContainer>
+                <StyledArticleBlock>
+                    <ArticleList width="100%" picHeight="70%" cols={3} gap={1.4} items={artData} />
+                </StyledArticleBlock>
             </StyledLineContainer>
             <StyledBorderLine />
         </StyledPopularContainer>
     );
 };
 
+const StyledArticleBlock = styled.div`
+    width: 100%;
+`;
+
 const StyledPictureBlock = styled.div`
     width: 100%;
-    height: 46vw;
-    border-radius: 5px;
-    border-color: silver;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        height: 50vw;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        height: ${maxWidth * 0.46}px;
-    }
 `;
 
 const StyledTipTitleText = styled.div`
