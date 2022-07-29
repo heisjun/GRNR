@@ -8,7 +8,8 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const SubTabBar: React.FC<ISubTabBar> = (props) => {
-    const { visible, crntPage, overPage, subPage, setCrntPage, setSubPage } = props;
+    const { visible, crntPage, overPage, subPage, setCrntPage, setSubPage, setScrollDownToggle, setSubTabVisible } =
+        props;
     const [fadeAnim, setFadeAnim] = useState<any>();
 
     useEffect(() => {
@@ -22,16 +23,21 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
         <StyledSubTabBarContainer fadeAnim={fadeAnim}>
             <StyledSubTabBarBlock>
                 {subTabBarItems[overPage].map((item, index) => (
-                    <StyledMenuItemBlock key={index}>
+                    <StyledMenuItemBlock
+                        key={index}
+                        selected={overPage === crntPage && index === subPage ? true : false}
+                    >
                         <Link
                             to={item.link}
                             style={{ textDecoration: 'none' }}
                             onClick={() => {
                                 setSubPage(index);
                                 setCrntPage(overPage);
+                                setScrollDownToggle(false);
+                                setSubTabVisible(true);
                             }}
                         >
-                            <StyledMenuItemText color={overPage === crntPage && index === subPage ? 'black' : 'grey'}>
+                            <StyledMenuItemText color={overPage === crntPage && index === subPage ? 'grey' : 'silver'}>
                                 {item.name}
                             </StyledMenuItemText>
                         </Link>
@@ -74,8 +80,16 @@ const StyledMenuItemText = styled.h2<{ color: string }>`
     }
 `;
 
-const StyledMenuItemBlock = styled.div`
+const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
     margin-right: 30px;
+    ${({ selected }) =>
+        selected
+            ? `
+                border-bottom: solid;
+                border-width: 3px;
+                border-color: grey;
+            `
+            : ``}
 `;
 
 const StyledSubTabBarBlock = styled.div`

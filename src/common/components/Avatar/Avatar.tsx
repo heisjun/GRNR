@@ -5,21 +5,19 @@ const Avatar: React.FC<IAvatar> = (props) => {
     const { picUrl, width, height, paddingBottom, borderRadius } = props;
     return (
         <StyledAvatarContainer width={width} height={height} paddingBottom={paddingBottom} borderRadius={borderRadius}>
-            <StyledAvatarImage src="sample.jpg" borderRadius={borderRadius} />
+            <StyledAvatarImage borderRadius={borderRadius} />
         </StyledAvatarContainer>
     );
 };
 
-const StyledAvatarImage = styled.img<{ borderRadius: string }>`
+const StyledAvatarImage = styled.div<{ borderRadius: string }>`
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     border-radius: ${({ borderRadius }) => borderRadius};
-    border-color: silver;
-    border-style: solid;
-    border-width: 1.5px;
+    background-color: silver;
 `;
 
 const StyledAvatarContainer = styled.div<{

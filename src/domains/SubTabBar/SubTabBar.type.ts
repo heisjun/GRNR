@@ -5,4 +5,6 @@ export type ISubTabBar = {
     subPage: number;
     setCrntPage: React.Dispatch<React.SetStateAction<number>>;
     setSubPage: React.Dispatch<React.SetStateAction<number>>;
+    setScrollDownToggle: React.Dispatch<React.SetStateAction<boolean>>;
+    setSubTabVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };

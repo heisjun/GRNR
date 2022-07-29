@@ -20,21 +20,53 @@ const Popular: React.FC = () => {
                 <StyledDailyPlantBlock></StyledDailyPlantBlock>
             </StyledLineContainer>
             <StyledBorderLine />
+            <StyledDetailsBlock>
+                <StyledTitleText>오늘의 인기 사진</StyledTitleText>
+                <StyledMoreText>더보기</StyledMoreText>
+            </StyledDetailsBlock>
             <StyledLineContainer>
                 <StyledPictureBlock>
                     <PictureList width="100%" height="100%" cols={4} gap={1.4} items={picData} />
                 </StyledPictureBlock>
             </StyledLineContainer>
             <StyledBorderLine />
+            <StyledDetailsBlock>
+                <StyledTitleText>오늘의 인기 아티클</StyledTitleText>
+                <StyledMoreText>더보기</StyledMoreText>
+            </StyledDetailsBlock>
             <StyledLineContainer>
                 <StyledArticleBlock>
                     <ArticleList width="100%" picHeight="70%" cols={3} gap={1.4} items={artData} />
                 </StyledArticleBlock>
             </StyledLineContainer>
             <StyledBorderLine />
+            <StyledDetailsBlock>
+                <StyledTitleText>오늘의 Q&A</StyledTitleText>
+                <StyledMoreText>더보기</StyledMoreText>
+            </StyledDetailsBlock>
         </StyledPopularContainer>
     );
 };
+
+const StyledTitleText = styled.div`
+    font-size: 17px;
+    font-weight: bold;
+    color: grey;
+    flex: 1;
+`;
+
+const StyledMoreText = styled.div`
+    font-size: 12px;
+    font-weight: bold;
+    color: silver;
+    cursor: pointer;
+`;
+
+const StyledDetailsBlock = styled.div`
+    width: 100%;
+    display: flex;
+    margin-bottom: 15px;
+`;
 
 const StyledArticleBlock = styled.div`
     width: 100%;

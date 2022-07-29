@@ -3,6 +3,7 @@ import { IPictureItem } from './PictureItem.type';
 import { Avatar } from 'common/components';
 
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
+const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const PictureItem: React.FC<IPictureItem> = (props) => {
     const { width, height, paddingBottom, item } = props;
@@ -12,7 +13,7 @@ const PictureItem: React.FC<IPictureItem> = (props) => {
                 <StyeldAvatarBlock>
                     <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
                 </StyeldAvatarBlock>
-                <StyledNicknameBlock>정태민</StyledNicknameBlock>
+                <StyledNicknameBlock>Taemin Jeong</StyledNicknameBlock>
             </StyledWriterBlock>
         </StyledPictureItemContainer>
     );
@@ -21,21 +22,24 @@ const PictureItem: React.FC<IPictureItem> = (props) => {
 const StyledNicknameBlock = styled.div`
     font-weight: bold;
     color: grey;
-    font-size: 1.2vw;
-    margin-left: 10px;
+    font-size: 10px;
+    margin-left: 3%;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        font-size: 1.1px;
+    }
     @media screen and (min-width: ${maxWidth}px) {
-        font-size: ${maxWidth * 0.012}px;
+        font-size: ${maxWidth * 0.011}px;
     }
 `;
 
 const StyeldAvatarBlock = styled.div`
-    width: 20%;
+    width: 12%;
 `;
 
 const StyledWriterBlock = styled.div`
     position: absolute;
-    width: 60%;
-    top: 80%;
+    width: 95%;
+    top: 83%;
     left: 5%;
     display: flex;
     align-items: center;
