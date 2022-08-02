@@ -10,3 +10,15 @@ export type IArticleParams = {
     avtUrl?: string;
     picUrl?: string;
 };
+
+export type IMagazineParams = {
+    title?: string;
+    picUrl?: string;
+};
+
+export type IItemParams = {
+    width: string;
+    height?: string;
+    paddingBottom?: string;
+    item: IPictureParams | IArticleParams | IMagazineParams;
+};

@@ -255,6 +255,7 @@ const StyledMenuItemBlock = styled.h2`
 
 const StyledContentBlock = styled.div`
     width: 100%;
+    padding: 0px 10px 0px 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         padding: 0px 30px 0px 30px;
     }

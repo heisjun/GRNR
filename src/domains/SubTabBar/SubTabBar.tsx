@@ -76,7 +76,7 @@ const StyledMenuItemText = styled.h2<{ color: string }>`
         color: #bce55c;
     }
     @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 15px;
+        font-size: 13px;
     }
 `;
 
@@ -116,7 +116,7 @@ const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
     animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
     animation-fill-mode: forwards;
     @media screen and (min-width: ${boundaryWidth}px) {
-        height: 50px;
+        height: 40px;
     }
 `;
 

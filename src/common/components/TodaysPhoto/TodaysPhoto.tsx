@@ -1,26 +1,25 @@
 import styled from 'styled-components';
-import { IPictureItem } from './PictureItem.type';
+import { IItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
-const PictureItem: React.FC<IPictureItem> = (props) => {
+const TodaysPhoto: React.FC<IItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
     return (
-        <StyledPictureItemContainer width={width} height={height} paddingBottom={paddingBottom}>
+        <StyledTodaysPhotoContainer width={width} height={height} paddingBottom={paddingBottom}>
             <StyledWriterBlock>
                 <StyeldAvatarBlock>
                     <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
                 </StyeldAvatarBlock>
-                <StyledNicknameBlock>Taemin Jeong</StyledNicknameBlock>
+                <StyledNicknameBlock>taemin</StyledNicknameBlock>
             </StyledWriterBlock>
-        </StyledPictureItemContainer>
+        </StyledTodaysPhotoContainer>
     );
 };
 
 const StyledNicknameBlock = styled.div`
-    font-weight: bold;
     color: grey;
     font-size: 10px;
     margin-left: 3%;
@@ -33,19 +32,19 @@ const StyledNicknameBlock = styled.div`
 `;
 
 const StyeldAvatarBlock = styled.div`
-    width: 12%;
+    width: 10%;
 `;
 
 const StyledWriterBlock = styled.div`
     position: absolute;
     width: 95%;
-    top: 83%;
+    top: 85%;
     left: 5%;
     display: flex;
     align-items: center;
 `;
 
-const StyledPictureItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
+const StyledTodaysPhotoContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
     position: relative;
     width: ${({ width }) => width};
     height: ${({ height }) => height};
@@ -55,4 +54,4 @@ const StyledPictureItemContainer = styled.div<{ width: string; height?: string; 
     border-color: silver;
 `;
 
-export default PictureItem;
+export default TodaysPhoto;
