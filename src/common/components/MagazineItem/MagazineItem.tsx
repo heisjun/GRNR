@@ -26,6 +26,7 @@ const StyledTitleBlock = styled.div`
     width: 100%;
     height: 10%;
     background-color: white;
+    border-radius: 0px 0px 5px 5px;
 `;
 
 const StyledMagazineItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`

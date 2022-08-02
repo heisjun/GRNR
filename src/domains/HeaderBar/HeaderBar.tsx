@@ -265,7 +265,7 @@ const StyledContentBlock = styled.div`
 const StyledContentContainer = styled.div`
     background-color: white;
     display: flex;
-    margin-top: 90px;
+    margin-top: 100px;
     justify-content: center;
     z-index: 0;
     @media screen and (min-width: ${boundaryWidth}px) {

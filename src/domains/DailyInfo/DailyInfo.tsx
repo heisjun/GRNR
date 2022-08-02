@@ -43,15 +43,15 @@ const StyledTipSummaryBlock = styled.div`
 
 const StyledTipBlock = styled.div`
     position: relative;
-    width: 75%;
-    height: 40vw;
+    width: 74%;
+    height: 35vw;
     @media screen and (max-width: ${boundaryWidth}px) {
-        height: 44vw;
+        height: 39vw;
     }
     @media screen and (min-width: ${maxWidth}px) {
-        height: ${maxWidth * 0.4}px;
+        height: ${maxWidth * 0.35}px;
     }
-    margin-right: 1%;
+    margin-right: 1.5%;
     border: solid 2px;
     border-radius: 5px;
     border-color: silver;
@@ -59,13 +59,13 @@ const StyledTipBlock = styled.div`
 `;
 
 const StyledDailyPlantBlock = styled.div`
-    width: 24%;
-    height: 40vw;
+    width: 23.5%;
+    height: 35vw;
     @media screen and (max-width: ${boundaryWidth}px) {
-        height: 44vw;
+        height: 39vw;
     }
     @media screen and (min-width: ${maxWidth}px) {
-        height: ${maxWidth * 0.4}px;
+        height: ${maxWidth * 0.35}px;
     }
     background-color: silber;
     border: solid 2px;
