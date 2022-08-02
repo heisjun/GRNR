@@ -82,14 +82,9 @@ const StyledMenuItemText = styled.h2<{ color: string }>`
 
 const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
     margin-right: 30px;
-    ${({ selected }) =>
-        selected
-            ? `
-                border-bottom: solid;
-                border-width: 3px;
-                border-color: grey;
-            `
-            : ``}
+    border-bottom: solid;
+    border-width: ${({ selected }) => (selected ? '3px' : '0px')};
+    border-color: grey;
 `;
 
 const StyledSubTabBarBlock = styled.div`
