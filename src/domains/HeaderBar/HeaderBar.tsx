@@ -255,12 +255,10 @@ const StyledMenuItemBlock = styled.h2`
 
 const StyledContentBlock = styled.div`
     width: 100%;
+    max-width: ${maxWidth}px;
     padding: 0px 10px 0px 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         padding: 0px 30px 0px 30px;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        width: ${maxWidth}px;
     }
 `;
 
@@ -299,14 +297,12 @@ const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
+    max-width: ${maxWidth}px;
     height: 50px;
     padding: 0px 10px 0px 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 80px;
         padding: 0px 30px 0px 30px;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        width: ${maxWidth}px;
     }
 `;
 
