@@ -16,9 +16,15 @@ export type IMagazineParams = {
     picUrl?: string;
 };
 
+export type IPhotoParams = {
+    avtUrl?: string;
+    writer?: string;
+    details?: string;
+};
+
 export type IItemParams = {
     width: string;
     height?: string;
     paddingBottom?: string;
-    item: IPictureParams | IArticleParams | IMagazineParams;
+    item: IPictureParams | IArticleParams | IMagazineParams | IPhotoParams;
 };
