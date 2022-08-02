@@ -1,5 +1,30 @@
 export type IPictureParams = {
     picUrl?: string;
     writer?: string;
-    avatar?: string;
+    avtUrl?: string;
+};
+
+export type IArticleParams = {
+    title?: string;
+    writer?: string;
+    avtUrl?: string;
+    picUrl?: string;
+};
+
+export type IMagazineParams = {
+    title?: string;
+    picUrl?: string;
+};
+
+export type IPhotoParams = {
+    avtUrl?: string;
+    writer?: string;
+    details?: string;
+};
+
+export type IItemParams = {
+    width: string;
+    height?: string;
+    paddingBottom?: string;
+    item: IPictureParams | IArticleParams | IMagazineParams | IPhotoParams;
 };

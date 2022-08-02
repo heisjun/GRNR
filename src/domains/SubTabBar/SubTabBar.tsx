@@ -8,7 +8,8 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const SubTabBar: React.FC<ISubTabBar> = (props) => {
-    const { visible, crntPage, overPage, subPage, setCrntPage, setSubPage } = props;
+    const { visible, crntPage, overPage, subPage, setCrntPage, setSubPage, setScrollDownToggle, setSubTabVisible } =
+        props;
     const [fadeAnim, setFadeAnim] = useState<any>();
 
     useEffect(() => {
@@ -22,16 +23,21 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
         <StyledSubTabBarContainer fadeAnim={fadeAnim}>
             <StyledSubTabBarBlock>
                 {subTabBarItems[overPage].map((item, index) => (
-                    <StyledMenuItemBlock key={index}>
+                    <StyledMenuItemBlock
+                        key={index}
+                        selected={overPage === crntPage && index === subPage ? true : false}
+                    >
                         <Link
                             to={item.link}
                             style={{ textDecoration: 'none' }}
                             onClick={() => {
                                 setSubPage(index);
                                 setCrntPage(overPage);
+                                setScrollDownToggle(false);
+                                setSubTabVisible(true);
                             }}
                         >
-                            <StyledMenuItemText color={overPage === crntPage && index === subPage ? 'black' : 'grey'}>
+                            <StyledMenuItemText color={overPage === crntPage && index === subPage ? 'grey' : 'silver'}>
                                 {item.name}
                             </StyledMenuItemText>
                         </Link>
@@ -70,22 +76,23 @@ const StyledMenuItemText = styled.h2<{ color: string }>`
         color: #bce55c;
     }
     @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 15px;
+        font-size: 13px;
     }
 `;
 
-const StyledMenuItemBlock = styled.div`
+const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
     margin-right: 30px;
+    border-bottom: solid;
+    border-width: ${({ selected }) => (selected ? '3px' : '0px')};
+    border-color: grey;
 `;
 
 const StyledSubTabBarBlock = styled.div`
     width: 100%;
     display: flex;
+    max-width: ${maxWidth}px;
     @media screen and (min-width: ${boundaryWidth}px) {
         padding: 0px 30px 0px 30px;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        width: ${maxWidth}px;
     }
 `;
 
@@ -102,7 +109,7 @@ const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
     animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
     animation-fill-mode: forwards;
     @media screen and (min-width: ${boundaryWidth}px) {
-        height: 50px;
+        height: 40px;
     }
 `;
 

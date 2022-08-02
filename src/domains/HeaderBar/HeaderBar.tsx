@@ -73,6 +73,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     setCrntPage(0);
                                     setOverPage(0);
                                     setSubPage(0);
+                                    setScrollDownToggle(false);
+                                    setSubTabVisible(true);
                                 }}
                             >
                                 <StyledTitleText>로고</StyledTitleText>
@@ -88,16 +90,19 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                         onClick={() => {
                                             setCrntPage(index);
                                             setSubPage(0);
+                                            setScrollDownToggle(false);
+                                            setSubTabVisible(true);
                                         }}
                                         onMouseEnter={() => setOverPage(index)}
                                     >
-                                        <StyledMenuItemText color={index === crntPage ? 'black' : 'silver'}>
+                                        <StyledMenuItemText color={index === crntPage ? 'grey' : 'silver'}>
                                             {item.name}
                                         </StyledMenuItemText>
                                     </Link>
                                 </StyledMenuItemBlock>
                             ))}
                         </StyledMenuItemsContainer>
+                        <StyledSearchBar value="" />
                         <StyledButtonsCotainer>
                             <StyledSearchButton />
                             <StyledCartButton />
@@ -112,6 +117,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         subPage={subPage}
                         setCrntPage={setCrntPage}
                         setSubPage={setSubPage}
+                        setScrollDownToggle={setScrollDownToggle}
+                        setSubTabVisible={setSubTabVisible}
                     />
                 </StyledSubTabBarBlock>
             </StyledTabsContainer>
@@ -137,6 +144,20 @@ const headerFadeOut = keyframes`
     }
     100% {
         transform: translateY(-100%);
+    }
+`;
+
+const StyledSearchBar = styled.input`
+    display: none;
+    height: 40%;
+    border: solid 2px;
+    border-color: silver;
+    border-radius: 20px;
+    margin-right: 2px;
+    @media screen and (min-width: ${Number(boundaryWidth) + 100}px) {
+        top: 80px;
+        width: 200px;
+        display: inline;
     }
 `;
 
@@ -234,18 +255,17 @@ const StyledMenuItemBlock = styled.h2`
 
 const StyledContentBlock = styled.div`
     width: 100%;
+    max-width: ${maxWidth}px;
+    padding: 0px 10px 0px 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         padding: 0px 30px 0px 30px;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        width: ${maxWidth}px;
     }
 `;
 
 const StyledContentContainer = styled.div`
     background-color: white;
     display: flex;
-    margin-top: 90px;
+    margin-top: 100px;
     justify-content: center;
     z-index: 0;
     @media screen and (min-width: ${boundaryWidth}px) {
@@ -277,14 +297,12 @@ const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
+    max-width: ${maxWidth}px;
     height: 50px;
     padding: 0px 10px 0px 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 80px;
         padding: 0px 30px 0px 30px;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        width: ${maxWidth}px;
     }
 `;
 
