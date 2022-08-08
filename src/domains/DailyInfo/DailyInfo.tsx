@@ -9,7 +9,7 @@ const DailyInfo: React.FC = () => {
             <StyledTipBlock>
                 <StyledTipSummaryBlock>
                     <StyledTipTitleText>실내에서 식물을 끝장나게 키우는 방법</StyledTipTitleText>
-                    <StyledTipWriterText>정태민</StyledTipWriterText>
+                    <StyledTipWriterText>taemin</StyledTipWriterText>
                 </StyledTipSummaryBlock>
             </StyledTipBlock>
             <StyledDailyPlantBlock></StyledDailyPlantBlock>

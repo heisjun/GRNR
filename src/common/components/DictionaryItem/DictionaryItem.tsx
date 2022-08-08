@@ -2,13 +2,13 @@ import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { IItemParams } from 'common/types';
 
-const MagazineItem: React.FC<IItemParams> = (props) => {
+const DictionaryItem: React.FC<IItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
 
     const [imgAnim, setImgAnim] = useState<any>();
 
     return (
-        <StyledMagazineItemContainer width={width} height={height} paddingBottom={paddingBottom}>
+        <StyledDictionaryItemContainer width={width} height={height} paddingBottom={paddingBottom}>
             <StyledImageBlock
                 onMouseEnter={() => {
                     setImgAnim(ImageScaleUp);
@@ -17,12 +17,13 @@ const MagazineItem: React.FC<IItemParams> = (props) => {
                     setImgAnim(ImageScaleDown);
                 }}
             >
-                <StyledImg src="/sample.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+                <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
             </StyledImageBlock>
+
             <StyledTitleBlock>
-                <StyledTitleText>아레카야자를 곁들인 화이트 우드톤 홈 플랜트 디자인</StyledTitleText>
+                <StyledTitleText>라플레시아(Rafflesia)</StyledTitleText>
             </StyledTitleBlock>
-        </StyledMagazineItemContainer>
+        </StyledDictionaryItemContainer>
     );
 };
 
@@ -52,11 +53,11 @@ const StyledTitleText = styled.div`
 
 const StyledTitleBlock = styled.div`
     position: absolute;
-    top: 90%;
+    top: 85%;
     display: flex;
     align-items: center;
     width: 100%;
-    height: 10%;
+    height: 15%;
     background-color: white;
     border-radius: 0px 0px 5px 5px;
 `;
@@ -74,15 +75,15 @@ const StyledImageBlock = styled.div`
     height: 100%;
 `;
 
-const StyledMagazineItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
+const StyledDictionaryItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
     position: relative;
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border: solid 1.5px;
+    border: solid 2px;
     border-radius: 5px;
     border-color: grey;
     background-color: silver;
 `;
 
-export default MagazineItem;
+export default DictionaryItem;

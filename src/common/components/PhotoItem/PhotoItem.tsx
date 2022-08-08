@@ -1,23 +1,75 @@
 import styled from 'styled-components';
 import { IItemParams } from 'common/types';
+import { Avatar } from 'common/components';
 
 const PhotoItem: React.FC<IItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
     return (
         <StyledPhotoItemContainer width={width} height={height} paddingBottom={paddingBottom}>
             <StyledHeaderBlock>
-                <StyledWriterBlock></StyledWriterBlock>
-                <StyledFollowButton />
+                <StyledWriterBlock>
+                    <StyeldAvatarBlock>
+                        <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
+                    </StyeldAvatarBlock>
+                    <StyledWriterText>taemin</StyledWriterText>
+                </StyledWriterBlock>
+                <StyledFollowButton>
+                    <StyledFollowText>팔로우+</StyledFollowText>
+                </StyledFollowButton>
             </StyledHeaderBlock>
+            <StyledPhotoBlock></StyledPhotoBlock>
+            <StyledFooterBlock>
+                <StyledDetailsBlock>
+                    <StyledDetailsText>
+                        사진에 대한 설명 사진에 대한 설명 사진에 대한 설명 사진에 대한 설명 사진에 대한 설명
+                    </StyledDetailsText>
+                </StyledDetailsBlock>
+                <StyledButtonsBlock>
+                    <StyledLikeButton />
+                    <StyledLikeButton />
+                    <StyledLikeButton />
+                </StyledButtonsBlock>
+            </StyledFooterBlock>
         </StyledPhotoItemContainer>
     );
 };
 
+const StyledLikeButton = styled.div`
+    width: 13%;
+    padding-bottom: 12%;
+    border-radius: 40%;
+    background-color: silver;
+    cursor: pointer;
+    margin: 0 auto;
+`;
+
+const StyeldAvatarBlock = styled.div`
+    width: 15%;
+`;
+
+const StyledWriterText = styled.div`
+    margin-left: 5%;
+    font-size: 13px;
+    font-weight: bold;
+    color: grey;
+`;
+
+const StyledFollowText = styled.div`
+    font-size: 5px;
+    font-weight: bold;
+    color: grey;
+`;
+
 const StyledFollowButton = styled.div`
-    width: 10%;
-    padding-bottom: 5%;
-    border-radius: 10px;
-    border-color: grey;
+    width: 22%;
+    height: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px;
+    border-radius: 15px;
+    border-color: silver;
+    cursor: pointer;
 `;
 
 const StyledWriterBlock = styled.div`
@@ -28,9 +80,49 @@ const StyledWriterBlock = styled.div`
 
 const StyledHeaderBlock = styled.div`
     position: absolute;
-    padding-bottom: 20%;
+    height: 15%;
     width: 100%;
     display: flex;
+    align-items: center;
+    background-color: white;
+`;
+
+const StyledDetailsText = styled.div`
+    font-size: 11px;
+    font-weight: 500;
+    color: grey;
+    padding-top: 5%;
+`;
+
+const StyledDetailsBlock = styled.div`
+    width: 100%;
+    height: 55%;
+`;
+
+const StyledButtonsBlock = styled.div`
+    width: 100%;
+    height: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+`;
+
+const StyledPhotoBlock = styled.div`
+    position: absolute;
+    top: 15%;
+    width: 100%;
+    height: 65%;
+    background-color: silver;
+`;
+
+const StyledFooterBlock = styled.div`
+    position: absolute;
+    top: 80%;
+    height: 25%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     background-color: white;
 `;
@@ -40,7 +132,6 @@ const StyledPhotoItemContainer = styled.div<{ width: string; height?: string; pa
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    background-color: silver;
 `;
 
 export default PhotoItem;
