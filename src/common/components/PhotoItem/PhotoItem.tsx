@@ -118,7 +118,7 @@ const StyledPhotoBlock = styled.div`
 
 const StyledFooterBlock = styled.div`
     position: absolute;
-    top: 80%;
+    top: 75%;
     height: 25%;
     width: 100%;
     display: flex;

@@ -6,7 +6,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const Photo: React.FC = () => {
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 1);
-    const [photoHorizontalGap, setPhotoHorizontalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 2);
+    const [photoHorizontalGap, setPhotoHorizontalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 0);
     const [photoVerticalGap, setPhotoVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
 
     const [selected, setSelected] = useState('');
@@ -16,7 +16,7 @@ const Photo: React.FC = () => {
     const resizeHandler = () => {
         setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 4 : 1);
         setPhotoHorizontalGap(window.innerWidth > Number(boundaryWidth) ? 2 : 0);
-        setPhotoVerticalGap(window.innerWidth > Number(boundaryWidth) ? 4 : 0);
+        setPhotoVerticalGap(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
     };
 
     useEffect(() => {
