@@ -105,7 +105,7 @@ const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
     justify-content: center;
     background-color: white;
     border-bottom: solid 1px;
-    border-color: #eaeaea;
+    border-color: silver;
     animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
     animation-fill-mode: forwards;
     @media screen and (min-width: ${boundaryWidth}px) {

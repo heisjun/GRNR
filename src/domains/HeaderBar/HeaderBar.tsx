@@ -106,6 +106,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         <StyledButtonsCotainer>
                             <StyledSearchButton />
                             <StyledCartButton />
+                            <StyledLoginButton>로그인</StyledLoginButton>
+                            <StyledRegisterButton>회원가입</StyledRegisterButton>
                         </StyledButtonsCotainer>
                     </StyledHeaderBar>
                 </StyledHeaderBarContainer>
@@ -153,8 +155,8 @@ const StyledSearchBar = styled.input`
     border: solid 2px;
     border-color: silver;
     border-radius: 20px;
-    margin-right: 2px;
-    @media screen and (min-width: ${Number(boundaryWidth) + 100}px) {
+    margin-right: 10px;
+    @media screen and (min-width: ${Number(boundaryWidth) + 150}px) {
         top: 80px;
         width: 200px;
         display: inline;
@@ -168,6 +170,26 @@ const StyledSubTabBarBlock = styled.div`
     z-index: 1;
     @media screen and (min-width: ${boundaryWidth}px) {
         top: 80px;
+    }
+`;
+
+const StyledLoginButton = styled.div`
+    font-size: 12px;
+    color: grey;
+    cursor: pointer;
+    margin-right: 10px;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        font-size: 13px;
+    }
+`;
+
+const StyledRegisterButton = styled.div`
+    font-size: 12px;
+    color: grey;
+    cursor: pointer;
+    margin-right: 0px;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        font-size: 13px;
     }
 `;
 
@@ -188,7 +210,7 @@ const StyledSearchButton = styled.div`
     border-radius: 25px;
     background-color: silver;
     cursor: pointer;
-    margin-right: 2px;
+    margin-right: 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         width: 30px;
         height: 30px;
@@ -201,6 +223,7 @@ const StyledCartButton = styled.div`
     border-radius: 25px;
     background-color: silver;
     cursor: pointer;
+    margin-right: 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         width: 30px;
         height: 30px;
@@ -208,7 +231,12 @@ const StyledCartButton = styled.div`
 `;
 
 const StyledButtonsCotainer = styled.div`
+    height: 25px;
     display: flex;
+    align-items: center;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        height: 30px;
+    }
 `;
 
 const StyledTitleText = styled.h1`
@@ -286,7 +314,7 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     width: 100%;
     background-color: white;
     border-bottom: solid 1px;
-    border-color: #eaeaea;
+    border-color: silver;
     @media screen and (max-width: ${boundaryWidth}px) {
         animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
         animation-fill-mode: forwards;
