@@ -89,6 +89,8 @@ const StyledPhotoContainer = styled.div`
 const StyledPhotoHeader = styled.div`
     display: flex;
     justify-content: flex-start;
+    margin-top: -20px;
+    padding-bottom: 15px;
 `;
 
 export default Photo;
