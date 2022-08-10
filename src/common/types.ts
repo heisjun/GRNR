@@ -22,9 +22,14 @@ export type IPhotoParams = {
     details?: string;
 };
 
+export type IDictionaryParams = {
+    title?: string;
+    urlToImage?: string;
+};
+
 export type IItemParams = {
     width: string;
     height?: string;
     paddingBottom?: string;
-    item: IPictureParams | IArticleParams | IMagazineParams | IPhotoParams;
+    item: IPictureParams & IArticleParams & IMagazineParams & IPhotoParams & IDictionaryParams;
 };

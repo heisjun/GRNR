@@ -6,7 +6,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
 
 const KeywordBox: React.FC<IKeywordBox> = (props) => {
-    const { setGetKeyword } = props;
+    const { setGetKeyword, columns, data, gap } = props;
     const sendKeyword = () => {
         setGetKeyword(currentItem);
     };
@@ -37,8 +37,8 @@ const KeywordBox: React.FC<IKeywordBox> = (props) => {
 
     return (
         <>
-            <TagBox>
-                {EXAMPLE.map((item) => {
+            <TagBox columns={columns} gap={gap}>
+                {data.map((item: { id: any; tagName: any; keyword: any }) => {
                     const { id, tagName, keyword } = item;
                     return (
                         <div key={id}>
@@ -62,11 +62,10 @@ const KeywordBox: React.FC<IKeywordBox> = (props) => {
     );
 };
 
-const TagBox = styled.section`
+const TagBox = styled.section<{ columns: number; gap: number }>`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
-    margin-bottom: 10px;
+    grid-template-columns: repeat(${(props) => props.columns}, 1fr);
+    gap: ${(props) => props.gap}px;
     width: 100%;
 `;
 
@@ -76,6 +75,9 @@ const Tag = styled.div<{ color: string }>`
     text-align: center;
     cursor: pointer;
     transition: 1s;
+    padding-top: 20%;
+    padding-bottom: 20%;
+
     &:hover {
         background-color: lightgray;
     }
@@ -105,37 +107,5 @@ const StyledKeyword = styled.div`
         font-size: 13px;
     }
 `;
-const EXAMPLE = [
-    {
-        id: 1,
-        tagName: '키워드1',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 2,
-        tagName: '키워드2',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 3,
-        tagName: '키워드3',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 4,
-        tagName: '키워드4',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 5,
-        tagName: '키워드5',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 6,
-        tagName: '키워드6',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-];
 
 export default KeywordBox;

@@ -1,4 +1,8 @@
 export type IFilters = {
-    selected: any;
-    setSelected: any;
+    setGetFilter: any;
+    data: {
+        id: number;
+        name: string;
+        list: any;
+    }[];
 };
