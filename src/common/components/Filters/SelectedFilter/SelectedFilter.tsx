@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { ISelectedFilter } from './SelectedFilter.type';
 import { FaTimes } from 'react-icons/fa';
 
+const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+
 const SelectedFilter: React.FC<ISelectedFilter> = (props) => {
     const { data, setClear } = props;
     const deleteList = (list: any) => {
@@ -50,6 +52,9 @@ const StyledSelected = styled.div`
     padding: 5px;
     font-size: 14px;
     border-radius: 4px;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        font-size: 1.5vw;
+    }
 `;
 
 const StyledClearButton = styled.button`
@@ -61,6 +66,9 @@ const StyledClearButton = styled.button`
     font-size: 14px;
     border-radius: 4px;
     border: none;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        font-size: 1.5vw;
+    }
 `;
 
 export default SelectedFilter;

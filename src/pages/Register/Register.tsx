@@ -1,11 +1,44 @@
 import styled from 'styled-components';
 import { useState, useEffect, SetStateAction } from 'react';
-import AgreeBox from 'common/components/AgreeBox';
+import { AgreeBox } from 'domains';
 import KeywordBox from 'common/components/KeywordBox';
 import AddressBox from 'common/components/AddressBox';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
+
+const KeywordData = [
+    {
+        id: 1,
+        tagName: '키워드1',
+        keyword: '#키워드 #키워드 #키워드',
+    },
+    {
+        id: 2,
+        tagName: '키워드2',
+        keyword: '#키워드 #키워드 #키워드',
+    },
+    {
+        id: 3,
+        tagName: '키워드3',
+        keyword: '#키워드 #키워드 #키워드',
+    },
+    {
+        id: 4,
+        tagName: '키워드4',
+        keyword: '#키워드 #키워드 #키워드',
+    },
+    {
+        id: 5,
+        tagName: '키워드5',
+        keyword: '#키워드 #키워드 #키워드',
+    },
+    {
+        id: 6,
+        tagName: '키워드6',
+        keyword: '#키워드 #키워드 #키워드',
+    },
+];
 
 const Register: React.FC = () => {
     const [allAgree, setAllAgree] = useState<boolean>(false);
@@ -150,7 +183,7 @@ const Register: React.FC = () => {
             <StyledRegisterBlock>
                 <StyledTitleText>관심사</StyledTitleText>
                 <StyledBodyText>관심있는 키워드를 설정해주세요</StyledBodyText>
-                <KeywordBox setGetKeyword={setGetKeyword} />
+                <KeywordBox data={KeywordData} setGetKeyword={setGetKeyword} columns={2} gap={5} />
             </StyledRegisterBlock>
             <StyledRegisterBlock>
                 <StyledErrorMessage>{error}</StyledErrorMessage>
@@ -270,7 +303,8 @@ const StyledButton = styled.button`
 const StyledErrorMessage = styled.div`
     color: red;
     font-size: 15px;
-    margin-bottom: 1%;
+    margin-bottom: 2px;
+    height: 20px;
 `;
 
 export default Register;

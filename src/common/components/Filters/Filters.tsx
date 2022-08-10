@@ -4,49 +4,17 @@ import { FaCaretDown } from 'react-icons/fa';
 import styled from 'styled-components';
 import SelectedFilter from './SelectedFilter';
 
-const DictionaryData = [
-    {
-        id: 1,
-        name: '분류',
-        list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
-    },
-    {
-        id: 2,
-        name: '광도',
-        list: ['낮음', '중간', '높음'],
-    },
-    {
-        id: 3,
-        name: '습도',
-        list: ['40%미만', '40~70%', '70%이상'],
-    },
-    {
-        id: 4,
-        name: '온도',
-        list: ['10~15°C', '16~20°C', '21~25°C', '26~30°C'],
-    },
-    {
-        id: 5,
-        name: '관리레벨',
-        list: ['초보자', '경험자', '전문가'],
-    },
-    {
-        id: 6,
-        name: '잎의무늬',
-        list: ['줄무늬', '점무늬', '잎 가장자리 무늬', '기타'],
-    },
-    {
-        id: 7,
-        name: '장소',
-        list: ['실내 어두운 곳', '거실 내측', '거실 창측', '발코니'],
-    },
-];
+const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const Filters: React.FC<IFilters> = (props) => {
-    const { selected, setSelected } = props;
+    const { setGetFilter, data } = props;
+    const [selected, setSelected] = useState('');
     const [isActive, setIsActive] = useState([false]);
     const [currentItem, setCurrentItem] = useState<string[]>([]);
     const dropdownListRef = useRef<any>(null);
+    const sendFilter = () => {
+        setGetFilter(currentItem);
+    };
 
     //외부 영역 클릭시 드롭다운 비활성화
     useEffect(() => {
@@ -84,20 +52,24 @@ const Filters: React.FC<IFilters> = (props) => {
         newIsActive[index] = false;
         setIsActive(newIsActive);
     }
+
+    useEffect(() => {
+        sendFilter();
+    }, [currentItem]);
     return (
         <StyledFiltersContainer>
             <StyledFiltersBlock>
-                {DictionaryData.map((item, index) => {
+                {data.map((item, index) => {
                     const { id, name, list } = item;
                     return (
                         <StyledDropdown key={id}>
                             <StyledDropdownBtn onClick={() => onOpenBtn(index)}>
-                                <div>{name}</div>
+                                <StyledDropdownText>{name}</StyledDropdownText>
                                 <FaCaretDown />
                             </StyledDropdownBtn>
                             {isActive[index] && (
                                 <StyledDropdownContent ref={dropdownListRef}>
-                                    {list.map((option) => (
+                                    {list.map((option: any) => (
                                         <StyledContentItem
                                             key={option}
                                             onClick={() => {
@@ -141,9 +113,19 @@ const StyledDropdownBtn = styled.div`
     border-radius: 5px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     cursor: pointer;
     font-size: 15px;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        padding: 3px;
+    }
+`;
+
+const StyledDropdownText = styled.div`
+    padding-right: 2px;
+    font-size: 15px;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        font-size: 1.5vw;
+    }
 `;
 
 const StyledDropdownContent = styled.div`
@@ -155,6 +137,12 @@ const StyledDropdownContent = styled.div`
     font-weight: 300;
     color: #333;
     width: 130px;
+    z-index: 10;
+    font-size: 15px;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        font-size: 1.5vw;
+        width: 100px;
+    }
 `;
 
 const StyledContentItem = styled.div`
