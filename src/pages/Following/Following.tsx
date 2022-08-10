@@ -9,7 +9,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const DictionaryFilter = [
     {
         id: 1,
-        name: '분류',
+        name: '분d류',
         list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
     },
     {
