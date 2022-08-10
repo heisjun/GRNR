@@ -1,11 +1,7 @@
 import React from 'react';
 import { Navigation } from 'navigations';
 function App() {
-    return (
-        <div>
-            <Navigation />
-        </div>
-    );
+    return <Navigation />;
 }
 
 export default App;

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
 import { SubTabBar } from 'domains';
 import { headerItems } from 'navigations/data';
@@ -10,6 +12,8 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const { children } = props;
+    const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
+
     const [scrollDownToggle, setScrollDownToggle] = useState<boolean>(false);
     const [prevPosY, setPrevPosY] = useState<number>(0);
     const [crntPosY, setCrntPosY] = useState<number>(0);
@@ -106,7 +110,14 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         <StyledButtonsCotainer>
                             <StyledSearchButton />
                             <StyledCartButton />
-                            <StyledLoginButton>로그인</StyledLoginButton>
+                            <StyledLoginButton
+                                onClick={() => {
+                                    setLoginStatus({ ...loginStatus, isLogin: true });
+                                    location.reload();
+                                }}
+                            >
+                                로그인
+                            </StyledLoginButton>
                             <StyledRegisterButton>회원가입</StyledRegisterButton>
                         </StyledButtonsCotainer>
                     </StyledHeaderBar>

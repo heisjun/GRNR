@@ -1,11 +1,11 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
 type IUserInfo = {
     isLogin: boolean;
 };
 
 export const UserInfo = atom<IUserInfo>({
-    key: 'LoginToggle',
+    key: 'loginStatus',
     default: {
         isLogin: false,
     },
