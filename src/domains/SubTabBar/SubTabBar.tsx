@@ -69,7 +69,6 @@ const subTabBarFadeOut = keyframes`
 
 const StyledMenuItemText = styled.h2<{ color: string }>`
     font-size: 13px;
-
     color: ${({ color }) => color};
     cursor: pointer;
     &:hover {
@@ -99,13 +98,12 @@ const StyledSubTabBarBlock = styled.div`
 const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
     width: 100%;
     height: 40px;
-
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: white;
     border-bottom: solid 1px;
-    border-color: #eaeaea;
+    border-color: silver;
     animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
     animation-fill-mode: forwards;
     @media screen and (min-width: ${boundaryWidth}px) {

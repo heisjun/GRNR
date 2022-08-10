@@ -1,47 +1,56 @@
-import React from 'react';
-import styled from 'styled-components';
-import { IItemParams } from 'common/types';
-import { FaChevronRight, FaRegBookmark, FaBookmark } from 'react-icons/fa';
 import { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import { IItemParams } from 'common/types';
 
 const DictionaryItem: React.FC<IItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
-    const [bookmark, setBookmark] = useState(false);
-    const onToggle = () => setBookmark(!bookmark);
+
+    const [imgAnim, setImgAnim] = useState<any>();
 
     return (
-        <StyledMagazineItemContainer width={width} height={height} paddingBottom={paddingBottom}>
-            <StyledPictureBlock src={item.urlToImage} />
-            {!bookmark ? (
-                <FaRegBookmark className="logo" onClick={onToggle} />
-            ) : (
-                <FaBookmark className="logo" onClick={onToggle} />
-            )}
+        <StyledDictionaryItemContainer width={width} height={height} paddingBottom={paddingBottom}>
+            <StyledImageBlock
+                onMouseEnter={() => {
+                    setImgAnim(ImageScaleUp);
+                }}
+                onMouseLeave={() => {
+                    setImgAnim(ImageScaleDown);
+                }}
+            >
+                <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+            </StyledImageBlock>
+
             <StyledTitleBlock>
-                <StyledContent>
-                    <StyledTitleText>{item.title}</StyledTitleText>
-                    <FaChevronRight />
-                </StyledContent>
+                <StyledTitleText>라플레시아(Rafflesia)</StyledTitleText>
             </StyledTitleBlock>
-        </StyledMagazineItemContainer>
+        </StyledDictionaryItemContainer>
     );
 };
+
+const ImageScaleUp = keyframes`
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+`;
+
+const ImageScaleDown = keyframes`
+    0% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+`;
 
 const StyledTitleText = styled.div`
     color: grey;
     font-size: 13px;
     margin-left: 2%;
-    font-weight: bold;
 `;
 
-const StyledPictureBlock = styled.img`
-    position: absolute;
-    top: 0%;
-    height: 85%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 5px 5px 0px 0px;
-`;
 const StyledTitleBlock = styled.div`
     position: absolute;
     top: 85%;
@@ -53,36 +62,28 @@ const StyledTitleBlock = styled.div`
     border-radius: 0px 0px 5px 5px;
 `;
 
-const StyledContent = styled.div`
-    justify-content: space-between;
-    display: flex;
-    padding: 5px;
-    width: 100%;
-    align-items: center;
+const StyledImg = styled.img<{ imgAnim: any }>`
+    cursor: pointer;
+    animation: ${({ imgAnim }) => imgAnim} 0.2s;
+    animation-fill-mode: forwards;
 `;
 
-const StyledMagazineItemContainer = styled.div<{
-    width: string;
-    height?: string;
-    paddingBottom?: string;
-    bookmark?: boolean;
-}>`
+const StyledImageBlock = styled.div`
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+`;
+
+const StyledDictionaryItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
     position: relative;
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border: solid 1.5px;
+    border: solid 2px;
     border-radius: 5px;
     border-color: grey;
-    background-color: white;
-    .logo {
-        color: white;
-        position: absolute;
-        top: 5%;
-        height: 10%;
-        left: 85%;
-        width: 15%;
-    }
+    background-color: silver;
 `;
 
-export default React.memo(DictionaryItem);
+export default DictionaryItem;

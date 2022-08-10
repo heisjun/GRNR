@@ -1,16 +1,48 @@
-import styled from 'styled-components';
+import { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { IItemParams } from 'common/types';
 
 const MagazineItem: React.FC<IItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
+
+    const [imgAnim, setImgAnim] = useState<any>();
+
     return (
         <StyledMagazineItemContainer width={width} height={height} paddingBottom={paddingBottom}>
+            <StyledImageBlock
+                onMouseEnter={() => {
+                    setImgAnim(ImageScaleUp);
+                }}
+                onMouseLeave={() => {
+                    setImgAnim(ImageScaleDown);
+                }}
+            >
+                <StyledImg src="/sample.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+            </StyledImageBlock>
             <StyledTitleBlock>
                 <StyledTitleText>아레카야자를 곁들인 화이트 우드톤 홈 플랜트 디자인</StyledTitleText>
             </StyledTitleBlock>
         </StyledMagazineItemContainer>
     );
 };
+
+const ImageScaleUp = keyframes`
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+`;
+
+const ImageScaleDown = keyframes`
+    0% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+`;
 
 const StyledTitleText = styled.div`
     color: grey;
@@ -27,6 +59,19 @@ const StyledTitleBlock = styled.div`
     height: 10%;
     background-color: white;
     border-radius: 0px 0px 5px 5px;
+`;
+
+const StyledImg = styled.img<{ imgAnim: any }>`
+    cursor: pointer;
+    animation: ${({ imgAnim }) => imgAnim} 0.2s;
+    animation-fill-mode: forwards;
+`;
+
+const StyledImageBlock = styled.div`
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
 `;
 
 const StyledMagazineItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
