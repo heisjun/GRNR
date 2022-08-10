@@ -9,7 +9,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const DictionaryFilter = [
     {
         id: 1,
-        name: '분류',
+        name: '분d류',
         list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
     },
     {
@@ -43,6 +43,7 @@ const DictionaryFilter = [
         list: ['실내 어두운 곳', '거실 내측', '거실 창측', '발코니'],
     },
 ];
+
 const Following: React.FC = () => {
     const [getFilter, setGetFilter] = useState('');
 
@@ -79,11 +80,8 @@ const Following: React.FC = () => {
         };
     }, []);
 
-    if (loading) {
+    if (loading || !plants) {
         return <StyledDictionaryContainer>대기중</StyledDictionaryContainer>;
-    }
-    if (!plants) {
-        return null;
     }
 
     return (
