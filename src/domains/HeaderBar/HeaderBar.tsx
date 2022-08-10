@@ -178,6 +178,7 @@ const StyledSubTabBarBlock = styled.div`
     position: fixed;
     width: 100%;
     top: 50px;
+    left: 0px;
     z-index: 1;
     @media screen and (min-width: ${boundaryWidth}px) {
         top: 80px;

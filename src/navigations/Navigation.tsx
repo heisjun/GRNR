@@ -15,7 +15,7 @@ const Navigation: React.FC = () => {
                     <Route path="/community/question" element={<Question />} />
                     <Route path="/community/photo" element={<Photo />} />
                     <Route path="/community/magazine" element={<Magazine />} />
-                    <Route path="/community/dictionary" element={<Dictionary />} /
+                    <Route path="/community/dictionary" element={<Dictionary />} />
                     <Route path="/store" element={<Register />} />
                     <Route path="/store/menu1" element={<Following />} />
                     <Route path="/store/menu2" element={<Following />} />

@@ -16,7 +16,6 @@ const Filters: React.FC<IFilters> = (props) => {
         setGetFilter(currentItem);
     };
 
-    //외부 영역 클릭시 드롭다운 비활성화
     useEffect(() => {
         function handleClickOutside(e: MouseEvent): void {
             if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {

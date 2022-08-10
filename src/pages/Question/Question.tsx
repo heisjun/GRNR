@@ -36,11 +36,8 @@ const Question: React.FC = () => {
         fetchData();
     }, []);
 
-    if (loading) {
+    if (loading || !questions) {
         return <StyledQuestionContainer>대기중</StyledQuestionContainer>;
-    }
-    if (!questions) {
-        return <div>데이터없음</div>;
     }
 
     return (

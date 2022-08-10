@@ -6,4 +6,3 @@ export { default as PhotoItem } from './PhotoItem';
 export { default as ItemList } from './ItemList';
 export { default as Avatar } from './Avatar';
 export { default as Filters } from './Filters';
-export { default as DictionaryItem } from './DictionaryItem';
