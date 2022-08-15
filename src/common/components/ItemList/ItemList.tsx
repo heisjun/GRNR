@@ -23,7 +23,7 @@ const ItemList: React.FC<IItemList> = (props) => {
 const StyledItemBlock = styled.div<{ length: string; marginRight: number; marginBottom: number }>`
     width: ${({ length }) => length};
     margin-right: ${({ marginRight }) => marginRight}%;
-    margin-bottom: ${({ marginBottom }) => marginBottom - 0.5}%;
+    margin-bottom: ${({ marginBottom }) => (marginBottom !== 0 ? marginBottom - 0.5 : ``)}%;
 `;
 
 const StyledItemListContainer = styled.div<{ width: string }>`
