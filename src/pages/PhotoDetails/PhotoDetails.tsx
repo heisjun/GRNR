@@ -115,6 +115,7 @@ const StyledTopTextBlock = styled.div`
     width: 100%;
     height: 50px;
     display: flex;
+    margin-bottom: -15px;
 `;
 
 const StyledDetailsBlock = styled.div`
