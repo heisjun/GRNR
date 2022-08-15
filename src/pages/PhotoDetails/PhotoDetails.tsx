@@ -11,8 +11,9 @@ const PhotoDetails: React.FC = () => {
     const [nextPosY, setNextPosY] = useState(0);
 
     const scrollHandler = () => {
+        const posY = window.scrollY;
         setNextPosY(window.scrollY);
-        setTimeout(() => setCrntPosY(window.scrollY), 500);
+        setTimeout(() => setCrntPosY(posY), 500);
     };
 
     const debouncedScrollHandler = getDebouncedFunc(scrollHandler, 100);
