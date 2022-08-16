@@ -87,6 +87,9 @@ const StyledFollowButton = styled.div`
     border-radius: 25px;
     border-color: silver;
     cursor: pointer;
+    &:hover {
+        background-color: silver;
+    }
 `;
 
 const StyledFollowButtonBlock = styled.div`
