@@ -56,7 +56,7 @@ const Question: React.FC = () => {
                         <StyledNoticeIcon>공지</StyledNoticeIcon>
                         <StyledNoticeText>진짜 로그인 구별하는 방법</StyledNoticeText>
                     </StyledNoticeBlock>
-                    <FaChevronRight />
+                    <FaChevronRight className="logo" />
                 </StyledNoticeContent>
                 <StyledBorderLine />
             </StyledQuestionBlock>
@@ -109,6 +109,12 @@ const StyledNoticeContent = styled.div`
     @media screen and (max-width: ${boundaryWidth}px) {
         padding-top: 7px;
         padding-bottom: 7px;
+    }
+    .logo {
+        font-size: 14px;
+        @media screen and (max-width: ${boundaryWidth}px) {
+            font-size: 1.5vw;
+        }
     }
 `;
 

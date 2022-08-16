@@ -1,120 +1,61 @@
-import Filters from 'common/components/Filters';
-import { useEffect, useState } from 'react';
-import { ItemList, DictionaryItem } from 'common/components';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
+import FollowingItem from 'common/components/FollowingItem';
 
-const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
-
-const DictionaryFilter = [
+const EXAMPLE = [
     {
-        id: 1,
-        name: '분d류',
-        list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
+        nickname: 'jun',
+        time: '2시간전',
+        picUrl: ['1', '2', '3'],
+        text: [
+            '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리 나라만세 무궁화 삼천리 화려강산, 대한사람 대한으로 길이 보전하세',
+            'text2',
+            'text3',
+        ],
+        views: 312231,
+        like: 123,
+        bookmark: 192,
     },
     {
-        id: 2,
-        name: '광도',
-        list: ['낮음', '중간', '높음'],
-    },
-    {
-        id: 3,
-        name: '습도',
-        list: ['40%미만', '40~70%', '70%이상'],
-    },
-    {
-        id: 4,
-        name: '온도',
-        list: ['10~15°C', '16~20°C', '21~25°C', '26~30°C'],
-    },
-    {
-        id: 5,
-        name: '관리레벨',
-        list: ['초보자', '경험자', '전문가'],
-    },
-    {
-        id: 6,
-        name: '잎의무늬',
-        list: ['줄무늬', '점무늬', '잎 가장자리 무늬', '기타'],
-    },
-    {
-        id: 7,
-        name: '장소',
-        list: ['실내 어두운 곳', '거실 내측', '거실 창측', '발코니'],
+        nickname: 'tamin',
+        time: '49분전',
+        picUrl: ['1', '2', '3', '4'],
+        text: [
+            'tamin Writing',
+            '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리 나라만세 무궁화 삼천리 화려강산, 대한사람 대한으로 길이 보전하세',
+            'text2',
+            'text3',
+        ],
+        views: 31,
+        like: 10,
+        bookmark: 12,
     },
 ];
 
-const Following: React.FC = () => {
-    const [getFilter, setGetFilter] = useState('');
-
-    const [dictionaryCols, setDictionaryCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
-    const [dictionaryGap, setDictionaryGap] = useState(window.innerWidth > Number(boundaryWidth) ? 3.5 : 4);
-
-    const [plants, setPlants] = useState(null);
-    const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(
-                    'https://newsapi.org/v2/top-headlines?country=kr&apiKey=54ddd330b78649a0985f758382740fac',
-                );
-                setPlants(response.data.articles);
-            } catch (e) {
-                console.log(e);
-            }
-            setLoading(false);
-        };
-        fetchData();
-    }, []);
-
-    const resizeHandler = () => {
-        setDictionaryCols(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
-        setDictionaryGap(window.innerWidth > Number(boundaryWidth) ? 3.5 : 4);
-    };
-
-    useEffect(() => {
-        window.addEventListener('resize', resizeHandler);
-        return () => {
-            window.removeEventListener('resize', resizeHandler);
-        };
-    }, []);
-
-    if (loading || !plants) {
-        return <StyledDictionaryContainer>대기중</StyledDictionaryContainer>;
-    }
-
+const Question: React.FC = () => {
     return (
-        <StyledDictionaryContainer>
-            <StyledDictionaryHeader>
-                <Filters setGetFilter={setGetFilter} data={DictionaryFilter} />
-            </StyledDictionaryHeader>
-            <StyledDictinaryBody>
-                <ItemList
-                    width="100%"
-                    imgHeight="75%"
-                    cols={dictionaryCols}
-                    horizontalGap={dictionaryGap}
-                    verticalGap={dictionaryGap}
-                    items={plants}
-                    RenderComponent={DictionaryItem}
-                />
-            </StyledDictinaryBody>
-        </StyledDictionaryContainer>
+        <StyledFollowingContainer>
+            <Link to="./keyword" style={{ textDecoration: 'none' }}>
+                <StyledTItleText>관심있는 키워드를 설정해보세요! </StyledTItleText>
+            </Link>
+            {EXAMPLE.map((i, index) => {
+                return <FollowingItem key={index} data={i} />;
+            })}
+        </StyledFollowingContainer>
     );
 };
 
-const StyledDictionaryContainer = styled.div`
-    height: 5000px;
+const StyledFollowingContainer = styled.div`
+    height: 2000px;
 `;
 
-const StyledDictionaryHeader = styled.div`
-    display: flex;
-    justify-content: flex-start;
+const StyledTItleText = styled.div`
+    font-size: 15px;
+    font-weight: 600;
+    color: gray;
+    margin-bottom: 20px;
+    display: inline-block;
 `;
 
-const StyledDictinaryBody = styled.div`
-    padding-top: 2%;
-`;
-
-export default Following;
+export default Question;
