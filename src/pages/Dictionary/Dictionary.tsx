@@ -92,11 +92,4 @@ const StyledDictionaryContainer = styled.div`
     height: 5000px;
 `;
 
-const StyledDictionaryHeader = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    padding-bottom: 15px;
-    margin-top: -20px;
-`;
-
 export default Dictionary;

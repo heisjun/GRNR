@@ -1,19 +1,15 @@
-import { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { useEffect, useRef } from 'react';
+import styled from 'styled-components';
 import { ItemList } from 'common/components';
 import { TaggedPhoto } from 'domains';
 import { getDebouncedFunc } from 'common/funcs';
 
-const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
-
 const PhotoDetails: React.FC = () => {
-    const [crntPosY, setCrntPosY] = useState<number>(0);
-    const [nextPosY, setNextPosY] = useState<number>(0);
+    const sideBarRef = useRef<any>(null);
 
     const scrollHandler = () => {
-        const posY = window.scrollY;
-        setNextPosY(window.scrollY);
-        setTimeout(() => setCrntPosY(posY), 500);
+        sideBarRef.current.style.transition = 'all 0.5s ease-in-out';
+        sideBarRef.current.style.transform = `translateY(${window.scrollY}px)`;
     };
 
     const debouncedScrollHandler = getDebouncedFunc(scrollHandler, 100);
@@ -45,7 +41,7 @@ const PhotoDetails: React.FC = () => {
                 />
             </StyledDetailsBlock>
             <StyledButtonsContainer>
-                <StyledButtonsBlock crntPosY={crntPosY} nextPosY={nextPosY}>
+                <StyledButtonsBlock ref={sideBarRef}>
                     <StyledButtonBlock>
                         <StyledButton />
                         <StyledButtonText>12.3k</StyledButtonText>
@@ -63,15 +59,6 @@ const PhotoDetails: React.FC = () => {
         </StyledPhotoDetailsContainer>
     );
 };
-
-const ButtonsBarMove = (crntPosY: number, nextPosY: number) => keyframes`
-    0% {
-        transform: translateY(${crntPosY}px);
-    }    
-    100% {
-        transform: translateY(${nextPosY}px);
-    }
-`;
 
 const StyledButtonText = styled.div`
     font-size: 14px;
@@ -122,14 +109,11 @@ const StyledDetailsBlock = styled.div`
     width: 70%;
 `;
 
-const StyledButtonsBlock = styled.div<{ crntPosY: number; nextPosY: number }>`
+const StyledButtonsBlock = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    top: ${({ crntPosY }) => crntPosY}px;
-    animation: ${({ crntPosY, nextPosY }) => ButtonsBarMove(crntPosY, nextPosY)} 0.5s;
-    animation-fill-mode: forwards;
 `;
 
 const StyledButtonsContainer = styled.div`
