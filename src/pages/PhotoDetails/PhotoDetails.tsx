@@ -7,8 +7,8 @@ import { getDebouncedFunc } from 'common/funcs';
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const PhotoDetails: React.FC = () => {
-    const [crntPosY, setCrntPosY] = useState(0);
-    const [nextPosY, setNextPosY] = useState(0);
+    const [crntPosY, setCrntPosY] = useState<number>(0);
+    const [nextPosY, setNextPosY] = useState<number>(0);
 
     const scrollHandler = () => {
         const posY = window.scrollY;
