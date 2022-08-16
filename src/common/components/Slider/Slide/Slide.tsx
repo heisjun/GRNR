@@ -9,7 +9,9 @@ const Slide: React.FC<ISlide> = (props) => {
             <StyledImg src="/sample2.jpg"></StyledImg>
             <StyledSpace />
             <StyledViews> 조회 312,231명</StyledViews>
-            <StyledText> {ImgUrl}</StyledText>
+            <StyledTextArea>
+                <StyledText>{ImgUrl}</StyledText>
+            </StyledTextArea>
         </div>
     );
 };
@@ -32,12 +34,15 @@ const StyledViews = styled.div`
     padding: 10px;
 `;
 
+const StyledTextArea = styled.div`
+    width: 100%;
+`;
+
 const StyledText = styled.div`
     font-size: 15px;
     font-weight: 300;
     color: grey;
     padding-left: 10px;
-    width: 100%;
 `;
 
 export default Slide;
