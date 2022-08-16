@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { HeaderBar } from 'domains';
-import { Popular, Following, Register, Magazine, Photo, Dictionary, Question, Keyword } from 'pages';
+import { Popular, Following, Register, Magazine, Photo, Dictionary, Question, PhotoDetails, Keyword } from 'pages';
 import ScrollToTop from 'common/funcs';
 
 const Navigation: React.FC = () => {
@@ -13,6 +13,7 @@ const Navigation: React.FC = () => {
                     <Route path="/community/popular" element={<Popular />} />
                     <Route path="/community/following" element={<Following />} />
                     <Route path="/community/following/keyword" element={<Keyword />} />
+                    <Route path="/community/following/details" element={<PhotoDetails />} />
                     <Route path="/community/question" element={<Question />} />
                     <Route path="/community/photo" element={<Photo />} />
                     <Route path="/community/magazine" element={<Magazine />} />

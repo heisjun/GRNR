@@ -45,6 +45,8 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const Dictionary: React.FC = () => {
     const [magazineCols, setMagazineCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
     const [magazineGap, setMagazineGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 6);
+    const [getFilter, setGetFilter] = useState('');
+
     const mgzData = [{}, {}, {}, {}, {}, {}, {}, {}];
 
     const [selected, setSelected] = useState('');
@@ -64,7 +66,7 @@ const Dictionary: React.FC = () => {
     return (
         <StyledDictionaryContainer>
             <StyledDictionaryHeader>
-                <Filters setGetFilter={setSelected} data={DictionaryFilter} />
+                <Filters setGetFilter={setGetFilter} data={DictionaryFilter} />
             </StyledDictionaryHeader>
             <ItemList
                 width="100%"
@@ -78,6 +80,13 @@ const Dictionary: React.FC = () => {
         </StyledDictionaryContainer>
     );
 };
+
+const StyledDictionaryHeader = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    margin-top: -20px;
+    padding-bottom: 15px;
+`;
 
 const StyledDictionaryContainer = styled.div`
     height: 5000px;
