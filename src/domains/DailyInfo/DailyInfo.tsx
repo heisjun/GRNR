@@ -67,7 +67,6 @@ const StyledDailyPlantBlock = styled.div`
     @media screen and (min-width: ${maxWidth}px) {
         height: ${maxWidth * 0.35}px;
     }
-    background-color: silber;
     border: solid 2px;
     border-radius: 5px;
     border-color: silver;
