@@ -84,6 +84,7 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
     border-bottom: solid;
     border-width: ${({ selected }) => (selected ? '3px' : '0px')};
     border-color: grey;
+    padding-bottom: ${({ selected }) => (selected ? '0px' : '3px')};
 `;
 
 const StyledSubTabBarBlock = styled.div`
