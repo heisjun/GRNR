@@ -90,11 +90,10 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
 const StyledSubTabBarBlock = styled.div`
     width: 100%;
     display: flex;
-    justify-content: center;
     max-width: ${maxWidth}px;
+    padding: 0px 20px 0px 20px;
     @media screen and (min-width: ${boundaryWidth}px) {
         padding: 0px 30px 0px 30px;
-        justify-content: start;
     }
 `;
 

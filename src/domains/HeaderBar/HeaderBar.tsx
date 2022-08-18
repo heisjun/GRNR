@@ -68,7 +68,6 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                     }}
                 >
                     <StyledHeaderBar>
-                        <StyledMenuButton />
                         <StyledTitleBlock>
                             <Link
                                 to="/"
@@ -205,17 +204,6 @@ const StyledRegisterButton = styled.div`
     }
 `;
 
-const StyledMenuButton = styled.div`
-    width: 25px;
-    height: 25px;
-    border-radius: 25px;
-    background-color: silver;
-    cursor: pointer;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        display: none;
-    }
-`;
-
 const StyledSearchButton = styled.div`
     width: 25px;
     height: 25px;
@@ -262,10 +250,7 @@ const StyledTitleText = styled.h1`
 
 const StyledTitleBlock = styled.div`
     @media screen and (max-width: ${boundaryWidth}px) {
-        margin: 0 auto;
-    }
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 25px;
+        margin-right: auto;
     }
 `;
 
@@ -339,7 +324,7 @@ const StyledHeaderBar = styled.div`
     width: 100%;
     max-width: ${maxWidth}px;
     height: 50px;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 20px 0px 20px;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 80px;
         padding: 0px 30px 0px 30px;
