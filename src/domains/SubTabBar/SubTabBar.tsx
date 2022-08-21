@@ -2,27 +2,36 @@ import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { ISubTabBar } from './SubTabBar.type';
-import { headerItems, subTabBarItems } from 'navigations/data';
+import { headerItems, mypageTabBarItems } from 'navigations/data';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const SubTabBar: React.FC<ISubTabBar> = (props) => {
-    const { visible, overPage, crntPage, setScrollDownToggle, setSubTabVisible } = props;
+    const { visible, overPage, crntPage, setScrollDownToggle, setSubTabVisible, items, justifyContent } = props;
     const [fadeAnim, setFadeAnim] = useState<any>();
     const [crntPath, setCrntPath] = useState<string>('');
 
-    const location = useLocation();
+    const loc = useLocation();
     useEffect(() => {
-        console.log(crntPage);
-        if (location.pathname === '/') {
-            setCrntPath(subTabBarItems[0][0].link.split('/')[2]);
-        } else if (location.pathname === headerItems[crntPage].link) {
-            setCrntPath(subTabBarItems[crntPage][0].link.split('/')[2]);
+        if (loc.pathname.split('/')[1] !== 'mypage') {
+            if (loc.pathname === '/') {
+                setCrntPath(items[0][0].value);
+            } else if (loc.pathname.replaceAll('/', '') === headerItems[crntPage].link.replaceAll('/', '')) {
+                setCrntPath(items[crntPage][0].value);
+            } else {
+                setCrntPath(loc.pathname.split('/')[2]);
+            }
         } else {
-            setCrntPath(location.pathname.split('/')[2]);
+            if (loc.pathname.replaceAll('/', '') === 'mypage') {
+                setCrntPath(items[0][0].value);
+            } else if (loc.pathname.replaceAll('/', '') === mypageTabBarItems[crntPage].link.replaceAll('/', '')) {
+                setCrntPath(items[crntPage][0].value);
+            } else {
+                setCrntPath(loc.pathname.split('/')[3]);
+            }
         }
-    }, [location, crntPage]);
+    }, [loc, crntPage]);
 
     useEffect(() => {
         visible ? setFadeAnim(subTabBarFadeIn) : setFadeAnim(subTabBarFadeOut);
@@ -33,9 +42,9 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
     }, []);
     return (
         <StyledSubTabBarContainer fadeAnim={fadeAnim}>
-            <StyledSubTabBarBlock>
-                {subTabBarItems[overPage].map((item, index) => (
-                    <StyledMenuItemBlock key={index} selected={item.link.split('/')[2] === crntPath ? true : false}>
+            <StyledSubTabBarBlock justifyContent={justifyContent ? justifyContent : ''}>
+                {items[overPage].map((item, index) => (
+                    <StyledMenuItemBlock key={index} selected={item.value === crntPath ? true : false}>
                         <Link
                             to={item.link}
                             style={{ textDecoration: 'none' }}
@@ -44,7 +53,7 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
                                 setSubTabVisible(true);
                             }}
                         >
-                            <StyledMenuItemText color={item.link.split('/')[2] === crntPath ? 'grey' : 'silver'}>
+                            <StyledMenuItemText color={item.value === crntPath ? 'grey' : 'silver'}>
                                 {item.name}
                             </StyledMenuItemText>
                         </Link>
@@ -94,8 +103,8 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
     padding-bottom: ${({ selected }) => (selected ? '0px' : '3px')};
 `;
 
-const StyledSubTabBarBlock = styled.div`
-    width: 100%;
+const StyledSubTabBarBlock = styled.div<{ justifyContent: string }>`
+    width: ${({ justifyContent }) => (justifyContent === 'center' ? '' : '100%')};
     display: flex;
     max-width: ${maxWidth}px;
     padding: 0px 20px 0px 20px;

@@ -22,6 +22,16 @@ const Navigation: React.FC = () => {
                     <Route path="/store/menu1" element={<Following />} />
                     <Route path="/store/menu2" element={<Following />} />
                     <Route path="/store/menu3" element={<Following />} />
+                    <Route path="/mypage" element={null} />
+                    <Route path="/mypage/profile" element={null} />
+                    <Route path="/mypage/profile/myfeed" element={null} />
+                    <Route path="/mypage/profile/photo" element={null} />
+                    <Route path="/mypage/profile/magazine" element={null} />
+                    <Route path="/mypage/profile/question" element={null} />
+                    <Route path="/mypage/profile/scrapbook" element={null} />
+                    <Route path="/mypage/profile/like" element={null} />
+                    <Route path="/mypage/setting" element={null} />
+                    <Route path="/mypage/setting/setting1" element={null} />
                 </Routes>
             </HeaderBar>
         </Router>

@@ -4,8 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
-import { SubTabBar } from 'domains';
-import { headerItems } from 'navigations/data';
+import { SubTabBar, MypageTabBar } from 'domains';
+import { headerItems, subTabBarItems } from 'navigations/data';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -135,13 +135,22 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                     </StyledHeaderBar>
                 </StyledHeaderBarContainer>
                 <StyledSubTabBarBlock>
-                    <SubTabBar
-                        visible={!scrollDownToggle}
-                        overPage={overPage}
-                        crntPage={crntPage}
-                        setScrollDownToggle={setScrollDownToggle}
-                        setSubTabVisible={setSubTabVisible}
-                    />
+                    {crntPath === 'mypage' ? (
+                        <MypageTabBar
+                            scrollDownToggle={scrollDownToggle}
+                            setScrollDownToggle={setScrollDownToggle}
+                            setSubTabVisible={setSubTabVisible}
+                        />
+                    ) : (
+                        <SubTabBar
+                            visible={!scrollDownToggle}
+                            overPage={overPage}
+                            crntPage={crntPage}
+                            setScrollDownToggle={setScrollDownToggle}
+                            setSubTabVisible={setSubTabVisible}
+                            items={subTabBarItems}
+                        />
+                    )}
                 </StyledSubTabBarBlock>
             </StyledTabsContainer>
             <StyledContentContainer>

@@ -4,4 +4,6 @@ export type ISubTabBar = {
     crntPage: number;
     setScrollDownToggle: React.Dispatch<React.SetStateAction<boolean>>;
     setSubTabVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    items: { name: string; link: string; value: string }[][];
+    justifyContent?: string;
 };
