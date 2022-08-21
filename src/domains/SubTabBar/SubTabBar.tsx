@@ -14,16 +14,15 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
 
     const location = useLocation();
     useEffect(() => {
+        console.log(crntPage);
         if (location.pathname === '/') {
-            setCrntPath(subTabBarItems[0][0].link);
+            setCrntPath(subTabBarItems[0][0].link.split('/')[2]);
         } else if (location.pathname === headerItems[crntPage].link) {
-            console.log(location.pathname);
-            console.log(crntPage);
-            setCrntPath(subTabBarItems[crntPage][0].link);
+            setCrntPath(subTabBarItems[crntPage][0].link.split('/')[2]);
         } else {
-            setCrntPath(location.pathname);
+            setCrntPath(location.pathname.split('/')[2]);
         }
-    }, [location]);
+    }, [location, crntPage]);
 
     useEffect(() => {
         visible ? setFadeAnim(subTabBarFadeIn) : setFadeAnim(subTabBarFadeOut);
@@ -36,7 +35,7 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
         <StyledSubTabBarContainer fadeAnim={fadeAnim}>
             <StyledSubTabBarBlock>
                 {subTabBarItems[overPage].map((item, index) => (
-                    <StyledMenuItemBlock key={index} selected={item.link === crntPath ? true : false}>
+                    <StyledMenuItemBlock key={index} selected={item.link.split('/')[2] === crntPath ? true : false}>
                         <Link
                             to={item.link}
                             style={{ textDecoration: 'none' }}
@@ -45,7 +44,7 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
                                 setSubTabVisible(true);
                             }}
                         >
-                            <StyledMenuItemText color={item.link === crntPath ? 'grey' : 'silver'}>
+                            <StyledMenuItemText color={item.link.split('/')[2] === crntPath ? 'grey' : 'silver'}>
                                 {item.name}
                             </StyledMenuItemText>
                         </Link>

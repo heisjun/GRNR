@@ -21,14 +21,19 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [subTabVisible, setSubTabVisible] = useState<boolean>(true);
     const [overPage, setOverPage] = useState<number>(0);
     const [crntPage, setCrntPage] = useState<number>(0);
-
     const [crntPath, setCrntPath] = useState<string>('');
 
     const loc = useLocation();
     useEffect(() => {
         loc.pathname === '/' ? setCrntPath(headerItems[0].link.split('/')[1]) : setCrntPath(loc.pathname.split('/')[1]);
-        console.log(loc);
-    }, [loc]);
+
+        for (let i = 0; i < headerItems.length; i++) {
+            if (headerItems[i].link.split('/')[1] === crntPath) {
+                setOverPage(i);
+                setCrntPage(i);
+            }
+        }
+    }, [loc, crntPath]);
 
     const scrollHandler = () => {
         setCrntPosY(window.scrollY);
@@ -98,6 +103,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                         style={{ textDecoration: 'none' }}
                                         onClick={() => {
                                             setCrntPage(index);
+                                            setOverPage(index);
                                             setScrollDownToggle(false);
                                             setSubTabVisible(true);
                                         }}
