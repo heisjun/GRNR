@@ -1,16 +1,29 @@
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ISubTabBar } from './SubTabBar.type';
-import { subTabBarItems } from 'navigations/data';
+import { headerItems, subTabBarItems } from 'navigations/data';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const SubTabBar: React.FC<ISubTabBar> = (props) => {
-    const { visible, crntPage, overPage, subPage, setCrntPage, setSubPage, setScrollDownToggle, setSubTabVisible } =
-        props;
+    const { visible, overPage, crntPage, setScrollDownToggle, setSubTabVisible } = props;
     const [fadeAnim, setFadeAnim] = useState<any>();
+    const [crntPath, setCrntPath] = useState<string>('');
+
+    const location = useLocation();
+    useEffect(() => {
+        if (location.pathname === '/') {
+            setCrntPath(subTabBarItems[0][0].link);
+        } else if (location.pathname === headerItems[crntPage].link) {
+            console.log(location.pathname);
+            console.log(crntPage);
+            setCrntPath(subTabBarItems[crntPage][0].link);
+        } else {
+            setCrntPath(location.pathname);
+        }
+    }, [location]);
 
     useEffect(() => {
         visible ? setFadeAnim(subTabBarFadeIn) : setFadeAnim(subTabBarFadeOut);
@@ -23,21 +36,16 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
         <StyledSubTabBarContainer fadeAnim={fadeAnim}>
             <StyledSubTabBarBlock>
                 {subTabBarItems[overPage].map((item, index) => (
-                    <StyledMenuItemBlock
-                        key={index}
-                        selected={overPage === crntPage && index === subPage ? true : false}
-                    >
+                    <StyledMenuItemBlock key={index} selected={item.link === crntPath ? true : false}>
                         <Link
                             to={item.link}
                             style={{ textDecoration: 'none' }}
                             onClick={() => {
-                                setSubPage(index);
-                                setCrntPage(overPage);
                                 setScrollDownToggle(false);
                                 setSubTabVisible(true);
                             }}
                         >
-                            <StyledMenuItemText color={overPage === crntPage && index === subPage ? 'grey' : 'silver'}>
+                            <StyledMenuItemText color={item.link === crntPath ? 'grey' : 'silver'}>
                                 {item.name}
                             </StyledMenuItemText>
                         </Link>

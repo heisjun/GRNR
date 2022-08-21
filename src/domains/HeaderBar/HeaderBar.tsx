@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
@@ -21,7 +21,14 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [subTabVisible, setSubTabVisible] = useState<boolean>(true);
     const [overPage, setOverPage] = useState<number>(0);
     const [crntPage, setCrntPage] = useState<number>(0);
-    const [subPage, setSubPage] = useState<number>(0);
+
+    const [crntPath, setCrntPath] = useState<string>('');
+
+    const loc = useLocation();
+    useEffect(() => {
+        loc.pathname === '/' ? setCrntPath(headerItems[0].link.split('/')[1]) : setCrntPath(loc.pathname.split('/')[1]);
+        console.log(loc);
+    }, [loc]);
 
     const scrollHandler = () => {
         setCrntPosY(window.scrollY);
@@ -75,7 +82,6 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                 onClick={() => {
                                     setCrntPage(0);
                                     setOverPage(0);
-                                    setSubPage(0);
                                     setScrollDownToggle(false);
                                     setSubTabVisible(true);
                                 }}
@@ -92,13 +98,14 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                         style={{ textDecoration: 'none' }}
                                         onClick={() => {
                                             setCrntPage(index);
-                                            setSubPage(0);
                                             setScrollDownToggle(false);
                                             setSubTabVisible(true);
                                         }}
                                         onMouseEnter={() => setOverPage(index)}
                                     >
-                                        <StyledMenuItemText color={index === crntPage ? 'grey' : 'silver'}>
+                                        <StyledMenuItemText
+                                            color={item.link.split('/')[1] === crntPath ? 'grey' : 'silver'}
+                                        >
                                             {item.name}
                                         </StyledMenuItemText>
                                     </Link>
@@ -124,11 +131,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                 <StyledSubTabBarBlock>
                     <SubTabBar
                         visible={!scrollDownToggle}
-                        crntPage={crntPage}
                         overPage={overPage}
-                        subPage={subPage}
-                        setCrntPage={setCrntPage}
-                        setSubPage={setSubPage}
+                        crntPage={crntPage}
                         setScrollDownToggle={setScrollDownToggle}
                         setSubTabVisible={setSubTabVisible}
                     />
