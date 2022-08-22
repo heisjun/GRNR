@@ -121,7 +121,9 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         <StyledSearchBar value="" />
                         <StyledButtonsCotainer>
                             <StyledSearchButton />
-                            <StyledCartButton />
+                            <Link to="/mypage">
+                                <StyledCartButton />
+                            </Link>
                             <StyledLoginButton
                                 onClick={() => {
                                     setLoginStatus({ ...loginStatus, isLogin: true });
@@ -246,6 +248,9 @@ const StyledCartButton = styled.div`
     @media screen and (min-width: ${boundaryWidth}px) {
         width: 30px;
         height: 30px;
+    }
+    &:hover {
+        background-color: grey;
     }
 `;
 

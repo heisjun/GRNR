@@ -5,3 +5,4 @@ export { default as AgreeBox } from './AgreeBox';
 export { default as TaggedPhoto } from './TaggedPhoto';
 export { default as DailyPlant } from './DailyPlant';
 export { default as MypageTabBar } from './MypageTabBar';
+export { default as Profile } from './Profile';

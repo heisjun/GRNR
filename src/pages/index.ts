@@ -8,3 +8,4 @@ export { default as Dictionary } from './Dictionary';
 export { default as Profile } from './Profile';
 export { default as Keyword } from './Following/Keyword';
 export { default as PhotoDetails } from './PhotoDetails';
+export { default as Myfeed } from './Myfeed';

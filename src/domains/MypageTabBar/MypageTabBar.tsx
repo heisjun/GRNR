@@ -69,7 +69,7 @@ const MypageTabBar: React.FC<IMypageTabBar> = (props) => {
 const StyledSubTabBarBlock = styled.div`
     width: 100%;
     left: 0px;
-    z-index: 1;
+    z-index: 0;
     @media screen and (min-width: ${boundaryWidth}px) {
         top: 80px;
     }
@@ -105,6 +105,7 @@ const StyledMypageTabBarContainer = styled.div`
     background-color: white;
     border-bottom: solid 1px;
     border-color: silver;
+    z-index: 1;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 50px;
     }
