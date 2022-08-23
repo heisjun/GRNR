@@ -7,6 +7,10 @@ export const headerItems = [
         name: '스토어',
         link: '/store',
     },
+    {
+        name: '업로드',
+        link: '/upload',
+    },
 ];
 
 export const subTabBarItems = [
@@ -22,6 +26,10 @@ export const subTabBarItems = [
         { name: '스토어 메뉴1', link: '/store/menu1', value: 'menu1' },
         { name: '스토어 메뉴2', link: '/store/menu2', value: 'menu2' },
         { name: '스토어 메뉴3', link: '/store/menu3', value: 'menu3' },
+    ],
+    [
+        { name: '사진', link: '/upload/photo', value: 'photo' },
+        { name: '동영상', link: '/upload/video', value: 'video' },
     ],
 ];
 
