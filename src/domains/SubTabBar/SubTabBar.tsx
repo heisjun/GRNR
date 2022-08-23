@@ -1,16 +1,37 @@
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ISubTabBar } from './SubTabBar.type';
-import { subTabBarItems } from 'navigations/data';
+import { headerItems, mypageTabBarItems } from 'navigations/data';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const SubTabBar: React.FC<ISubTabBar> = (props) => {
-    const { visible, crntPage, overPage, subPage, setCrntPage, setSubPage, setScrollDownToggle, setSubTabVisible } =
-        props;
+    const { visible, overPage, crntPage, setScrollDownToggle, setSubTabVisible, items, justifyContent } = props;
     const [fadeAnim, setFadeAnim] = useState<any>();
+    const [crntPath, setCrntPath] = useState<string>('');
+
+    const loc = useLocation();
+    useEffect(() => {
+        if (loc.pathname.split('/')[1] !== 'mypage') {
+            if (loc.pathname === '/') {
+                setCrntPath(items[0][0].value);
+            } else if (loc.pathname.replaceAll('/', '') === headerItems[crntPage].link.replaceAll('/', '')) {
+                setCrntPath(items[crntPage][0].value);
+            } else {
+                setCrntPath(loc.pathname.split('/')[2]);
+            }
+        } else {
+            if (loc.pathname.replaceAll('/', '') === 'mypage') {
+                setCrntPath(items[0][0].value);
+            } else if (loc.pathname.replaceAll('/', '') === mypageTabBarItems[crntPage].link.replaceAll('/', '')) {
+                setCrntPath(items[crntPage][0].value);
+            } else {
+                setCrntPath(loc.pathname.split('/')[3]);
+            }
+        }
+    }, [loc, crntPage]);
 
     useEffect(() => {
         visible ? setFadeAnim(subTabBarFadeIn) : setFadeAnim(subTabBarFadeOut);
@@ -21,23 +42,18 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
     }, []);
     return (
         <StyledSubTabBarContainer fadeAnim={fadeAnim}>
-            <StyledSubTabBarBlock>
-                {subTabBarItems[overPage].map((item, index) => (
-                    <StyledMenuItemBlock
-                        key={index}
-                        selected={overPage === crntPage && index === subPage ? true : false}
-                    >
+            <StyledSubTabBarBlock justifyContent={justifyContent ? justifyContent : ''}>
+                {items[overPage].map((item, index) => (
+                    <StyledMenuItemBlock key={index} selected={item.value === crntPath ? true : false}>
                         <Link
                             to={item.link}
                             style={{ textDecoration: 'none' }}
                             onClick={() => {
-                                setSubPage(index);
-                                setCrntPage(overPage);
                                 setScrollDownToggle(false);
                                 setSubTabVisible(true);
                             }}
                         >
-                            <StyledMenuItemText color={overPage === crntPage && index === subPage ? 'grey' : 'silver'}>
+                            <StyledMenuItemText color={item.value === crntPath ? 'grey' : 'silver'}>
                                 {item.name}
                             </StyledMenuItemText>
                         </Link>
@@ -84,16 +100,16 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
     border-bottom: solid;
     border-width: ${({ selected }) => (selected ? '3px' : '0px')};
     border-color: grey;
+    padding-bottom: ${({ selected }) => (selected ? '0px' : '3px')};
 `;
 
-const StyledSubTabBarBlock = styled.div`
-    width: 100%;
+const StyledSubTabBarBlock = styled.div<{ justifyContent: string }>`
+    width: ${({ justifyContent }) => (justifyContent === 'center' ? '' : '100%')};
     display: flex;
-    justify-content: center;
     max-width: ${maxWidth}px;
+    padding: 0px 20px 0px 20px;
     @media screen and (min-width: ${boundaryWidth}px) {
         padding: 0px 30px 0px 30px;
-        justify-content: start;
     }
 `;
 

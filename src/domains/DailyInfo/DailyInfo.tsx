@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import DailyPlant from '../DailyPlant';
 
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -12,7 +13,9 @@ const DailyInfo: React.FC = () => {
                     <StyledTipWriterText>taemin</StyledTipWriterText>
                 </StyledTipSummaryBlock>
             </StyledTipBlock>
-            <StyledDailyPlantBlock></StyledDailyPlantBlock>
+            <StyledDailyPlantBlock>
+                <DailyPlant width="100%" height="100%" borderRadius="5px" imgUrls={['', '', '']} />
+            </StyledDailyPlantBlock>
         </StyledDailyInfoContainer>
     );
 };
@@ -67,11 +70,6 @@ const StyledDailyPlantBlock = styled.div`
     @media screen and (min-width: ${maxWidth}px) {
         height: ${maxWidth * 0.35}px;
     }
-    background-color: silber;
-    border: solid 2px;
-    border-radius: 5px;
-    border-color: silver;
-    cursor: pointer;
 `;
 
 const StyledDailyInfoContainer = styled.div`

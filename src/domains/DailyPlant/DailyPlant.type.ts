@@ -1,4 +1,7 @@
 export type IDailyPlant = {
-    height: string;
-    weight: string;
+    height?: string;
+    paddingBottom?: string;
+    width: string;
+    borderRadius: string;
+    imgUrls: string[];
 };

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
-import { SubTabBar } from 'domains';
-import { headerItems } from 'navigations/data';
+import { SubTabBar, MypageTabBar } from 'domains';
+import { headerItems, subTabBarItems } from 'navigations/data';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -21,7 +21,19 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [subTabVisible, setSubTabVisible] = useState<boolean>(true);
     const [overPage, setOverPage] = useState<number>(0);
     const [crntPage, setCrntPage] = useState<number>(0);
-    const [subPage, setSubPage] = useState<number>(0);
+    const [crntPath, setCrntPath] = useState<string>('');
+
+    const loc = useLocation();
+    useEffect(() => {
+        loc.pathname === '/' ? setCrntPath(headerItems[0].link.split('/')[1]) : setCrntPath(loc.pathname.split('/')[1]);
+
+        for (let i = 0; i < headerItems.length; i++) {
+            if (headerItems[i].link.split('/')[1] === crntPath) {
+                setOverPage(i);
+                setCrntPage(i);
+            }
+        }
+    }, [loc, crntPath]);
 
     const scrollHandler = () => {
         setCrntPosY(window.scrollY);
@@ -68,7 +80,6 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                     }}
                 >
                     <StyledHeaderBar>
-                        <StyledMenuButton />
                         <StyledTitleBlock>
                             <Link
                                 to="/"
@@ -76,7 +87,6 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                 onClick={() => {
                                     setCrntPage(0);
                                     setOverPage(0);
-                                    setSubPage(0);
                                     setScrollDownToggle(false);
                                     setSubTabVisible(true);
                                 }}
@@ -93,13 +103,15 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                         style={{ textDecoration: 'none' }}
                                         onClick={() => {
                                             setCrntPage(index);
-                                            setSubPage(0);
+                                            setOverPage(index);
                                             setScrollDownToggle(false);
                                             setSubTabVisible(true);
                                         }}
                                         onMouseEnter={() => setOverPage(index)}
                                     >
-                                        <StyledMenuItemText color={index === crntPage ? 'grey' : 'silver'}>
+                                        <StyledMenuItemText
+                                            color={item.link.split('/')[1] === crntPath ? 'grey' : 'silver'}
+                                        >
                                             {item.name}
                                         </StyledMenuItemText>
                                     </Link>
@@ -109,7 +121,9 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         <StyledSearchBar value="" />
                         <StyledButtonsCotainer>
                             <StyledSearchButton />
-                            <StyledCartButton />
+                            <Link to="/mypage">
+                                <StyledCartButton />
+                            </Link>
                             <StyledLoginButton
                                 onClick={() => {
                                     setLoginStatus({ ...loginStatus, isLogin: true });
@@ -123,16 +137,22 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                     </StyledHeaderBar>
                 </StyledHeaderBarContainer>
                 <StyledSubTabBarBlock>
-                    <SubTabBar
-                        visible={!scrollDownToggle}
-                        crntPage={crntPage}
-                        overPage={overPage}
-                        subPage={subPage}
-                        setCrntPage={setCrntPage}
-                        setSubPage={setSubPage}
-                        setScrollDownToggle={setScrollDownToggle}
-                        setSubTabVisible={setSubTabVisible}
-                    />
+                    {crntPath === 'mypage' ? (
+                        <MypageTabBar
+                            scrollDownToggle={scrollDownToggle}
+                            setScrollDownToggle={setScrollDownToggle}
+                            setSubTabVisible={setSubTabVisible}
+                        />
+                    ) : (
+                        <SubTabBar
+                            visible={!scrollDownToggle}
+                            overPage={overPage}
+                            crntPage={crntPage}
+                            setScrollDownToggle={setScrollDownToggle}
+                            setSubTabVisible={setSubTabVisible}
+                            items={subTabBarItems}
+                        />
+                    )}
                 </StyledSubTabBarBlock>
             </StyledTabsContainer>
             <StyledContentContainer>
@@ -205,17 +225,6 @@ const StyledRegisterButton = styled.div`
     }
 `;
 
-const StyledMenuButton = styled.div`
-    width: 25px;
-    height: 25px;
-    border-radius: 25px;
-    background-color: silver;
-    cursor: pointer;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        display: none;
-    }
-`;
-
 const StyledSearchButton = styled.div`
     width: 25px;
     height: 25px;
@@ -240,6 +249,9 @@ const StyledCartButton = styled.div`
         width: 30px;
         height: 30px;
     }
+    &:hover {
+        background-color: grey;
+    }
 `;
 
 const StyledButtonsCotainer = styled.div`
@@ -262,10 +274,7 @@ const StyledTitleText = styled.h1`
 
 const StyledTitleBlock = styled.div`
     @media screen and (max-width: ${boundaryWidth}px) {
-        margin: 0 auto;
-    }
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 25px;
+        margin-right: auto;
     }
 `;
 
@@ -339,7 +348,7 @@ const StyledHeaderBar = styled.div`
     width: 100%;
     max-width: ${maxWidth}px;
     height: 50px;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 20px 0px 20px;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 80px;
         padding: 0px 30px 0px 30px;
