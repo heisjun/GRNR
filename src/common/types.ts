@@ -27,6 +27,13 @@ export type IDictionaryParams = {
     urlToImage?: string;
 };
 
+export type IMyphotoParams = {
+    imgUr: string;
+    like: number;
+    comment: number;
+    scrap: number;
+};
+
 export type IItemParams = {
     width: string;
     height?: string;

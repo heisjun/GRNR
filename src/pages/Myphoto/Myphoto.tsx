@@ -1,22 +1,18 @@
 import styled from 'styled-components';
 import { Profile } from 'domains';
 
-const Myfeed: React.FC = () => {
+const Myphoto: React.FC = () => {
     return (
-        <StyledMyfeedContainer>
+        <StyledMyphotoContainer>
             <StyledProfileContainer>
                 <StyledProfileBlock>
                     <Profile />
                 </StyledProfileBlock>
             </StyledProfileContainer>
             <StyledContextContainer></StyledContextContainer>
-        </StyledMyfeedContainer>
+        </StyledMyphotoContainer>
     );
 };
-
-const StyledPhotoBlock = styled.div``;
-
-const StyledMagazineBlock = styled.div``;
 
 const StyledProfileBlock = styled.div`
     position: relative;
@@ -33,10 +29,10 @@ const StyledContextContainer = styled.div`
     height: 5000px;
 `;
 
-const StyledMyfeedContainer = styled.div`
+const StyledMyphotoContainer = styled.div`
     margin-top: 30px;
     width: 100%;
     display: flex;
 `;
 
-export default Myfeed;
+export default Myphoto;
