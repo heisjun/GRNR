@@ -17,7 +17,7 @@ const Myfeed: React.FC = () => {
 const StyledProfileBlock = styled.div`
     position: relative;
     width: 90%;
-    padding-bottom: 150%;
+    padding-bottom: 170%;
 `;
 
 const StyledProfileContainer = styled.div`
