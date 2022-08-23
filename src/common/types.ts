@@ -33,3 +33,10 @@ export type IItemParams = {
     paddingBottom?: string;
     item: IPictureParams & IArticleParams & IMagazineParams & IPhotoParams & IDictionaryParams;
 };
+
+export type IUploadPicData = {
+    loc: string;
+    hashtag?: string[];
+    details: string;
+    imgFile: any;
+};

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaChevronRight } from 'react-icons/fa';
-import Filters from 'common/components/Filters';
 import QuestionItem from 'common/components/QuestionItem';
 import axios from 'axios';
+import CustomSelector from 'common/components/CustomSelector';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
-const QuestionFilter = [
+const option = [
     {
         id: 1,
         name: '정렬',
@@ -16,7 +16,7 @@ const QuestionFilter = [
 ];
 
 const Question: React.FC = () => {
-    const [getFilter, setGetFilter] = useState('');
+    const [getOption, setGetOption] = useState('');
 
     const [questions, setQuestions] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -62,7 +62,7 @@ const Question: React.FC = () => {
             </StyledQuestionBlock>
             <StyledQuestionBlock>
                 <StyledFeedHeader>
-                    <Filters setGetFilter={setGetFilter} data={QuestionFilter} />
+                    <CustomSelector optionData={option} setGetOption={setGetOption} />
                     <StyledQuestionBtn>질문하기</StyledQuestionBtn>
                 </StyledFeedHeader>
                 <QuestionItem data={questions} />

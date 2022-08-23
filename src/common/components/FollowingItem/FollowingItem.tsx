@@ -1,7 +1,7 @@
 import { Avatar } from 'common/components';
 import Slider from 'common/components/Slider';
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { FaHeart, FaRegHeart, FaRegCommentDots, FaBookmark, FaRegBookmark, FaGratipay } from 'react-icons/fa';
 import { IFollowingItem } from './FollowingItem.type';
 import ModalComments from '../ModalComments';
@@ -12,13 +12,12 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
 
     return (
         <StyledFollowingFeeds>
-            {isOpenComments && (
-                <StyledModalBlock>
-                    <StyledModalContent>
-                        <ModalComments close={setIsOpenComments} />
-                    </StyledModalContent>
-                </StyledModalBlock>
-            )}
+            <StyledModalBlock visible={isOpenComments}>
+                <StyledModalContent visible={isOpenComments}>
+                    {isOpenComments && <ModalComments close={setIsOpenComments} />}
+                </StyledModalContent>
+            </StyledModalBlock>
+
             <StyledFeedsBlock>
                 <StyledBlockHeader>
                     <StyledHeaderItem>
@@ -50,24 +49,45 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
     );
 };
 
-const StyledModalBlock = styled.div`
-    width: 440px;
-    height: 700px;
-    margin-bottom: 40px;
-    background-color: rgba(0, 0, 0, 0.6);
-    position: absolute;
-    z-index: 20;
+const SlideUp = keyframes`
+    from{
+        transform: translateY(500px);
+    }
+    to{
+        transform:translateY(0px);
+    }
+`;
+const StyledModalBlock = styled.div<{ visible: boolean }>`
+    ${(props) =>
+        props.visible &&
+        css`
+            width: 440px;
+            height: 700px;
+            margin-bottom: 40px;
+            background-color: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            z-index: 20;
+            overflow: hidden;
+        `}
 `;
 
-const StyledModalContent = styled.div`
-    width: 440px;
-    height: 500px;
-    top: 200px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    margin-bottom: 40px;
-    background-color: white;
-    position: absolute;
+const StyledModalContent = styled.div<{ visible: boolean }>`
+    ${(props) =>
+        props.visible &&
+        css`
+            width: 440px;
+            height: 500px;
+            top: 200px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            margin-bottom: 40px;
+            background-color: white;
+            position: absolute;
+            animation-name: ${SlideUp};
+            animation-duration: 0.25s;
+            animation-timing-function: ease-out;
+            animation-fill-mode: forwards;
+        `}
 `;
 
 const StyledFollowingFeeds = styled.div`
