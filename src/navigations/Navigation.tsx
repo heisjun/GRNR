@@ -12,6 +12,11 @@ import {
     Keyword,
     WritingPicture,
     Myfeed,
+    MyAnswer,
+    ScrapBook,
+    ScrapPhoto,
+    ScrapMagazine,
+    ScrapDictionary,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -42,8 +47,11 @@ const Navigation: React.FC = () => {
                     <Route path="/mypage/profile/myfeed" element={<Myfeed />} />
                     <Route path="/mypage/profile/photo" element={null} />
                     <Route path="/mypage/profile/magazine" element={null} />
-                    <Route path="/mypage/profile/question" element={null} />
-                    <Route path="/mypage/profile/scrapbook" element={null} />
+                    <Route path="/mypage/profile/question" element={<MyAnswer />} />
+                    <Route path="/mypage/profile/scrapbook" element={<ScrapBook />} />
+                    <Route path="/mypage/profile/scrapbook/photo" element={<ScrapPhoto />} />
+                    <Route path="/mypage/profile/scrapbook/magazine" element={<ScrapMagazine />} />
+                    <Route path="/mypage/profile/scrapbook/dictionary" element={<ScrapDictionary />} />
                     <Route path="/mypage/profile/like" element={null} />
                     <Route path="/mypage/setting" element={null} />
                     <Route path="/mypage/setting/setting1" element={null} />
