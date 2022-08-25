@@ -22,6 +22,14 @@ const Example = [
 
 const QuestionItem: React.FC<IQuestionItem> = (props) => {
     const { data } = props;
+
+    function truncate(text: string) {
+        const replaced = text.replace(/\n/g, ' ');
+        if (replaced.length <= 100) {
+            return replaced;
+        }
+        return replaced.slice(0, 100).concat('...');
+    }
     return (
         <>
             {data.map((question: any) => (
@@ -29,7 +37,7 @@ const QuestionItem: React.FC<IQuestionItem> = (props) => {
                     <StyledItemContent>
                         <StyledContentWriting>
                             <StyledContentTitle>{question.title}</StyledContentTitle>
-                            <StyledContentBody>{question.description}</StyledContentBody>
+                            <StyledContentBody>{truncate(question.description)}</StyledContentBody>
                         </StyledContentWriting>
                         <StyledContentPicture>
                             <StyledImgWrapper>
