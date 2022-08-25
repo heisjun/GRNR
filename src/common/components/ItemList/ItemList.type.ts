@@ -5,6 +5,7 @@ import {
     IPictureParams,
     IPhotoParams,
     IDictionaryParams,
+    IMyphotoParams,
 } from 'common/types';
 import React from 'react';
 
@@ -14,6 +15,12 @@ export type IItemList = {
     horizontalGap: number;
     verticalGap: number;
     cols: number;
-    items: IMagazineParams[] | IArticleParams[] | IPictureParams[] | IPhotoParams[] | IDictionaryParams[];
-    RenderComponent: React.FC<IItemParams>;
+    items:
+        | IMagazineParams[]
+        | IArticleParams[]
+        | IPictureParams[]
+        | IPhotoParams[]
+        | IDictionaryParams[]
+        | IMyphotoParams[];
+    RenderComponent: React.FC<any>;
 };

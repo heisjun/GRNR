@@ -21,13 +21,10 @@ const DailyInfo: React.FC = () => {
 };
 
 const StyledTipTitleText = styled.div`
-    font-size: 3vw;
+    font-size: 30px;
     font-weight: bold;
     color: grey;
     margin-bottom: 1%;
-    @media screen and (min-width: ${maxWidth}px) {
-        font-size: ${maxWidth * 0.03}px;
-    }
 `;
 
 const StyledTipWriterText = styled.div`
@@ -47,13 +44,7 @@ const StyledTipSummaryBlock = styled.div`
 const StyledTipBlock = styled.div`
     position: relative;
     width: 74%;
-    height: 35vw;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        height: 39vw;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        height: ${maxWidth * 0.35}px;
-    }
+    padding-bottom: 40%;
     margin-right: 1.5%;
     border: solid 2px;
     border-radius: 5px;
@@ -63,13 +54,7 @@ const StyledTipBlock = styled.div`
 
 const StyledDailyPlantBlock = styled.div`
     width: 23.5%;
-    height: 35vw;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        height: 39vw;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        height: ${maxWidth * 0.35}px;
-    }
+    height: 99%;
 `;
 
 const StyledDailyInfoContainer = styled.div`

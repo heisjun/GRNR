@@ -27,11 +27,18 @@ export type IDictionaryParams = {
     urlToImage?: string;
 };
 
+export type IMyphotoParams = {
+    imgUr: string;
+    like: number;
+    comment: number;
+    scrap: number;
+};
+
 export type IItemParams = {
     width: string;
     height?: string;
     paddingBottom?: string;
-    item: IPictureParams & IArticleParams & IMagazineParams & IPhotoParams & IDictionaryParams;
+    item: IPictureParams | IArticleParams | IMagazineParams | IPhotoParams | IDictionaryParams;
 };
 
 export type IUploadPicData = {

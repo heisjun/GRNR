@@ -12,9 +12,80 @@ const Profile: React.FC = () => {
             <StyledFollowText>팔로워 0 | 팔로잉 12</StyledFollowText>
             <StyledEditButton>수정</StyledEditButton>
             <StyledBorderLine />
+            <StyledStatBlock>
+                <StyledScrapBlock>
+                    <StyledScrapButton />
+                    <StyledScrapText>스크랩</StyledScrapText>
+                    <StyledScrapCount>123</StyledScrapCount>
+                </StyledScrapBlock>
+                <StyledLikeBlock>
+                    <StyledLikeButton />
+                    <StyledLikeText>스크랩</StyledLikeText>
+                    <StyledLikeCount>123</StyledLikeCount>
+                </StyledLikeBlock>
+            </StyledStatBlock>
         </StyledProfileContainer>
     );
 };
+
+const StyledLikeCount = styled.div`
+    font-size: 14px;
+    font-weight: bold;
+    color: grey;
+`;
+
+const StyledLikeText = styled.div`
+    font-size: 12px;
+    color: grey;
+    margin-top: 5px;
+`;
+
+const StyledLikeButton = styled.div`
+    width: 100%;
+    padding-bottom: 100%;
+    border-radius: 100%;
+    background-color: grey;
+`;
+
+const StyledScrapCount = styled.div`
+    font-size: 14px;
+    font-weight: bold;
+    color: grey;
+`;
+
+const StyledScrapText = styled.div`
+    font-size: 12px;
+    color: grey;
+    margin-top: 5px;
+`;
+
+const StyledScrapButton = styled.div`
+    width: 100%;
+    padding-bottom: 100%;
+    border-radius: 100%;
+    background-color: grey;
+`;
+
+const StyledLikeBlock = styled.div`
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+`;
+
+const StyledScrapBlock = styled.div`
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+`;
+
+const StyledStatBlock = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+`;
 
 const StyledBorderLine = styled.div`
     width: 80%;
