@@ -12,6 +12,7 @@ import {
     Keyword,
     WritingPicture,
     Myfeed,
+    Myphoto,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -40,7 +41,7 @@ const Navigation: React.FC = () => {
                     <Route path="/mypage" element={<Myfeed />} />
                     <Route path="/mypage/profile" element={<Myfeed />} />
                     <Route path="/mypage/profile/myfeed" element={<Myfeed />} />
-                    <Route path="/mypage/profile/photo" element={null} />
+                    <Route path="/mypage/profile/photo" element={<Myphoto />} />
                     <Route path="/mypage/profile/magazine" element={null} />
                     <Route path="/mypage/profile/question" element={null} />
                     <Route path="/mypage/profile/scrapbook" element={null} />

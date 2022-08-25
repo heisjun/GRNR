@@ -4,5 +4,5 @@ export type IMyphotoItem = {
     width: string;
     height?: string;
     paddingBottom?: string;
-    item: IMyphotoParams[];
+    item: IMyphotoParams;
 };

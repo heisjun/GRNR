@@ -22,5 +22,5 @@ export type IItemList = {
         | IPhotoParams[]
         | IDictionaryParams[]
         | IMyphotoParams[];
-    RenderComponent: React.FC<IItemParams>;
+    RenderComponent: React.FC<any>;
 };

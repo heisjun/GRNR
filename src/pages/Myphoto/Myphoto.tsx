@@ -1,7 +1,54 @@
 import styled from 'styled-components';
+import { ItemList, MyphotoItem } from 'common/components';
 import { Profile } from 'domains';
+import { IMyphotoParams } from 'common/types';
 
 const Myphoto: React.FC = () => {
+    const data: IMyphotoParams[] = [
+        {
+            imgUr: 'test',
+            like: 123,
+            comment: 1253,
+            scrap: 1,
+        },
+        {
+            imgUr: 'test',
+            like: 123,
+            comment: 123,
+            scrap: 123,
+        },
+        {
+            imgUr: 'test',
+            like: 123,
+            comment: 123,
+            scrap: 123,
+        },
+        {
+            imgUr: 'test',
+            like: 123,
+            comment: 123,
+            scrap: 123,
+        },
+        {
+            imgUr: 'test',
+            like: 123,
+            comment: 123,
+            scrap: 123,
+        },
+        {
+            imgUr: 'test',
+            like: 123,
+            comment: 123,
+            scrap: 123,
+        },
+        {
+            imgUr: 'test',
+            like: 123,
+            comment: 123,
+            scrap: 123,
+        },
+    ];
+
     return (
         <StyledMyphotoContainer>
             <StyledProfileContainer>
@@ -9,7 +56,17 @@ const Myphoto: React.FC = () => {
                     <Profile />
                 </StyledProfileBlock>
             </StyledProfileContainer>
-            <StyledContextContainer></StyledContextContainer>
+            <StyledContextContainer>
+                <ItemList
+                    width="100%"
+                    imgHeight="115%"
+                    cols={3}
+                    horizontalGap={4}
+                    verticalGap={2}
+                    items={data}
+                    RenderComponent={MyphotoItem}
+                />
+            </StyledContextContainer>
         </StyledMyphotoContainer>
     );
 };
