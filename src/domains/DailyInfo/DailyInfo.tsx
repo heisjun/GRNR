@@ -1,13 +1,26 @@
-import styled from 'styled-components';
+import { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import DailyPlant from '../DailyPlant';
 
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const DailyInfo: React.FC = () => {
+    const [imgAnim, setImgAnim] = useState<any>();
+
     return (
         <StyledDailyInfoContainer>
             <StyledTipBlock>
+                <StyledTipImgBlock
+                    onMouseEnter={() => {
+                        setImgAnim(ImageScaleUp);
+                    }}
+                    onMouseLeave={() => {
+                        setImgAnim(ImageScaleDown);
+                    }}
+                >
+                    <StyledImg src="/sample.jpeg" width="100%" height="100%" imgAnim={imgAnim} />
+                </StyledTipImgBlock>
                 <StyledTipSummaryBlock>
                     <StyledTipTitleText>실내에서 식물을 끝장나게 키우는 방법</StyledTipTitleText>
                     <StyledTipWriterText>taemin</StyledTipWriterText>
@@ -20,6 +33,24 @@ const DailyInfo: React.FC = () => {
     );
 };
 
+const ImageScaleUp = keyframes`
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+`;
+
+const ImageScaleDown = keyframes`
+    0% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+`;
+
 const StyledTipTitleText = styled.div`
     font-size: 30px;
     font-weight: bold;
@@ -31,6 +62,20 @@ const StyledTipWriterText = styled.div`
     font-size: 12px;
     font-weight: 500;
     color: grey;
+`;
+
+const StyledImg = styled.img<{ imgAnim: any }>`
+    cursor: pointer;
+    object-fit: cover;
+    animation: ${({ imgAnim }) => imgAnim} 0.2s;
+    animation-fill-mode: forwards;
+`;
+
+const StyledTipImgBlock = styled.div`
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
 `;
 
 const StyledTipSummaryBlock = styled.div`

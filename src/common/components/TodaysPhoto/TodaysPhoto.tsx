@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { IItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 
@@ -7,8 +8,21 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const TodaysPhoto: React.FC<IItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
+
+    const [imgAnim, setImgAnim] = useState<any>();
+
     return (
         <StyledTodaysPhotoContainer width={width} height={height} paddingBottom={paddingBottom}>
+            <StyledImgBlock
+                onMouseEnter={() => {
+                    setImgAnim(ImageScaleUp);
+                }}
+                onMouseLeave={() => {
+                    setImgAnim(ImageScaleDown);
+                }}
+            >
+                <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+            </StyledImgBlock>
             <StyledWriterBlock>
                 <StyeldAvatarBlock>
                     <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
@@ -18,6 +32,24 @@ const TodaysPhoto: React.FC<IItemParams> = (props) => {
         </StyledTodaysPhotoContainer>
     );
 };
+
+const ImageScaleUp = keyframes`
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+`;
+
+const ImageScaleDown = keyframes`
+    0% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+`;
 
 const StyledNicknameBlock = styled.div`
     color: grey;
@@ -42,6 +74,20 @@ const StyledWriterBlock = styled.div`
     left: 5%;
     display: flex;
     align-items: center;
+`;
+
+const StyledImg = styled.img<{ imgAnim: any }>`
+    cursor: pointer;
+    object-fit: cover;
+    animation: ${({ imgAnim }) => imgAnim} 0.2s;
+    animation-fill-mode: forwards;
+`;
+
+const StyledImgBlock = styled.div`
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
 `;
 
 const StyledTodaysPhotoContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`

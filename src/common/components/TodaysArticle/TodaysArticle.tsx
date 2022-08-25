@@ -1,12 +1,27 @@
-import styled from 'styled-components';
+import { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { IItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 
 const TodaysArticle: React.FC<IItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
+
+    const [imgAnim, setImgAnim] = useState<any>();
+
     return (
         <StyledTodaysArticleContainer width={width}>
-            <StyledArticleItemBlock height={height} paddingBottom={paddingBottom} />
+            <StyledArticleItemBlock height={height} paddingBottom={paddingBottom}>
+                <StyledImgBlock
+                    onMouseEnter={() => {
+                        setImgAnim(ImageScaleUp);
+                    }}
+                    onMouseLeave={() => {
+                        setImgAnim(ImageScaleDown);
+                    }}
+                >
+                    <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+                </StyledImgBlock>
+            </StyledArticleItemBlock>
             <StyledSummaryContainer>
                 <StyledTitleBlock>식물이 주는 영감을 통해 작업합니다.</StyledTitleBlock>
                 <StyledWriterBlock>
@@ -19,6 +34,24 @@ const TodaysArticle: React.FC<IItemParams> = (props) => {
         </StyledTodaysArticleContainer>
     );
 };
+
+const ImageScaleUp = keyframes`
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+`;
+
+const ImageScaleDown = keyframes`
+    0% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+`;
 
 const StyeldAvatarBlock = styled.div`
     width: 9%;
@@ -46,7 +79,22 @@ const StyledSummaryContainer = styled.div`
     margin-top: 10px;
 `;
 
+const StyledImg = styled.img<{ imgAnim: any }>`
+    cursor: pointer;
+    object-fit: cover;
+    animation: ${({ imgAnim }) => imgAnim} 0.2s;
+    animation-fill-mode: forwards;
+`;
+
+const StyledImgBlock = styled.div`
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+`;
+
 const StyledArticleItemBlock = styled.div<{ height?: string; paddingBottom?: string }>`
+    position: relative;
     width: 100%;
     border: solid 2px;
     border-radius: 5px;

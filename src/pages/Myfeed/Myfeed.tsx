@@ -20,8 +20,8 @@ const StyledMagazineBlock = styled.div``;
 
 const StyledProfileBlock = styled.div`
     position: relative;
-    width: 90%;
-    padding-bottom: 170%;
+    width: 85%;
+    padding-bottom: 150%;
 `;
 
 const StyledProfileContainer = styled.div`
@@ -29,12 +29,13 @@ const StyledProfileContainer = styled.div`
 `;
 
 const StyledContextContainer = styled.div`
-    width: 75%;
+    width: 73%;
     height: 5000px;
+    margin-left: 2%;
 `;
 
 const StyledMyfeedContainer = styled.div`
-    margin-top: 30px;
+    margin-top: 40px;
     width: 100%;
     display: flex;
 `;

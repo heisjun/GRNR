@@ -63,6 +63,7 @@ const StyledTitleBlock = styled.div`
 
 const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
+    object-fit: cover;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
 `;
