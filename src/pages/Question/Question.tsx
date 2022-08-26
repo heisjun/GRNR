@@ -4,6 +4,7 @@ import { FaChevronRight } from 'react-icons/fa';
 import QuestionItem from 'common/components/QuestionItem';
 import axios from 'axios';
 import CustomSelector from 'common/components/CustomSelector';
+import { FadeIn, FadeOut } from 'common/keyframes';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -20,6 +21,9 @@ const Question: React.FC = () => {
 
     const [questions, setQuestions] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const [pageAnim, setPageAnim] = useState<any>(FadeIn);
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -36,12 +40,19 @@ const Question: React.FC = () => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        setPageAnim(FadeIn);
+        return () => {
+            setPageAnim(FadeOut);
+        };
+    }, []);
+
     if (loading || !questions) {
-        return <StyledQuestionContainer>대기중</StyledQuestionContainer>;
+        return <StyledQuestionContainer pageAnim={null}>대기중</StyledQuestionContainer>;
     }
 
     return (
-        <StyledQuestionContainer>
+        <StyledQuestionContainer pageAnim={pageAnim}>
             <StyledQuestionBanner>
                 <StyledHeaderText>궁금한 점을 키워드로 빠르게 확인해 보세요</StyledHeaderText>
                 <StyledHeaderKeyword>
@@ -71,8 +82,10 @@ const Question: React.FC = () => {
     );
 };
 
-const StyledQuestionContainer = styled.div`
+const StyledQuestionContainer = styled.div<{ pageAnim: any }>`
     height: 5000px;
+    animation: ${({ pageAnim }) => pageAnim} 1s;
+    animation-fill-mode: forwards;
 `;
 
 const StyledBorderLine = styled.hr`

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import FollowingItem from 'common/components/FollowingItem';
+import { FadeIn, FadeOut } from 'common/keyframes';
 
 const EXAMPLE = [
     {
@@ -33,9 +34,18 @@ const EXAMPLE = [
     },
 ];
 
-const Question: React.FC = () => {
+const Following: React.FC = () => {
+    const [pageAnim, setPageAnim] = useState<any>(FadeIn);
+
+    useEffect(() => {
+        setPageAnim(FadeIn);
+        return () => {
+            setPageAnim(FadeOut);
+        };
+    }, []);
+
     return (
-        <StyledFollowingContainer>
+        <StyledFollowingContainer pageAnim={pageAnim}>
             <Link to="./keyword" style={{ textDecoration: 'none' }}>
                 <StyledTItleText>관심있는 키워드를 설정해보세요! </StyledTItleText>
             </Link>
@@ -46,8 +56,10 @@ const Question: React.FC = () => {
     );
 };
 
-const StyledFollowingContainer = styled.div`
+const StyledFollowingContainer = styled.div<{ pageAnim: any }>`
     height: 2000px;
+    animation: ${({ pageAnim }) => pageAnim} 1s;
+    animation-fill-mode: forwards;
 `;
 
 const StyledTItleText = styled.div`
@@ -58,4 +70,4 @@ const StyledTItleText = styled.div`
     display: inline-block;
 `;
 
-export default Question;
+export default Following;

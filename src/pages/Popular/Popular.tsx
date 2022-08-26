@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { ItemList, TodaysPhoto, TodaysArticle } from 'common/components';
 import { DailyInfo } from 'domains';
+import { FadeIn, FadeOut } from 'common/keyframes';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -11,6 +12,9 @@ const Popular: React.FC = () => {
 
     const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
     const [articleGap, setArticleGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
+
+    const [pageAnim, setPageAnim] = useState<any>(FadeIn);
+
     const picData = [{}, {}, {}, {}, {}, {}, {}, {}];
     const artData = [{}, {}, {}];
 
@@ -28,8 +32,15 @@ const Popular: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        setPageAnim(FadeIn);
+        return () => {
+            setPageAnim(FadeOut);
+        };
+    }, []);
+
     return (
-        <StyledPopularContainer>
+        <StyledPopularContainer pageAnim={pageAnim}>
             <DailyInfo />
             <StyledBorderLine />
             <StyledDetailsBlock>
@@ -95,10 +106,12 @@ const StyledBorderLine = styled.div`
     margin: 30px 0px 20px 0px;
 `;
 
-const StyledPopularContainer = styled.div`
+const StyledPopularContainer = styled.div<{ pageAnim: any }>`
     display: flex;
     flex-direction: column;
     height: 5000px;
+    animation: ${({ pageAnim }) => pageAnim} 1s;
+    animation-fill-mode: forwards;
 `;
 
 export default Popular;

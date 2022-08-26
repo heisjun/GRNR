@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Filters, ItemList, PhotoItem } from 'common/components';
+import { FadeIn, FadeOut } from 'common/keyframes';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -8,6 +9,8 @@ const Photo: React.FC = () => {
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 1);
     const [photoHorizontalGap, setPhotoHorizontalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 0);
     const [photoVerticalGap, setPhotoVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
+
+    const [pageAnim, setPageAnim] = useState<any>(FadeIn);
 
     const [selected, setSelected] = useState('');
 
@@ -64,8 +67,15 @@ const Photo: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        setPageAnim(FadeIn);
+        return () => {
+            setPageAnim(FadeOut);
+        };
+    }, []);
+
     return (
-        <StyledPhotoContainer>
+        <StyledPhotoContainer pageAnim={pageAnim}>
             <StyledPhotoHeader>
                 <Filters setGetFilter={setSelected} data={DictionaryFilter} />
             </StyledPhotoHeader>
@@ -82,8 +92,10 @@ const Photo: React.FC = () => {
     );
 };
 
-const StyledPhotoContainer = styled.div`
+const StyledPhotoContainer = styled.div<{ pageAnim: any }>`
     height: 500px;
+    animation: ${({ pageAnim }) => pageAnim} 1s;
+    animation-fill-mode: forwards;
 `;
 
 const StyledPhotoHeader = styled.div`
