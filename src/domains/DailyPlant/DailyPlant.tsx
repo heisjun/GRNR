@@ -43,7 +43,7 @@ const DailyPlant: React.FC<IDailyPlant> = (props) => {
                     {imgUrls.map((item, index) => (
                         <StyledImg
                             key={index}
-                            src="/sample2.jpg"
+                            src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
                             width={`${100 / pageNum}%`}
                             height="100%"
                             onMouseEnter={() => {

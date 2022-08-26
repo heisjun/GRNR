@@ -17,7 +17,12 @@ const MagazineItem: React.FC<IItemParams> = (props) => {
                     setImgAnim(ImageScaleDown);
                 }}
             >
-                <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+                <StyledImg
+                    src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                    width="100%"
+                    height="100%"
+                    imgAnim={imgAnim}
+                />
             </StyledImageBlock>
             <StyledTitleBlock>
                 <StyledTitleText>아레카야자를 곁들인 화이트 우드톤 홈 플랜트 디자인</StyledTitleText>

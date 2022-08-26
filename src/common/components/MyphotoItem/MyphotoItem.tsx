@@ -18,19 +18,24 @@ const MyphotoItem: React.FC<IMyphotoItem> = (props) => {
                     setImgAnim(ImageScaleDown);
                 }}
             >
-                <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+                <StyledImg
+                    src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                    width="100%"
+                    height="100%"
+                    imgAnim={imgAnim}
+                />
             </StyledImageBlock>
             <StyledStatsBlock>
                 <StyledStatBlock>
-                    <StyledLikeButton src="/like.png" />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/like.png`} />
                     <StyledCountText>{item.like}</StyledCountText>
                 </StyledStatBlock>
                 <StyledStatBlock>
-                    <StyledLikeButton src="/comment.png" />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
                     <StyledCountText>{item.comment}</StyledCountText>
                 </StyledStatBlock>
                 <StyledStatBlock>
-                    <StyledLikeButton src="/scrap.png" />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} />
                     <StyledCountText>{item.scrap}</StyledCountText>
                 </StyledStatBlock>
             </StyledStatsBlock>

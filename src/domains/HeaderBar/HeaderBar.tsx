@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
@@ -25,7 +25,12 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [crntPath, setCrntPath] = useState<string>('');
 
     const loc = useLocation();
+    const nav = useNavigate();
+
     useEffect(() => {
+        if (loc.pathname.replaceAll('/', '') === 'gardeners-club') {
+            nav('/');
+        }
         loc.pathname === '/' ? setCrntPath(headerItems[0].link.split('/')[1]) : setCrntPath(loc.pathname.split('/')[1]);
 
         for (let i = 0; i < headerItems.length; i++) {

@@ -19,7 +19,12 @@ const DailyInfo: React.FC = () => {
                         setImgAnim(ImageScaleDown);
                     }}
                 >
-                    <StyledImg src="/sample.jpeg" width="100%" height="100%" imgAnim={imgAnim} />
+                    <StyledImg
+                        src={`${process.env.REACT_APP_BASE_SRC}/sample.jpeg`}
+                        width="100%"
+                        height="100%"
+                        imgAnim={imgAnim}
+                    />
                 </StyledTipImgBlock>
                 <StyledTipSummaryBlock>
                     <StyledTipTitleText>실내에서 식물을 끝장나게 키우는 방법</StyledTipTitleText>

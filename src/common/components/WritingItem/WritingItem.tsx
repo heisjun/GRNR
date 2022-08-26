@@ -55,7 +55,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
             <StyledImgBlock>
                 {imageUrl && <StyledDeleteBtn onClick={() => setImageUrl(null)}>삭제</StyledDeleteBtn>}
                 <StyledImg
-                    src={imageUrl ? imageUrl : '/sample2.jpg'}
+                    src={imageUrl ? imageUrl : `${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
                     onClick={(e) => {
                         onClickFileBtn(e);
                     }}

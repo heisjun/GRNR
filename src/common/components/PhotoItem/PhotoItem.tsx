@@ -29,7 +29,12 @@ const PhotoItem: React.FC<IItemParams> = (props) => {
                     setImgAnim(ImageScaleDown);
                 }}
             >
-                <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+                <StyledImg
+                    src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                    width="100%"
+                    height="100%"
+                    imgAnim={imgAnim}
+                />
             </StyledPhotoBlock>
             <StyledFooterBlock>
                 <StyledDetailsBlock>
@@ -38,9 +43,9 @@ const PhotoItem: React.FC<IItemParams> = (props) => {
                     </StyledDetailsText>
                 </StyledDetailsBlock>
                 <StyledButtonsBlock>
-                    <StyledLikeButton src="/like.png" />
-                    <StyledLikeButton src="/comment.png" />
-                    <StyledLikeButton src="/scrap.png" />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/like.png`} />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} />
                 </StyledButtonsBlock>
             </StyledFooterBlock>
         </StyledPhotoItemContainer>
