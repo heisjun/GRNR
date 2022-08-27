@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Slide from './Slide/Slide';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Indicator from './Indicator';
 import { ISlider } from './Slider.type';
 
@@ -59,20 +60,22 @@ const Slider: React.FC<ISlider> = (props) => {
             <StyledIndicator>
                 <Indicator index={currentSlide} setIndex={setCurrentSlide} data={imgdata} />
             </StyledIndicator>
-            <SliderContainer ref={slideRef} pageNum={TOTAL_SLIDES}>
-                {textdata.map((items: any, index: number) => {
-                    return (
-                        <div
-                            key={index}
-                            onMouseEnter={() => setHideBtn(false)}
-                            onMouseLeave={() => setHideBtn(true)}
-                            style={{ width: '100%' }}
-                        >
-                            <Slide ImgUrl={items} />
-                        </div>
-                    );
-                })}
-            </SliderContainer>
+            <Link to="./details" style={{ textDecoration: 'none' }}>
+                <SliderContainer ref={slideRef} pageNum={TOTAL_SLIDES}>
+                    {textdata.map((items: any, index: number) => {
+                        return (
+                            <div
+                                key={index}
+                                onMouseEnter={() => setHideBtn(false)}
+                                onMouseLeave={() => setHideBtn(true)}
+                                style={{ width: '100%' }}
+                            >
+                                <Slide ImgUrl={items} />
+                            </div>
+                        );
+                    })}
+                </SliderContainer>
+            </Link>
         </Container>
     );
 };
