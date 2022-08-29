@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { IItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 
@@ -11,21 +12,23 @@ const TodaysArticle: React.FC<IItemParams> = (props) => {
     return (
         <StyledTodaysArticleContainer width={width}>
             <StyledArticleItemBlock height={height} paddingBottom={paddingBottom}>
-                <StyledImgBlock
-                    onMouseEnter={() => {
-                        setImgAnim(ImageScaleUp);
-                    }}
-                    onMouseLeave={() => {
-                        setImgAnim(ImageScaleDown);
-                    }}
-                >
-                    <StyledImg
-                        src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                        width="100%"
-                        height="100%"
-                        imgAnim={imgAnim}
-                    />
-                </StyledImgBlock>
+                <Link to="community/magazine/details" style={{ textDecoration: 'none' }}>
+                    <StyledImgBlock
+                        onMouseEnter={() => {
+                            setImgAnim(ImageScaleUp);
+                        }}
+                        onMouseLeave={() => {
+                            setImgAnim(ImageScaleDown);
+                        }}
+                    >
+                        <StyledImg
+                            src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                            width="100%"
+                            height="100%"
+                            imgAnim={imgAnim}
+                        />
+                    </StyledImgBlock>
+                </Link>
             </StyledArticleItemBlock>
             <StyledSummaryContainer>
                 <StyledTitleBlock>식물이 주는 영감을 통해 작업합니다.</StyledTitleBlock>
@@ -33,7 +36,7 @@ const TodaysArticle: React.FC<IItemParams> = (props) => {
                     <StyeldAvatarBlock>
                         <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
                     </StyeldAvatarBlock>
-                    <StyledWriterText>taemin</StyledWriterText>
+                    <StyledWriterText>gardener</StyledWriterText>
                 </StyledWriterBlock>
             </StyledSummaryContainer>
         </StyledTodaysArticleContainer>

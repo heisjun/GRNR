@@ -34,7 +34,9 @@ const Navigation: React.FC = () => {
                     <Route path="/community/following/details" element={<PhotoDetails />} />
                     <Route path="/community/question" element={<Question />} />
                     <Route path="/community/photo" element={<Photo />} />
+                    <Route path="/community/photo/details" element={<PhotoDetails />} />
                     <Route path="/community/magazine" element={<Magazine />} />
+                    <Route path="/community/magazine/details" element={<PhotoDetails />} />
                     <Route path="/community/dictionary" element={<Dictionary />} />
                     <Route path="/store" element={<Register />} />
                     <Route path="/store/menu1" element={<Following />} />

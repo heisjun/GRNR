@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 import DailyPlant from '../DailyPlant';
 
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
@@ -11,21 +12,23 @@ const DailyInfo: React.FC = () => {
     return (
         <StyledDailyInfoContainer>
             <StyledTipBlock>
-                <StyledTipImgBlock
-                    onMouseEnter={() => {
-                        setImgAnim(ImageScaleUp);
-                    }}
-                    onMouseLeave={() => {
-                        setImgAnim(ImageScaleDown);
-                    }}
-                >
-                    <StyledImg
-                        src={`${process.env.REACT_APP_BASE_SRC}/sample.jpeg`}
-                        width="100%"
-                        height="100%"
-                        imgAnim={imgAnim}
-                    />
-                </StyledTipImgBlock>
+                <Link to="community/magazine/details" style={{ textDecoration: 'none' }}>
+                    <StyledTipImgBlock
+                        onMouseEnter={() => {
+                            setImgAnim(ImageScaleUp);
+                        }}
+                        onMouseLeave={() => {
+                            setImgAnim(ImageScaleDown);
+                        }}
+                    >
+                        <StyledImg
+                            src={`${process.env.REACT_APP_BASE_SRC}/sample.jpeg`}
+                            width="100%"
+                            height="100%"
+                            imgAnim={imgAnim}
+                        />
+                    </StyledTipImgBlock>
+                </Link>
                 <StyledTipSummaryBlock>
                     <StyledTipTitleText>실내에서 식물을 끝장나게 키우는 방법</StyledTipTitleText>
                     <StyledTipWriterText>taemin</StyledTipWriterText>

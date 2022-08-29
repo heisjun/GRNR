@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { IItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 
@@ -13,26 +14,28 @@ const TodaysPhoto: React.FC<IItemParams> = (props) => {
 
     return (
         <StyledTodaysPhotoContainer width={width} height={height} paddingBottom={paddingBottom}>
-            <StyledImgBlock
-                onMouseEnter={() => {
-                    setImgAnim(ImageScaleUp);
-                }}
-                onMouseLeave={() => {
-                    setImgAnim(ImageScaleDown);
-                }}
-            >
-                <StyledImg
-                    src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                    width="100%"
-                    height="100%"
-                    imgAnim={imgAnim}
-                />
-            </StyledImgBlock>
+            <Link to="community/photo/details" style={{ textDecoration: 'none' }}>
+                <StyledImgBlock
+                    onMouseEnter={() => {
+                        setImgAnim(ImageScaleUp);
+                    }}
+                    onMouseLeave={() => {
+                        setImgAnim(ImageScaleDown);
+                    }}
+                >
+                    <StyledImg
+                        src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                        width="100%"
+                        height="100%"
+                        imgAnim={imgAnim}
+                    />
+                </StyledImgBlock>
+            </Link>
             <StyledWriterBlock>
                 <StyeldAvatarBlock>
                     <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
                 </StyeldAvatarBlock>
-                <StyledNicknameBlock>taemin</StyledNicknameBlock>
+                <StyledNicknameBlock>greenary</StyledNicknameBlock>
             </StyledWriterBlock>
         </StyledTodaysPhotoContainer>
     );

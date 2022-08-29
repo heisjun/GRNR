@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { IItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 
@@ -21,21 +22,23 @@ const PhotoItem: React.FC<IItemParams> = (props) => {
                     <StyledFollowText>팔로우+</StyledFollowText>
                 </StyledFollowButton>
             </StyledHeaderBlock>
-            <StyledPhotoBlock
-                onMouseEnter={() => {
-                    setImgAnim(ImageScaleUp);
-                }}
-                onMouseLeave={() => {
-                    setImgAnim(ImageScaleDown);
-                }}
-            >
-                <StyledImg
-                    src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                    width="100%"
-                    height="100%"
-                    imgAnim={imgAnim}
-                />
-            </StyledPhotoBlock>
+            <Link to="./details" style={{ textDecoration: 'none' }}>
+                <StyledPhotoBlock
+                    onMouseEnter={() => {
+                        setImgAnim(ImageScaleUp);
+                    }}
+                    onMouseLeave={() => {
+                        setImgAnim(ImageScaleDown);
+                    }}
+                >
+                    <StyledImg
+                        src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                        width="100%"
+                        height="100%"
+                        imgAnim={imgAnim}
+                    />
+                </StyledPhotoBlock>
+            </Link>
             <StyledFooterBlock>
                 <StyledDetailsBlock>
                     <StyledDetailsText>
