@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Profile } from 'domains';
+import { Profile, PlanFlow } from 'domains';
 
 const Myplants: React.FC = () => {
     return (
@@ -9,7 +9,9 @@ const Myplants: React.FC = () => {
                     <Profile />
                 </StyledProfileBlock>
             </StyledProfileContainer>
-            <StyledContextContainer></StyledContextContainer>
+            <StyledContextContainer>
+                <PlanFlow data={[{}, {}]} currentDate={new Date()} />
+            </StyledContextContainer>
         </StyledMyplantsContainer>
     );
 };
