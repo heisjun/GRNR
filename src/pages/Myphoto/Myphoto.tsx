@@ -57,6 +57,10 @@ const Myphoto: React.FC = () => {
                 </StyledProfileBlock>
             </StyledProfileContainer>
             <StyledContextContainer>
+                <StyledTitleBlock>
+                    <StyledTitleText>사진</StyledTitleText>
+                    <StyledTitleNumber>{data.length}</StyledTitleNumber>
+                </StyledTitleBlock>
                 <ItemList
                     width="100%"
                     imgHeight="115%"
@@ -71,10 +75,29 @@ const Myphoto: React.FC = () => {
     );
 };
 
+const StyledTitleText = styled.div`
+    font-size: 15px;
+    font-weight: bold;
+    color: grey;
+`;
+
+const StyledTitleNumber = styled.div`
+    font-size: 15px;
+    font-weight: bold;
+    color: silver;
+    margin-left: 5px;
+`;
+
+const StyledTitleBlock = styled.div`
+    width: 100%;
+    display: flex;
+    margin-bottom: 10px;
+`;
+
 const StyledProfileBlock = styled.div`
     position: relative;
-    width: 90%;
-    padding-bottom: 170%;
+    width: 85%;
+    padding-bottom: 150%;
 `;
 
 const StyledProfileContainer = styled.div`
@@ -82,12 +105,13 @@ const StyledProfileContainer = styled.div`
 `;
 
 const StyledContextContainer = styled.div`
-    width: 75%;
+    width: 73%;
     height: 5000px;
+    margin-left: 2%;
 `;
 
 const StyledMyphotoContainer = styled.div`
-    margin-top: 30px;
+    margin-top: 40px;
     width: 100%;
     display: flex;
 `;

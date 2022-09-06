@@ -19,7 +19,12 @@ const TaggedPhoto: React.FC<IItemParams> = (props) => {
                         setImgAnim(ImageScaleDown);
                     }}
                 >
-                    <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+                    <StyledImg
+                        src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                        width="100%"
+                        height="100%"
+                        imgAnim={imgAnim}
+                    />
                 </StyledImageBlock>
             </StyledImageContainer>
             <StyledTagBoxesBlock>

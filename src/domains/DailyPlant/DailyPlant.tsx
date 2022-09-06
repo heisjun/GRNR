@@ -43,7 +43,7 @@ const DailyPlant: React.FC<IDailyPlant> = (props) => {
                     {imgUrls.map((item, index) => (
                         <StyledImg
                             key={index}
-                            src="/sample2.jpg"
+                            src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
                             width={`${100 / pageNum}%`}
                             height="100%"
                             onMouseEnter={() => {
@@ -88,6 +88,7 @@ const ImageScaleDown = keyframes`
 
 const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
+    object-fit: cover;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
 `;
@@ -117,7 +118,6 @@ const StyledPrevButton = styled.div`
     left: 0%;
     width: 10%;
     height: 8%;
-    background-color: grey;
     border-radius: 100%;
     cursor: pointer;
     &:hover {
@@ -131,7 +131,6 @@ const StyledNextButton = styled.div`
     left: 90%;
     width: 10%;
     height: 8%;
-    background-color: grey;
     border-radius: 100%;
     cursor: pointer;
     &:hover {

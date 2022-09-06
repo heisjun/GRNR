@@ -17,7 +17,6 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                     {isOpenComments && <ModalComments close={setIsOpenComments} />}
                 </StyledModalContent>
             </StyledModalBlock>
-
             <StyledFeedsBlock>
                 <StyledBlockHeader>
                     <StyledHeaderItem>

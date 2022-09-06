@@ -6,7 +6,7 @@ const Slide: React.FC<ISlide> = (props) => {
     const { ImgUrl } = props;
     return (
         <div>
-            <StyledImg src="/sample2.jpg"></StyledImg>
+            <StyledImg src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}></StyledImg>
             <StyledSpace />
             <StyledViews> 조회 312,231명</StyledViews>
             <StyledTextArea>

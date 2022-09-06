@@ -1,9 +1,14 @@
-import styled from 'styled-components';
+import { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { IItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 
 const PhotoItem: React.FC<IItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
+
+    const [imgAnim, setImgAnim] = useState<any>();
+
     return (
         <StyledPhotoItemContainer width={width} height={height} paddingBottom={paddingBottom}>
             <StyledHeaderBlock>
@@ -17,7 +22,23 @@ const PhotoItem: React.FC<IItemParams> = (props) => {
                     <StyledFollowText>팔로우+</StyledFollowText>
                 </StyledFollowButton>
             </StyledHeaderBlock>
-            <StyledPhotoBlock></StyledPhotoBlock>
+            <Link to="./details" style={{ textDecoration: 'none' }}>
+                <StyledPhotoBlock
+                    onMouseEnter={() => {
+                        setImgAnim(ImageScaleUp);
+                    }}
+                    onMouseLeave={() => {
+                        setImgAnim(ImageScaleDown);
+                    }}
+                >
+                    <StyledImg
+                        src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                        width="100%"
+                        height="100%"
+                        imgAnim={imgAnim}
+                    />
+                </StyledPhotoBlock>
+            </Link>
             <StyledFooterBlock>
                 <StyledDetailsBlock>
                     <StyledDetailsText>
@@ -25,20 +46,34 @@ const PhotoItem: React.FC<IItemParams> = (props) => {
                     </StyledDetailsText>
                 </StyledDetailsBlock>
                 <StyledButtonsBlock>
-                    <StyledLikeButton />
-                    <StyledLikeButton />
-                    <StyledLikeButton />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/like.png`} />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} />
                 </StyledButtonsBlock>
             </StyledFooterBlock>
         </StyledPhotoItemContainer>
     );
 };
 
-const StyledLikeButton = styled.div`
-    width: 13%;
-    padding-bottom: 12%;
-    border-radius: 40%;
-    background-color: silver;
+const ImageScaleUp = keyframes`
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+`;
+
+const ImageScaleDown = keyframes`
+    0% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+`;
+
+const StyledLikeButton = styled.img`
     cursor: pointer;
     margin: 0 auto;
 `;
@@ -55,8 +90,7 @@ const StyledWriterText = styled.div`
 `;
 
 const StyledFollowText = styled.div`
-    font-size: 5px;
-    font-weight: bold;
+    font-size: 10px;
     color: grey;
 `;
 
@@ -68,8 +102,11 @@ const StyledFollowButton = styled.div`
     align-items: center;
     border: solid 2px;
     border-radius: 15px;
-    border-color: silver;
+    border-color: grey;
     cursor: pointer;
+    &:hover {
+        background-color: silver;
+    }
 `;
 
 const StyledWriterBlock = styled.div`
@@ -108,12 +145,19 @@ const StyledButtonsBlock = styled.div`
     background-color: white;
 `;
 
+const StyledImg = styled.img<{ imgAnim: any }>`
+    cursor: pointer;
+    animation: ${({ imgAnim }) => imgAnim} 0.2s;
+    animation-fill-mode: forwards;
+`;
+
 const StyledPhotoBlock = styled.div`
     position: absolute;
     top: 15%;
     width: 100%;
     height: 65%;
     background-color: silver;
+    overflow: hidden;
 `;
 
 const StyledFooterBlock = styled.div`

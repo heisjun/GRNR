@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { IItemParams } from 'common/types';
 
 const MagazineItem: React.FC<IItemParams> = (props) => {
@@ -9,16 +10,23 @@ const MagazineItem: React.FC<IItemParams> = (props) => {
 
     return (
         <StyledMagazineItemContainer width={width} height={height} paddingBottom={paddingBottom}>
-            <StyledImageBlock
-                onMouseEnter={() => {
-                    setImgAnim(ImageScaleUp);
-                }}
-                onMouseLeave={() => {
-                    setImgAnim(ImageScaleDown);
-                }}
-            >
-                <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
-            </StyledImageBlock>
+            <Link to="./details" style={{ textDecoration: 'none' }}>
+                <StyledImageBlock
+                    onMouseEnter={() => {
+                        setImgAnim(ImageScaleUp);
+                    }}
+                    onMouseLeave={() => {
+                        setImgAnim(ImageScaleDown);
+                    }}
+                >
+                    <StyledImg
+                        src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                        width="100%"
+                        height="100%"
+                        imgAnim={imgAnim}
+                    />
+                </StyledImageBlock>
+            </Link>
             <StyledTitleBlock>
                 <StyledTitleText>아레카야자를 곁들인 화이트 우드톤 홈 플랜트 디자인</StyledTitleText>
             </StyledTitleBlock>
@@ -63,6 +71,7 @@ const StyledTitleBlock = styled.div`
 
 const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
+    object-fit: cover;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
 `;

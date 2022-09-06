@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
@@ -25,7 +25,12 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [crntPath, setCrntPath] = useState<string>('');
 
     const loc = useLocation();
+    const nav = useNavigate();
+
     useEffect(() => {
+        if (loc.pathname.replaceAll('/', '') === 'gardeners-club') {
+            nav('/');
+        }
         loc.pathname === '/' ? setCrntPath(headerItems[0].link.split('/')[1]) : setCrntPath(loc.pathname.split('/')[1]);
 
         for (let i = 0; i < headerItems.length; i++) {
@@ -122,8 +127,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         <StyledSearchBar value="" />
                         <StyledButtonsCotainer>
                             <StyledSearchButton />
-                            <Link to="/mypage">
-                                <StyledCartButton />
+                            <Link to="/mypage" style={{ textDecoration: 'none', color: 'black' }}>
+                                <StyledCartButton>마이페이지</StyledCartButton>
                             </Link>
                             <StyledLoginButton
                                 onClick={() => {
@@ -214,6 +219,7 @@ const StyledLoginButton = styled.div`
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 13px;
     }
+    display: none;
 `;
 
 const StyledRegisterButton = styled.div`
@@ -224,6 +230,7 @@ const StyledRegisterButton = styled.div`
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 13px;
     }
+    display: none;
 `;
 
 const StyledSearchButton = styled.div`
@@ -237,6 +244,7 @@ const StyledSearchButton = styled.div`
         width: 30px;
         height: 30px;
     }
+    display: none;
 `;
 
 const StyledCartButton = styled.div`
@@ -246,9 +254,15 @@ const StyledCartButton = styled.div`
     background-color: silver;
     cursor: pointer;
     margin-right: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     @media screen and (min-width: ${boundaryWidth}px) {
-        width: 30px;
+        width: 60px;
         height: 30px;
+        border-radius: 15px;
     }
     &:hover {
         background-color: grey;

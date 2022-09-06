@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ItemList, DictionaryItem, Filters } from 'common/components';
+import { FadeIn, FadeOut } from 'common/keyframes';
 
 const DictionaryFilter = [
     {
@@ -47,6 +48,8 @@ const Dictionary: React.FC = () => {
     const [magazineGap, setMagazineGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 6);
     const [getFilter, setGetFilter] = useState('');
 
+    const [pageAnim, setPageAnim] = useState<any>(FadeIn);
+
     const mgzData = [{}, {}, {}, {}, {}, {}, {}, {}];
 
     const [selected, setSelected] = useState('');
@@ -63,8 +66,15 @@ const Dictionary: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        setPageAnim(FadeIn);
+        return () => {
+            setPageAnim(FadeOut);
+        };
+    }, []);
+
     return (
-        <StyledDictionaryContainer>
+        <StyledDictionaryContainer pageAnim={pageAnim}>
             <StyledDictionaryHeader>
                 <Filters setGetFilter={setGetFilter} data={DictionaryFilter} />
             </StyledDictionaryHeader>
@@ -88,8 +98,10 @@ const StyledDictionaryHeader = styled.div`
     padding-bottom: 15px;
 `;
 
-const StyledDictionaryContainer = styled.div`
+const StyledDictionaryContainer = styled.div<{ pageAnim: any }>`
     height: 5000px;
+    animation: ${({ pageAnim }) => pageAnim} 1s;
+    animation-fill-mode: forwards;
 `;
 
 export default Dictionary;

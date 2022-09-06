@@ -18,19 +18,24 @@ const MyphotoItem: React.FC<IMyphotoItem> = (props) => {
                     setImgAnim(ImageScaleDown);
                 }}
             >
-                <StyledImg src="/sample2.jpg" width="100%" height="100%" imgAnim={imgAnim} />
+                <StyledImg
+                    src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                    width="100%"
+                    height="100%"
+                    imgAnim={imgAnim}
+                />
             </StyledImageBlock>
             <StyledStatsBlock>
                 <StyledStatBlock>
-                    <StyledStatsShape />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/like.png`} />
                     <StyledCountText>{item.like}</StyledCountText>
                 </StyledStatBlock>
                 <StyledStatBlock>
-                    <StyledStatsShape />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
                     <StyledCountText>{item.comment}</StyledCountText>
                 </StyledStatBlock>
                 <StyledStatBlock>
-                    <StyledStatsShape />
+                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} />
                     <StyledCountText>{item.scrap}</StyledCountText>
                 </StyledStatBlock>
             </StyledStatsBlock>
@@ -62,11 +67,8 @@ const StyledCountText = styled.div`
     margin-left: 3px;
 `;
 
-const StyledStatsShape = styled.div`
-    width: 40%;
-    padding-bottom: 40%;
-    border-radius: 40%;
-    background-color: silver;
+const StyledLikeButton = styled.img`
+    cursor: pointer;
 `;
 
 const StyledStatBlock = styled.div`
@@ -91,6 +93,7 @@ const StyledStatsBlock = styled.div`
 const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
     border-radius: 5px;
+    object-fit: cover;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
 `;
