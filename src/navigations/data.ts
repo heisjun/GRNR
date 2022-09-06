@@ -39,6 +39,10 @@ export const mypageTabBarItems = [
         link: '/mypage/profile',
     },
     {
+        name: '마이가든',
+        link: '/mypage/mygarden',
+    },
+    {
         name: '설정',
         link: '/mypage/setting',
     },
@@ -52,6 +56,10 @@ export const mypageSubTabBarItems = [
         { name: 'Q&A', link: '/mypage/profile/question', value: 'question' },
         { name: '스크랩북', link: '/mypage/profile/scrapbook', value: 'scrapbook' },
         { name: '좋아요', link: '/mypage/profile/like', value: 'like' },
+    ],
+    [
+        { name: '나의 일정 관리', link: '/mypage/mygarden/plans', value: 'plans' },
+        { name: '나의 식물 관리', link: '/mypage/mygarden/plants', value: 'plants' },
     ],
     [{ name: '설정1', link: '/mypage/setting/setting1', value: 'setting1' }],
 ];
