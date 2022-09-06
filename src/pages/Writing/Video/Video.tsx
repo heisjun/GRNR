@@ -21,7 +21,7 @@ const option2 = [
     },
 ];
 
-const Picture: React.FC = () => {
+const Video: React.FC = () => {
     const [getOption1, setGetOption1] = useState('');
     const [getOption2, setGetOption2] = useState('');
 
@@ -55,7 +55,7 @@ const Picture: React.FC = () => {
                     return (
                         <div key={i}>
                             <WritingItem
-                                type="PHOTO"
+                                type="VIDEO"
                                 index={i}
                                 setGetContent={setGetContent}
                                 getContent={getContent}
@@ -95,4 +95,4 @@ const StyledAddBtn = styled.button`
     }
 `;
 
-export default Picture;
+export default Video;

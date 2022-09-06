@@ -1,8 +1,9 @@
 import { IUploadPicData } from 'common/types';
 
 export type IWritingItem = {
+    type: string;
     index: number;
-    countNum: number;
     setGetContent: any;
+    onRemove?: any;
     getContent: IUploadPicData[];
 };

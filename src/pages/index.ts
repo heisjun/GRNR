@@ -9,6 +9,7 @@ export { default as Profile } from './Profile';
 export { default as Keyword } from './Following/Keyword';
 export { default as PhotoDetails } from './PhotoDetails';
 export { default as WritingPicture } from './Writing/Picture';
+export { default as WritingVideo } from './Writing/Video';
 export { default as Myfeed } from './Myfeed';
 export { default as MyAnswer } from './MyAnswer';
 export { default as ScrapBook } from './ScrapBook';
