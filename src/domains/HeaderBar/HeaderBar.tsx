@@ -8,6 +8,7 @@ import { SubTabBar, MypageTabBar } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+const minWidth = process.env.REACT_APP_MIN_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const HeaderBar: React.FC<IHeaderBar> = (props) => {
@@ -304,6 +305,7 @@ const StyledMenuItemBlock = styled.h2`
 
 const StyledContentBlock = styled.div`
     width: 100%;
+    min-width: ${minWidth}px;
     max-width: ${maxWidth}px;
     padding: 0px 10px 0px 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
@@ -317,6 +319,9 @@ const StyledContentContainer = styled.div`
     margin-top: 100px;
     justify-content: center;
     z-index: 0;
+    @media screen and (max-width: ${minWidth}px) {
+        justify-content: start;
+    }
     @media screen and (min-width: ${boundaryWidth}px) {
         margin-top: 150px;
     }
@@ -336,6 +341,9 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     background-color: white;
     border-bottom: solid 1px;
     border-color: silver;
+    @media screen and (max-width: ${minWidth}px) {
+        justify-content: start;
+    }
     @media screen and (max-width: ${boundaryWidth}px) {
         animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
         animation-fill-mode: forwards;
@@ -346,6 +354,7 @@ const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
+    min-width: ${minWidth}px;
     max-width: ${maxWidth}px;
     height: 50px;
     padding: 0px 20px 0px 20px;
