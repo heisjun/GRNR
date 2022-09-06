@@ -133,14 +133,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                         style={{ display: 'none' }}
                     />
                 )}
-                {imageUrl && <StyledDeleteBtn onClick={() => setImageUrl(null)}>삭제</StyledDeleteBtn>}
-                <StyledImg
-                    src={imageUrl ? imageUrl : `${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                    onClick={(e) => {
-                        onClickFileBtn(e);
-                    }}
-                ></StyledImg>
-                <input type="file" accept="image/*" ref={imgRef} onChange={onChangeImage} style={{ display: 'none' }} />
+                {imageUrl && <StyledDeletePictureBtn onClick={() => setImageUrl(null)}>삭제</StyledDeletePictureBtn>}
             </StyledImgBlock>
             <StyledContentBlock>
                 <StyledFlexBlock>
