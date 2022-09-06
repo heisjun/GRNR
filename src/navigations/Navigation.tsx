@@ -11,6 +11,7 @@ import {
     PhotoDetails,
     Keyword,
     WritingPicture,
+    WritingVideo,
     Myfeed,
     MyAnswer,
     ScrapBook,
@@ -44,7 +45,7 @@ const Navigation: React.FC = () => {
                     <Route path="/store/menu3" element={<Following />} />
                     <Route path="/upload" element={<WritingPicture />} />
                     <Route path="/upload/photo" element={<WritingPicture />} />
-                    <Route path="/upload/video" element={<WritingPicture />} />
+                    <Route path="/upload/video" element={<WritingVideo />} />
                     <Route path="/mypage" element={<Myfeed />} />
                     <Route path="/mypage/profile" element={<Myfeed />} />
                     <Route path="/mypage/profile/myfeed" element={<Myfeed />} />

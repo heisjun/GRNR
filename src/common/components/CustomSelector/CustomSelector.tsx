@@ -7,7 +7,7 @@ import { ICustomSelector } from './CustomSelector.type';
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const CustomSelector: React.FC<ICustomSelector> = (props) => {
-    const { optionData, setGetOption } = props;
+    const { optionData, setGetOption, value } = props;
     const [selected, setSelected] = useState(optionData[0].name);
     const [isActive, setIsActive] = useState([false]);
     const dropdownListRef = useRef<any>(null);
@@ -51,7 +51,7 @@ const CustomSelector: React.FC<ICustomSelector> = (props) => {
                     return (
                         <StyledDropdown key={id}>
                             <StyledDropdownBtn onClick={() => onOpenBtn(index)}>
-                                <StyledDropdownText>{selected}</StyledDropdownText>
+                                <StyledDropdownText>{value ? value : selected}</StyledDropdownText>
                                 <FaCaretDown />
                             </StyledDropdownBtn>
                             {isActive[index] && (
@@ -109,7 +109,6 @@ const StyledDropdownText = styled.div`
     padding-right: 2px;
     font-size: 15px;
     @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 1.5vw;
     }
 `;
 
@@ -125,8 +124,6 @@ const StyledDropdownContent = styled.div`
     z-index: 10;
     font-size: 15px;
     @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 1.5vw;
-        width: 100px;
     }
 `;
 
