@@ -5,8 +5,6 @@ import { IPlanFlow } from './PlanFlow.type';
 const PlanFlow: React.FC<IPlanFlow> = (props) => {
     const { data, currentDate } = props;
 
-    const [days, setDays] = useState([]);
-
     const monthEng = [
         'January',
         'February',
