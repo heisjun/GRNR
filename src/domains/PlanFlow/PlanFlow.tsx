@@ -24,8 +24,6 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
         'December',
     ];
 
-    const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
     const onNextButton = () => {
         if (crntPage === 1) {
             setCrntPage(0);
