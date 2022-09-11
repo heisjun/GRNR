@@ -1,8 +1,13 @@
+import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { IPlanFlow } from './PlanFlow.type';
 
 const PlanFlow: React.FC<IPlanFlow> = (props) => {
     const { data, currentDate } = props;
+    const [crntMonth, setCrntMonth] = useState<number>(currentDate.getMonth());
+    const [crntYear, setCrntYear] = useState<number>(currentDate.getFullYear());
+    const [crntPage, setCrntPage] = useState<number>(0);
+    const pageRef = useRef<any>(null);
 
     const monthEng = [
         'January',
@@ -21,21 +26,44 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
 
     const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
+    const onNextButton = () => {
+        if (crntPage === 1) {
+            setCrntPage(0);
+            setCrntMonth((crntMonth) => (crntMonth === 11 ? 0 : crntMonth + 1));
+        } else {
+            setCrntPage(1);
+        }
+    };
+
+    const onPrevButton = () => {
+        if (crntPage === 0) {
+            setCrntPage(1);
+            setCrntMonth((crntMonth) => (crntMonth === 0 ? 11 : crntMonth - 1));
+        } else {
+            setCrntPage(0);
+        }
+    };
+
+    useEffect(() => {
+        pageRef.current.style.transition = 'all 0.7s ease-in-out';
+        pageRef.current.style.transform = `translateX(-${(100 / 2) * crntPage}%)`;
+    }, [crntPage]);
+
     return (
         <StyledPlanFlowContainer>
             <StyledHeaderBlock>
-                <StyledCrntMonth>{monthEng[currentDate.getMonth()]}</StyledCrntMonth>
-                <StyledNextMonth>
-                    {monthEng[currentDate.getMonth() + 1 < 12 ? currentDate.getMonth() + 1 : 0]}
-                </StyledNextMonth>
-                <StyledPrevButton />
-                <StyledNextButton />
+                <StyledCrntMonth>{monthEng[crntMonth]}</StyledCrntMonth>
+                <StyledNextMonth>{monthEng[crntMonth + 1 < 12 ? crntMonth + 1 : 0]}</StyledNextMonth>
+                <StyledPrevButton onClick={onPrevButton} />
+                <StyledNextButton onClick={onNextButton} />
             </StyledHeaderBlock>
             <StyledContentContainer>
-                <StyledPlantBlock></StyledPlantBlock>
+                <StyledPlantBlock>
+                    <StyledPlantTitleBlock>Plants</StyledPlantTitleBlock>
+                </StyledPlantBlock>
                 <StyledPlansContainer>
-                    <StyledPlansBlock>
-                        {Array.from({ length: monthDays[currentDate.getMonth()] }, (_, i) => i + 1).map(
+                    <StyledPlansBlock ref={pageRef}>
+                        {Array.from({ length: new Date(crntYear, crntMonth + 1, -1).getDate() }, (_, i) => i + 1).map(
                             (item, index) => (
                                 <StyledDayBlock key={index}>
                                     <StyledDayText>{item}</StyledDayText>
@@ -58,38 +86,53 @@ const StyledDayText = styled.div`
 const StyledDayBlock = styled.div`
     width: 31.11px;
     height: 31.11px;
-    border-bottom: solid 2px;
+    border-bottom: solid 1px;
     border-color: silver;
     display: flex;
     justify-content: center;
     align-items: center;
 `;
 
+const StyledPlantTitleBlock = styled.div`
+    width: 100%;
+    height: 31.11px;
+    border-bottom: solid 1px;
+    border-color: silver;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: grey;
+    font-weight: bold;
+`;
+
 const StyledPlantBlock = styled.div`
     width: 90px;
     height: 500px;
     display: flex;
-    border-top: solid 2px;
+    border-top: solid 1px;
     border-color: silver;
 `;
 
 const StyledPlansBlock = styled.div`
     width: 200%;
     height: 500px;
-    overflow: hidden;
     display: flex;
+    border-bottom: solid 1px;
+    border-color: silver;
 `;
 
 const StyledPlansContainer = styled.div`
     width: 560px;
     height: 500px;
-    border-left: solid 2px;
-    border-top: solid 2px;
+    overflow: hidden;
+    border-left: solid 1px;
+    border-top: solid 1px;
     border-color: silver;
     display: flex;
 `;
 
 const StyledNextMonth = styled.div`
+    width: 50px;
     margin-left: 250px;
     font-weight: bold;
     font-size: 12px;
@@ -97,6 +140,7 @@ const StyledNextMonth = styled.div`
 `;
 
 const StyledCrntMonth = styled.div`
+    width: 50px;
     margin-left: 20px;
     font-weight: bold;
     font-size: 12px;
@@ -131,7 +175,7 @@ const StyledHeaderBlock = styled.div`
     margin-left: 90px;
     width: 100%;
     height: 30px;
-    border-left: solid 2px;
+    border-left: solid 1px;
     border-color: silver;
     display: flex;
     align-items: center;
