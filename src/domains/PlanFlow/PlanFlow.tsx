@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { isMetaProperty } from 'typescript';
 import { IPlanFlow } from './PlanFlow.type';
 
 const PlanFlow: React.FC<IPlanFlow> = (props) => {
@@ -54,7 +53,7 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
     };
 
     useEffect(() => {
-        pageRef.current.style.transition = 'all 0.7s ease-in-out';
+        pageRef.current.style.transition = 'all 0.5s ease-in-out';
         pageRef.current.style.transform = `translateX(-${(100 / 2) * crntPage}%)`;
     }, [crntPage]);
 
@@ -63,8 +62,8 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
             <StyledHeaderBlock>
                 <StyledCrntMonth>{monthEng[crntMonth]}</StyledCrntMonth>
                 <StyledNextMonth>{monthEng[crntMonth + 1 < 12 ? crntMonth + 1 : 0]}</StyledNextMonth>
-                <StyledPrevButton onClick={onPrevButton} />
-                <StyledNextButton onClick={onNextButton} />
+                <StyledPrevImage src={`${process.env.REACT_APP_BASE_SRC}/prev.png`} onClick={onPrevButton} />
+                <StyledNextImage src={`${process.env.REACT_APP_BASE_SRC}/next.png`} onClick={onNextButton} />
             </StyledHeaderBlock>
             <StyledContentContainer>
                 <StyledPlantsBlock>
@@ -133,15 +132,15 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
 
 const StyledPlanItemText = styled.div`
     white-space: nowrap;
-    font-size: 12px;
+    font-size: 11px;
     color: grey;
     font-weight: bold;
     z-index: 1;
 `;
 
 const StyledPlanItemBlock = styled.div`
-    width: 40px;
-    height: 45px;
+    width: 38px;
+    height: 43px;
     display: flex;
     align-items: center;
     border-radius: 8px;
@@ -152,13 +151,13 @@ const StyledPlanItemBlock = styled.div`
 
 const StyledPlanItemContainer = styled.div`
     width: 40px;
-    height: 47px;
+    height: 46px;
     display: flex;
 `;
 
 const StyledPlanItemsBlock = styled.div`
     width: 200%;
-    height: 45px;
+    height: 46px;
     display: flex;
 `;
 
@@ -252,27 +251,23 @@ const StyledCrntMonth = styled.div`
     color: grey;
 `;
 
-const StyledNextButton = styled.div`
+const StyledNextImage = styled.img`
     position: absolute;
-    left: 75%;
+    left: 80%;
     cursor: pointer;
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: grey;
+    width: 10px;
+    height: 15px;
     &:hover {
         background-color: silver;
     }
 `;
 
-const StyledPrevButton = styled.div`
+const StyledPrevImage = styled.img`
     position: absolute;
-    left: 65%;
+    left: 70%;
     cursor: pointer;
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: grey;
+    width: 10px;
+    height: 15px;
     &:hover {
         background-color: silver;
     }
