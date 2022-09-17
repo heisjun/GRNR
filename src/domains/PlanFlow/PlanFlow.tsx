@@ -56,24 +56,50 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
                 <StyledNextButton onClick={onNextButton} />
             </StyledHeaderBlock>
             <StyledContentContainer>
-                <StyledPlantBlock>
+                <StyledPlantsBlock>
                     <StyledPlantTitleBlock>Plants</StyledPlantTitleBlock>
-                </StyledPlantBlock>
+                    {data.map((item, index) => (
+                        <StyledPlantBlock key={index}>{item.plantName}</StyledPlantBlock>
+                    ))}
+                </StyledPlantsBlock>
                 <StyledPlansContainer>
                     <StyledPlansBlock ref={pageRef}>
-                        {Array.from({ length: new Date(crntYear, crntMonth + 1, -1).getDate() }, (_, i) => i + 1).map(
-                            (item, index) => (
+                        <StyledDaysBlock>
+                            {Array.from(
+                                { length: new Date(crntYear, crntMonth + 1, -1).getDate() },
+                                (_, i) => i + 1,
+                            ).map((item, index) => (
                                 <StyledDayBlock key={index}>
                                     <StyledDayText>{item}</StyledDayText>
                                 </StyledDayBlock>
-                            ),
-                        )}
+                            ))}
+                        </StyledDaysBlock>
                     </StyledPlansBlock>
                 </StyledPlansContainer>
             </StyledContentContainer>
         </StyledPlanFlowContainer>
     );
 };
+
+const StyledPlanBlock = styled.div`
+    width: 31.11px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const StyledPlantBlock = styled.div`
+    width: 100%;
+    height: 45px;
+    border-bottom: solid 1px;
+    border-color: silver;
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: grey;
+    font-weight: bold;
+`;
 
 const StyledDayText = styled.div`
     font-size: 12px;
@@ -82,7 +108,7 @@ const StyledDayText = styled.div`
 `;
 
 const StyledDayBlock = styled.div`
-    width: 31.11px;
+    width: 40px;
     height: 31.11px;
     border-bottom: solid 1px;
     border-color: silver;
@@ -103,15 +129,16 @@ const StyledPlantTitleBlock = styled.div`
     font-weight: bold;
 `;
 
-const StyledPlantBlock = styled.div`
-    width: 90px;
+const StyledPlantsBlock = styled.div`
+    width: 103px;
     height: 500px;
     display: flex;
+    flex-direction: column;
     border-top: solid 1px;
     border-color: silver;
 `;
 
-const StyledPlansBlock = styled.div`
+const StyledDaysBlock = styled.div`
     width: 200%;
     height: 500px;
     display: flex;
@@ -119,8 +146,15 @@ const StyledPlansBlock = styled.div`
     border-color: silver;
 `;
 
+const StyledPlansBlock = styled.div`
+    width: 200%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+`;
+
 const StyledPlansContainer = styled.div`
-    width: 560px;
+    width: 660px;
     height: 500px;
     overflow: hidden;
     border-left: solid 1px;
@@ -130,26 +164,29 @@ const StyledPlansContainer = styled.div`
 `;
 
 const StyledNextMonth = styled.div`
+    position: absolute;
     width: 50px;
-    margin-left: 250px;
+    left: 30%;
     font-weight: bold;
     font-size: 12px;
     color: grey;
 `;
 
 const StyledCrntMonth = styled.div`
+    position: absolute;
     width: 50px;
-    margin-left: 20px;
+    left: 2%;
     font-weight: bold;
     font-size: 12px;
     color: grey;
 `;
 
 const StyledNextButton = styled.div`
+    position: absolute;
+    left: 75%;
     cursor: pointer;
     width: 20px;
     height: 20px;
-    margin-left: 30px;
     border-radius: 20px;
     background-color: grey;
     &:hover {
@@ -158,10 +195,11 @@ const StyledNextButton = styled.div`
 `;
 
 const StyledPrevButton = styled.div`
+    position: absolute;
+    left: 65%;
     cursor: pointer;
     width: 20px;
     height: 20px;
-    margin-left: 110px;
     border-radius: 20px;
     background-color: grey;
     &:hover {
@@ -170,7 +208,8 @@ const StyledPrevButton = styled.div`
 `;
 
 const StyledHeaderBlock = styled.div`
-    margin-left: 90px;
+    position: relative;
+    margin-left: 98px;
     width: 100%;
     height: 30px;
     border-left: solid 1px;

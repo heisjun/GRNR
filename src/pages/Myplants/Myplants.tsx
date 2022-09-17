@@ -10,7 +10,24 @@ const Myplants: React.FC = () => {
                 </StyledProfileBlock>
             </StyledProfileContainer>
             <StyledContextContainer>
-                <PlanFlow data={[{}, {}]} currentDate={new Date()} />
+                <PlanFlow
+                    data={[
+                        {
+                            plantName: '몬스테라 페라로사',
+                            plans: [
+                                {
+                                    date: '2022-09-17',
+                                    text: '몬스테라 테사로사에게 비료가 필요해요',
+                                },
+                            ],
+                        },
+                        {
+                            plantName: '아레카이자',
+                            plans: [{ date: '2022-09-17', text: '아레카야자에게 비료가 필요해요' }],
+                        },
+                    ]}
+                    currentDate={new Date()}
+                />
             </StyledContextContainer>
         </StyledMyplantsContainer>
     );
