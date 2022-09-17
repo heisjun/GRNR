@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { isMetaProperty } from 'typescript';
 import { IPlanFlow } from './PlanFlow.type';
 
 const PlanFlow: React.FC<IPlanFlow> = (props) => {
@@ -27,7 +28,12 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
     const onNextButton = () => {
         if (crntPage === 1) {
             setCrntPage(0);
-            setCrntMonth((crntMonth) => (crntMonth === 11 ? 0 : crntMonth + 1));
+            if (crntMonth === 11) {
+                setCrntMonth(0);
+                setCrntYear((crntYear) => crntYear + 1);
+            } else {
+                setCrntMonth((crntMonth) => crntMonth + 1);
+            }
         } else {
             setCrntPage(1);
         }
@@ -36,7 +42,12 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
     const onPrevButton = () => {
         if (crntPage === 0) {
             setCrntPage(1);
-            setCrntMonth((crntMonth) => (crntMonth === 0 ? 11 : crntMonth - 1));
+            if (crntMonth === 0) {
+                setCrntMonth(11);
+                setCrntYear((crntYear) => crntYear - 1);
+            } else {
+                setCrntMonth((crntMonth) => crntMonth - 1);
+            }
         } else {
             setCrntPage(0);
         }
@@ -74,6 +85,45 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
                                 </StyledDayBlock>
                             ))}
                         </StyledDaysBlock>
+                        {data.map((item, index) => (
+                            <StyledPlanItemsBlock key={index}>
+                                {Array.from(
+                                    { length: new Date(crntYear, crntMonth + 1, -1).getDate() },
+                                    (_, i) => i + 1,
+                                ).map((day, index) => (
+                                    <StyledPlanItemContainer
+                                        key={index}
+                                        style={
+                                            index === 0 || index === 1 || index % 7 === 0 || index % 7 === 1
+                                                ? { backgroundColor: '#EAEAEA' }
+                                                : {}
+                                        }
+                                    >
+                                        {item.plans.filter(
+                                            (plan: any) =>
+                                                Number(plan.date.split('-')[0]) === crntYear &&
+                                                Number(plan.date.split('-')[1]) === crntMonth + 1 &&
+                                                Number(plan.date.split('-')[2]) === day,
+                                        ).length === 1 ? (
+                                            <StyledPlanItemBlock>
+                                                <StyledPlanItemText>
+                                                    {
+                                                        item.plans.filter(
+                                                            (plan: any) =>
+                                                                Number(plan.date.split('-')[0]) === crntYear &&
+                                                                Number(plan.date.split('-')[1]) === crntMonth + 1 &&
+                                                                Number(plan.date.split('-')[2]) === day,
+                                                        )[0].text
+                                                    }
+                                                </StyledPlanItemText>
+                                            </StyledPlanItemBlock>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </StyledPlanItemContainer>
+                                ))}
+                            </StyledPlanItemsBlock>
+                        ))}
                     </StyledPlansBlock>
                 </StyledPlansContainer>
             </StyledContentContainer>
@@ -81,12 +131,35 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
     );
 };
 
-const StyledPlanBlock = styled.div`
-    width: 31.11px;
+const StyledPlanItemText = styled.div`
+    white-space: nowrap;
+    font-size: 12px;
+    color: grey;
+    font-weight: bold;
+    z-index: 1;
+`;
+
+const StyledPlanItemBlock = styled.div`
+    width: 40px;
     height: 45px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    border-radius: 8px;
+    border: solid 1px;
+    border-color: silver;
+    background-color: white;
+`;
+
+const StyledPlanItemContainer = styled.div`
+    width: 40px;
+    height: 47px;
+    display: flex;
+`;
+
+const StyledPlanItemsBlock = styled.div`
+    width: 200%;
+    height: 45px;
+    display: flex;
 `;
 
 const StyledPlantBlock = styled.div`
@@ -110,8 +183,6 @@ const StyledDayText = styled.div`
 const StyledDayBlock = styled.div`
     width: 40px;
     height: 31.11px;
-    border-bottom: solid 1px;
-    border-color: silver;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -140,7 +211,7 @@ const StyledPlantsBlock = styled.div`
 
 const StyledDaysBlock = styled.div`
     width: 200%;
-    height: 500px;
+    height: 31.11px;
     display: flex;
     border-bottom: solid 1px;
     border-color: silver;
