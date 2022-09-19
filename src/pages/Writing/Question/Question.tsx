@@ -10,13 +10,15 @@ const Question: React.FC = () => {
     const imgInputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
-        window.addEventListener('selectstart', selectionHandler);
+        const divC = document.getElementById('contentInput');
+        divC?.addEventListener('selectstart', selectionHandler);
         return () => {
-            window.removeEventListener('selectstart', selectionHandler);
+            divC?.removeEventListener('selectstart', selectionHandler);
         };
     }, []);
 
     const selectionHandler = useCallback(() => {
+        console.log(window.getSelection()?.getRangeAt(0));
         setCrntRange(window.getSelection()?.getRangeAt(0));
     }, []);
 
@@ -42,6 +44,7 @@ const Question: React.FC = () => {
                 reader.onload = () => {
                     if (reader.result) {
                         img.src = reader.result.toString();
+                        img.width = 800;
                     }
                 };
 
