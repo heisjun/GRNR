@@ -92,14 +92,10 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
                                 ).map((day, index) => (
                                     <StyledPlanItemContainer
                                         key={index}
-                                        style={
-                                            index === 0 || index === 1 || index % 7 === 0 || index % 7 === 1
-                                                ? { backgroundColor: '#EAEAEA' }
-                                                : {}
-                                        }
+                                        style={index % 7 === 0 || index % 7 === 1 ? { backgroundColor: '#EAEAEA' } : {}}
                                     >
                                         {item.plans.filter(
-                                            (plan: any) =>
+                                            (plan: { date: string; text: string }) =>
                                                 Number(plan.date.split('-')[0]) === crntYear &&
                                                 Number(plan.date.split('-')[1]) === crntMonth + 1 &&
                                                 Number(plan.date.split('-')[2]) === day,
@@ -108,7 +104,7 @@ const PlanFlow: React.FC<IPlanFlow> = (props) => {
                                                 <StyledPlanItemText>
                                                     {
                                                         item.plans.filter(
-                                                            (plan: any) =>
+                                                            (plan: { date: string; text: string }) =>
                                                                 Number(plan.date.split('-')[0]) === crntYear &&
                                                                 Number(plan.date.split('-')[1]) === crntMonth + 1 &&
                                                                 Number(plan.date.split('-')[2]) === day,
@@ -140,7 +136,7 @@ const StyledPlanItemText = styled.div`
 
 const StyledPlanItemBlock = styled.div`
     width: 38px;
-    height: 43px;
+    height: 49px;
     display: flex;
     align-items: center;
     border-radius: 8px;
@@ -151,19 +147,19 @@ const StyledPlanItemBlock = styled.div`
 
 const StyledPlanItemContainer = styled.div`
     width: 40px;
-    height: 46px;
+    height: 51px;
     display: flex;
 `;
 
 const StyledPlanItemsBlock = styled.div`
     width: 200%;
-    height: 46px;
+    height: 51px;
     display: flex;
 `;
 
 const StyledPlantBlock = styled.div`
     width: 100%;
-    height: 45px;
+    height: 50px;
     border-bottom: solid 1px;
     border-color: silver;
     display: flex;

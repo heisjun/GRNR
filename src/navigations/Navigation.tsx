@@ -21,6 +21,7 @@ import {
     Myphoto,
     Myplans,
     Myplants,
+    WritingQuestion,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -36,6 +37,7 @@ const Navigation: React.FC = () => {
                     <Route path="/community/following/keyword" element={<Keyword />} />
                     <Route path="/community/following/details" element={<PhotoDetails />} />
                     <Route path="/community/question" element={<Question />} />
+                    <Route path="/community/question/new" element={<WritingQuestion />} />
                     <Route path="/community/photo" element={<Photo />} />
                     <Route path="/community/photo/details" element={<PhotoDetails />} />
                     <Route path="/community/magazine" element={<Magazine />} />

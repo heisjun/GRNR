@@ -1,4 +1,10 @@
 export type IPlanFlow = {
-    data: any[];
+    data: {
+        plantName: string;
+        plans: {
+            date: string;
+            text: string;
+        }[];
+    }[];
     currentDate: Date;
 };
