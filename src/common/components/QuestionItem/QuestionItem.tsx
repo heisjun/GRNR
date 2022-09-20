@@ -37,7 +37,7 @@ const QuestionItem: React.FC<IQuestionItem> = (props) => {
                     <StyledItemContent>
                         <StyledContentWriting>
                             <StyledContentTitle>{question.title}</StyledContentTitle>
-                            <StyledContentBody>{truncate(question.description)}</StyledContentBody>
+                            <StyledContentBody>{question.description}</StyledContentBody>
                         </StyledContentWriting>
                         <StyledContentPicture>
                             <StyledImgWrapper>

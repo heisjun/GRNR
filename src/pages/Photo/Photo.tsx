@@ -16,41 +16,16 @@ const Photo: React.FC = () => {
 
     const data = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
 
-    const DictionaryFilter = [
+    const PhotoFilter = [
         {
             id: 1,
-            name: '분류',
-            list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
+            name: '정렬',
+            list: ['인기순', '최신순'],
         },
         {
             id: 2,
-            name: '광도',
-            list: ['낮음', '중간', '높음'],
-        },
-        {
-            id: 3,
-            name: '습도',
-            list: ['40%미만', '40~70%', '70%이상'],
-        },
-        {
-            id: 4,
-            name: '온도',
-            list: ['10~15°C', '16~20°C', '21~25°C', '26~30°C'],
-        },
-        {
-            id: 5,
-            name: '관리레벨',
-            list: ['초보자', '경험자', '전문가'],
-        },
-        {
-            id: 6,
-            name: '잎의무늬',
-            list: ['줄무늬', '점무늬', '잎 가장자리 무늬', '기타'],
-        },
-        {
-            id: 7,
-            name: '장소',
-            list: ['실내 어두운 곳', '거실 내측', '거실 창측', '발코니'],
+            name: '공간',
+            list: ['원룸', '거실', '침실', '주방', '욕실', '베란다', '사무실', '가게', '야외정원'],
         },
     ];
 
@@ -77,7 +52,7 @@ const Photo: React.FC = () => {
     return (
         <StyledPhotoContainer pageAnim={pageAnim}>
             <StyledPhotoHeader>
-                <Filters setGetFilter={setSelected} data={DictionaryFilter} />
+                <Filters setGetFilter={setSelected} data={PhotoFilter} />
             </StyledPhotoHeader>
             <ItemList
                 width="100%"

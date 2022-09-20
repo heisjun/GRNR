@@ -20,14 +20,12 @@ const AddressBox: React.FC<IAddressBox> = (props) => {
         setIsOpen(false);
     };
 
-    // 검색 클릭
     const toggle = () => {
         setIsOpen(!isOpen);
     };
 
     const dropdownListRef = useRef<any>(null);
 
-    //외부 영역 클릭시 드롭다운 비활성화
     useEffect(() => {
         function handleClickOutside(e: MouseEvent): void {
             if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
@@ -70,7 +68,6 @@ const StyledInput = styled.input`
     }
 `;
 
-// Modal 스타일
 const customStyles = {
     overlay: {
         backgroundColor: 'rgba(0,0,0,0.5)',

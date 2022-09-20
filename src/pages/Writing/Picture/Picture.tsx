@@ -40,10 +40,6 @@ const Picture: React.FC = () => {
         [getContent],
     );
 
-    useEffect(() => {
-        console.log('testing:', getContent);
-    }, [onAddWritingItem, getContent]);
-
     return (
         <StyledPictureContainer>
             <StyledPictureHeader>
