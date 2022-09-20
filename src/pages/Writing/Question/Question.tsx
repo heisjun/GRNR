@@ -6,6 +6,7 @@ const Question: React.FC = () => {
     const [content, setContent] = useState<string>('');
     const [crntRange, setCrntRange] = useState<Range>();
     const [imgFile, setImgFile] = useState<File>();
+    const [imgUrls, setUrls] = useState<string[]>([]);
 
     const imgInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -17,14 +18,20 @@ const Question: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const divC = document.getElementById('contentInput');
+        console.log(content);
+        console.log(divC?.childNodes);
+    }, [content]);
+
     const selectionHandler = useCallback(() => {
-        console.log(window.getSelection()?.getRangeAt(0));
-        setCrntRange(window.getSelection()?.getRangeAt(0));
+        setTimeout(() => setCrntRange(window.getSelection()?.getRangeAt(0)), 100);
     }, []);
 
     const onContentChange = useCallback(() => {
         const divC = document.getElementById('contentInput');
         setContent(divC ? divC.innerHTML : '');
+        setCrntRange(window.getSelection()?.getRangeAt(0));
     }, []);
 
     const onImgUploadButton = useCallback(() => {
@@ -44,7 +51,7 @@ const Question: React.FC = () => {
                 reader.onload = () => {
                     if (reader.result) {
                         img.src = reader.result.toString();
-                        img.width = 800;
+                        img.width = 700;
                     }
                 };
 
