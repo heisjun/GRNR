@@ -73,6 +73,32 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     if (loc.pathname === '/community/question/new' || loc.pathname === '/community/question/new/')
         return (
             <StyledContainer>
+                <StyledTabsContainer>
+                    <StyledHeaderBarContainer
+                        fadeAnim={fadeAnim}
+                        onMouseEnter={() => {
+                            setSubTabVisible(!scrollDownToggle);
+                            setScrollDownToggle(false);
+                        }}
+                    >
+                        <StyledHeaderBar>
+                            <StyledTitleBlock>
+                                <Link
+                                    to="/"
+                                    style={{ textDecoration: 'none' }}
+                                    onClick={() => {
+                                        setCrntPage(0);
+                                        setOverPage(0);
+                                        setScrollDownToggle(false);
+                                        setSubTabVisible(true);
+                                    }}
+                                >
+                                    <StyledTitleText>로고</StyledTitleText>
+                                </Link>
+                            </StyledTitleBlock>
+                        </StyledHeaderBar>
+                    </StyledHeaderBarContainer>
+                </StyledTabsContainer>
                 <StyledContentContainer>
                     <StyledContentBlock>{children}</StyledContentBlock>
                 </StyledContentContainer>
