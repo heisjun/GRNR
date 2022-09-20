@@ -96,6 +96,9 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     <StyledTitleText>로고</StyledTitleText>
                                 </Link>
                             </StyledTitleBlock>
+                            <StyledUploadButton>
+                                <StyledUploadText>등록</StyledUploadText>
+                            </StyledUploadButton>
                         </StyledHeaderBar>
                     </StyledHeaderBarContainer>
                 </StyledTabsContainer>
@@ -219,6 +222,22 @@ const headerFadeOut = keyframes`
     100% {
         transform: translateY(-100%);
     }
+`;
+
+const StyledUploadText = styled.div`
+    color: white;
+    font-size: 15px;
+`;
+
+const StyledUploadButton = styled.div`
+    width: 50px;
+    height: 30px;
+    background-color: grey;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 `;
 
 const StyledSearchBar = styled.input`
