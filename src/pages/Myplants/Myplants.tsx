@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Profile } from 'domains';
+import { Profile, PlanFlow } from 'domains';
 
 const Myplants: React.FC = () => {
     return (
@@ -9,7 +9,46 @@ const Myplants: React.FC = () => {
                     <Profile />
                 </StyledProfileBlock>
             </StyledProfileContainer>
-            <StyledContextContainer></StyledContextContainer>
+            <StyledContextContainer>
+                <PlanFlow
+                    data={[
+                        {
+                            plantName: '몬스테라 페라로사',
+                            plans: [
+                                {
+                                    date: '2022-09-17',
+                                    text: '몬스테라 테사로사에게 비료가 필요해요',
+                                },
+                                {
+                                    date: '2022-09-01',
+                                    text: '몬스테라 테사로사에게 물이 필요해요',
+                                },
+                                {
+                                    date: '2022-10-02',
+                                    text: '몬스테라 테사로사에게 비료가 필요해요',
+                                },
+                            ],
+                        },
+                        {
+                            plantName: '아레카이자',
+                            plans: [
+                                { date: '2022-09-16', text: '아레카야자에게 비료가 필요해요' },
+                                { date: '2022-09-22', text: '아레카야자에게 비료가 필요해요' },
+                                { date: '2022-09-29', text: '아레카야자에게 물이 필요해요' },
+                            ],
+                        },
+                        {
+                            plantName: '아레카이자',
+                            plans: [
+                                { date: '2022-09-1', text: '아레카야자에게 물이 필요해요' },
+                                { date: '2022-09-9', text: '아레카야자에게 비료가 필요해요' },
+                                { date: '2022-09-16', text: '아레카야자에게 물이 필요해요' },
+                            ],
+                        },
+                    ]}
+                    currentDate={new Date()}
+                />
+            </StyledContextContainer>
         </StyledMyplantsContainer>
     );
 };
