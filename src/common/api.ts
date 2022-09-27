@@ -5,7 +5,7 @@ export const callApi = async (method?: string, path?: string, data?: any, params
         'content-type': 'application/json',
     };
 
-    const baseUrl = process.env.REACT_APP_API;
+    const baseUrl = process.env.REACT_APP_BASE_URL;
     const fullUrl = `${baseUrl}${path}`;
 
     if (method === 'get' || method === 'delete') {
