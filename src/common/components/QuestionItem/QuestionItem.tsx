@@ -1,24 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Avatar from '../Avatar';
 import { IQuestionItem } from './QuestionItem.type';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
-
-const Example = [
-    {
-        id: 1,
-        keyword: '키워드1',
-    },
-    {
-        id: 2,
-        keyword: '키워드2',
-    },
-    {
-        id: 3,
-        keyword: '키워드3',
-    },
-];
 
 const QuestionItem: React.FC<IQuestionItem> = (props) => {
     const { data } = props;
@@ -32,30 +18,34 @@ const QuestionItem: React.FC<IQuestionItem> = (props) => {
     }
     return (
         <>
-            {data.map((question: any) => (
-                <StyledItemContainer key={question.url}>
-                    <StyledItemContent>
-                        <StyledContentWriting>
-                            <StyledContentTitle>{question.title}</StyledContentTitle>
-                            <StyledContentBody>{question.description}</StyledContentBody>
-                        </StyledContentWriting>
-                        <StyledContentPicture>
-                            <StyledImgWrapper>
-                                <StyledImg src={question.urlToImage} alt="사진" />
-                            </StyledImgWrapper>
-                        </StyledContentPicture>
-                    </StyledItemContent>
-                    <StyledItemInfo>
-                        <Avatar width="3%" paddingBottom="3%" borderRadius="100%" />
-                        <StyledUserInfo>
-                            <StyledInfoText>닉네임</StyledInfoText>|<StyledInfoText>시간</StyledInfoText>|
-                            <StyledInfoText>댓글</StyledInfoText>|<StyledInfoText>조회수</StyledInfoText>
-                        </StyledUserInfo>
-                        {Example.map((e) => (
-                            <StyledKeyword key={e.id}>{e.keyword}</StyledKeyword>
-                        ))}
-                    </StyledItemInfo>
-                    <StyledBorderLine />
+            {data.map((question: any, index: number) => (
+                <StyledItemContainer key={index}>
+                    <Link to={`./details/${question.inquiryId}`} style={{ textDecoration: 'none' }}>
+                        <StyledItemContent>
+                            <StyledContentWriting>
+                                <StyledContentTitle>{question.title}</StyledContentTitle>
+                                <StyledContentBody>{question.content}</StyledContentBody>
+                            </StyledContentWriting>
+                            <StyledContentPicture>
+                                <StyledImgWrapper>
+                                    <StyledImg src={question.picList[0].pictureUrl} alt="사진" />
+                                </StyledImgWrapper>
+                            </StyledContentPicture>
+                        </StyledItemContent>
+                        <StyledItemInfo>
+                            <Avatar width="3%" paddingBottom="3%" borderRadius="100%" />
+                            <StyledUserInfo>
+                                <StyledInfoText>{question.accountNicName}</StyledInfoText>|
+                                <StyledInfoText>{question.time}</StyledInfoText>|
+                                <StyledInfoText>댓글 {question.commentQuantity}</StyledInfoText>|
+                                <StyledInfoText>조회수 {question.viewQuantity}</StyledInfoText>
+                            </StyledUserInfo>
+                            {question.itagDtoList.map((e: any, index: number) => (
+                                <StyledKeyword key={index}>{e.tagName}</StyledKeyword>
+                            ))}
+                        </StyledItemInfo>
+                        <StyledBorderLine />
+                    </Link>
                 </StyledItemContainer>
             ))}
         </>
@@ -157,4 +147,4 @@ const StyledKeyword = styled.div`
         padding: 1%;
     }
 `;
-export default QuestionItem;
+export default React.memo(QuestionItem);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { FaCaretDown } from 'react-icons/fa';
 import styled from 'styled-components';
@@ -136,4 +136,4 @@ const StyledContentItem = styled.div`
     }
 `;
 
-export default CustomSelector;
+export default React.memo(CustomSelector);

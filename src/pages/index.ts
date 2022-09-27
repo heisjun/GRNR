@@ -22,3 +22,4 @@ export { default as Myplans } from './Myplans';
 export { default as Myplants } from './Myplants';
 export { default as DictionaryDetails } from './DictionaryDetails';
 export { default as Login } from './Login';
+export { default as QuestionDetails } from './QuestionDetails';

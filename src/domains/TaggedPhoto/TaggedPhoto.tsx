@@ -39,22 +39,6 @@ const TaggedPhoto: React.FC<IItemParams> = (props) => {
                 소나무 철갑을 두른듯 바람서리 불변함은 우리
             </StyledDetailsText>
             <StyledBorderLine />
-            <StyledUserInfoBlock>
-                <StyledProfileBlock>
-                    <StyledWriterBlock>
-                        <StyeldAvatarBlock>
-                            <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
-                        </StyeldAvatarBlock>
-                        <StyledWriterText>taemin</StyledWriterText>
-                    </StyledWriterBlock>
-                </StyledProfileBlock>
-                <StyledFollowButtonBlock>
-                    <StyledFollowButton>
-                        <StyledFollowText>팔로우 +</StyledFollowText>
-                    </StyledFollowButton>
-                </StyledFollowButtonBlock>
-            </StyledUserInfoBlock>
-            <StyledBorderLine />
         </StyledTaggedPhotoContainer>
     );
 };
