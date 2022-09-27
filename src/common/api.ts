@@ -16,6 +16,7 @@ export const callApi = async (method?: string, path?: string, data?: any, params
 };
 
 export default {
+    loadRecentQuestion: (form: any) => callApi('get', '/api/inquiry/recent', null, form),
     /*testGet: (form: any) => callApi('get', 'api주소', null, form),
     testPost: (form: any) => callApi('post', 'api주소', form, {}),
     testPut: (form: any, id: string) => callApi('put', 'api주소' + id, form, {}),

@@ -61,7 +61,7 @@ const option = [
 ];
 
 const Question: React.FC = () => {
-    const [getOption, setGetOption] = useState('');
+    const [getOption, setGetOption] = useState('최신순');
 
     const [questions, setQuestions] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -71,20 +71,21 @@ const Question: React.FC = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
 
     useEffect(() => {
+        console.log(getOption);
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(
-                    'https://newsapi.org/v2/top-headlines?country=kr&apiKey=54ddd330b78649a0985f758382740fac',
-                );
-                setQuestions(response.data.articles);
+                const query = getOption === '최신순' ? 'recent' : 'popularity';
+                const response = await axios.get(`http://43.201.2.18/api/api/inquiry/${query}`);
+                setQuestions(response.data.value.content);
+                console.log(response.data.value.content);
             } catch (e) {
                 console.log(e);
             }
             setLoading(false);
         };
         fetchData();
-    }, []);
+    }, [getOption]);
 
     useEffect(() => {
         setPageAnim(FadeIn);
@@ -142,6 +143,7 @@ const Question: React.FC = () => {
             <StyledQuestionBlock>
                 <StyledFeedHeader>
                     <CustomSelector optionData={option} setGetOption={setGetOption} />
+                    <div>{getOption}</div>
                     <StyledQuestionBtn>질문하기</StyledQuestionBtn>
                 </StyledFeedHeader>
                 <QuestionItem data={questions} />
@@ -310,4 +312,4 @@ const StyledAllKeyword = styled.div`
     cursor: pointer;
 `;
 
-export default Question;
+export default React.memo(Question);
