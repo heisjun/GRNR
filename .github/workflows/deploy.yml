@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Run scripts in server
+    - name: Run scripts in server react
       uses: appleboy/ssh-action@master
       with:
         key: ${{ secrets.SSH_KEY }}
