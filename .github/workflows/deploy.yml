@@ -18,10 +18,10 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         script: |
-            cd plantClubFrontend
-            git add .
-            git reset --hard
-            git fetch
-            git pull
-            cd ~/plantserver
-            docker-compose up --build -d
+          cd plantClubFrontend
+          git add .
+          git reset --hard
+          git fetch
+          git pull
+          cd ~/plantserver
+          docker-compose up --build -d
