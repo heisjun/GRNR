@@ -1,3 +1,20 @@
+export type IQuestionDetailsParmas = {
+    accountNicName: string;
+    content: string;
+    inquiryId: number;
+    picList: {
+        inquiryId: number;
+        pictureUrl: string;
+    }[];
+    tagList: {
+        inquiryId: number;
+        tagName: string;
+    }[];
+    time: string;
+    title: string;
+    viewQuantity: number;
+};
+
 export type IPictureParams = {
     picUrl?: string;
     writer?: string;

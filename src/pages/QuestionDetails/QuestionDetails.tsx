@@ -4,7 +4,8 @@ import { Avatar, ItemList } from 'common/components';
 import { TaggedPhoto } from 'domains';
 import { getDebouncedFunc } from 'common/funcs';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { default as callApi } from 'common/api';
+import { IQuestionDetailsParmas } from 'common/types';
 
 const EXAMPLE = [{}, {}, {}];
 
@@ -12,7 +13,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const QuestionDetails: React.FC = () => {
     const [loading, setLoading] = useState(false);
-    const [details, setDetails] = useState<any>('');
+    const [details, setDetails] = useState<IQuestionDetailsParmas>();
     const sideBarRef = useRef<any>(null);
 
     const params = useParams();
@@ -35,7 +36,7 @@ const QuestionDetails: React.FC = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://43.201.2.18/api/api/inquiry/detail/${params.id}`);
+                const response = await callApi.questionGet(Number(params.id));
                 console.log(response.data.value[0]);
                 setDetails(response.data.value[0]);
             } catch (e) {
@@ -76,8 +77,11 @@ const QuestionDetails: React.FC = () => {
             <StyledDetailsBlock>
                 <StyledTopTextBlock>
                     <StyledContentText>Q&A : {params.id}</StyledContentText>
-                    <StyledTitleText>{details.title}</StyledTitleText>
-                    <StyledContentText>{timeForToday(details.time)}</StyledContentText>
+                    <StyledTitleText>{details?.title}</StyledTitleText>
+                    <StyledContentText>{timeForToday(details?.time)}</StyledContentText>
+                    {details?.tagList.map((e: any, index: number) => (
+                        <StyledKeyword key={index}>{e.tagName}</StyledKeyword>
+                    ))}
                 </StyledTopTextBlock>
                 <ItemList
                     width="100%"
@@ -94,7 +98,7 @@ const QuestionDetails: React.FC = () => {
                             <StyeldAvatarBlock>
                                 <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
                             </StyeldAvatarBlock>
-                            <StyledWriterText>{details.accountNicName}</StyledWriterText>
+                            <StyledWriterText>{details?.accountNicName}</StyledWriterText>
                         </StyledWriterBlock>
                     </StyledProfileBlock>
                     <StyledFollowButtonBlock>
