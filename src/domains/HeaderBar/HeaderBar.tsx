@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
 import { SubTabBar, MypageTabBar } from 'domains';
@@ -13,7 +13,6 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const { children } = props;
-    const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
 
     const [scrollDownToggle, setScrollDownToggle] = useState<boolean>(false);
     const [prevPosY, setPrevPosY] = useState<number>(0);
@@ -23,6 +22,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [overPage, setOverPage] = useState<number>(0);
     const [crntPage, setCrntPage] = useState<number>(0);
     const [crntPath, setCrntPath] = useState<string>('');
+
+    const { isLogin } = useRecoilValue(UserInfo);
 
     const loc = useLocation();
     const nav = useNavigate();
@@ -69,141 +70,259 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     useEffect(() => {
         setOverPage(crntPage);
     }, [crntPage]);
-
-    if (loc.pathname === '/community/question/new' || loc.pathname === '/community/question/new/')
-        return (
-            <StyledContainer>
-                <StyledTabsContainer>
-                    <StyledHeaderBarContainer
-                        fadeAnim={fadeAnim}
-                        onMouseEnter={() => {
-                            setSubTabVisible(!scrollDownToggle);
-                            setScrollDownToggle(false);
+    if (isLogin === true) {
+        if (loc.pathname === '/community/question/new' || loc.pathname === '/community/question/new/')
+            return (
+                <StyledContainer>
+                    <StyledTabsContainer>
+                        <StyledHeaderBarContainer
+                            fadeAnim={fadeAnim}
+                            onMouseEnter={() => {
+                                setSubTabVisible(!scrollDownToggle);
+                                setScrollDownToggle(false);
+                            }}
+                        >
+                            <StyledHeaderBar>
+                                <StyledTitleBlock>
+                                    <Link
+                                        to="/"
+                                        style={{ textDecoration: 'none' }}
+                                        onClick={() => {
+                                            setCrntPage(0);
+                                            setOverPage(0);
+                                            setScrollDownToggle(false);
+                                            setSubTabVisible(true);
+                                        }}
+                                    >
+                                        <StyledTitleText>로고</StyledTitleText>
+                                    </Link>
+                                </StyledTitleBlock>
+                                <StyledUploadButton>
+                                    <StyledUploadText>등록</StyledUploadText>
+                                </StyledUploadButton>
+                            </StyledHeaderBar>
+                        </StyledHeaderBarContainer>
+                    </StyledTabsContainer>
+                    <StyledContentContainer>
+                        <StyledContentBlock>{children}</StyledContentBlock>
+                    </StyledContentContainer>
+                </StyledContainer>
+            );
+        else
+            return (
+                <StyledContainer>
+                    <StyledTabsContainer
+                        onMouseLeave={() => {
+                            setOverPage(crntPage);
+                            setScrollDownToggle(!subTabVisible);
                         }}
                     >
-                        <StyledHeaderBar>
-                            <StyledTitleBlock>
-                                <Link
-                                    to="/"
-                                    style={{ textDecoration: 'none' }}
-                                    onClick={() => {
-                                        setCrntPage(0);
-                                        setOverPage(0);
-                                        setScrollDownToggle(false);
-                                        setSubTabVisible(true);
-                                    }}
-                                >
-                                    <StyledTitleText>로고</StyledTitleText>
-                                </Link>
-                            </StyledTitleBlock>
-                            <StyledUploadButton>
-                                <StyledUploadText>등록</StyledUploadText>
-                            </StyledUploadButton>
-                        </StyledHeaderBar>
-                    </StyledHeaderBarContainer>
-                </StyledTabsContainer>
-                <StyledContentContainer>
-                    <StyledContentBlock>{children}</StyledContentBlock>
-                </StyledContentContainer>
-            </StyledContainer>
-        );
-    else
-        return (
-            <StyledContainer>
-                <StyledTabsContainer
-                    onMouseLeave={() => {
-                        setOverPage(crntPage);
-                        setScrollDownToggle(!subTabVisible);
-                    }}
-                >
-                    <StyledHeaderBarContainer
-                        fadeAnim={fadeAnim}
-                        onMouseEnter={() => {
-                            setSubTabVisible(!scrollDownToggle);
-                            setScrollDownToggle(false);
-                        }}
-                    >
-                        <StyledHeaderBar>
-                            <StyledTitleBlock>
-                                <Link
-                                    to="/"
-                                    style={{ textDecoration: 'none' }}
-                                    onClick={() => {
-                                        setCrntPage(0);
-                                        setOverPage(0);
-                                        setScrollDownToggle(false);
-                                        setSubTabVisible(true);
-                                    }}
-                                >
-                                    <StyledTitleText>로고</StyledTitleText>
-                                </Link>
-                            </StyledTitleBlock>
+                        <StyledHeaderBarContainer
+                            fadeAnim={fadeAnim}
+                            onMouseEnter={() => {
+                                setSubTabVisible(!scrollDownToggle);
+                                setScrollDownToggle(false);
+                            }}
+                        >
+                            <StyledHeaderBar>
+                                <StyledTitleBlock>
+                                    <Link
+                                        to="/"
+                                        style={{ textDecoration: 'none' }}
+                                        onClick={() => {
+                                            setCrntPage(0);
+                                            setOverPage(0);
+                                            setScrollDownToggle(false);
+                                            setSubTabVisible(true);
+                                        }}
+                                    >
+                                        <StyledTitleText>로고</StyledTitleText>
+                                    </Link>
+                                </StyledTitleBlock>
 
-                            <StyledMenuItemsContainer>
-                                {headerItems.map((item, index) => (
-                                    <StyledMenuItemBlock key={index}>
-                                        <Link
-                                            to={item.link}
-                                            style={{ textDecoration: 'none' }}
-                                            onClick={() => {
-                                                setCrntPage(index);
-                                                setOverPage(index);
-                                                setScrollDownToggle(false);
-                                                setSubTabVisible(true);
-                                            }}
-                                            onMouseEnter={() => setOverPage(index)}
-                                        >
-                                            <StyledMenuItemText
-                                                color={item.link.split('/')[1] === crntPath ? 'grey' : 'silver'}
+                                <StyledMenuItemsContainer>
+                                    {headerItems.map((item, index) => (
+                                        <StyledMenuItemBlock key={index}>
+                                            <Link
+                                                to={item.link}
+                                                style={{ textDecoration: 'none' }}
+                                                onClick={() => {
+                                                    setCrntPage(index);
+                                                    setOverPage(index);
+                                                    setScrollDownToggle(false);
+                                                    setSubTabVisible(true);
+                                                }}
+                                                onMouseEnter={() => setOverPage(index)}
                                             >
-                                                {item.name}
-                                            </StyledMenuItemText>
-                                        </Link>
-                                    </StyledMenuItemBlock>
-                                ))}
-                            </StyledMenuItemsContainer>
-                            <StyledSearchBar value="" />
-                            <StyledButtonsCotainer>
-                                <StyledSearchButton />
-                                <Link to="/mypage" style={{ textDecoration: 'none', color: 'black' }}>
-                                    <StyledCartButton>마이페이지</StyledCartButton>
-                                </Link>
-                                <StyledLoginButton
-                                    onClick={() => {
-                                        setLoginStatus({ ...loginStatus, isLogin: true });
-                                        location.reload();
-                                    }}
-                                >
-                                    로그인
-                                </StyledLoginButton>
-                                <StyledRegisterButton>회원가입</StyledRegisterButton>
-                            </StyledButtonsCotainer>
-                        </StyledHeaderBar>
-                    </StyledHeaderBarContainer>
-                    <StyledSubTabBarBlock>
-                        {crntPath === 'mypage' ? (
-                            <MypageTabBar
-                                scrollDownToggle={scrollDownToggle}
-                                setScrollDownToggle={setScrollDownToggle}
-                                setSubTabVisible={setSubTabVisible}
-                            />
-                        ) : (
-                            <SubTabBar
-                                visible={!scrollDownToggle}
-                                overPage={overPage}
-                                crntPage={crntPage}
-                                setScrollDownToggle={setScrollDownToggle}
-                                setSubTabVisible={setSubTabVisible}
-                                items={subTabBarItems}
-                            />
-                        )}
-                    </StyledSubTabBarBlock>
-                </StyledTabsContainer>
-                <StyledContentContainer>
-                    <StyledContentBlock>{children}</StyledContentBlock>
-                </StyledContentContainer>
-            </StyledContainer>
-        );
+                                                <StyledMenuItemText
+                                                    color={item.link.split('/')[1] === crntPath ? 'grey' : 'silver'}
+                                                >
+                                                    {item.name}
+                                                </StyledMenuItemText>
+                                            </Link>
+                                        </StyledMenuItemBlock>
+                                    ))}
+                                </StyledMenuItemsContainer>
+                                <StyledSearchBar value="" />
+                                <StyledButtonsCotainer>
+                                    <StyledSearchButton />
+                                    <Link to="/mypage" style={{ textDecoration: 'none', color: 'black' }}>
+                                        <StyledMyPageButton>
+                                            <StyleMyPageText>마이페이지</StyleMyPageText>
+                                        </StyledMyPageButton>
+                                    </Link>
+                                </StyledButtonsCotainer>
+                            </StyledHeaderBar>
+                        </StyledHeaderBarContainer>
+                        <StyledSubTabBarBlock>
+                            {crntPath === 'mypage' ? (
+                                <MypageTabBar
+                                    scrollDownToggle={scrollDownToggle}
+                                    setScrollDownToggle={setScrollDownToggle}
+                                    setSubTabVisible={setSubTabVisible}
+                                />
+                            ) : (
+                                <SubTabBar
+                                    visible={!scrollDownToggle}
+                                    overPage={overPage}
+                                    crntPage={crntPage}
+                                    setScrollDownToggle={setScrollDownToggle}
+                                    setSubTabVisible={setSubTabVisible}
+                                    items={subTabBarItems}
+                                />
+                            )}
+                        </StyledSubTabBarBlock>
+                    </StyledTabsContainer>
+                    <StyledContentContainer>
+                        <StyledContentBlock>{children}</StyledContentBlock>
+                    </StyledContentContainer>
+                </StyledContainer>
+            );
+    } else {
+        if (loc.pathname === '/login' || loc.pathname === '/login/')
+            return (
+                <StyledContainer>
+                    <StyledTabsContainer>
+                        <StyledHeaderBarContainer
+                            fadeAnim={fadeAnim}
+                            onMouseEnter={() => {
+                                setSubTabVisible(!scrollDownToggle);
+                                setScrollDownToggle(false);
+                            }}
+                        >
+                            <StyledHeaderBar>
+                                <StyledTitleBlock>
+                                    <Link
+                                        to="/"
+                                        style={{ textDecoration: 'none' }}
+                                        onClick={() => {
+                                            setCrntPage(0);
+                                            setOverPage(0);
+                                            setScrollDownToggle(false);
+                                            setSubTabVisible(true);
+                                        }}
+                                    >
+                                        <StyledTitleText>로고</StyledTitleText>
+                                    </Link>
+                                </StyledTitleBlock>
+                            </StyledHeaderBar>
+                        </StyledHeaderBarContainer>
+                    </StyledTabsContainer>
+                    <StyledContentContainer>
+                        <StyledContentBlock>{children}</StyledContentBlock>
+                    </StyledContentContainer>
+                </StyledContainer>
+            );
+        else
+            return (
+                <StyledContainer>
+                    <StyledTabsContainer
+                        onMouseLeave={() => {
+                            setOverPage(crntPage);
+                            setScrollDownToggle(!subTabVisible);
+                        }}
+                    >
+                        <StyledHeaderBarContainer
+                            fadeAnim={fadeAnim}
+                            onMouseEnter={() => {
+                                setSubTabVisible(!scrollDownToggle);
+                                setScrollDownToggle(false);
+                            }}
+                        >
+                            <StyledHeaderBar>
+                                <StyledTitleBlock>
+                                    <Link
+                                        to="/"
+                                        style={{ textDecoration: 'none' }}
+                                        onClick={() => {
+                                            setCrntPage(0);
+                                            setOverPage(0);
+                                            setScrollDownToggle(false);
+                                            setSubTabVisible(true);
+                                        }}
+                                    >
+                                        <StyledTitleText>로고</StyledTitleText>
+                                    </Link>
+                                </StyledTitleBlock>
+
+                                <StyledMenuItemsContainer>
+                                    {headerItems.map((item, index) => (
+                                        <StyledMenuItemBlock key={index}>
+                                            <Link
+                                                to={item.link}
+                                                style={{ textDecoration: 'none' }}
+                                                onClick={() => {
+                                                    setCrntPage(index);
+                                                    setOverPage(index);
+                                                    setScrollDownToggle(false);
+                                                    setSubTabVisible(true);
+                                                }}
+                                                onMouseEnter={() => setOverPage(index)}
+                                            >
+                                                <StyledMenuItemText
+                                                    color={item.link.split('/')[1] === crntPath ? 'grey' : 'silver'}
+                                                >
+                                                    {item.name}
+                                                </StyledMenuItemText>
+                                            </Link>
+                                        </StyledMenuItemBlock>
+                                    ))}
+                                </StyledMenuItemsContainer>
+                                <StyledSearchBar value="" />
+                                <StyledButtonsCotainer>
+                                    <StyledSearchButton />
+                                    <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
+                                        <StyledLoginButton>로그인</StyledLoginButton>
+                                    </Link>
+                                    <StyledRegisterButton>회원가입</StyledRegisterButton>
+                                </StyledButtonsCotainer>
+                            </StyledHeaderBar>
+                        </StyledHeaderBarContainer>
+                        <StyledSubTabBarBlock>
+                            {crntPath === 'mypage' ? (
+                                <MypageTabBar
+                                    scrollDownToggle={scrollDownToggle}
+                                    setScrollDownToggle={setScrollDownToggle}
+                                    setSubTabVisible={setSubTabVisible}
+                                />
+                            ) : (
+                                <SubTabBar
+                                    visible={!scrollDownToggle}
+                                    overPage={overPage}
+                                    crntPage={crntPage}
+                                    setScrollDownToggle={setScrollDownToggle}
+                                    setSubTabVisible={setSubTabVisible}
+                                    items={subTabBarItems}
+                                />
+                            )}
+                        </StyledSubTabBarBlock>
+                    </StyledTabsContainer>
+                    <StyledContentContainer>
+                        <StyledContentBlock>{children}</StyledContentBlock>
+                    </StyledContentContainer>
+                </StyledContainer>
+            );
+    }
 };
 
 const headerFadeIn = keyframes`
@@ -230,14 +349,15 @@ const StyledUploadText = styled.div`
 `;
 
 const StyledUploadButton = styled.div`
-    width: 50px;
-    height: 30px;
+    width: 55px;
+    height: 35px;
     background-color: grey;
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-left: auto;
 `;
 
 const StyledSearchBar = styled.input`
@@ -273,7 +393,6 @@ const StyledLoginButton = styled.div`
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 13px;
     }
-    display: none;
 `;
 
 const StyledRegisterButton = styled.div`
@@ -284,7 +403,6 @@ const StyledRegisterButton = styled.div`
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 13px;
     }
-    display: none;
 `;
 
 const StyledSearchButton = styled.div`
@@ -301,15 +419,19 @@ const StyledSearchButton = styled.div`
     display: none;
 `;
 
-const StyledCartButton = styled.div`
+const StyleMyPageText = styled.div`
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+`;
+
+const StyledMyPageButton = styled.div`
     width: 25px;
     height: 25px;
     border-radius: 25px;
     background-color: silver;
     cursor: pointer;
     margin-right: 10px;
-    font-size: 11px;
-    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;

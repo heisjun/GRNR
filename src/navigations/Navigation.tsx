@@ -23,6 +23,7 @@ import {
     Myplants,
     DictionaryDetails,
     WritingQuestion,
+    Login,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -33,6 +34,7 @@ const Navigation: React.FC = () => {
             <HeaderBar>
                 <Routes>
                     <Route path="/*" element={<Popular />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/community/popular" element={<Popular />} />
                     <Route path="/community/following" element={<Following />} />
                     <Route path="/community/following/keyword" element={<Keyword />} />
