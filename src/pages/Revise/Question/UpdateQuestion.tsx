@@ -1,41 +1,46 @@
 import axios from 'axios';
+import { default as callApi } from 'common/api';
 import TagBox from 'common/components/TagBox';
+import { IQuestionDetailsParmas } from 'common/types';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
-
-const Question: React.FC = () => {
+const UpdateQuestion: React.FC = () => {
     const navigate = useNavigate();
-    const [title, setTitle] = useState<string>('');
+    const { state } = useLocation();
+    const [title, setTitle] = useState<string>('미리보기');
     const [content, setContent] = useState<string>('');
     const [getTag, setGetTag] = useState<string[]>([]);
-    const [realgetTag, setRealgetTag] = useState<{ tagName: string }[]>([]);
     const imgInputRef = useRef<HTMLInputElement | null>(null);
     const [file, setFile] = useState<File | null>(null);
-    const [imageUrl, setImageUrl] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+    const [details, setDetails] = useState<IQuestionDetailsParmas>();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await callApi.questionGet(Number(state));
+                console.log(response.data.value[0]);
+                setDetails(response.data.value[0]);
+                setTitle(response.data.value[0].title);
+                setContent(response.data.value[0].content);
+            } catch (e) {
+                console.log(e);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, [state]);
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files === null) return;
 
         if (e.target.files[0]) {
-            const reader = new FileReader();
-            const file = e.target.files[0];
-
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-                setImageUrl(reader.result);
-            };
             setFile(e.target.files[0]);
         }
     }, []);
-
-    useEffect(() => {
-        console.log('겟태그', getTag);
-        console.log('rela겟태그', realgetTag);
-    }, [getTag, realgetTag]);
 
     interface Uploader {
         title: string;
@@ -57,30 +62,31 @@ const Question: React.FC = () => {
 
         const formData = new FormData();
         formData.append('file', file);
-
         const uploader: Uploader = {
             title: title,
             content: content,
-            tagList: realgetTag,
+            tagList: [{ tagName: '태그4' }, { tagName: '태그5' }, { tagName: '태그6' }],
         };
-
-        console.log('업로드데이터:', uploader);
-
         const uploaderString = JSON.stringify(uploader);
-
-        console.log('업로드스트링데이터:', uploaderString);
+        const InquiryId = JSON.stringify(state);
+        formData.append('inquiryId', new Blob([InquiryId], { type: 'application/json' }));
         formData.append('saveDto', new Blob([uploaderString], { type: 'application/json' }));
 
-        const res = await axios.post(`${BASEURL}/api/inquiry/new`, formData, {
+        const res = await axios.put('http://43.201.2.18/api/api/inquiry/revise', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${TOKEN}`,
+                Authorization:
+                    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjY2IiwiZXhwIjoxNjY0ODkzNjk4fQ.6Cy47SpwlVFB7oPtZUAhbggmU2_DGPyenAPul1iyEo8JdBDUxLm5fWsJCWJs4ucNOrf5t3j8AmSgigx61cotTg',
             },
         });
         navigate(-1);
 
         if (res.status === 201) console.log(res.data);
     }, [file]);
+
+    useEffect(() => {
+        console.log(getTag);
+    }, [getTag]);
 
     return (
         <StyledQuestionContainer>
@@ -97,34 +103,18 @@ const Question: React.FC = () => {
 
             <input type="file" accept="image/*" ref={imgInputRef} style={{ display: 'none' }} onChange={handleChange} />
             <StyledImgUpload onClick={onImgUploadButton}>img</StyledImgUpload>
-            <img src={imageUrl} style={{ width: 200, height: 200 }} />
 
-            <StyledInputBlock2
+            <StyledInputBlock
+                type="text"
                 placeholder="내용을 입력하세요"
                 value={content}
-                onChange={(e) => {
-                    setContent(e.target.value);
-                }}
+                onChange={(e) => setContent(e.target.value)}
             />
-            <TagBox setGetTag={setGetTag} value={getTag} realsetGetTag={setRealgetTag} realvalue={realgetTag} />
+            <TagBox setGetTag={setGetTag} value={getTag} />
             <button onClick={handleClick}>등록</button>
         </StyledQuestionContainer>
     );
 };
-
-const StyledInputBlock2 = styled.textarea`
-    width: 100%;
-    margin-top: 20px;
-    font-size: 15px;
-    padding: 5px;
-    background: #fff;
-    border: 1px solid lightgrey;
-    font-weight: 400;
-    color: gray;
-    border-radius: 5px;
-    height: 150px;
-    resize: none;
-`;
 
 const StyledImgUpload = styled.div`
     width: 50px;
@@ -173,4 +163,4 @@ const StyledQuestionContainer = styled.div`
     margin: 0 auto;
 `;
 
-export default Question;
+export default UpdateQuestion;

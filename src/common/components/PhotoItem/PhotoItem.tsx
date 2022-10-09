@@ -1,57 +1,57 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { IItemParams } from 'common/types';
+import { IPhotoItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 
-const PhotoItem: React.FC<IItemParams> = (props) => {
+const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
 
     const [imgAnim, setImgAnim] = useState<any>();
 
     return (
-        <StyledPhotoItemContainer width={width} height={height} paddingBottom={paddingBottom}>
-            <StyledHeaderBlock>
-                <StyledWriterBlock>
-                    <StyeldAvatarBlock>
-                        <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
-                    </StyeldAvatarBlock>
-                    <StyledWriterText>taemin</StyledWriterText>
-                </StyledWriterBlock>
-                <StyledFollowButton>
-                    <StyledFollowText>팔로우+</StyledFollowText>
-                </StyledFollowButton>
-            </StyledHeaderBlock>
-            <Link to="./details" style={{ textDecoration: 'none' }}>
-                <StyledPhotoBlock
-                    onMouseEnter={() => {
-                        setImgAnim(ImageScaleUp);
-                    }}
-                    onMouseLeave={() => {
-                        setImgAnim(ImageScaleDown);
-                    }}
-                >
-                    <StyledImg
-                        src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                        width="100%"
-                        height="100%"
-                        imgAnim={imgAnim}
-                    />
-                </StyledPhotoBlock>
-            </Link>
-            <StyledFooterBlock>
-                <StyledDetailsBlock>
-                    <StyledDetailsText>
-                        사진에 대한 설명 사진에 대한 설명 사진에 대한 설명 사진에 대한 설명 사진에 대한 설명
-                    </StyledDetailsText>
-                </StyledDetailsBlock>
-                <StyledButtonsBlock>
-                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/like.png`} />
-                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
-                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} />
-                </StyledButtonsBlock>
-            </StyledFooterBlock>
-        </StyledPhotoItemContainer>
+        <>
+            <StyledPhotoItemContainer width={width} height={height} paddingBottom={paddingBottom}>
+                <StyledHeaderBlock>
+                    <StyledWriterBlock>
+                        <StyeldAvatarBlock>
+                            <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
+                        </StyeldAvatarBlock>
+                        <StyledWriterText>{item.accountNickName}</StyledWriterText>
+                    </StyledWriterBlock>
+                    <StyledFollowButton>
+                        <StyledFollowText>팔로우+</StyledFollowText>
+                    </StyledFollowButton>
+                </StyledHeaderBlock>
+                <Link to={`./details/${item.pictureId}`} style={{ textDecoration: 'none' }}>
+                    <StyledPhotoBlock
+                        onMouseEnter={() => {
+                            setImgAnim(ImageScaleUp);
+                        }}
+                        onMouseLeave={() => {
+                            setImgAnim(ImageScaleDown);
+                        }}
+                    >
+                        <StyledImg
+                            src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                            width="100%"
+                            height="100%"
+                            imgAnim={imgAnim}
+                        />
+                    </StyledPhotoBlock>
+                </Link>
+                <StyledFooterBlock>
+                    <StyledDetailsBlock>
+                        <StyledDetailsText>{item.pictureContentDtoList[0].explain}</StyledDetailsText>
+                    </StyledDetailsBlock>
+                    <StyledButtonsBlock>
+                        <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/like.png`} />
+                        <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
+                        <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} />
+                    </StyledButtonsBlock>
+                </StyledFooterBlock>
+            </StyledPhotoItemContainer>
+        </>
     );
 };
 

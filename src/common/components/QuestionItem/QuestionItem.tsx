@@ -9,13 +9,6 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const QuestionItem: React.FC<IQuestionItem> = (props) => {
     const { data } = props;
 
-    function truncate(text: string) {
-        const replaced = text.replace(/\n/g, ' ');
-        if (replaced.length <= 100) {
-            return replaced;
-        }
-        return replaced.slice(0, 100).concat('...');
-    }
     return (
         <>
             {data.map((question: any, index: number) => (
@@ -40,9 +33,10 @@ const QuestionItem: React.FC<IQuestionItem> = (props) => {
                                 <StyledInfoText>댓글 {question.commentQuantity}</StyledInfoText>|
                                 <StyledInfoText>조회수 {question.viewQuantity}</StyledInfoText>
                             </StyledUserInfo>
-                            {question.itagDtoList.map((e: any, index: number) => (
-                                <StyledKeyword key={index}>{e.tagName}</StyledKeyword>
-                            ))}
+                            {question?.itagDtoList &&
+                                question?.itagDtoList.map((e: any, index: number) => (
+                                    <StyledKeyword key={index}>{e.tagName}</StyledKeyword>
+                                ))}
                         </StyledItemInfo>
                         <StyledBorderLine />
                     </Link>

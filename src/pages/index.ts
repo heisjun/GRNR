@@ -23,3 +23,7 @@ export { default as Myplants } from './Myplants';
 export { default as DictionaryDetails } from './DictionaryDetails';
 export { default as Login } from './Login';
 export { default as QuestionDetails } from './QuestionDetails';
+export { default as UpdateQuestion } from './Revise/Question';
+export { default as QuestionQuery } from './QuestionQuery';
+export { default as NotFound } from './NotFound';
+export { default as MyFollowing } from './MyFollowing';

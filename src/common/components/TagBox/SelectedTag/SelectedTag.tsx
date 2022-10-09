@@ -4,7 +4,7 @@ import { FaTimes } from 'react-icons/fa';
 import { ISelectedTag } from './SelectedTag.type';
 
 const SelectedTag: React.FC<ISelectedTag> = (props) => {
-    const { data, setClear } = props;
+    const { data, setClear, realdata, realsetClear } = props;
     const deleteList = (list: any) => {
         if (data.includes(list)) {
             setClear((prev: string | any[]) => {
@@ -12,8 +12,14 @@ const SelectedTag: React.FC<ISelectedTag> = (props) => {
                 arr.splice(prev.indexOf(list), 1);
                 return arr;
             });
+            realsetClear((prev: string | any[]) => {
+                const arr = [...prev];
+                arr.splice(prev.indexOf(list), 1);
+                return arr;
+            });
         } else {
             setClear((prev: any) => [...prev, list]);
+            realsetClear((prev: any) => [...prev, list]);
         }
     };
 

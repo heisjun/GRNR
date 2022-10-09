@@ -15,10 +15,79 @@ export type IQuestionDetailsParmas = {
     viewQuantity: number;
 };
 
-export type IPictureParams = {
-    picUrl?: string;
-    writer?: string;
-    avtUrl?: string;
+export type IQuestionCommentsParams = {
+    inquiryId: number;
+    commentQuantity: number;
+    commentDtoList: {
+        inquiryId: number;
+        commentId: number;
+        commentNicNameList: null;
+        content: string;
+        report: boolean;
+        parentId: null;
+        likeCount: number;
+        accountNicName: string;
+        commentChildDtoList: {
+            parentId: number;
+            commentId: number;
+            content: string;
+            report: boolean;
+            accountNicName: string;
+            likeCount: number;
+            commentNicNameList: {
+                commentId: number;
+                nicNameTags: string;
+            }[];
+        }[];
+    }[];
+};
+
+export type IPhotoDetailsParams = {
+    pictureId?: number;
+    pictureContentDtoList: {
+        pictureId: number;
+        contentId: number;
+        pictureUrl: string;
+        explain: string;
+        homePlace: string;
+        tagList: {
+            pictureContentId: number;
+            tagName: string;
+        }[];
+    }[];
+    accountNickName?: string;
+    scrapCount?: number;
+    likeCount?: number;
+    viewCount?: number;
+};
+
+export type IPhotoDetailsItems = {
+    pictureId: number;
+    contentId: number;
+    pictureUrl: string;
+    explain: string;
+    homePlace: string;
+    tagList: {
+        pictureContentId: number;
+        tagName: string;
+    }[];
+}[];
+
+export type ITaggedPhoto = {
+    width: string;
+    height?: string;
+    paddingBottom?: string;
+    item: {
+        pictureId: number;
+        contentId: number;
+        pictureUrl: string;
+        explain: string;
+        homePlace: string;
+        tagList: {
+            pictureContentId: number;
+            tagName: string;
+        }[];
+    };
 };
 
 export type IArticleParams = {
@@ -55,7 +124,14 @@ export type IItemParams = {
     width: string;
     height?: string;
     paddingBottom?: string;
-    item: IPictureParams | IArticleParams | IMagazineParams | IPhotoParams | IDictionaryParams;
+    item: IMagazineParams | IArticleParams | IPhotoParams | IDictionaryParams | IMyphotoParams | IQuestionDetailsParmas;
+};
+
+export type IPhotoItemParams = {
+    width: string;
+    height?: string;
+    paddingBottom?: string;
+    item: IPhotoDetailsParams;
 };
 
 export type IUploadPicData = {
@@ -63,4 +139,6 @@ export type IUploadPicData = {
     hashtag?: string[];
     details: string;
     imgFile: any;
+    realImg: any;
+    realhashtag: { tagName: string }[];
 };
