@@ -5,28 +5,37 @@ import { ITagBox } from './TagBox.type';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
-const Filters: React.FC<ITagBox> = (props) => {
-    const { setGetTag, value } = props;
+const TagBox: React.FC<ITagBox> = (props) => {
+    const { setGetTag, value, realsetGetTag, realvalue } = props;
+
     const [currentItem, setCurrentItem] = useState<string[]>([]);
     const [textValue, setTextValue] = useState('');
+    const [array, setArray] = useState<{ tagName: string }[]>([]);
     const handleSetValue = (e: any) => {
         setTextValue(e.target.value);
     };
 
-    const handleCurrentTag = (option: string) => {
+    const handleCurrentTag = (option: string, del: { tagName: string }) => {
         if (currentItem.includes(option)) {
             setCurrentItem((prev) => {
                 const arr = [...prev];
                 arr.splice(prev.indexOf(option), 1);
                 return arr;
             });
+            setArray((prev) => {
+                const arr = [...prev];
+                arr.splice(prev.indexOf(del), 1);
+                return arr;
+            });
         } else {
             setCurrentItem((prev) => [...prev, option]);
+            const newItem = { tagName: option };
+            setArray((prev) => [...prev, newItem]);
         }
     };
 
     const onClick = () => {
-        handleCurrentTag(textValue);
+        handleCurrentTag(textValue, { tagName: textValue });
         setTextValue('');
     };
 
@@ -38,15 +47,18 @@ const Filters: React.FC<ITagBox> = (props) => {
 
     const sendTag = () => {
         setGetTag(currentItem);
+        {
+            realsetGetTag && realsetGetTag(array);
+        }
     };
 
     useEffect(() => {
         sendTag();
-    }, [currentItem]);
+    }, [currentItem, array]);
 
     return (
         <StyledTagBoxContainer>
-            <SelectedTag data={value} setClear={setCurrentItem} />
+            <SelectedTag data={value} setClear={setCurrentItem} realdata={realvalue} realsetClear={setArray} />
             <div>
                 <StyledFixText>#</StyledFixText>
                 <StyledInputHashTag>
@@ -55,11 +67,13 @@ const Filters: React.FC<ITagBox> = (props) => {
                         placeholder="키워드"
                         value={textValue}
                         onKeyPress={onKeyPress}
-                        onChange={(e) => handleSetValue(e)}
+                        onChange={(e) => {
+                            handleSetValue(e);
+                        }}
                     ></StyledInput>
                     <StyledInputBtn
                         onClick={() => {
-                            handleCurrentTag(textValue);
+                            handleCurrentTag(textValue, { tagName: textValue });
                             setTextValue('');
                         }}
                     >
@@ -117,4 +131,4 @@ const StyledFixText = styled.div`
     color: gray;
 `;
 
-export default Filters;
+export default TagBox;

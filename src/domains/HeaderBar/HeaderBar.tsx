@@ -6,6 +6,7 @@ import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
 import { SubTabBar, MypageTabBar } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
+import CustomSelector from 'common/components/CustomSelector';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
@@ -171,6 +172,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                             <StyleMyPageText>마이페이지</StyleMyPageText>
                                         </StyledMyPageButton>
                                     </Link>
+                                    <StyledWritingButton> 글쓰기</StyledWritingButton>
                                 </StyledButtonsCotainer>
                             </StyledHeaderBar>
                         </StyledHeaderBarContainer>
@@ -399,10 +401,18 @@ const StyledRegisterButton = styled.div`
     font-size: 12px;
     color: grey;
     cursor: pointer;
-    margin-right: 0px;
+    margin-right: 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 13px;
     }
+`;
+
+const StyledWritingButton = styled.div`
+    font-size: 12px;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    background-color: gray;
 `;
 
 const StyledSearchButton = styled.div`

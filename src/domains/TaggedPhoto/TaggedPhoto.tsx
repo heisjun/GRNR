@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { IItemParams } from 'common/types';
-import { Avatar } from 'common/components';
+import { ITaggedPhoto } from 'common/types';
 
-const TaggedPhoto: React.FC<IItemParams> = (props) => {
+const TaggedPhoto: React.FC<ITaggedPhoto> = (props) => {
     const { width, height, paddingBottom, item } = props;
 
     const [imgAnim, setImgAnim] = useState<any>();
@@ -27,17 +26,18 @@ const TaggedPhoto: React.FC<IItemParams> = (props) => {
                     />
                 </StyledImageBlock>
             </StyledImageContainer>
-            <StyledTagBoxesBlock>
-                <StyledTagBox />
-                <StyledTagBox />
-                <StyledTagBox />
-                <StyledTagBox />
-            </StyledTagBoxesBlock>
-            <StyledDetailsText>
-                동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세 남산 위에 저 소나무 철갑을 두 른 듯 바람
-                서리 불변함 은 우리 기상 일세 무궁화 삼천리 화려 강산 대한 사람 대한으로 길이 보전 하세 남산위에 저
-                소나무 철갑을 두른듯 바람서리 불변함은 우리
-            </StyledDetailsText>
+            <StyledTagBoxesBlock />
+
+            <StyledDetailsText>{item.explain}</StyledDetailsText>
+
+            <div style={{ display: 'flex', paddingTop: 15 }}>
+                {item.tagList.map((i, index) => (
+                    <div key={index}>
+                        <div style={{ color: 'lightblue', paddingRight: 10 }}>#{i.tagName}</div>
+                    </div>
+                ))}
+            </div>
+
             <StyledBorderLine />
         </StyledTaggedPhotoContainer>
     );
@@ -61,60 +61,11 @@ const ImageScaleDown = keyframes`
     }
 `;
 
-const StyledFollowText = styled.div`
-    font-size: 15px;
-    color: grey;
-`;
-
-const StyledFollowButton = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid 2px;
-    border-radius: 25px;
-    border-color: silver;
-    cursor: pointer;
-    &:hover {
-        background-color: silver;
-    }
-`;
-
-const StyledFollowButtonBlock = styled.div`
-    width: 18%;
-`;
-
 const StyledBorderLine = styled.div`
     width: 100%;
     border-bottom: solid 1px;
     border-color: silver;
     margin: 30px 0px 30px 0px;
-`;
-
-const StyeldAvatarBlock = styled.div`
-    width: 10%;
-`;
-
-const StyledWriterText = styled.div`
-    margin-left: 2%;
-    font-size: 20px;
-    color: grey;
-`;
-
-const StyledWriterBlock = styled.div`
-    display: flex;
-    align-items: center;
-    margin-top: 2px;
-`;
-
-const StyledProfileBlock = styled.div`
-    flex: 1;
-`;
-
-const StyledUserInfoBlock = styled.div`
-    width: 100%;
-    display: flex;
 `;
 
 const StyledDetailsText = styled.div`

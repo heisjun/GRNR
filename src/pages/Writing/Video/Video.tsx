@@ -26,11 +26,14 @@ const Video: React.FC = () => {
     const [getOption2, setGetOption2] = useState('');
 
     const [getContent, setGetContent] = useState<IUploadPicData[]>([
-        { loc: '', hashtag: [], details: '', imgFile: null },
+        { loc: '', hashtag: [], details: '', imgFile: null, realImg: null, realhashtag: [] },
     ]);
 
     const onAddWritingItem = () => {
-        setGetContent([...getContent, { loc: '', hashtag: [], details: '', imgFile: null }]);
+        setGetContent([
+            ...getContent,
+            { loc: '', hashtag: [], details: '', imgFile: null, realImg: null, realhashtag: [] },
+        ]);
     };
 
     const onRemoveWritingItem = useCallback(

@@ -22,8 +22,10 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
     };
     const [getOption, setGetOption] = useState('');
     const [getTag, setGetTag] = useState<string[]>([]);
+    const [realgetTag, setRealgetTag] = useState<{ tagName: string }[]>([]);
     const [imageUrl, setImageUrl] = useState<any>(null);
     const [videoUrl, setVideoUrl] = useState<any>(null);
+    const [imgfile, setImgFile] = useState<File | null>(null);
     const imgRef = useRef<any>(null);
 
     const onChangeImage = () => {
@@ -34,6 +36,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
         reader.onloadend = () => {
             setImageUrl(reader.result);
         };
+        setImgFile(file);
     };
 
     const onChangeVideo = (e: any) => {
@@ -60,11 +63,13 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                         details: textValue,
                         loc: getOption,
                         hashtag: getTag,
+                        realImg: imgfile,
+                        realhashtag: realgetTag,
                     };
                 } else return item;
             }),
         );
-    }, [imageUrl, textValue, getOption, getTag]);
+    }, [imageUrl, textValue, getOption, getTag, imgfile, realgetTag]);
 
     const Preview = () => {
         return (
@@ -89,6 +94,10 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
         imgRef.current.click();
     };
 
+    useEffect(() => {
+        console.log('태그네임:', realgetTag);
+        console.log('내용', getContent);
+    }, [realgetTag, getContent]);
     return (
         <StyledPictureBody>
             <StyledImgBlock>
@@ -150,10 +159,15 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                 </StyledFlexBlock>
                 <StyledInputBlock
                     placeholder="사진에 대해 설명해주세요"
-                    value={getContent[index].details}
+                    value={textValue}
                     onChange={(e) => handleSetValue(e)}
                 />
-                <TagBox setGetTag={setGetTag} value={getContent[index].hashtag} />
+                <TagBox
+                    setGetTag={setGetTag}
+                    value={getContent[index].hashtag}
+                    realsetGetTag={setRealgetTag}
+                    realvalue={getContent[index].realhashtag}
+                />
             </StyledContentBlock>
         </StyledPictureBody>
     );

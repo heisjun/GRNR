@@ -1,22 +1,39 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Avatar, ItemList } from 'common/components';
-import { TaggedPhoto } from 'domains';
 import { getDebouncedFunc } from 'common/funcs';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { default as callApi } from 'common/api';
-import { IQuestionDetailsParmas } from 'common/types';
-
-const EXAMPLE = [{}, {}, {}];
+import { IQuestionDetailsParmas, IQuestionCommentsParams } from 'common/types';
+import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const BASEURL = process.env.REACT_APP_BASE_URL;
+const TOKEN = process.env.REACT_APP_USER_TOKEN;
 
 const QuestionDetails: React.FC = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState<IQuestionDetailsParmas>();
+    const [commentsList, setCommentsList] = useState<IQuestionCommentsParams>();
+    const [comment, setComment] = useState('');
+    const [recomment, setRecomment] = useState('');
+    const [isActive, setIsActive] = useState([false]);
     const sideBarRef = useRef<any>(null);
 
     const params = useParams();
+
+    function onOpenBtn(index: number) {
+        const newIsActive = [...isActive];
+        newIsActive[index] = true;
+        setIsActive(newIsActive);
+    }
+
+    function onCloseBtn(index: number) {
+        const newIsActive = [...isActive];
+        newIsActive[index] = false;
+        setIsActive(newIsActive);
+    }
 
     const scrollHandler = () => {
         sideBarRef.current.style.transition = 'all 0.5s ease-in-out';
@@ -37,7 +54,6 @@ const QuestionDetails: React.FC = () => {
             setLoading(true);
             try {
                 const response = await callApi.questionGet(Number(params.id));
-                console.log(response.data.value[0]);
                 setDetails(response.data.value[0]);
             } catch (e) {
                 console.log(e);
@@ -45,9 +61,24 @@ const QuestionDetails: React.FC = () => {
             setLoading(false);
         };
         fetchData();
-    }, [params]);
+    }, []);
 
-    const data = [{}, {}];
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/inquiry/detail/comment/${params.id}
+                `,
+                );
+                setCommentsList(CommentData.data.value.content[0]);
+            } catch (e) {
+                console.log(e);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, [commentsList]);
 
     function timeForToday(value: any) {
         const today = new Date();
@@ -72,26 +103,132 @@ const QuestionDetails: React.FC = () => {
         return `${value}`;
     }
 
+    const onDeletePost = async () => {
+        try {
+            await axios.delete(`${BASEURL}/api/inquiry/delete/${params.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            navigate(-1);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onEdit = () => {
+        navigate('/community/question/edit', { state: params.id });
+    };
+
+    const onDeleteComment = async (commendId: number) => {
+        try {
+            await axios.delete(`${BASEURL}/api/comment/delete/${commendId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onCommentLike = async (commendId: number) => {
+        try {
+            await axios.post(
+                `${BASEURL}/api/like/${commendId}`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onCommentSave = async () => {
+        try {
+            const body = {
+                commentId: null,
+                content: comment,
+                nickNameTag: [
+                    {
+                        nickName: null,
+                    },
+                ],
+            };
+            await axios.post(`${BASEURL}/api/comment/new/${params.id}`, body, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onReCommentSave = async (commentId: number, content: string) => {
+        try {
+            const body = {
+                commentId: commentId,
+                content: content,
+                nickNameTag: [
+                    {
+                        nickName: null,
+                    },
+                ],
+            };
+            await axios.post(`${BASEURL}/api/comment/new/${params.id}`, body, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return (
         <StyledPhotoDetailsContainer>
             <StyledDetailsBlock>
                 <StyledTopTextBlock>
-                    <StyledContentText>Q&A : {params.id}</StyledContentText>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <StyledContentText>Q&A: {params.id} </StyledContentText>
+                        <div style={{ display: 'flex' }}>
+                            <div onClick={onEdit} style={{ cursor: 'pointer' }}>
+                                수정
+                            </div>
+                            <div onClick={onDeletePost} style={{ cursor: 'pointer' }}>
+                                삭제
+                            </div>
+                        </div>
+                    </div>
                     <StyledTitleText>{details?.title}</StyledTitleText>
                     <StyledContentText>{timeForToday(details?.time)}</StyledContentText>
-                    {details?.tagList.map((e: any, index: number) => (
-                        <StyledKeyword key={index}>{e.tagName}</StyledKeyword>
-                    ))}
+                    <div style={{ display: 'flex' }}>
+                        {details?.tagList &&
+                            details?.tagList.map((e: any, index: number) => (
+                                <StyledKeyword key={index}>{e.tagName}</StyledKeyword>
+                            ))}
+                    </div>
                 </StyledTopTextBlock>
-                <ItemList
-                    width="100%"
-                    imgHeight="100%"
-                    cols={1}
-                    horizontalGap={0}
-                    verticalGap={0}
-                    items={data}
-                    RenderComponent={TaggedPhoto}
-                />
+                <StyledTaggedPhotoContainer>
+                    <StyledImageContainer width={'100%'} height={'100%'} paddingBottom={'100%'}>
+                        <StyledImageBlock>
+                            <StyledImg src={details?.picList[0].pictureUrl} width="100%" height="100%" />
+                        </StyledImageBlock>
+                    </StyledImageContainer>
+                    <StyledTagBoxesBlock />
+                    <StyledDetailsText>{details?.content}</StyledDetailsText>
+                    <StyledBorderLine />
+                </StyledTaggedPhotoContainer>
                 <StyledUserInfoBlock>
                     <StyledProfileBlock>
                         <StyledWriterBlock>
@@ -107,12 +244,185 @@ const QuestionDetails: React.FC = () => {
                         </StyledFollowButton>
                     </StyledFollowButtonBlock>
                 </StyledUserInfoBlock>
+                <StyledBorderLine />
+                <div>
+                    <div>댓글:{commentsList?.commentQuantity}</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                        <Avatar width="6%" paddingBottom="6%" borderRadius="100%" />
+
+                        <input
+                            type="text"
+                            value={comment}
+                            style={{ width: '80%', borderRadius: 15, paddingLeft: 5 }}
+                            onChange={(e) => {
+                                setComment(e.target.value);
+                            }}
+                        />
+                        <button onClick={onCommentSave}>저장</button>
+                    </div>
+                    {commentsList?.commentDtoList &&
+                        commentsList?.commentDtoList.map((item, index) => {
+                            return (
+                                <div key={index}>
+                                    <div style={{ display: 'flex', width: '100%' }}>
+                                        <Avatar width="6%" paddingBottom="6%" borderRadius="100%" />
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                width: '92%',
+                                            }}
+                                        >
+                                            <div style={{ fontWeight: 500, fontSize: '1.5vw', padding: 10 }}>
+                                                {item.accountNicName}
+                                            </div>
+                                            <div style={{ fontWeight: 300, fontSize: '1.5vw', padding: 10 }}>
+                                                {item.content}
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                width: '6%',
+                                                backgroundColor: 'red',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                cursor: 'pointer',
+                                            }}
+                                            onClick={() => onCommentLike(item.commentId)}
+                                        >
+                                            하트
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            paddingLeft: '6%',
+                                            fontWeight: 300,
+                                            fontSize: '1.2vw',
+                                        }}
+                                    >
+                                        <div style={{ paddingRight: '1vw' }}> 좋아요 {item.likeCount} 개</div>
+                                        <div style={{ paddingRight: '1vw' }} onClick={() => onOpenBtn(index)}>
+                                            답글달기
+                                        </div>
+                                        <div style={{ paddingRight: '1vw' }}>신고</div>
+                                        <div
+                                            style={{ paddingRight: '1vw' }}
+                                            onClick={() => onDeleteComment(item.commentId)}
+                                        >
+                                            삭제
+                                        </div>
+                                    </div>
+                                    {item.commentChildDtoList &&
+                                        item.commentChildDtoList.map((i, d) => {
+                                            return (
+                                                <div style={{ paddingLeft: '6%' }} key={d}>
+                                                    <div style={{ display: 'flex', width: '100%' }}>
+                                                        <Avatar width="6%" paddingBottom="6%" borderRadius="100%" />
+                                                        <div
+                                                            style={{
+                                                                display: 'flex',
+                                                                width: '92%',
+                                                            }}
+                                                        >
+                                                            <div
+                                                                style={{
+                                                                    padding: 10,
+                                                                    fontWeight: 500,
+                                                                    fontSize: '1.5vw',
+                                                                }}
+                                                            >
+                                                                {i.accountNicName}
+                                                            </div>
+                                                            <div
+                                                                style={{
+                                                                    padding: 10,
+                                                                    fontWeight: 300,
+                                                                    fontSize: '1.5vw',
+                                                                }}
+                                                            >
+                                                                {i.content}
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            style={{
+                                                                width: '6%',
+                                                                backgroundColor: 'red',
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                            }}
+                                                        >
+                                                            하트
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            display: 'flex',
+                                                            paddingLeft: '6%',
+                                                            fontWeight: 300,
+                                                            fontSize: '1.2vw',
+                                                        }}
+                                                    >
+                                                        <div style={{ paddingRight: '1vw' }}>
+                                                            좋아요 {i.likeCount} 개
+                                                        </div>
+                                                        <div
+                                                            style={{ paddingRight: '1vw' }}
+                                                            onClick={() => onOpenBtn(index)}
+                                                        >
+                                                            답글달기
+                                                        </div>
+                                                        <div
+                                                            style={{ paddingRight: '1vw' }}
+                                                            onClick={() => onDeleteComment(i.commentId)}
+                                                        >
+                                                            삭제
+                                                        </div>
+                                                        <div style={{ paddingRight: '1vw' }}>신고</div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    {isActive[index] && (
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                marginBottom: 10,
+                                            }}
+                                        >
+                                            <Avatar width="6%" paddingBottom="6%" borderRadius="100%" />
+
+                                            <input
+                                                type="text"
+                                                value={recomment}
+                                                style={{ width: '80%', borderRadius: 15, paddingLeft: 5 }}
+                                                onChange={(e) => {
+                                                    setRecomment(e.target.value);
+                                                }}
+                                            />
+                                            <button
+                                                onClick={() => {
+                                                    onReCommentSave(item.commentId, recomment);
+                                                    onCloseBtn(index);
+                                                    setRecomment('');
+                                                }}
+                                            >
+                                                저장
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                </div>
             </StyledDetailsBlock>
             <StyledButtonsContainer>
                 <StyledButtonsBlock ref={sideBarRef}>
                     <StyledButtonBlock>
                         <StyledButton />
-                        <StyledButtonText>12</StyledButtonText>
+                        <StyledButtonText>{commentsList?.commentQuantity}</StyledButtonText>
                     </StyledButtonBlock>
                 </StyledButtonsBlock>
             </StyledButtonsContainer>
@@ -258,5 +568,49 @@ const StyledUserInfoBlock = styled.div`
     width: 100%;
     display: flex;
 `;
+
+const StyledDetailsText = styled.div`
+    font-size: 15px;
+    font-weight: 100;
+    color: grey;
+`;
+
+const StyledTagBoxesBlock = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 3% 0% 3% 0%;
+`;
+
+const StyledTagBox = styled.div`
+    width: 20%;
+    padding-bottom: 20%;
+    border-radius: 35%;
+    border: solid 1px;
+    border-color: silver;
+`;
+
+const StyledImg = styled.img`
+    cursor: pointer;
+`;
+
+const StyledImageBlock = styled.div`
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+`;
+
+const StyledImageContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
+    position: relative;
+    width: ${({ width }) => width};
+    height: ${({ height }) => height};
+    padding-bottom: ${({ paddingBottom }) => paddingBottom};
+    background-color: grey;
+    border-radius: 5px;
+`;
+
+const StyledTaggedPhotoContainer = styled.div``;
 
 export default QuestionDetails;

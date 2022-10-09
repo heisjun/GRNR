@@ -5,7 +5,7 @@ import QuestionItem from 'common/components/QuestionItem';
 import axios from 'axios';
 import CustomSelector from 'common/components/CustomSelector';
 import { FadeIn, FadeOut } from 'common/keyframes';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -61,30 +61,25 @@ const option = [
     },
 ];
 
-const Question: React.FC = () => {
+const QuestionQuery: React.FC = () => {
     const navigate = useNavigate();
-    const [getOption, setGetOption] = useState('');
-    const [test, setTest] = useState('recent');
+    const { state } = useLocation();
+    const pass = String(state);
 
-    useEffect(() => {
-        if (getOption === '인기순') {
-            setTest('popularity');
-        } else setTest('recent');
-    }, [getOption]);
+    const [getOption, setGetOption] = useState('최신순');
 
     const [questions, setQuestions] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
     const [viewAll, setViewAll] = useState<boolean>(false);
-    const [searchKeyword, setSearchKeyword] = useState('');
+    const [searchKeyword, setSearchKeyword] = useState(pass);
 
     useEffect(() => {
-        console.log(getOption);
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://43.201.2.18/api/api/inquiry/${test}`);
+                const response = await axios.get(`http://43.201.2.18/api/api/inquiry/detail/tag?tag=${searchKeyword}`);
                 setQuestions(response.data.value.content);
                 console.log(response.data.value.content);
             } catch (e) {
@@ -93,7 +88,7 @@ const Question: React.FC = () => {
             setLoading(false);
         };
         fetchData();
-    }, [getOption]);
+    }, [searchKeyword]);
 
     useEffect(() => {
         setPageAnim(FadeIn);
@@ -132,9 +127,6 @@ const Question: React.FC = () => {
                                             <StyledKeyword
                                                 onClick={() => {
                                                     setSearchKeyword(list);
-                                                    navigate(`/community/question/${list}`, {
-                                                        state: list,
-                                                    });
                                                 }}
                                             >
                                                 {list}
@@ -160,6 +152,7 @@ const Question: React.FC = () => {
             <StyledQuestionBlock>
                 <StyledFeedHeader>
                     <CustomSelector optionData={option} setGetOption={setGetOption} />
+                    <div>{getOption}</div>
                     <Link to={`./new`} style={{ textDecoration: 'none' }}>
                         <StyledQuestionBtn>질문하기</StyledQuestionBtn>
                     </Link>
@@ -330,4 +323,4 @@ const StyledAllKeyword = styled.div`
     cursor: pointer;
 `;
 
-export default React.memo(Question);
+export default React.memo(QuestionQuery);

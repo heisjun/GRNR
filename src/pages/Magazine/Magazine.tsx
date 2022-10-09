@@ -18,8 +18,8 @@ const Magazine: React.FC = () => {
     const MagazineFilter = [
         {
             id: 1,
-            name: '지역',
-            list: ['공개', '비공개'],
+            name: '정렬',
+            list: ['최신순', '인기순'],
         },
         {
             id: 2,

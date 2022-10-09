@@ -2,12 +2,29 @@ import {
     IItemParams,
     IMagazineParams,
     IArticleParams,
-    IPictureParams,
-    IPhotoParams,
     IDictionaryParams,
     IMyphotoParams,
+    IPhotoDetailsParams,
+    IPhotoDetailsItems,
 } from 'common/types';
 import React from 'react';
+
+export type IQuestionDetailsParmas = {
+    accountNicName: string;
+    content: string;
+    inquiryId: number;
+    picList: {
+        inquiryId: number;
+        pictureUrl: string;
+    }[];
+    tagList: {
+        inquiryId: number;
+        tagName: string;
+    }[];
+    time: string;
+    title: string;
+    viewQuantity: number;
+};
 
 export type IItemList = {
     width: string;
@@ -18,9 +35,11 @@ export type IItemList = {
     items:
         | IMagazineParams[]
         | IArticleParams[]
-        | IPictureParams[]
-        | IPhotoParams[]
         | IDictionaryParams[]
-        | IMyphotoParams[];
+        | IMyphotoParams[]
+        | IItemParams[]
+        | IQuestionDetailsParmas[]
+        | IPhotoDetailsParams[]
+        | IPhotoDetailsItems;
     RenderComponent: React.FC<any>;
 };
