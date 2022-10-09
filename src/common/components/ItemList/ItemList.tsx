@@ -6,7 +6,7 @@ const ItemList: React.FC<IItemList> = (props) => {
     const length = String((100 - (cols - 1) * horizontalGap) / cols - 0.1) + '%';
     return (
         <StyledItemListContainer width={width}>
-            {items.map((item, index) => (
+            {items.map((item: any, index: number) => (
                 <StyledItemBlock
                     key={index}
                     length={length}

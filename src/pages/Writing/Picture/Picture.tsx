@@ -3,8 +3,11 @@ import WritingItem from 'common/components/WritingItem';
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { IUploadPicData } from 'common/types';
+import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const BASEURL = process.env.REACT_APP_BASE_URL;
+const TOKEN = process.env.REACT_APP_USER_TOKEN;
 
 const option1 = [
     {
@@ -24,13 +27,31 @@ const option2 = [
 const Picture: React.FC = () => {
     const [getOption1, setGetOption1] = useState('');
     const [getOption2, setGetOption2] = useState('');
+    const [imgFiles, setImgFiles] = useState<{ imgfile: any }[]>([]);
+    const [saveDto, setSaveDto] = useState<
+        {
+            explain: string;
+            homePlace: string;
+            tagDtoList: { tagName: string }[];
+        }[]
+    >([]);
+    const [realsaveDto, realsetSaveDto] = useState<{
+        pictureSaveDtoList: {
+            explain: string;
+            homePlace: string;
+            tagDtoList: { tagName: string }[];
+        }[];
+    }>();
 
     const [getContent, setGetContent] = useState<IUploadPicData[]>([
-        { loc: '', hashtag: [], details: '', imgFile: null },
+        { loc: '', hashtag: [], details: '', imgFile: null, realImg: null, realhashtag: [] },
     ]);
 
     const onAddWritingItem = () => {
-        setGetContent([...getContent, { loc: '', hashtag: [], details: '', imgFile: null }]);
+        setGetContent([
+            ...getContent,
+            { loc: '', hashtag: [], details: '', imgFile: null, realImg: null, realhashtag: [] },
+        ]);
     };
 
     const onRemoveWritingItem = useCallback(
@@ -39,6 +60,63 @@ const Picture: React.FC = () => {
         },
         [getContent],
     );
+
+    interface Uploader {
+        pictureSaveDtoList: {
+            explain: string;
+            homePlace: string;
+            tagDtoList: { tagName: string }[];
+        }[];
+    }
+
+    const onSave = async () => {
+        const formData = new FormData();
+
+        for (let i = 0; i < getContent.length; i++) {
+            saveDto.push({
+                explain: getContent[i].details,
+                homePlace: getContent[i].loc,
+                tagDtoList: getContent[i].realhashtag,
+            });
+        }
+        const test: Uploader = {
+            pictureSaveDtoList: [
+                {
+                    explain: '설명',
+                    homePlace: 'BEDROOM',
+                    tagDtoList: [{ tagName: '태그이름' }, { tagName: '태그2' }],
+                },
+                {
+                    explain: '설명22',
+                    homePlace: 'BEDROOM',
+                    tagDtoList: [{ tagName: '태그3' }, { tagName: '태그2' }],
+                },
+            ],
+        };
+
+        const uploaderString = JSON.stringify(test);
+        console.log('saveDto:', uploaderString);
+        formData.append('saveList', new Blob([uploaderString], { type: 'application/json' }));
+
+        for (let i = 0; i < getContent.length; i++) {
+            if (!getContent[i].realImg) {
+                console.log('데이터없음');
+                return;
+            }
+
+            formData.append('file', getContent[i].realImg);
+            console.log(getContent[i].realImg);
+        }
+
+        const res = await axios.post(`${BASEURL}/api/picture/save`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        });
+
+        if (res.status === 201) console.log(res.data);
+    };
 
     return (
         <StyledPictureContainer>
@@ -61,6 +139,7 @@ const Picture: React.FC = () => {
                     );
                 })}
             <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>
+            <button onClick={onSave}>제출</button>
         </StyledPictureContainer>
     );
 };

@@ -25,6 +25,10 @@ import {
     WritingQuestion,
     Login,
     QuestionDetails,
+    UpdateQuestion,
+    QuestionQuery,
+    NotFound,
+    MyFollowing,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -34,17 +38,19 @@ const Navigation: React.FC = () => {
             <ScrollToTop />
             <HeaderBar>
                 <Routes>
-                    <Route path="/*" element={<Popular />} />
+                    <Route path="/" element={<Popular />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/community/popular" element={<Popular />} />
                     <Route path="/community/following" element={<Following />} />
                     <Route path="/community/following/keyword" element={<Keyword />} />
                     <Route path="/community/following/details" element={<PhotoDetails />} />
                     <Route path="/community/question" element={<Question />} />
+                    <Route path="/community/question/:query" element={<QuestionQuery />} />
                     <Route path="/community/question/details/:id" element={<QuestionDetails />} />
                     <Route path="/community/question/new" element={<WritingQuestion />} />
+                    <Route path="/community/question/edit" element={<UpdateQuestion />} />
                     <Route path="/community/photo" element={<Photo />} />
-                    <Route path="/community/photo/details" element={<PhotoDetails />} />
+                    <Route path="/community/photo/details/:id" element={<PhotoDetails />} />
                     <Route path="/community/magazine" element={<Magazine />} />
                     <Route path="/community/magazine/details" element={<PhotoDetails />} />
                     <Route path="/community/dictionary" element={<Dictionary />} />
@@ -59,6 +65,7 @@ const Navigation: React.FC = () => {
                     <Route path="/mypage" element={<Myfeed />} />
                     <Route path="/mypage/profile" element={<Myfeed />} />
                     <Route path="/mypage/profile/myfeed" element={<Myfeed />} />
+                    <Route path="/mypage/profile/following" element={<MyFollowing />} />
                     <Route path="/mypage/profile/photo" element={<Myphoto />} />
                     <Route path="/mypage/profile/magazine" element={null} />
                     <Route path="/mypage/profile/question" element={<MyAnswer />} />
@@ -72,6 +79,7 @@ const Navigation: React.FC = () => {
                     <Route path="/mypage/mygarden/plants" element={<Myplants />} />
                     <Route path="/mypage/setting" element={null} />
                     <Route path="/mypage/setting/setting1" element={null} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </HeaderBar>
         </Router>
