@@ -110,7 +110,7 @@ const UpdateQuestion: React.FC = () => {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
             />
-            <TagBox setGetTag={setGetTag} value={getTag} />
+
             <button onClick={handleClick}>등록</button>
         </StyledQuestionContainer>
     );

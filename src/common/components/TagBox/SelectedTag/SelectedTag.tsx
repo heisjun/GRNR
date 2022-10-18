@@ -4,21 +4,16 @@ import { FaTimes } from 'react-icons/fa';
 import { ISelectedTag } from './SelectedTag.type';
 
 const SelectedTag: React.FC<ISelectedTag> = (props) => {
-    const { data, setClear, realdata, realsetClear } = props;
+    const { realdata, realsetClear } = props;
+
     const deleteList = (list: any) => {
-        if (data.includes(list)) {
-            setClear((prev: string | any[]) => {
-                const arr = [...prev];
-                arr.splice(prev.indexOf(list), 1);
-                return arr;
-            });
+        if (realdata.includes(list)) {
             realsetClear((prev: string | any[]) => {
                 const arr = [...prev];
                 arr.splice(prev.indexOf(list), 1);
                 return arr;
             });
         } else {
-            setClear((prev: any) => [...prev, list]);
             realsetClear((prev: any) => [...prev, list]);
         }
     };
@@ -26,11 +21,11 @@ const SelectedTag: React.FC<ISelectedTag> = (props) => {
     return (
         <StyledDiv>
             <StyledSelectedFilterContainer>
-                {data.map((list: any) => {
+                {realdata.map((list, index) => {
                     return (
-                        <StyledDiv key={list}>
+                        <StyledDiv key={index}>
                             <StyledSelected>
-                                #{list} <FaTimes onClick={() => deleteList(list)} />
+                                #{list.tagName} <FaTimes onClick={() => deleteList(list)} />
                             </StyledSelected>
                         </StyledDiv>
                     );

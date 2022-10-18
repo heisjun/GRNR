@@ -31,17 +31,30 @@ const Picture: React.FC = () => {
     const [saveDto, setSaveDto] = useState<
         {
             explain: string;
-            homePlace: string;
+            homePlace?: string;
             tagDtoList: { tagName: string }[];
         }[]
     >([]);
-    const [realsaveDto, realsetSaveDto] = useState<{
-        pictureSaveDtoList: {
-            explain: string;
-            homePlace: string;
-            tagDtoList: { tagName: string }[];
-        }[];
-    }>();
+
+    function convertEng(place: string) {
+        if (place === '원룸') {
+            return 'ONE_ROOM';
+        } else if (place === '거실') {
+            return 'LIVING_ROOM';
+        } else if (place === '침실') {
+            return 'BEDROOM';
+        } else if (place === '주방') {
+            return 'KITCHEN';
+        } else if (place === '발코니') {
+            return 'VERANDA_BALCONY';
+        } else if (place === '사무실') {
+            return 'OFFICE';
+        } else if (place === '가게') {
+            return 'STORE';
+        } else if (place === '야외') {
+            return 'OUTDOOR';
+        }
+    }
 
     const [getContent, setGetContent] = useState<IUploadPicData[]>([
         { loc: '', hashtag: [], details: '', imgFile: null, realImg: null, realhashtag: [] },
@@ -64,7 +77,7 @@ const Picture: React.FC = () => {
     interface Uploader {
         pictureSaveDtoList: {
             explain: string;
-            homePlace: string;
+            homePlace?: string;
             tagDtoList: { tagName: string }[];
         }[];
     }
@@ -75,27 +88,17 @@ const Picture: React.FC = () => {
         for (let i = 0; i < getContent.length; i++) {
             saveDto.push({
                 explain: getContent[i].details,
-                homePlace: getContent[i].loc,
+                homePlace: convertEng(getContent[i].loc),
                 tagDtoList: getContent[i].realhashtag,
             });
         }
+
         const test: Uploader = {
-            pictureSaveDtoList: [
-                {
-                    explain: '설명',
-                    homePlace: 'BEDROOM',
-                    tagDtoList: [{ tagName: '태그이름' }, { tagName: '태그2' }],
-                },
-                {
-                    explain: '설명22',
-                    homePlace: 'BEDROOM',
-                    tagDtoList: [{ tagName: '태그3' }, { tagName: '태그2' }],
-                },
-            ],
+            pictureSaveDtoList: saveDto,
         };
 
         const uploaderString = JSON.stringify(test);
-        console.log('saveDto:', uploaderString);
+        console.log('saveList:', uploaderString);
         formData.append('saveList', new Blob([uploaderString], { type: 'application/json' }));
 
         for (let i = 0; i < getContent.length; i++) {

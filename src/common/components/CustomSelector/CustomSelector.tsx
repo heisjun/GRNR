@@ -8,7 +8,26 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const CustomSelector: React.FC<ICustomSelector> = (props) => {
     const { optionData, setGetOption, value } = props;
-    const [selected, setSelected] = useState(optionData[0].name);
+    function convertKor(place: string) {
+        if (place === '원룸' || place === 'ONE_ROOM') {
+            return '원룸';
+        } else if (place === '거실' || place === 'LIVING_ROOM') {
+            return '거실';
+        } else if (place === '침실' || place === 'BEDROOM') {
+            return '침실';
+        } else if (place === '주방' || place === 'KITCHEN') {
+            return '주방';
+        } else if (place === '발코니' || place === 'VERANDA_BALCONY') {
+            return '발코니';
+        } else if (place === '사무실' || place === 'OFFICE') {
+            return '사무실';
+        } else if (place === '가게' || place === 'STORE') {
+            return '가게';
+        } else if (place === '야외' || place === 'OUTDOOR') {
+            return '야외';
+        }
+    }
+    const [selected, setSelected] = useState(value ? convertKor(value) : optionData[0].name);
     const [isActive, setIsActive] = useState([false]);
     const dropdownListRef = useRef<any>(null);
     const sendOption = () => {
@@ -51,7 +70,7 @@ const CustomSelector: React.FC<ICustomSelector> = (props) => {
                     return (
                         <StyledDropdown key={id}>
                             <StyledDropdownBtn onClick={() => onOpenBtn(index)}>
-                                <StyledDropdownText>{value ? value : selected}</StyledDropdownText>
+                                <StyledDropdownText>{selected}</StyledDropdownText>
                                 <FaCaretDown />
                             </StyledDropdownBtn>
                             {isActive[index] && (

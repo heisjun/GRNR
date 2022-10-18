@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import CustomSelector from 'common/components/CustomSelector';
-import { IWritingItem } from './WritingItem.type';
 import TagBox from '../TagBox';
+import { IUpdateWritingItem } from './UpdateWritingItem.type';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -14,20 +14,21 @@ const option = [
     },
 ];
 
-const WritingItem: React.FC<IWritingItem> = (props) => {
-    const { index, setGetContent, getContent, onRemove, type } = props;
+const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
+    const { index, setGetContent, getContent, onRemove, type, beforeData } = props;
+    const [imageUrl, setImageUrl] = useState<any>(null);
+    const [textValue, setTextValue] = useState(beforeData.explain ? beforeData.explain : '');
+    const [getOption, setGetOption] = useState(beforeData.homePlace ? beforeData.homePlace : '');
+    const [getImg, setGetImg] = useState<any>(beforeData.pictureUrl ? beforeData.pictureUrl : imageUrl);
+    const [imgfile, setImgFile] = useState<File | null>(null); //파일오브젝트이고..
+    const [realgetTag, setRealgetTag] = useState<{ tagName: string }[]>(beforeData.tagList);
+    console.log('realgetTag:', realgetTag);
 
-    const [textValue, setTextValue] = useState('');
+    const imgRef = useRef<any>(null);
+
     const handleSetValue = (e: any) => {
         setTextValue(e.target.value);
     };
-    const [getOption, setGetOption] = useState('');
-    const [getTag, setGetTag] = useState<string[]>([]);
-    const [realgetTag, setRealgetTag] = useState<{ tagName: string }[]>([]);
-    const [imageUrl, setImageUrl] = useState<any>(null);
-    const [videoUrl, setVideoUrl] = useState<any>(null);
-    const [imgfile, setImgFile] = useState<File | null>(null);
-    const imgRef = useRef<any>(null);
 
     const onChangeImage = () => {
         const reader = new FileReader();
@@ -36,6 +37,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             setImageUrl(reader.result);
+            setGetImg(reader.result);
         };
         setImgFile(file);
     };
@@ -54,23 +56,9 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
         setImageUrl(url);
     };
 
-    useEffect(() => {
-        setGetContent(
-            getContent.map((item, i) => {
-                if (index === i) {
-                    return {
-                        ...getContent[index],
-                        imgFile: imageUrl,
-                        details: textValue,
-                        loc: getOption,
-                        hashtag: getTag,
-                        realImg: imgfile,
-                        realhashtag: realgetTag,
-                    };
-                } else return item;
-            }),
-        );
-    }, [imageUrl, textValue, getOption, getTag, imgfile, realgetTag]);
+    const onClickFileBtn = (e: any) => {
+        imgRef.current.click();
+    };
 
     const Preview = () => {
         return (
@@ -91,41 +79,29 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
         );
     };
 
-    const onClickFileBtn = (e: any) => {
-        imgRef.current.click();
-    };
-
     useEffect(() => {
-        console.log('태그네임:', realgetTag);
-        console.log('내용', getContent);
-    }, [realgetTag, getContent]);
+        setGetContent(
+            getContent.map((item, i) => {
+                if (index === i) {
+                    return {
+                        ...getContent[index],
+                        pictureId: beforeData.pictureId,
+                        contentId: beforeData.contentId + index,
+                        pictureUrl: getImg,
+                        explain: textValue,
+                        homePlace: getOption,
+                        tagList: realgetTag,
+                    };
+                } else return item;
+            }),
+        );
+        console.log('전달할내용:', getContent);
+    }, [getImg, textValue, getOption, realgetTag]);
+
     return (
         <StyledPictureBody>
             <StyledImgBlock>
-                {getContent[index].imgFile && (
-                    <StyledDeletePictureBtn onClick={() => setImageUrl(null)}>삭제</StyledDeletePictureBtn>
-                )}
-                {getContent[index].imgFile && (
-                    <StyledModifyPictureBtn
-                        onClick={(e) => {
-                            onClickFileBtn(e);
-                        }}
-                    >
-                        수정
-                    </StyledModifyPictureBtn>
-                )}
-                {type === 'PHOTO' ? (
-                    !getContent[index].imgFile ? (
-                        <Preview />
-                    ) : (
-                        <StyledImg src={getContent[index].imgFile}></StyledImg>
-                    )
-                ) : !getContent[index].imgFile ? (
-                    <Preview />
-                ) : (
-                    <StyledVideo src={getContent[index].imgFile}></StyledVideo>
-                )}
-
+                {!getImg ? <Preview /> : <StyledImg src={getImg}></StyledImg>}
                 {type === 'PHOTO' ? (
                     <input
                         type="file"
@@ -143,11 +119,30 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                         style={{ display: 'none' }}
                     />
                 )}
-                {imageUrl && <StyledDeletePictureBtn onClick={() => setImageUrl(null)}>삭제</StyledDeletePictureBtn>}
+
+                {getImg && (
+                    <StyledDeletePictureBtn
+                        onClick={() => {
+                            setImageUrl(null);
+                            setGetImg(null);
+                        }}
+                    >
+                        삭제
+                    </StyledDeletePictureBtn>
+                )}
+                {getImg && (
+                    <StyledModifyPictureBtn
+                        onClick={(e) => {
+                            onClickFileBtn(e);
+                        }}
+                    >
+                        수정
+                    </StyledModifyPictureBtn>
+                )}
             </StyledImgBlock>
             <StyledContentBlock>
                 <StyledFlexBlock>
-                    <CustomSelector optionData={option} setGetOption={setGetOption} value={getContent[index].loc} />
+                    <CustomSelector optionData={option} setGetOption={setGetOption} value={getOption} />
                     {onRemove && (
                         <StyledDeleteItemBtn
                             onClick={() => {
@@ -163,7 +158,8 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                     value={textValue}
                     onChange={(e) => handleSetValue(e)}
                 />
-                <TagBox realsetGetTag={setRealgetTag} realvalue={getContent[index].realhashtag} />
+
+                <TagBox realsetGetTag={setRealgetTag} realvalue={realgetTag} />
             </StyledContentBlock>
         </StyledPictureBody>
     );
@@ -272,4 +268,4 @@ const StyledPreviewBlock = styled.div`
     font-size: 15px;
 `;
 
-export default WritingItem;
+export default UpdateWritingItem;

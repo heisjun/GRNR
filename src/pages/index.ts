@@ -27,3 +27,4 @@ export { default as UpdateQuestion } from './Revise/Question';
 export { default as QuestionQuery } from './QuestionQuery';
 export { default as NotFound } from './NotFound';
 export { default as MyFollowing } from './MyFollowing';
+export { default as UpdatePhoto } from './Revise/Photo';

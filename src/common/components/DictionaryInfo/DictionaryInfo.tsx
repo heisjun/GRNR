@@ -1,21 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
+import { IDictionaryInfo } from './DictionaryInfo.type';
 
 const FigureData = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
 const CategoryData = [{}, {}];
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
-const DictionaryInfo: React.FC = () => {
+const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
+    const { data } = props;
     return (
         <div>
-            <StyledDicHeader>식물사전 {'>'} 몬스테라 테라로사</StyledDicHeader>
+            <StyledDicHeader>
+                식물사전 {'>'} {data?.plantName}
+            </StyledDicHeader>
             <StyledInfoContainer>
                 <StyledImgBlock />
                 <StyledContentBlock>
-                    <StyledEngName>Monstera deliciosa</StyledEngName>
+                    <StyledEngName>{data?.scientificName}</StyledEngName>
                     <StyledFlexDiv>
-                        <StyledKorName>몬스테라 테라로사</StyledKorName>
+                        <StyledKorName>{data?.plantName}</StyledKorName>
                         <StyledDifficulty> ★ ★ ★ ★ ★</StyledDifficulty>
                     </StyledFlexDiv>
                     {FigureData.map((item, index) => {
@@ -37,11 +41,7 @@ const DictionaryInfo: React.FC = () => {
                         })}
                     </StyledFlexDiv>
 
-                    <StyledIndexContent>
-                        몬스테라는 덩굴성 대형관엽식물로 6~8m 까지 자란다. 잎은 어긋나고 성숙한 것은 지름 1m 정도이다.
-                        잎은 진녹색으로 크고 광택이 나며 잎맥 사이에 군데군데 타원형의 구멍이 파여 있어 폭우나 강한
-                        바람에도 견딜 수 있는 구조로 발달 됐다. 흰색의 꽃이 피고 열매도 달린다.
-                    </StyledIndexContent>
+                    <StyledIndexContent>{data?.description_detail}</StyledIndexContent>
                 </StyledContentBlock>
             </StyledInfoContainer>
         </div>

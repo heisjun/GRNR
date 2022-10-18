@@ -1,17 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Avatar, ItemList } from 'common/components';
 import { TaggedPhoto } from 'domains';
 import { getDebouncedFunc } from 'common/funcs';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { default as callApi } from 'common/api';
 import { IPhotoDetailsParams, IQuestionCommentsParams } from 'common/types';
 import axios from 'axios';
+import React from 'react';
 
 const BASEURL = process.env.REACT_APP_BASE_URL;
 const TOKEN = process.env.REACT_APP_USER_TOKEN;
 
 const PhotoDetails: React.FC = () => {
+    const navigate = useNavigate();
     const sideBarRef = useRef<any>(null);
     const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
@@ -19,6 +21,7 @@ const PhotoDetails: React.FC = () => {
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
     const [isActive, setIsActive] = useState([false]);
+    const [photoLike, setPhotoLike] = useState(details?.likeCount);
 
     const params = useParams();
 
@@ -34,7 +37,7 @@ const PhotoDetails: React.FC = () => {
         setIsActive(newIsActive);
     }
 
-    useEffect(() => {
+    /*  useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
@@ -47,6 +50,33 @@ const PhotoDetails: React.FC = () => {
         };
         fetchData();
     }, []);
+ */
+    const getPhotoData = useCallback(async () => {
+        const response = await callApi.photoGet(Number(params.id));
+        const data = await response.data.value;
+        setDetails(data);
+    }, [details]);
+
+    useEffect(() => {
+        getPhotoData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/picture/${params.id}/comment/view
+                `,
+                );
+                setCommentsList(CommentData.data.value.content[0]);
+            } catch (e) {
+                console.log(e);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, [commentsList]);
 
     const scrollHandler = () => {
         sideBarRef.current.style.transition = 'all 0.5s ease-in-out';
@@ -62,9 +92,31 @@ const PhotoDetails: React.FC = () => {
         };
     }, []);
 
-    const onDeleteComment = async (commendId: number) => {
+    const onDeletePost = async () => {
         try {
-            await axios.delete(`${BASEURL}/api/comment/delete/${commendId}`, {
+            await axios.delete(
+                `${BASEURL}/api/picture/${params.id}/delete
+            `,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            navigate(-1);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onEdit = () => {
+        navigate('/community/photo/edit', { state: params.id });
+    };
+
+    const onDeleteComment = async (commentId: number) => {
+        try {
+            await axios.delete(`${BASEURL}/api/picture/comment/${commentId}/delete`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${TOKEN}`,
@@ -75,10 +127,10 @@ const PhotoDetails: React.FC = () => {
         }
     };
 
-    const onCommentLike = async (commendId: number) => {
+    const onCommentLike = async (commentId: number) => {
         try {
             await axios.post(
-                `${BASEURL}/api/like/${commendId}`,
+                `${BASEURL}/api/picture/comment/${commentId}/like`,
                 {},
                 {
                     headers: {
@@ -103,7 +155,7 @@ const PhotoDetails: React.FC = () => {
                     },
                 ],
             };
-            await axios.post(`${BASEURL}/api/comment/new/${params.id}`, body, {
+            await axios.post(`${BASEURL}/api/picture/${params.id}/comment/save`, body, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${TOKEN}`,
@@ -125,12 +177,46 @@ const PhotoDetails: React.FC = () => {
                     },
                 ],
             };
-            await axios.post(`${BASEURL}/api/comment/new/${params.id}`, body, {
+            await axios.post(`${BASEURL}/api/picture/${params.id}/comment/save`, body, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onPhotoLike = async () => {
+        try {
+            await axios.post(
+                `${BASEURL}/api/picture/${params.id}/like`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onPhotoScrap = async () => {
+        try {
+            await axios.post(
+                `${BASEURL}/api/picture/${params.id}/scrap`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
         } catch (e) {
             console.log(e);
         }
@@ -161,8 +247,8 @@ const PhotoDetails: React.FC = () => {
             <StyledDetailsBlock>
                 <StyledTopTextBlock>
                     <StyledViewCountText>조회 {details?.viewCount}명</StyledViewCountText>
-                    <div>{params.id}</div>
-                    <StyledReportText>신고</StyledReportText>
+                    <StyledReportText onClick={onDeletePost}>삭제</StyledReportText>
+                    <StyledReportText onClick={onEdit}>수정</StyledReportText>
                 </StyledTopTextBlock>
                 <ItemList
                     width="100%"
@@ -365,16 +451,16 @@ const PhotoDetails: React.FC = () => {
             <StyledButtonsContainer>
                 <StyledButtonsBlock ref={sideBarRef}>
                     <StyledButtonBlock>
-                        <StyledButton />
-                        <StyledButtonText>{details?.likeCount}</StyledButtonText>
+                        <StyledButton onClick={onPhotoLike} />
+                        <StyledButtonText>좋아요:{details?.likeCount}</StyledButtonText>
                     </StyledButtonBlock>
                     <StyledButtonBlock>
                         <StyledButton />
-                        <StyledButtonText>12</StyledButtonText>
+                        <StyledButtonText>댓글:{commentsList?.commentQuantity}</StyledButtonText>
                     </StyledButtonBlock>
                     <StyledButtonBlock>
-                        <StyledButton />
-                        <StyledButtonText>{details?.scrapCount}</StyledButtonText>
+                        <StyledButton onClick={onPhotoScrap} />
+                        <StyledButtonText>스크랩:{details?.scrapCount}</StyledButtonText>
                     </StyledButtonBlock>
                 </StyledButtonsBlock>
             </StyledButtonsContainer>
@@ -415,6 +501,7 @@ const StyledViewCountText = styled.div`
 `;
 
 const StyledReportText = styled.div`
+    padding-left: 10px;
     font-size: 15px;
     color: silver;
     cursor: pointer;
@@ -504,4 +591,4 @@ const StyledUserInfoBlock = styled.div`
     display: flex;
 `;
 
-export default PhotoDetails;
+export default React.memo(PhotoDetails);

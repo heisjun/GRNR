@@ -29,6 +29,7 @@ import {
     QuestionQuery,
     NotFound,
     MyFollowing,
+    UpdatePhoto,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -40,6 +41,7 @@ const Navigation: React.FC = () => {
                 <Routes>
                     <Route path="/" element={<Popular />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/community" element={<Popular />} />
                     <Route path="/community/popular" element={<Popular />} />
                     <Route path="/community/following" element={<Following />} />
                     <Route path="/community/following/keyword" element={<Keyword />} />
@@ -51,10 +53,11 @@ const Navigation: React.FC = () => {
                     <Route path="/community/question/edit" element={<UpdateQuestion />} />
                     <Route path="/community/photo" element={<Photo />} />
                     <Route path="/community/photo/details/:id" element={<PhotoDetails />} />
+                    <Route path="/community/photo/edit" element={<UpdatePhoto />} />
                     <Route path="/community/magazine" element={<Magazine />} />
                     <Route path="/community/magazine/details" element={<PhotoDetails />} />
                     <Route path="/community/dictionary" element={<Dictionary />} />
-                    <Route path="/community/dictionary/details" element={<DictionaryDetails />} />
+                    <Route path="/community/dictionary/details/:id" element={<DictionaryDetails />} />
                     <Route path="/store" element={<Register />} />
                     <Route path="/store/menu1" element={<Following />} />
                     <Route path="/store/menu2" element={<Following />} />

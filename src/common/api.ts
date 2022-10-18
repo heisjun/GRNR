@@ -17,8 +17,9 @@ export const callApi = async (method?: string, path?: string, data?: any, params
 
 export default {
     loadRecentQuestion: (form: any) => callApi('get', '/api/inquiry/recent', null, form),
-    questionGet: (id: number) => callApi('get', '/api/inquiry/detail/' + id, null),
+    questionGet: (id: number) => callApi('get', '/api/inquiry/' + id + '/detail', null),
     photoGet: (id: number) => callApi('get', '/api/picture/' + id + '/detail', null),
+    dictionaryGet: (id: number) => callApi('get', '/api/images/' + id + '/detail', null),
     questionDelete: (id: number) => callApi('get', '/api/inquiry/delete/' + id, null),
     /*testGet: (form: any) => callApi('get', 'api주소', null, form),
     testPost: (form: any) => callApi('post', 'api주소', form, {}),

@@ -1,17 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
-import { IFilters } from './Filters.type';
+import { IFilters_Test } from './Filters.type';
 import { FaCaretDown } from 'react-icons/fa';
 import styled from 'styled-components';
-import SelectedFilter from './SelectedFilter';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
-const Filters: React.FC<IFilters> = (props) => {
+const Filters_Test: React.FC<IFilters_Test> = (props) => {
     const { setGetFilter, data } = props;
     const [selected, setSelected] = useState('');
     const [isActive, setIsActive] = useState([false]);
-    const [currentItem, setCurrentItem] = useState<string[]>([]);
-    const [engCurrentItem, setEngcurrentItem] = useState<string[]>([]);
+    const [currentItem, setCurrentItem] = useState('');
     const dropdownListRef = useRef<any>(null);
     const sendFilter = () => {
         setGetFilter(selected);
@@ -31,25 +29,9 @@ const Filters: React.FC<IFilters> = (props) => {
 
     const handleCurrentTag = (option: string) => {
         if (currentItem.includes(option)) {
-            setCurrentItem((prev) => {
-                const arr = [...prev];
-                arr.splice(prev.indexOf(option), 1);
-                return arr;
-            });
+            setCurrentItem('');
         } else {
-            setCurrentItem((prev) => [...prev, option]);
-        }
-    };
-
-    const handleEngCurrentTag = (option: string) => {
-        if (currentItem.includes(option)) {
-            setEngcurrentItem((prev) => {
-                const arr = [...prev];
-                arr.splice(prev.indexOf(option), 1);
-                return arr;
-            });
-        } else {
-            setEngcurrentItem((prev) => [...prev, option]);
+            setCurrentItem(option);
         }
     };
 
@@ -83,15 +65,14 @@ const Filters: React.FC<IFilters> = (props) => {
                                 <StyledDropdownContent ref={dropdownListRef}>
                                     {list.map((option: any) => (
                                         <StyledContentItem
-                                            key={option.eng}
+                                            key={option}
                                             onClick={() => {
-                                                handleCurrentTag(option.kor);
-                                                handleEngCurrentTag(option.eng);
-                                                setSelected(option.eng);
+                                                handleCurrentTag(option);
+                                                setSelected(option);
                                                 onCloseBtn(index);
                                             }}
                                         >
-                                            {option.kor}
+                                            {option}
                                         </StyledContentItem>
                                     ))}
                                 </StyledDropdownContent>
@@ -100,7 +81,7 @@ const Filters: React.FC<IFilters> = (props) => {
                     );
                 })}
             </StyledFiltersBlock>
-            <SelectedFilter data={currentItem} setClear={setCurrentItem} />
+            {/* <SelectedFilter data={selected} setClear={setSelected} /> */}
         </StyledFiltersContainer>
     );
 };
@@ -167,4 +148,4 @@ const StyledContentItem = styled.div`
     }
 `;
 
-export default Filters;
+export default Filters_Test;
