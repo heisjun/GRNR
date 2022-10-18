@@ -1,7 +1,5 @@
 export type ISelectedTag = {
-    data: any;
-    setClear: any;
-    realdata?: {
+    realdata: {
         tagName: string;
     }[];
     realsetClear?: any;

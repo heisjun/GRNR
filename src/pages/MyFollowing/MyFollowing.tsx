@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { Avatar, ItemList, MyphotoItem } from 'common/components';
 import { Profile } from 'domains';
 import { IMyphotoParams } from 'common/types';
+import AWS from 'aws-sdk';
+import { Row, Col, Button, Input, Alert } from 'reactstrap';
+import { useState } from 'react';
 
 const MyFollowing: React.FC = () => {
     return (

@@ -6,7 +6,6 @@ import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
 import { SubTabBar, MypageTabBar } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
-import CustomSelector from 'common/components/CustomSelector';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
@@ -164,7 +163,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                         </StyledMenuItemBlock>
                                     ))}
                                 </StyledMenuItemsContainer>
-                                <StyledSearchBar value="" />
+                                <StyledSearchBar readOnly />
                                 <StyledButtonsCotainer>
                                     <StyledSearchButton />
                                     <Link to="/mypage" style={{ textDecoration: 'none', color: 'black' }}>
@@ -290,7 +289,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                         </StyledMenuItemBlock>
                                     ))}
                                 </StyledMenuItemsContainer>
-                                <StyledSearchBar value="" />
+                                <StyledSearchBar readOnly />
                                 <StyledButtonsCotainer>
                                     <StyledSearchButton />
                                     <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>

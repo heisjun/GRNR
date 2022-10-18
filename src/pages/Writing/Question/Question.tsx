@@ -106,7 +106,7 @@ const Question: React.FC = () => {
                     setContent(e.target.value);
                 }}
             />
-            <TagBox setGetTag={setGetTag} value={getTag} realsetGetTag={setRealgetTag} realvalue={realgetTag} />
+            <TagBox realsetGetTag={setRealgetTag} realvalue={realgetTag} />
             <button onClick={handleClick}>등록</button>
         </StyledQuestionContainer>
     );

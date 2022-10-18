@@ -2,10 +2,11 @@ import {
     IItemParams,
     IMagazineParams,
     IArticleParams,
-    IDictionaryParams,
+    IDictionariesParams,
     IMyphotoParams,
     IPhotoDetailsParams,
     IPhotoDetailsItems,
+    IPhotosParams,
 } from 'common/types';
 import React from 'react';
 
@@ -35,11 +36,12 @@ export type IItemList = {
     items:
         | IMagazineParams[]
         | IArticleParams[]
-        | IDictionaryParams[]
+        | IDictionariesParams[]
         | IMyphotoParams[]
         | IItemParams[]
         | IQuestionDetailsParmas[]
         | IPhotoDetailsParams[]
+        | IPhotosParams[]
         | IPhotoDetailsItems;
     RenderComponent: React.FC<any>;
 };

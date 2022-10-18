@@ -3,11 +3,53 @@ import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IPhotoItemParams } from 'common/types';
 import { Avatar } from 'common/components';
+import axios from 'axios';
+
+const BASEURL = process.env.REACT_APP_BASE_URL;
+const TOKEN = process.env.REACT_APP_USER_TOKEN;
 
 const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
+    const [toggle, setToggle] = useState(false);
+    const onToggle = () => {
+        setToggle(!toggle);
+    };
 
     const [imgAnim, setImgAnim] = useState<any>();
+
+    const onPhotoLike = async () => {
+        try {
+            await axios.post(
+                `${BASEURL}/api/picture/${item.pictureId}/like`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onPhotoScrap = async () => {
+        try {
+            await axios.post(
+                `${BASEURL}/api/picture/${item.pictureId}/scrap`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     return (
         <>
@@ -32,22 +74,28 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                             setImgAnim(ImageScaleDown);
                         }}
                     >
-                        <StyledImg
-                            src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                            width="100%"
-                            height="100%"
-                            imgAnim={imgAnim}
-                        />
+                        <StyledImg src={item.firstContent.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
                     </StyledPhotoBlock>
                 </Link>
                 <StyledFooterBlock>
                     <StyledDetailsBlock>
-                        <StyledDetailsText>{item.pictureContentDtoList[0].explain}</StyledDetailsText>
+                        <StyledDetailsText>{item.firstContent.explain}</StyledDetailsText>
                     </StyledDetailsBlock>
                     <StyledButtonsBlock>
-                        <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/like.png`} />
+                        <StyledLikeButton
+                            src={`${process.env.REACT_APP_BASE_SRC}/like.png`}
+                            onClick={() => {
+                                onToggle();
+                                onPhotoLike();
+                            }}
+                        />
+
+                        {!toggle && <StyledText>{item.likeCount}</StyledText>}
+
                         <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
-                        <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} />
+                        <StyledText>{item.commentCount}</StyledText>
+                        <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} onClick={onPhotoScrap} />
+                        <StyledText>{item.scrapCount}</StyledText>
                     </StyledButtonsBlock>
                 </StyledFooterBlock>
             </StyledPhotoItemContainer>
@@ -72,10 +120,14 @@ const ImageScaleDown = keyframes`
         transform: scale(1);
     }
 `;
+const StyledText = styled.div`
+    font-size: 15;
+    font-weight: 400;
+    color: gray;
+`;
 
 const StyledLikeButton = styled.img`
     cursor: pointer;
-    margin: 0 auto;
 `;
 
 const StyeldAvatarBlock = styled.div`
@@ -140,7 +192,7 @@ const StyledButtonsBlock = styled.div`
     width: 100%;
     height: 45%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     background-color: white;
 `;

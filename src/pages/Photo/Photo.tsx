@@ -1,28 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Filters, ItemList, PhotoItem } from 'common/components';
+import { Filters_Test, ItemList, PhotoItem } from 'common/components';
 import { FadeIn, FadeOut } from 'common/keyframes';
 import axios from 'axios';
+import { IPhotosParams } from 'common/types';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { FaTimes } from 'react-icons/fa';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const BASEURL = process.env.REACT_APP_BASE_URL;
 
 const Photo: React.FC = () => {
-    const [photos, setPhotos] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [photos, setPhotos] = useState<IPhotosParams[]>([]);
     const [loading, setLoading] = useState(false);
 
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 1);
     const [photoHorizontalGap, setPhotoHorizontalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 0);
     const [photoVerticalGap, setPhotoVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
-
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
+    const [selectedPlace, setSelectedPlace] = useState('');
+    const [selectedOrder, setSelectedOrder] = useState('');
 
-    const [selected, setSelected] = useState('');
+    const [filterValue, setFilterValue] = useState({
+        sort: '',
+        homePlace: '',
+    });
+    const handleFilterValue = (value: string, name: string) => {
+        setFilterValue((prev) => {
+            return { ...prev, [name]: value };
+        });
+    };
+
+    useEffect(() => {
+        handleFilterValue(selectedPlace, 'homePlace');
+    }, [selectedPlace]);
+
+    useEffect(() => {
+        handleFilterValue(selectedOrder, 'sort');
+    }, [selectedOrder]);
+
+    useEffect(() => {
+        const queryString = `?${filterValue.sort ? `order=${filterValue.sort}` : ''} & 
+    ${filterValue.homePlace ? `homePlace=${filterValue.homePlace}` : ''}`;
+
+        const realQuery = queryString.replace(/\s+/g, '');
+
+        navigate(`/community/photo/${realQuery}`);
+    }, [filterValue.homePlace, filterValue.sort]);
+
+    const onReset = () => {
+        setFilterValue({
+            sort: '',
+            homePlace: '',
+        });
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://43.201.2.18/api/api/picture/search`);
+                const response = await axios.get(`${BASEURL}/api/picture/search/${location.search}`);
                 setPhotos(response.data.value.content);
                 console.log(response.data.value.content);
             } catch (e) {
@@ -31,317 +70,17 @@ const Photo: React.FC = () => {
             setLoading(false);
         };
         fetchData();
-    }, []);
+    }, [location.search]);
 
-    const data = [
-        {
-            pictureId: 1,
-            pictureContentDtoList: [
-                {
-                    pictureId: 1,
-                    contentId: 1,
-                    pictureUrl: '사진글1_사진1.jpg',
-                    explain: '첫번째 사진글의 사진1입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 1,
-                    contentId: 2,
-                    pictureUrl: '사진글1_사진2.jpg',
-                    explain: '첫번째 사진글의 사진2입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그1',
-                        },
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 1,
-                    contentId: 3,
-                    pictureUrl: '사진글1_사진3.jpg',
-                    explain: '첫번째 사진글의 사진3입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그2',
-                        },
-                    ],
-                },
-            ],
-            accountNickName: 'junhyuck',
-            scrapCount: 0,
-            likeCount: 0,
-            viewCount: 0,
-        },
-        {
-            pictureId: 2,
-            pictureContentDtoList: [
-                {
-                    pictureId: 2,
-                    contentId: 1,
-                    pictureUrl: '사진글2_사진1.jpg',
-                    explain: '두번째 사진글의 사진1입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 2,
-                    contentId: 2,
-                    pictureUrl: '사진글1_사진2.jpg',
-                    explain: '첫번째 사진글의 사진2입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그1',
-                        },
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 2,
-                    contentId: 3,
-                    pictureUrl: '사진글1_사진3.jpg',
-                    explain: '첫번째 사진글의 사진3입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그2',
-                        },
-                    ],
-                },
-            ],
-            accountNickName: 'taemin',
-            scrapCount: 0,
-            likeCount: 0,
-            viewCount: 0,
-        },
-        {
-            pictureId: 3,
-            pictureContentDtoList: [
-                {
-                    pictureId: 3,
-                    contentId: 1,
-                    pictureUrl: '사진글2_사진1.jpg',
-                    explain: '세번째 사진글의 사진1입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 3,
-                    contentId: 2,
-                    pictureUrl: '사진글1_사진2.jpg',
-                    explain: '첫번째 사진글의 사진2입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그1',
-                        },
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 3,
-                    contentId: 3,
-                    pictureUrl: '사진글1_사진3.jpg',
-                    explain: '첫번째 사진글의 사진3입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그2',
-                        },
-                    ],
-                },
-            ],
-            accountNickName: 'oooootttt_',
-            scrapCount: 0,
-            likeCount: 0,
-            viewCount: 0,
-        },
-        {
-            pictureId: 4,
-            pictureContentDtoList: [
-                {
-                    pictureId: 4,
-                    contentId: 1,
-                    pictureUrl: '사진글2_사진1.jpg',
-                    explain: '네번째 사진글의 사진1입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 4,
-                    contentId: 2,
-                    pictureUrl: '사진글1_사진2.jpg',
-                    explain: '첫번째 사진글의 사진2입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그1',
-                        },
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 4,
-                    contentId: 3,
-                    pictureUrl: '사진글1_사진3.jpg',
-                    explain: '첫번째 사진글의 사진3입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그2',
-                        },
-                    ],
-                },
-            ],
-            accountNickName: 'oooootttt_',
-            scrapCount: 0,
-            likeCount: 0,
-            viewCount: 0,
-        },
-        {
-            pictureId: 5,
-            pictureContentDtoList: [
-                {
-                    pictureId: 5,
-                    contentId: 1,
-                    pictureUrl: '사진글2_사진1.jpg',
-                    explain: '다섯번째 사진글의 사진1입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진1 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 5,
-                    contentId: 2,
-                    pictureUrl: '사진글1_사진2.jpg',
-                    explain: '첫번째 사진글의 사진2입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그1',
-                        },
-                        {
-                            pictureContentId: 2,
-                            tagName: '사진2 태그2',
-                        },
-                    ],
-                },
-                {
-                    pictureId: 5,
-                    contentId: 3,
-                    pictureUrl: '사진글1_사진3.jpg',
-                    explain: '첫번째 사진글의 사진3입니다.',
-                    homePlace: 'ONE_ROOM',
-                    tagList: [
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그1',
-                        },
-                        {
-                            pictureContentId: 1,
-                            tagName: '사진3 태그2',
-                        },
-                    ],
-                },
-            ],
-            accountNickName: 'oooootttt_',
-            scrapCount: 0,
-            likeCount: 0,
-            viewCount: 0,
-        },
-    ];
-
-    const PhotoFilter = [
+    const PhotoFilter_Order = [
         {
             id: 1,
             name: '정렬',
-            list: ['인기순', '최신순'],
+            list: ['최신순', '인기순'],
         },
+    ];
+
+    const PhotoFilter_Place = [
         {
             id: 2,
             name: '공간',
@@ -372,15 +111,35 @@ const Photo: React.FC = () => {
     return (
         <StyledPhotoContainer pageAnim={pageAnim}>
             <StyledPhotoHeader>
-                <Filters setGetFilter={setSelected} data={PhotoFilter} />
+                <Filters_Test setGetFilter={setSelectedPlace} data={PhotoFilter_Place} />
+                <Filters_Test setGetFilter={setSelectedOrder} data={PhotoFilter_Order} />
             </StyledPhotoHeader>
+
+            <div style={{ display: 'flex' }}>
+                {filterValue.sort && (
+                    <StyledSelected>
+                        {filterValue.sort}
+                        <FaTimes onClick={() => handleFilterValue('', 'sort')} />
+                    </StyledSelected>
+                )}
+                {filterValue.homePlace && (
+                    <StyledSelected>
+                        {filterValue.homePlace}
+                        <FaTimes onClick={() => handleFilterValue('', 'homePlace')} />
+                    </StyledSelected>
+                )}
+                {(filterValue.homePlace || filterValue.sort) && (
+                    <StyledSelected onClick={onReset}>초기화</StyledSelected>
+                )}
+            </div>
+
             <ItemList
                 width="100%"
                 imgHeight="150%"
                 cols={photoCols}
                 horizontalGap={photoHorizontalGap}
                 verticalGap={photoVerticalGap}
-                items={data}
+                items={photos}
                 RenderComponent={PhotoItem}
             />
         </StyledPhotoContainer>
@@ -397,7 +156,19 @@ const StyledPhotoHeader = styled.div`
     display: flex;
     justify-content: flex-start;
     margin-top: -20px;
-    padding-bottom: 15px;
+`;
+
+const StyledSelected = styled.div`
+    background: gray;
+    color: white;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        font-size: 1.5vw;
+    }
 `;
 
 export default Photo;

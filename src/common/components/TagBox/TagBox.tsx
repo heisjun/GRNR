@@ -6,17 +6,17 @@ import { ITagBox } from './TagBox.type';
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const TagBox: React.FC<ITagBox> = (props) => {
-    const { setGetTag, value, realsetGetTag, realvalue } = props;
+    const { realsetGetTag, realvalue } = props;
 
     const [currentItem, setCurrentItem] = useState<string[]>([]);
     const [textValue, setTextValue] = useState('');
-    const [array, setArray] = useState<{ tagName: string }[]>([]);
+    const [array, setArray] = useState<{ tagName: string }[]>(realvalue);
     const handleSetValue = (e: any) => {
         setTextValue(e.target.value);
     };
 
     const handleCurrentTag = (option: string, del: { tagName: string }) => {
-        if (currentItem.includes(option)) {
+        if (array.includes(del)) {
             setCurrentItem((prev) => {
                 const arr = [...prev];
                 arr.splice(prev.indexOf(option), 1);
@@ -46,10 +46,7 @@ const TagBox: React.FC<ITagBox> = (props) => {
     };
 
     const sendTag = () => {
-        setGetTag(currentItem);
-        {
-            realsetGetTag && realsetGetTag(array);
-        }
+        realsetGetTag(array);
     };
 
     useEffect(() => {
@@ -58,7 +55,7 @@ const TagBox: React.FC<ITagBox> = (props) => {
 
     return (
         <StyledTagBoxContainer>
-            <SelectedTag data={value} setClear={setCurrentItem} realdata={realvalue} realsetClear={setArray} />
+            <SelectedTag realdata={realvalue} realsetClear={setArray} />
             <div>
                 <StyledFixText>#</StyledFixText>
                 <StyledInputHashTag>

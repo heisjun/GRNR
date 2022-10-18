@@ -1,34 +1,32 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { IItemParams } from 'common/types';
+import { IDictionaryItem, IItemParams } from 'common/types';
+import { Link } from 'react-router-dom';
 
-const DictionaryItem: React.FC<IItemParams> = (props) => {
+const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
     const { width, height, paddingBottom, item } = props;
 
     const [imgAnim, setImgAnim] = useState<any>();
 
     return (
-        <StyledDictionaryItemContainer width={width} height={height} paddingBottom={paddingBottom}>
-            <StyledImageBlock
-                onMouseEnter={() => {
-                    setImgAnim(ImageScaleUp);
-                }}
-                onMouseLeave={() => {
-                    setImgAnim(ImageScaleDown);
-                }}
-            >
-                <StyledImg
-                    src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                    width="100%"
-                    height="100%"
-                    imgAnim={imgAnim}
-                />
-            </StyledImageBlock>
+        <Link to={`./details/${item.plantDicId}`} style={{ textDecoration: 'none' }}>
+            <StyledDictionaryItemContainer width={width} height={height} paddingBottom={paddingBottom}>
+                <StyledImageBlock
+                    onMouseEnter={() => {
+                        setImgAnim(ImageScaleUp);
+                    }}
+                    onMouseLeave={() => {
+                        setImgAnim(ImageScaleDown);
+                    }}
+                >
+                    <StyledImg src={item.plantPicUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                </StyledImageBlock>
 
-            <StyledTitleBlock>
-                <StyledTitleText>라플레시아(Rafflesia)</StyledTitleText>
-            </StyledTitleBlock>
-        </StyledDictionaryItemContainer>
+                <StyledTitleBlock>
+                    <StyledTitleText>{item.plantName}</StyledTitleText>
+                </StyledTitleBlock>
+            </StyledDictionaryItemContainer>
+        </Link>
     );
 };
 

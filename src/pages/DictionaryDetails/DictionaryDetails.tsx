@@ -1,19 +1,39 @@
 import DictionaryInfo from 'common/components/DictionaryInfo';
 import PlantGuide from 'common/components/PlantGuide';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ItemList, DictionaryItem } from 'common/components';
+import { default as callApi } from 'common/api';
+import { IDictionaryDetailsParams } from 'common/types';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const DictionaryDetails: React.FC = () => {
     const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
     const [articleGap, setArticleGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
+    const [loading, setLoading] = useState(false);
+    const params = useParams();
+    const [details, setDetails] = useState<IDictionaryDetailsParams>();
     const articleData = [{}, {}, {}, {}];
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await callApi.dictionaryGet(Number(params.id));
+                setDetails(response.data.value);
+                console.log(response.data.value);
+            } catch (e) {
+                console.log(e);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, []);
     return (
         <StyledDicDetailsContainer>
-            <DictionaryInfo />
+            <DictionaryInfo data={details} />
             <StyledBorderLine />
             <PlantGuide />
             <StyledBorderLine />
