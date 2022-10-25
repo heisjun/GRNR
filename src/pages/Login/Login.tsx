@@ -10,7 +10,7 @@ const Login: React.FC = () => {
     const nav = useNavigate();
 
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
-    const KAKAO_AUTH_URL = `https://www.gardenersclub.co.kr/api/oauth2/authorization?kakao`;
+    const KAKAO_AUTH_URL = `https://www.gardenersclub.co.kr/api/login/oauth2/authorization?kakao`;
 
     const handleLogin = () => {
         window.location.href = KAKAO_AUTH_URL;
