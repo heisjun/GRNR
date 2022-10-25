@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { ISlide } from './Slide.type';
 
 const Slide: React.FC<ISlide> = (props) => {
-    const { ImgUrl } = props;
+    const { ImgUrl, index } = props;
     return (
         <div>
-            <StyledImg src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}></StyledImg>
+            <StyledImg src={ImgUrl.pictureUrlList[index]}></StyledImg>
             <StyledSpace />
-            <StyledViews> 조회 312,231명</StyledViews>
+            <StyledViews>{`조회 ${ImgUrl.time} 회`}</StyledViews>
             <StyledTextArea>
-                <StyledText>{ImgUrl}</StyledText>
+                <StyledText>{ImgUrl.text}</StyledText>
             </StyledTextArea>
         </div>
     );

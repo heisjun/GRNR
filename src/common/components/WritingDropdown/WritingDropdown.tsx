@@ -1,19 +1,25 @@
-import { useState, useEffect, useRef } from 'react';
-import { IFilters_Test } from './Filters.type';
-import { FaCaretDown } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from 'react';
+
+import { FaPen } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
-const Filters_Test: React.FC<IFilters_Test> = (props) => {
-    const { setGetFilter, data } = props;
-    const [selected, setSelected] = useState('');
+const CustomSelector: React.FC = () => {
+    const navigate = useNavigate();
+    const option = [
+        {
+            id: 1,
+            list: [
+                { name: '사진/동영상 올리기', url: '/upload' },
+                { name: '매거진 글쓰기', url: '' },
+                { name: '질문하기', url: '' },
+            ],
+        },
+    ];
     const [isActive, setIsActive] = useState([false]);
-    const [currentItem, setCurrentItem] = useState('');
     const dropdownListRef = useRef<any>(null);
-    const sendFilter = () => {
-        setGetFilter(selected);
-    };
 
     useEffect(() => {
         function handleClickOutside(e: MouseEvent): void {
@@ -27,14 +33,6 @@ const Filters_Test: React.FC<IFilters_Test> = (props) => {
         };
     }, [dropdownListRef]);
 
-    const handleCurrentTag = (option: string) => {
-        if (currentItem.includes(option)) {
-            setCurrentItem('');
-        } else {
-            setCurrentItem(option);
-        }
-    };
-
     function onOpenBtn(index: number) {
         const newIsActive = [...isActive];
         newIsActive[index] = true;
@@ -47,32 +45,27 @@ const Filters_Test: React.FC<IFilters_Test> = (props) => {
         setIsActive(newIsActive);
     }
 
-    useEffect(() => {
-        sendFilter();
-    }, [currentItem]);
     return (
         <StyledFiltersContainer>
             <StyledFiltersBlock>
-                {data.map((item, index) => {
-                    const { id, name, list } = item;
+                {option.map((item: any, index: number) => {
+                    const { id, list } = item;
                     return (
                         <StyledDropdown key={id}>
                             <StyledDropdownBtn onClick={() => onOpenBtn(index)}>
-                                <StyledDropdownText>{name}</StyledDropdownText>
-                                <FaCaretDown />
+                                <StyledDropdownText>글쓰기</StyledDropdownText>
+                                <FaPen />
                             </StyledDropdownBtn>
                             {isActive[index] && (
                                 <StyledDropdownContent ref={dropdownListRef}>
                                     {list.map((option: any) => (
                                         <StyledContentItem
-                                            key={option}
+                                            key={option.name}
                                             onClick={() => {
-                                                handleCurrentTag(option);
-                                                setSelected(option);
-                                                onCloseBtn(index);
+                                                navigate(option.url);
                                             }}
                                         >
-                                            {option}
+                                            {option.name}
                                         </StyledContentItem>
                                     ))}
                                 </StyledDropdownContent>
@@ -98,7 +91,7 @@ const StyledDropdown = styled.div`
 `;
 
 const StyledDropdownBtn = styled.div`
-    padding: 5px;
+    padding: 5px 10px 5px 10px;
     background: #fff;
     border: 1px solid lightgrey;
     font-weight: 400;
@@ -111,35 +104,37 @@ const StyledDropdownBtn = styled.div`
     @media screen and (max-width: ${boundaryWidth}px) {
         padding: 3px;
     }
+    :hover {
+        background-color: gray;
+        color: white;
+    }
 `;
 
 const StyledDropdownText = styled.div`
     padding-right: 2px;
     font-size: 15px;
     @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 1.5vw;
     }
 `;
 
 const StyledDropdownContent = styled.div`
     position: absolute;
     top: 110%;
-    left: 0;
+    right: -50%;
     background: #fff;
     border: 1px solid lightgrey;
     font-weight: 300;
     color: #333;
-    width: 130px;
+    width: 150px;
     z-index: 10;
     font-size: 15px;
     @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 1.5vw;
-        width: 100px;
     }
 `;
 
 const StyledContentItem = styled.div`
-    padding: 10px;
+    font-weight: 400;
+    padding: 15px;
     cursor: pointer;
     transition: all 0.2s;
     :hover {
@@ -147,4 +142,4 @@ const StyledContentItem = styled.div`
     }
 `;
 
-export default Filters_Test;
+export default React.memo(CustomSelector);

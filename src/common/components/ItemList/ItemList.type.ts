@@ -1,12 +1,13 @@
 import {
     IItemParams,
-    IMagazineParams,
     IArticleParams,
     IDictionariesParams,
     IMyphotoParams,
     IPhotoDetailsParams,
     IPhotoDetailsItems,
     IPhotosParams,
+    IMagazinesParams,
+    IMagazineDetailsItem,
 } from 'common/types';
 import React from 'react';
 
@@ -34,7 +35,8 @@ export type IItemList = {
     verticalGap: number;
     cols: number;
     items:
-        | IMagazineParams[]
+        | IMagazinesParams[]
+        | IMagazineDetailsItem
         | IArticleParams[]
         | IDictionariesParams[]
         | IMyphotoParams[]

@@ -62,7 +62,6 @@ const StyledTitleBlock = styled.div`
     width: 100%;
     height: 15%;
     background-color: white;
-    border-radius: 0px 0px 5px 5px;
 `;
 
 const StyledImg = styled.img<{ imgAnim: any }>`
@@ -84,8 +83,7 @@ const StyledDictionaryItemContainer = styled.div<{ width: string; height?: strin
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border: solid 2px;
-    border-radius: 5px;
+    border: solid 1px;
     border-color: grey;
     background-color: silver;
 `;

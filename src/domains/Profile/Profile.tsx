@@ -1,15 +1,49 @@
 import styled from 'styled-components';
 import { Avatar } from 'common/components';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Profile: React.FC = () => {
+    interface Iprofile {
+        nickname: string;
+        profile_image: string;
+        thumbnail_image: string;
+    }
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [profile, setProfile] = useState<Iprofile>();
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            const token = localStorage.getItem('token');
+            try {
+                const response = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log(response.data.properties);
+                setProfile(response.data.properties);
+            } catch (e) {
+                console.log(e);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, []);
+
     return (
         <StyledProfileContainer>
             <StyledAvatarBlock>
-                <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
+                <Avatar width="100%" paddingBottom="100%" borderRadius="100%" picUrl={profile?.profile_image} />
             </StyledAvatarBlock>
-            <StyledNameText>그리너리</StyledNameText>
+            <StyledNameText>{profile?.nickname ? profile.nickname : '닉네임'}</StyledNameText>
             <StyledIntroText>this is captain speaking</StyledIntroText>
-            <StyledFollowText>팔로워 0 | 팔로잉 12</StyledFollowText>
+            <div style={{ display: 'flex' }}>
+                <StyledFollowText onClick={() => navigate(`/mypage/profile/follower`)}>팔로워 0 </StyledFollowText>
+                <StyledFollowText onClick={() => navigate(`/mypage/profile/following`)}>팔로잉 0 </StyledFollowText>
+            </div>
             <StyledEditButton>수정</StyledEditButton>
             <StyledBorderLine />
             <StyledStatBlock>
@@ -109,6 +143,9 @@ const StyledEditButton = styled.div`
 const StyledFollowText = styled.div`
     font-size: 11px;
     color: grey;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
 `;
 
 const StyledIntroText = styled.div`

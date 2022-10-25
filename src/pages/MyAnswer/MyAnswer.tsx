@@ -11,10 +11,9 @@ const MyAnswer: React.FC = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(
-                    'https://newsapi.org/v2/top-headlines?country=kr&apiKey=54ddd330b78649a0985f758382740fac',
-                );
-                setQuestions(response.data.articles);
+                const response = await axios.get(`http://43.201.2.18/api/api/inquiry/recent`);
+                setQuestions(response.data.value.content);
+                console.log(response.data.value.content);
             } catch (e) {
                 console.log(e);
             }

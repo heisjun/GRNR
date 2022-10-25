@@ -10,6 +10,22 @@ import { FaTimes } from 'react-icons/fa';
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = process.env.REACT_APP_BASE_URL;
 
+const PhotoFilter_Order = [
+    {
+        id: 1,
+        name: '정렬',
+        list: ['최신순', '인기순'],
+    },
+];
+
+const PhotoFilter_Place = [
+    {
+        id: 2,
+        name: '공간',
+        list: ['원룸', '거실', '침실', '주방', '욕실', '베란다', '사무실', '가게', '야외정원'],
+    },
+];
+
 const Photo: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -71,22 +87,6 @@ const Photo: React.FC = () => {
         };
         fetchData();
     }, [location.search]);
-
-    const PhotoFilter_Order = [
-        {
-            id: 1,
-            name: '정렬',
-            list: ['최신순', '인기순'],
-        },
-    ];
-
-    const PhotoFilter_Place = [
-        {
-            id: 2,
-            name: '공간',
-            list: ['원룸', '거실', '침실', '주방', '욕실', '베란다', '사무실', '가게', '야외정원'],
-        },
-    ];
 
     const resizeHandler = () => {
         setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 4 : 1);

@@ -3,39 +3,37 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import FollowingItem from 'common/components/FollowingItem';
 import { FadeIn, FadeOut } from 'common/keyframes';
+import axios from 'axios';
+import { IFollowingsParams } from 'common/types';
 
-const EXAMPLE = [
-    {
-        nickname: 'jun',
-        time: '2시간전',
-        picUrl: ['1', '2', '3'],
-        text: [
-            '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리 나라만세 무궁화 삼천리 화려강산, 대한사람 대한으로 길이 보전하세',
-            'text2',
-            'text3',
-        ],
-        views: 312231,
-        like: 123,
-        bookmark: 192,
-    },
-    {
-        nickname: 'tamin',
-        time: '49분전',
-        picUrl: ['1', '2', '3', '4'],
-        text: [
-            'tamin Writing',
-            '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리 나라만세 무궁화 삼천리 화려강산, 대한사람 대한으로 길이 보전하세',
-            'text2',
-            'text3',
-        ],
-        views: 31,
-        like: 10,
-        bookmark: 12,
-    },
-];
+const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const BASEURL = process.env.REACT_APP_BASE_URL;
+const TOKEN = process.env.REACT_APP_USER_TOKEN;
 
 const Following: React.FC = () => {
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
+    const [followings, setFollowings] = useState<IFollowingsParams[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get(`${BASEURL}/api/following`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+                setFollowings(response.data.value.content);
+                console.log(response.data.value.content);
+            } catch (e) {
+                console.log(e);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, []);
 
     useEffect(() => {
         setPageAnim(FadeIn);
@@ -49,7 +47,7 @@ const Following: React.FC = () => {
             <Link to="./keyword" style={{ textDecoration: 'none' }}>
                 <StyledTItleText>관심있는 키워드를 설정해보세요! </StyledTItleText>
             </Link>
-            {EXAMPLE.map((i, index) => {
+            {followings.map((i, index) => {
                 return <FollowingItem key={index} data={i} />;
             })}
         </StyledFollowingContainer>

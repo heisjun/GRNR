@@ -6,8 +6,8 @@ import Indicator from './Indicator';
 import { ISlider } from './Slider.type';
 
 const Slider: React.FC<ISlider> = (props) => {
-    const { imgdata, textdata } = props;
-    const TOTAL_SLIDES = imgdata.length;
+    const { item } = props;
+    const TOTAL_SLIDES = item.pictureUrlList.length;
     const [currentSlide, setCurrentSlide] = useState(0);
     const Slidetransform = (currentSlide * 100) / TOTAL_SLIDES;
     const [hideBtn, setHideBtn] = useState(true);
@@ -58,11 +58,11 @@ const Slider: React.FC<ISlider> = (props) => {
             ) : null}
 
             <StyledIndicator>
-                <Indicator index={currentSlide} setIndex={setCurrentSlide} data={imgdata} />
+                <Indicator index={currentSlide} setIndex={setCurrentSlide} data={item.pictureUrlList} />
             </StyledIndicator>
             <Link to="./details" style={{ textDecoration: 'none' }}>
                 <SliderContainer ref={slideRef} pageNum={TOTAL_SLIDES}>
-                    {textdata.map((items: any, index: number) => {
+                    {item.pictureUrlList.map((items: any, index: number) => {
                         return (
                             <div
                                 key={index}
@@ -70,7 +70,7 @@ const Slider: React.FC<ISlider> = (props) => {
                                 onMouseLeave={() => setHideBtn(true)}
                                 style={{ width: '100%' }}
                             >
-                                <Slide ImgUrl={items} />
+                                <Slide ImgUrl={item} index={index} />
                             </div>
                         );
                     })}

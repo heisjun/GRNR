@@ -103,8 +103,7 @@ const StyledTodaysPhotoContainer = styled.div<{ width: string; height?: string; 
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border: solid 2px;
-    border-radius: 5px;
+    border: solid 1px;
     border-color: silver;
 `;
 

@@ -99,8 +99,7 @@ const StyledTipBlock = styled.div`
     width: 74%;
     padding-bottom: 40%;
     margin-right: 1.5%;
-    border: solid 2px;
-    border-radius: 5px;
+    border: solid 1px;
     border-color: silver;
     cursor: pointer;
 `;

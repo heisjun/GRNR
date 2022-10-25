@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { IItemParams } from 'common/types';
+import { IMagazineItemParams } from 'common/types';
 
-const MagazineItem: React.FC<IItemParams> = (props) => {
+const MagazineItem: React.FC<IMagazineItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
-
     const [imgAnim, setImgAnim] = useState<any>();
 
     return (
         <StyledMagazineItemContainer width={width} height={height} paddingBottom={paddingBottom}>
-            <Link to="./details" style={{ textDecoration: 'none' }}>
+            <Link to={`./details/${item.magazineId}`} style={{ textDecoration: 'none' }}>
                 <StyledImageBlock
                     onMouseEnter={() => {
                         setImgAnim(ImageScaleUp);
@@ -19,16 +18,11 @@ const MagazineItem: React.FC<IItemParams> = (props) => {
                         setImgAnim(ImageScaleDown);
                     }}
                 >
-                    <StyledImg
-                        src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                        width="100%"
-                        height="100%"
-                        imgAnim={imgAnim}
-                    />
+                    <StyledImg src={item.coverPictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
                 </StyledImageBlock>
             </Link>
             <StyledTitleBlock>
-                <StyledTitleText>아레카야자를 곁들인 화이트 우드톤 홈 플랜트 디자인</StyledTitleText>
+                <StyledTitleText>{item.title}</StyledTitleText>
             </StyledTitleBlock>
         </StyledMagazineItemContainer>
     );
@@ -66,7 +60,6 @@ const StyledTitleBlock = styled.div`
     width: 100%;
     height: 10%;
     background-color: white;
-    border-radius: 0px 0px 5px 5px;
 `;
 
 const StyledImg = styled.img<{ imgAnim: any }>`
@@ -88,8 +81,7 @@ const StyledMagazineItemContainer = styled.div<{ width: string; height?: string;
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border: solid 1.5px;
-    border-radius: 5px;
+    border: solid 1px;
     border-color: grey;
     background-color: silver;
 `;

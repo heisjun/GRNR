@@ -26,11 +26,12 @@ const TaggedPhoto: React.FC<ITaggedPhoto> = (props) => {
             <StyledDetailsText>{item.explain}</StyledDetailsText>
 
             <div style={{ display: 'flex', paddingTop: 15 }}>
-                {item.tagList.map((i, index) => (
-                    <div key={index}>
-                        <div style={{ color: 'lightblue', paddingRight: 10 }}>#{i.tagName}</div>
-                    </div>
-                ))}
+                {item.tagList &&
+                    item.tagList.map((i, index) => (
+                        <div key={index}>
+                            <div style={{ color: 'lightblue', paddingRight: 10 }}>#{i.tagName}</div>
+                        </div>
+                    ))}
             </div>
 
             <StyledBorderLine />

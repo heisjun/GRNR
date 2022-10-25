@@ -15,7 +15,7 @@ export type IQuestionDetailsParmas = {
     viewQuantity: number;
 };
 
-export type IQuestionCommentsParams = {
+export type ICommentsParams = {
     inquiryId: number;
     commentQuantity: number;
     commentDtoList: {
@@ -44,7 +44,7 @@ export type IQuestionCommentsParams = {
 
 export type IDictionaryDetailsParams = {
     plantDicId: number;
-    pictureList: [];
+    pictureList: string[];
     plantName: string;
     scientificName: string;
     toxicity: string;
@@ -89,6 +89,19 @@ export type IDictionaryDetailsParams = {
     watering_winter: string;
     description_detail: string;
     flowerLanguage: string;
+};
+
+export type IFollowingsParams = {
+    id: number;
+    accountNickName: string;
+    pictureUrlList: [];
+    category: string;
+    text: string;
+    tagList: [];
+    scrapCount: number;
+    likeCount: number;
+    commentCount: number;
+    time: number;
 };
 export type IPhotoDetailsParams = {
     pictureId: number;
@@ -178,10 +191,57 @@ export type IArticleParams = {
     picUrl?: string;
 };
 
-export type IMagazineParams = {
-    title?: string;
-    picUrl?: string;
+export type IMagazinesParams = {
+    magazineId: number;
+    title: string;
+    coverPictureUrl: string;
+    accountNickName: string;
+    scrapCount: number;
+    likeCount: number;
+    viewCount: number;
+    time: number;
 };
+
+export type IMagazineItemParams = {
+    width: string;
+    height?: string;
+    paddingBottom?: string;
+    item: IMagazinesParams;
+};
+
+export type IMagazineDetailsParams = {
+    magazineId: number;
+    coverPictureUrl: string;
+    region: string;
+    gardenCareer: string;
+    homePlace: string;
+    direction: string;
+    pet: string;
+    theme: string;
+    title: string;
+    text: string;
+    magazineContentDtoList: {
+        magazineId: number;
+        contentId: number;
+        pictureId: number;
+        pictureUrl: string;
+        tagDtoList: null;
+        explain: string;
+    }[];
+    accountNickName: string;
+    scrapCount: number;
+    likeCount: number;
+    viewCount: number;
+};
+
+export type IMagazineDetailsItem = {
+    magazineId: number;
+    contentId: number;
+    pictureId: number;
+    pictureUrl: string;
+    tagDtoList: null;
+    explain: string;
+}[];
 
 export type IPhotoParams = {
     avtUrl?: string;
@@ -207,7 +267,7 @@ export type IItemParams = {
     height?: string;
     paddingBottom?: string;
     item:
-        | IMagazineParams
+        | IMagazinesParams
         | IArticleParams
         | IPhotoParams
         | IDictionariesParams

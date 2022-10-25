@@ -104,8 +104,7 @@ const StyledImgBlock = styled.div`
 const StyledArticleItemBlock = styled.div<{ height?: string; paddingBottom?: string }>`
     position: relative;
     width: 100%;
-    border: solid 2px;
-    border-radius: 5px;
+    border: solid 1px;
     border-color: silver;
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};

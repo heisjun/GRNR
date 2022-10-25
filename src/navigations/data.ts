@@ -3,14 +3,6 @@ export const headerItems = [
         name: '커뮤니티',
         link: '/community',
     },
-    {
-        name: '스토어',
-        link: '/store',
-    },
-    {
-        name: '업로드',
-        link: '/upload',
-    },
 ];
 
 export const subTabBarItems = [

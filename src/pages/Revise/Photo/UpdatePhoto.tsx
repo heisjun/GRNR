@@ -1,7 +1,7 @@
 import CustomSelector from 'common/components/CustomSelector';
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { IPhotoDetailsParams, IUploadPicData, pictureDtoParams } from 'common/types';
+import { pictureDtoParams } from 'common/types';
 import axios from 'axios';
 import UpdateWritingItem from 'common/components/UpdateWritingItem';
 import { default as callApi } from 'common/api';
@@ -48,7 +48,7 @@ const Picture: React.FC = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await callApi.photoGet(Number(state));
+                const response = await callApi.getDetailList(Number(state), 'picture');
                 setDetails(response.data.value.pictureContentDtoList);
                 console.log('불러온데이터:', response.data.value.pictureContentDtoList);
             } catch (e) {

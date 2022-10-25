@@ -10,11 +10,6 @@ const TOKEN = process.env.REACT_APP_USER_TOKEN;
 
 const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
-    const [toggle, setToggle] = useState(false);
-    const onToggle = () => {
-        setToggle(!toggle);
-    };
-
     const [imgAnim, setImgAnim] = useState<any>();
 
     const onPhotoLike = async () => {
@@ -51,6 +46,22 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
         }
     };
 
+    const onFollowing = async (followingName: string) => {
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+        console.log(saveFollowDto);
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return (
         <>
             <StyledPhotoItemContainer width={width} height={height} paddingBottom={paddingBottom}>
@@ -62,7 +73,9 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                         <StyledWriterText>{item.accountNickName}</StyledWriterText>
                     </StyledWriterBlock>
                     <StyledFollowButton>
-                        <StyledFollowText>팔로우+</StyledFollowText>
+                        <StyledFollowText onClick={() => onFollowing(item.accountNickName ? item.accountNickName : '')}>
+                            팔로우+
+                        </StyledFollowText>
                     </StyledFollowButton>
                 </StyledHeaderBlock>
                 <Link to={`./details/${item.pictureId}`} style={{ textDecoration: 'none' }}>
@@ -85,13 +98,10 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                         <StyledLikeButton
                             src={`${process.env.REACT_APP_BASE_SRC}/like.png`}
                             onClick={() => {
-                                onToggle();
                                 onPhotoLike();
                             }}
                         />
-
-                        {!toggle && <StyledText>{item.likeCount}</StyledText>}
-
+                        <StyledText>{item.likeCount}</StyledText>
                         <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
                         <StyledText>{item.commentCount}</StyledText>
                         <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} onClick={onPhotoScrap} />
@@ -201,6 +211,7 @@ const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
+    object-fit: cover;
 `;
 
 const StyledPhotoBlock = styled.div`

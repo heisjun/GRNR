@@ -4,7 +4,7 @@ import { Avatar, ItemList } from 'common/components';
 import { getDebouncedFunc } from 'common/funcs';
 import { useParams, useNavigate } from 'react-router-dom';
 import { default as callApi } from 'common/api';
-import { IQuestionDetailsParmas, IQuestionCommentsParams } from 'common/types';
+import { IQuestionDetailsParmas, ICommentsParams } from 'common/types';
 import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -15,7 +15,7 @@ const QuestionDetails: React.FC = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState<IQuestionDetailsParmas>();
-    const [commentsList, setCommentsList] = useState<IQuestionCommentsParams>();
+    const [commentsList, setCommentsList] = useState<ICommentsParams>();
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
     const [isActive, setIsActive] = useState([false]);
