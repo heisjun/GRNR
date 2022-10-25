@@ -13,7 +13,7 @@ const KakaoLogin = () => {
     const KAKAO_CODE = location.search.split('=')[1];
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
 
-    /*  const getKakaoToken = () => {
+    const getKakaoToken = () => {
         fetch(`https://kauth.kakao.com/oauth/token`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -30,7 +30,7 @@ const KakaoLogin = () => {
                     navigate('./');
                 }
             });
-    }; */
+    };
 
     const removeItem = () => {
         localStorage.removeItem('token');
