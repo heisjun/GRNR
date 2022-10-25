@@ -10,7 +10,7 @@ const Login: React.FC = () => {
     const nav = useNavigate();
 
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
-    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    const KAKAO_AUTH_URL = `https://www.gardenersclub.co.kr/api/oauth2/authorization?kakao`;
 
     const handleLogin = () => {
         window.location.href = KAKAO_AUTH_URL;
@@ -24,7 +24,7 @@ const Login: React.FC = () => {
     return (
         <StyledLoginContainer>
             <StyledLogoImg></StyledLogoImg>
-            <StyledTitleText onClick={handleLogin}>카카오 계정으로 간편 로그인/회원가입</StyledTitleText>
+            <StyledTitleText onClick={handleLogin}>카카오 계정으로 간편 로그인/회원가입!</StyledTitleText>
             <StyledButton onClick={onTalkButton}>
                 <StyledLoginText>TALK</StyledLoginText>
             </StyledButton>
