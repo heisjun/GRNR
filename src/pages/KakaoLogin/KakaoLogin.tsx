@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 
@@ -32,6 +32,16 @@ const KakaoLogin = () => {
             });
     };
  */
+
+    const params = useParams();
+
+    console.log(params);
+
+    useEffect(() => {
+        localStorage.clear();
+        localStorage.setItem('token', String(params.token));
+        window.location.replace('/');
+    }, []);
     const removeItem = () => {
         localStorage.removeItem('token');
     };
