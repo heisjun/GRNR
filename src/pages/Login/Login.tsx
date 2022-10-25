@@ -24,7 +24,7 @@ const Login: React.FC = () => {
     return (
         <StyledLoginContainer>
             <StyledLogoImg></StyledLogoImg>
-            <StyledTitleText onClick={handleLogin}>카카오 계정으로 간편 로그인/회원가입</StyledTitleText>
+            <StyledTitleText onClick={handleLogin}>카카오 계정으로 간편 로그인/회원가입!</StyledTitleText>
             <StyledButton onClick={onTalkButton}>
                 <StyledLoginText>TALK</StyledLoginText>
             </StyledButton>
