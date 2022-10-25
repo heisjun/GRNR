@@ -297,7 +297,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                                         <StyledLoginButton>로그인</StyledLoginButton>
                                     </Link>
-                                    <Link to="/register" style={{ textDecoration: 'none', color: 'black' }}>
+                                    <Link to="/api/register" style={{ textDecoration: 'none', color: 'black' }}>
                                         <StyledRegisterButton>회원가입</StyledRegisterButton>
                                     </Link>
                                 </StyledButtonsCotainer>
