@@ -9,3 +9,4 @@ export { default as Filters } from './Filters';
 export { default as Filters_Test } from './FIlters_Test';
 export { default as ScrapPhotoItem } from './ScrapPhotoItem';
 export { default as MyphotoItem } from './MyphotoItem';
+export { default as WritingDropdown } from './WritingDropdown';

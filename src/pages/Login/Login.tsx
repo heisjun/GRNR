@@ -3,10 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 
+const REST_API_KEY = '71f42bf1f95027f6634775db92fac363';
+const REDIRECT_URI = 'https://www.gardenersclub.co.kr/api/login/oauth2/code';
+
 const Login: React.FC = () => {
     const nav = useNavigate();
 
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+    const handleLogin = () => {
+        window.location.href = KAKAO_AUTH_URL;
+    };
 
     const onTalkButton = () => {
         setLoginStatus({ ...loginStatus, isLogin: true });
@@ -16,7 +24,7 @@ const Login: React.FC = () => {
     return (
         <StyledLoginContainer>
             <StyledLogoImg></StyledLogoImg>
-            <StyledTitleText>카카오 계정으로 간편 로그인/회원가입</StyledTitleText>
+            <StyledTitleText onClick={handleLogin}>카카오 계정으로 간편 로그인/회원가입</StyledTitleText>
             <StyledButton onClick={onTalkButton}>
                 <StyledLoginText>TALK</StyledLoginText>
             </StyledButton>

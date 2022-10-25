@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Avatar } from 'common/components';
 import { Profile } from 'domains';
 
-const MyFollowing: React.FC = () => {
+const MyFollower: React.FC = () => {
     return (
         <StyledMyphotoContainer>
             <StyledProfileContainer>
@@ -12,7 +12,7 @@ const MyFollowing: React.FC = () => {
             </StyledProfileContainer>
             <StyledContextContainer>
                 <StyledTitleBlock>
-                    <StyledTitleText>팔로잉</StyledTitleText>
+                    <StyledTitleText>팔로워</StyledTitleText>
                 </StyledTitleBlock>
                 <div style={{ display: 'flex' }}>
                     <div style={{ width: '10%' }}>
@@ -89,4 +89,4 @@ const StyledMyphotoContainer = styled.div`
     display: flex;
 `;
 
-export default MyFollowing;
+export default MyFollower;

@@ -21,7 +21,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                 <StyledBlockHeader>
                     <StyledHeaderItem>
                         <Avatar width="9%" paddingBottom="9%" borderRadius="100%" />
-                        <StyledNickname> {data.nickname}</StyledNickname>
+                        <StyledNickname> {data.accountNickName}</StyledNickname>
                         <StyledTime> {data.time}</StyledTime>
                     </StyledHeaderItem>
                     <StyledHeaderItem2>
@@ -29,18 +29,19 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                         <StyledClickText color="gray">팔로우</StyledClickText>
                     </StyledHeaderItem2>
                 </StyledBlockHeader>
-                <Slider imgdata={data.picUrl} textdata={data.text} />
+                <Slider item={data} />
                 <StyledBlockFooter>
                     <StyledFooterItem>
                         <FaRegHeart style={{ fontSize: '30' }} />
-                        <div>{data.like}</div>
+                        <div>{data.likeCount}</div>
                     </StyledFooterItem>
                     <StyledFooterItem onClick={() => setIsOpenComments(true)}>
                         <FaRegCommentDots style={{ fontSize: '30' }} />
+                        <div>{data.commentCount}</div>
                     </StyledFooterItem>
                     <StyledFooterItem>
                         <FaRegBookmark style={{ fontSize: '30' }} />
-                        <div>{data.bookmark}</div>
+                        <div>{data.scrapCount}</div>
                     </StyledFooterItem>
                 </StyledBlockFooter>
             </StyledFeedsBlock>

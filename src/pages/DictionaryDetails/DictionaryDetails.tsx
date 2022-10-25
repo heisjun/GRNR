@@ -21,7 +21,7 @@ const DictionaryDetails: React.FC = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await callApi.dictionaryGet(Number(params.id));
+                const response = await callApi.getDetailList(Number(params.id), 'images');
                 setDetails(response.data.value);
                 console.log(response.data.value);
             } catch (e) {
@@ -38,7 +38,7 @@ const DictionaryDetails: React.FC = () => {
             <PlantGuide />
             <StyledBorderLine />
             <StyledDetailsBlock>
-                <StyledDetailTitle>#몬스테라 테라오사 관련 아티클</StyledDetailTitle>
+                <StyledDetailTitle>{`#${details?.plantName}  관련 아티클`}</StyledDetailTitle>
                 <Link to="./dictionary" style={{ textDecoration: 'none' }}>
                     <StyledDetailView>전체보기</StyledDetailView>
                 </Link>

@@ -5,22 +5,19 @@ import { TaggedPhoto } from 'domains';
 import { getDebouncedFunc } from 'common/funcs';
 import { useParams, useNavigate } from 'react-router-dom';
 import { default as callApi } from 'common/api';
-import { IPhotoDetailsParams, ICommentsParams } from 'common/types';
+import { IMagazineDetailsParams, ICommentsParams } from 'common/types';
 import axios from 'axios';
 import CommentItem from 'common/components/CommentItem';
-import Modal from 'react-modal';
-import ReportModal from 'common/components/ReportModal';
 
 const BASEURL = process.env.REACT_APP_BASE_URL;
 const TOKEN = process.env.REACT_APP_USER_TOKEN;
 
-const PhotoDetails: React.FC = () => {
+const MagazineDetails: React.FC = () => {
     const navigate = useNavigate();
     const sideBarRef = useRef<any>(null);
     const [loading, setLoading] = useState(false);
-    const [details, setDetails] = useState<IPhotoDetailsParams>();
+    const [details, setDetails] = useState<IMagazineDetailsParams>();
     const [commentsList, setCommentsList] = useState<ICommentsParams>();
-    const [openModal, setOpenModal] = useState(false);
 
     const params = useParams();
 
@@ -28,7 +25,7 @@ const PhotoDetails: React.FC = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await callApi.getDetailList(Number(params.id), 'picture');
+                const response = await callApi.getDetailList(Number(params.id), 'magazine');
                 setDetails(response.data.value);
             } catch (e) {
                 console.log(e);
@@ -43,7 +40,7 @@ const PhotoDetails: React.FC = () => {
             setLoading(true);
             try {
                 const CommentData = await axios.get(
-                    `${BASEURL}/api/picture/${params.id}/comment/view
+                    `${BASEURL}/api/magazine/${params.id}/comment/view
                 `,
                 );
                 setCommentsList(CommentData.data.value.content[0]);
@@ -69,28 +66,10 @@ const PhotoDetails: React.FC = () => {
         };
     }, []);
 
-    const useConfirm = (message: string, onConfirm: any, onCancel: any) => {
-        if (!onConfirm || typeof onConfirm !== 'function') {
-            return;
-        }
-        if (onCancel && typeof onCancel !== 'function') {
-            return;
-        }
-
-        const confirmAction = () => {
-            if (window.confirm(message)) {
-                onConfirm();
-            } else {
-                onCancel();
-            }
-        };
-
-        return confirmAction;
-    };
     const onDeletePost = async () => {
         try {
             await axios.delete(
-                `${BASEURL}/api/picture/${params.id}/delete
+                `${BASEURL}/api/magazine/${params.id}/delete
             `,
                 {
                     headers: {
@@ -104,17 +83,31 @@ const PhotoDetails: React.FC = () => {
             console.log(e);
         }
     };
-    const cancelConfirm = () => console.log('취소했습니다.');
-    const confirmDelete = useConfirm('삭제하시겠습니까?', onDeletePost, cancelConfirm);
 
     const onEdit = () => {
         navigate('/community/photo/edit', { state: params.id });
     };
 
-    const onPhotoLike = async () => {
+    const onMagazineReport = async (pictureId: number) => {
+        const res = await axios.put(
+            `${BASEURL}/api/report/picture/${pictureId}
+        `,
+            {},
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            },
+        );
+
+        if (res.status === 201) console.log(res.data);
+    };
+
+    const onMagazineLike = async () => {
         try {
             await axios.post(
-                `${BASEURL}/api/picture/${params.id}/like`,
+                `${BASEURL}/api/magazine/${params.id}/like`,
                 {},
                 {
                     headers: {
@@ -128,10 +121,10 @@ const PhotoDetails: React.FC = () => {
         }
     };
 
-    const onPhotoScrap = async () => {
+    const onMagazineScrap = async () => {
         try {
             await axios.post(
-                `${BASEURL}/api/picture/${params.id}/scrap`,
+                `${BASEURL}/api/magazine/${params.id}/scrap`,
                 {},
                 {
                     headers: {
@@ -147,35 +140,26 @@ const PhotoDetails: React.FC = () => {
 
     const data = [
         {
-            pictureId: 2,
-            contentId: 4,
-            pictureUrl: '사진글2_사진4.jpg',
-            explain: '두번째 사진글의 사진4입니다.',
-            homePlace: 'LIVING_ROOM',
-            tagList: [
-                {
-                    pictureContentId: 4,
-                    tagName: '사진4 태그1',
-                },
-                {
-                    pictureContentId: 4,
-                    tagName: '사진4 태그2',
-                },
-            ],
+            magazineId: 1,
+            contentId: 1,
+            pictureId: 1,
+            pictureUrl: '매거진_사진1.jpg',
+            tagDtoList: null,
+            explain: '사진 1 설명',
         },
     ];
 
     return (
         <StyledPhotoDetailsContainer>
-            <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
-                <ReportModal setOpenModal={setOpenModal} reportId={params.id} />
-            </Modal>
             <StyledDetailsBlock>
                 <StyledTopTextBlock>
-                    <StyledViewCountText>조회 {details?.viewCount}명</StyledViewCountText>
-                    <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
+                    <StyledViewCountText>{`${details?.accountNickName} 님의 매거진`}</StyledViewCountText>
+                    <StyledTitleText>{details?.title}</StyledTitleText>
+                    {/* <StyledReportText onClick={onDeletePost}>삭제</StyledReportText>
                     <StyledReportText onClick={onEdit}>수정</StyledReportText>
-                    <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
+                    <StyledReportText onClick={() => onPhotoReport(details?.magazineId ? details.magazineId : 0)}>
+                        신고
+                    </StyledReportText> */}
                 </StyledTopTextBlock>
                 <ItemList
                     width="100%"
@@ -183,7 +167,7 @@ const PhotoDetails: React.FC = () => {
                     cols={1}
                     horizontalGap={0}
                     verticalGap={0}
-                    items={details?.pictureContentDtoList ? details?.pictureContentDtoList : data}
+                    items={details?.magazineContentDtoList ? details?.magazineContentDtoList : data}
                     RenderComponent={TaggedPhoto}
                 />
                 <StyledUserInfoBlock>
@@ -202,12 +186,12 @@ const PhotoDetails: React.FC = () => {
                     </StyledFollowButtonBlock>
                 </StyledUserInfoBlock>
                 <StyledBorderLine />
-                <CommentItem commentsList={commentsList} pictureId={params.id} category="picture" />
+                <CommentItem commentsList={commentsList} pictureId={params.id} category="magazine" />
             </StyledDetailsBlock>
             <StyledButtonsContainer>
                 <StyledButtonsBlock ref={sideBarRef}>
                     <StyledButtonBlock>
-                        <StyledButton onClick={onPhotoLike} />
+                        <StyledButton onClick={onMagazineLike} />
                         <StyledButtonText>좋아요:{details?.likeCount}</StyledButtonText>
                     </StyledButtonBlock>
                     <StyledButtonBlock>
@@ -215,7 +199,7 @@ const PhotoDetails: React.FC = () => {
                         <StyledButtonText>댓글:{commentsList?.commentQuantity}</StyledButtonText>
                     </StyledButtonBlock>
                     <StyledButtonBlock>
-                        <StyledButton onClick={onPhotoScrap} />
+                        <StyledButton onClick={onMagazineScrap} />
                         <StyledButtonText>스크랩:{details?.scrapCount}</StyledButtonText>
                     </StyledButtonBlock>
                 </StyledButtonsBlock>
@@ -252,8 +236,16 @@ const StyledButtonBlock = styled.div`
 
 const StyledViewCountText = styled.div`
     flex: 1;
-    font-size: 18px;
+    font-size: 15px;
     color: grey;
+    padding-bottom: 5px;
+`;
+
+const StyledTitleText = styled.div`
+    font-size: 20px;
+    font-weight: bold;
+    color: grey;
+    padding-bottom: 5px;
 `;
 
 const StyledReportText = styled.div`
@@ -265,9 +257,9 @@ const StyledReportText = styled.div`
 
 const StyledTopTextBlock = styled.div`
     width: 100%;
-    height: 50px;
-    display: flex;
-    margin-bottom: -15px;
+    height: 100px;
+    background-color: lightgray;
+    margin-bottom: 40px;
 `;
 
 const StyledDetailsBlock = styled.div`
@@ -347,17 +339,4 @@ const StyledUserInfoBlock = styled.div`
     display: flex;
 `;
 
-const customStyles = {
-    overlay: {
-        backgroundColor: 'rgba(0,0,0,0.5)',
-    },
-    content: {
-        left: '0',
-        margin: 'auto',
-        width: '300px',
-        height: '400px',
-        padding: '0',
-        overflow: 'hidden',
-    },
-};
-export default React.memo(PhotoDetails);
+export default React.memo(MagazineDetails);

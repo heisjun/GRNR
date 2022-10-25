@@ -2,40 +2,42 @@ import React from 'react';
 import styled from 'styled-components';
 import { IDictionaryInfo } from './DictionaryInfo.type';
 
-const FigureData = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
-const CategoryData = [{}, {}];
-
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
     const { data } = props;
+    const FigureData = [data?.classification, data?.flowerLanguage];
+    const CategoryData = [{ family: data?.korFamily, order: data?.korOrder }];
+    console.log('이미지리스트:', data?.pictureList[0]);
     return (
         <div>
             <StyledDicHeader>
                 식물사전 {'>'} {data?.plantName}
             </StyledDicHeader>
             <StyledInfoContainer>
-                <StyledImgBlock />
+                <StyledImgBlock src={data?.pictureList[0]} />
                 <StyledContentBlock>
                     <StyledEngName>{data?.scientificName}</StyledEngName>
                     <StyledFlexDiv>
                         <StyledKorName>{data?.plantName}</StyledKorName>
-                        <StyledDifficulty> ★ ★ ★ ★ ★</StyledDifficulty>
+                        <StyledDifficulty>
+                            {data?.difficulty ? '★'.repeat(parseInt(data.difficulty)) : null}
+                        </StyledDifficulty>
                     </StyledFlexDiv>
                     {FigureData.map((item, index) => {
-                        return <StyledFigure>뾰족한</StyledFigure>;
+                        return <StyledFigure key={index}>{item}</StyledFigure>;
                     })}
                     <StyledFlexDiv>
                         <StyledIndex>출신</StyledIndex>
-                        <StyledIndexContent>멕시코 남부 ,파나마, 중앙 아메리카</StyledIndexContent>
+                        <StyledIndexContent>{data?.distribution}</StyledIndexContent>
                     </StyledFlexDiv>
                     <StyledFlexDiv>
                         <StyledIndex>분류</StyledIndex>
                         {CategoryData.map((item, index) => {
                             return (
-                                <StyledCategory>
-                                    <div>과(Family)</div>
-                                    <div>천남성과(Araceae)</div>
+                                <StyledCategory key={index}>
+                                    <div>{item.family}</div>
+                                    <div>{item.order}</div>
                                 </StyledCategory>
                             );
                         })}
@@ -112,9 +114,9 @@ const StyledKorName = styled.div`
     margin-right: 1vw;
 `;
 
-const StyledImgBlock = styled.div`
+const StyledImgBlock = styled.img`
     width: 35%;
-    padding-bottom: 35%;
+
     background-color: gray;
     border-radius: 2px;
     @media screen and (max-width: ${boundaryWidth}px) {

@@ -6,6 +6,9 @@ import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
 import { SubTabBar, MypageTabBar } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
+import { WritingDropdown } from 'common/components';
+import { FaBell } from 'react-icons/fa';
+import axios from 'axios';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
@@ -27,6 +30,26 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
 
     const loc = useLocation();
     const nav = useNavigate();
+
+    const logout = async () => {
+        const token = localStorage.getItem('token');
+        console.log(token);
+        try {
+            await axios.post(
+                `https://kapi.kakao.com/v1/user/logout`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            localStorage.removeItem('token');
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     useEffect(() => {
         if (loc.pathname.replaceAll('/', '') === 'gardeners-club') {
@@ -71,38 +94,15 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
         setOverPage(crntPage);
     }, [crntPage]);
     if (isLogin === true) {
-        if (loc.pathname === '/community/question/new' || loc.pathname === '/community/question/new/')
+        if (
+            loc.pathname === '/community/question/new' ||
+            loc.pathname === '/community/question/new/' ||
+            loc.pathname === '/upload' ||
+            loc.pathname === '/upload/photo' ||
+            loc.pathname === '/upload/video'
+        )
             return (
                 <StyledContainer>
-                    <StyledTabsContainer>
-                        <StyledHeaderBarContainer
-                            fadeAnim={fadeAnim}
-                            onMouseEnter={() => {
-                                setSubTabVisible(!scrollDownToggle);
-                                setScrollDownToggle(false);
-                            }}
-                        >
-                            <StyledHeaderBar>
-                                <StyledTitleBlock>
-                                    <Link
-                                        to="/"
-                                        style={{ textDecoration: 'none' }}
-                                        onClick={() => {
-                                            setCrntPage(0);
-                                            setOverPage(0);
-                                            setScrollDownToggle(false);
-                                            setSubTabVisible(true);
-                                        }}
-                                    >
-                                        <StyledTitleText>로고</StyledTitleText>
-                                    </Link>
-                                </StyledTitleBlock>
-                                <StyledUploadButton>
-                                    <StyledUploadText>등록</StyledUploadText>
-                                </StyledUploadButton>
-                            </StyledHeaderBar>
-                        </StyledHeaderBarContainer>
-                    </StyledTabsContainer>
                     <StyledContentContainer>
                         <StyledContentBlock>{children}</StyledContentBlock>
                     </StyledContentContainer>
@@ -136,7 +136,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                             setSubTabVisible(true);
                                         }}
                                     >
-                                        <StyledTitleText>로고</StyledTitleText>
+                                        <StyledLogoImg src="/Gardener.png" />
                                     </Link>
                                 </StyledTitleBlock>
 
@@ -164,14 +164,16 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     ))}
                                 </StyledMenuItemsContainer>
                                 <StyledSearchBar readOnly />
+                                <div onClick={logout}>로그아웃</div>
                                 <StyledButtonsCotainer>
                                     <StyledSearchButton />
+                                    <FaBell style={{ color: 'gray', fontSize: 20, paddingRight: 10 }} />
                                     <Link to="/mypage" style={{ textDecoration: 'none', color: 'black' }}>
                                         <StyledMyPageButton>
                                             <StyleMyPageText>마이페이지</StyleMyPageText>
                                         </StyledMyPageButton>
                                     </Link>
-                                    <StyledWritingButton> 글쓰기</StyledWritingButton>
+                                    <WritingDropdown />
                                 </StyledButtonsCotainer>
                             </StyledHeaderBar>
                         </StyledHeaderBarContainer>
@@ -223,7 +225,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                             setSubTabVisible(true);
                                         }}
                                     >
-                                        <StyledTitleText>로고</StyledTitleText>
+                                        <StyledLogoImg src="/Gardener.png" />
                                     </Link>
                                 </StyledTitleBlock>
                             </StyledHeaderBar>
@@ -262,7 +264,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                             setSubTabVisible(true);
                                         }}
                                     >
-                                        <StyledTitleText>로고</StyledTitleText>
+                                        <StyledLogoImg src="/Gardener.png" />
                                     </Link>
                                 </StyledTitleBlock>
 
@@ -295,7 +297,9 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                                         <StyledLoginButton>로그인</StyledLoginButton>
                                     </Link>
-                                    <StyledRegisterButton>회원가입</StyledRegisterButton>
+                                    <Link to="/register" style={{ textDecoration: 'none', color: 'black' }}>
+                                        <StyledRegisterButton>회원가입</StyledRegisterButton>
+                                    </Link>
                                 </StyledButtonsCotainer>
                             </StyledHeaderBar>
                         </StyledHeaderBarContainer>
@@ -342,6 +346,10 @@ const headerFadeOut = keyframes`
     100% {
         transform: translateY(-100%);
     }
+`;
+
+const StyledLogoImg = styled.img`
+    width: 150px;
 `;
 
 const StyledUploadText = styled.div`
