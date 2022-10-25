@@ -13,7 +13,7 @@ const KakaoLogin = () => {
     const KAKAO_CODE = location.search.split('=')[1];
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
 
-    const getKakaoToken = () => {
+    /* const getKakaoToken = () => {
         fetch(`https://kauth.kakao.com/oauth/token`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -31,7 +31,7 @@ const KakaoLogin = () => {
                 }
             });
     };
-
+ */
     const removeItem = () => {
         localStorage.removeItem('token');
     };
@@ -42,7 +42,7 @@ const KakaoLogin = () => {
 
     return (
         <div>
-            <div>카카오 로그인 하기</div>
+            <div>카카오 로그인중</div>
             <div onClick={removeItem}>지우기</div>
         </div>
     );
