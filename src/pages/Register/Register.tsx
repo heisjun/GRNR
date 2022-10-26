@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect, SetStateAction, useCallback } from 'react';
 import { AgreeBox } from 'domains';
 import KeywordBox from 'common/components/KeywordBox';
 import AddressBox from 'common/components/AddressBox';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
@@ -50,23 +52,23 @@ const Register: React.FC = () => {
     const [getkeyword, setGetKeyword] = useState();
     const [getAddress, setGetAddress] = useState();
     const [error, setError] = useState<string>('');
+    const location = useLocation();
+    const snsId = location.search.split('=')[1];
     const [inputs, setInputs] = useState({
-        email: '',
+        //email: '',
         nickname: '',
         detailAddress: '',
     });
-    const { nickname, email, detailAddress } = inputs;
+    const { nickname, detailAddress } = inputs;
     const onSubmit = () => {
         const dataToSend = {
-            email: `${inputs.email}@${selected}`,
+            //email: `${inputs.email}@${selected}`,
             nickname: inputs.nickname,
             address: `${getAddress},${inputs.detailAddress}`,
             keyword: getkeyword,
+            snsId: snsId,
         };
-        if (!inputs.email || !selected) {
-            setError('이메일을 입력하세요');
-            return;
-        } else if (!dataToSend.nickname) {
+        if (!dataToSend.nickname) {
             setError('닉네임을 입력하세요');
             return;
         } else if (!getAddress) {
@@ -79,6 +81,37 @@ const Register: React.FC = () => {
             setError('');
             console.log(dataToSend);
         }
+    };
+
+    const handleClick = async () => {
+        const dataToSend = {
+            nickname: inputs.nickname,
+            address: `${getAddress},${inputs.detailAddress}`,
+            snsId: snsId,
+            tos: 'yes',
+        };
+        if (!dataToSend.nickname) {
+            setError('닉네임을 입력하세요');
+            return;
+        } else if (!getAddress) {
+            setError('주소를 입력하세요');
+            return;
+        } else if (!ageAgree || !serviceAgree || !privateAgree) {
+            setError('약관에 동의해주세요');
+            return;
+        } else {
+            setError('');
+        }
+        const addRegisterDto = JSON.stringify(dataToSend);
+        console.log(addRegisterDto);
+
+        const res = await axios.put(`https://www.gardenersclub.co.kr/api/api/register`, addRegisterDto, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (res.status === 201) console.log(res.data);
     };
 
     const handleSelect = (e: { target: { value: SetStateAction<string> } }) => {
@@ -120,7 +153,7 @@ const Register: React.FC = () => {
     return (
         <StyledRegisterContainer>
             <StyledTitleText>추가 정보 입력</StyledTitleText>
-            <StyledRegisterBlock>
+            {/* <StyledRegisterBlock>
                 <StyledTitleText>이메일</StyledTitleText>
                 <StyledEmailInput>
                     <StyledInput placeholder="이메일" type="text" name="email" value={email} onChange={handleInput} />
@@ -139,7 +172,7 @@ const Register: React.FC = () => {
                         </option>
                     </StyledSelector>
                 </StyledEmailInput>
-            </StyledRegisterBlock>
+            </StyledRegisterBlock> */}
             <StyledRegisterBlock>
                 <StyledTitleText>닉네임</StyledTitleText>
                 <StyledBodyText>다른 사용자와 겹치지 않는 닉네임을 입력해주세요</StyledBodyText>
@@ -187,7 +220,7 @@ const Register: React.FC = () => {
             </StyledRegisterBlock>
             <StyledRegisterBlock>
                 <StyledErrorMessage>{error}</StyledErrorMessage>
-                <StyledButton onClick={onSubmit}>가입하기</StyledButton>
+                <StyledButton onClick={handleClick}>가입하기</StyledButton>
             </StyledRegisterBlock>
         </StyledRegisterContainer>
     );
