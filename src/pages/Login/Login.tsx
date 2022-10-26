@@ -5,7 +5,7 @@ import { UserInfo } from 'recoil/auth';
 
 const REST_API_KEY = '71f42bf1f95027f6634775db92fac363';
 const REDIRECT_URI = 'https://www.gardenersclub.co.kr/api/login/oauth2/code/kakao';
-const REDIRECT_URI_AFTER_LOGIN = 'https://www.gardenersclub.co.kr/api/register';
+const REDIRECT_URI_AFTER_LOGIN = 'https://www.gardenersclub.co.kr/register';
 
 const Login: React.FC = () => {
     const nav = useNavigate();
