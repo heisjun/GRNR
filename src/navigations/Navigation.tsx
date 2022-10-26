@@ -68,7 +68,7 @@ const Navigation: React.FC = () => {
                     <Route path="/community/magazine/details/:id" element={<MagazineDetails />} />
                     <Route path="/community/dictionary" element={<Dictionary />} />
                     <Route path="/community/dictionary/details/:id" element={<DictionaryDetails />} />
-                    <Route path="/api/register" element={<Register />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/mypage" element={<Myfeed />} />
                     <Route path="/mypage/profile" element={<Myfeed />} />
                     <Route path="/mypage/profile/myfeed" element={<Myfeed />} />
