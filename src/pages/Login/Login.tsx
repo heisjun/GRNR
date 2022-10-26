@@ -5,12 +5,13 @@ import { UserInfo } from 'recoil/auth';
 
 const REST_API_KEY = '71f42bf1f95027f6634775db92fac363';
 const REDIRECT_URI = 'https://www.gardenersclub.co.kr/api/login/oauth2/code/kakao';
+const REDIRECT_URI_AFTER_LOGIN = 'https://www.gardenersclub.co.kr/api/register';
 
 const Login: React.FC = () => {
     const nav = useNavigate();
 
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
-    const KAKAO_AUTH_URL = `https://www.gardenersclub.co.kr/api/oauth2/authorization/kakao`;
+    const KAKAO_AUTH_URL = `https://www.gardenersclub.co.kr/api/oauth2/authorization/kakao?redirect_uri=${REDIRECT_URI_AFTER_LOGIN}`;
 
     const handleLogin = () => {
         window.location.href = KAKAO_AUTH_URL;
