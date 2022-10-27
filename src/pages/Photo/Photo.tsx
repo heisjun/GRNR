@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
-const BASEURL = process.env.REACT_APP_BASE_URL;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
 
 const PhotoFilter_Order = [
     {

@@ -11,7 +11,7 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
 
 const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
+const TOKEN = localStorage.getItem('accesstoken');
 
 const option1 = [
     {
@@ -116,7 +116,7 @@ const Picture: React.FC = () => {
             console.log(getContent[i].realImg);
         }
 
-        const res = await axios.post(`${BASEURL}/api/picture/save`, formData, {
+        const res = await axios.post(`https://www.gardenersclub.co.kr/api/api/picture/save`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${TOKEN}`,
