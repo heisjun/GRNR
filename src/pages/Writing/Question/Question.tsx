@@ -4,8 +4,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Question: React.FC = () => {
     const navigate = useNavigate();

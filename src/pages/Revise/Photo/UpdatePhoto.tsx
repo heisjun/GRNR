@@ -8,8 +8,8 @@ import { default as callApi } from 'common/api';
 import { useLocation } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
-const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const option1 = [
     {

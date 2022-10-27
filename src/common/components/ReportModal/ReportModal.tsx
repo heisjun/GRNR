@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IReportModal } from './ReportModal.type';
 
-const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const ReportModal: React.FC<IReportModal> = (props) => {
     const { setOpenModal, reportId } = props;
