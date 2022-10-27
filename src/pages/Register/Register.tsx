@@ -110,7 +110,7 @@ const Register: React.FC = () => {
 
         const res = await axios.put(`https://www.gardenersclub.co.kr/api/api/register`, addRegisterDto, {
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
