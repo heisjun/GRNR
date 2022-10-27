@@ -7,8 +7,8 @@ import axios from 'axios';
 import { IFollowingsParams } from 'common/types';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
-const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Following: React.FC = () => {
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);

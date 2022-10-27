@@ -5,8 +5,8 @@ import { IPhotoItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 import axios from 'axios';
 
-const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;

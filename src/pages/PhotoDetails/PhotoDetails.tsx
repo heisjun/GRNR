@@ -11,8 +11,8 @@ import CommentItem from 'common/components/CommentItem';
 import Modal from 'react-modal';
 import ReportModal from 'common/components/ReportModal';
 
-const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const PhotoDetails: React.FC = () => {
     const navigate = useNavigate();

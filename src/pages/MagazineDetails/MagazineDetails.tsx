@@ -9,8 +9,8 @@ import { IMagazineDetailsParams, ICommentsParams } from 'common/types';
 import axios from 'axios';
 import CommentItem from 'common/components/CommentItem';
 
-const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const MagazineDetails: React.FC = () => {
     const navigate = useNavigate();

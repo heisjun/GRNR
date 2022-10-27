@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import Avatar from '../Avatar';
 import { ICommentItem } from './CommentItem.type';
 
-const BASEURL = process.env.REACT_APP_BASE_URL;
-const TOKEN = process.env.REACT_APP_USER_TOKEN;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const CommentItem: React.FC<ICommentItem> = (props) => {
     const { commentsList, pictureId, category } = props;
