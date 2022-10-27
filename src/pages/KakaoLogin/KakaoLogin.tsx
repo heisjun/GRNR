@@ -15,9 +15,9 @@ const KakaoLogin = () => {
 
     const getToken = () => {
         if (accessToken) {
-            localStorage.setItem('accesstoken', accessToken);
+            localStorage.setItem('기존로그인accesstoken', accessToken);
             console.log('accessToken:', accessToken);
-            localStorage.setItem('refreshtoken', refreshToken);
+            localStorage.setItem('기존로그인refreshtoken', refreshToken);
             console.log('refreshToken:', refreshToken);
             setLoginStatus({ ...loginStatus, isLogin: true });
             navigate('./');

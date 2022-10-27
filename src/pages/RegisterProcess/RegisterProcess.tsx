@@ -14,12 +14,12 @@ const RegisterProcess = () => {
 
     const getToken = () => {
         if (accessToken) {
-            localStorage.setItem('accesstoken', accessToken);
+            localStorage.setItem('회원가입accesstoken', accessToken);
             console.log('accessToken:', accessToken);
-            localStorage.setItem('refreshtoken', refreshToken);
+            localStorage.setItem('회원가입refreshtoken', refreshToken);
             console.log('refreshToken:', refreshToken);
             setLoginStatus({ ...loginStatus, isLogin: true });
-            navigate('./register');
+            navigate('/register');
         } else return;
     };
 
