@@ -78,7 +78,7 @@ const Register: React.FC = () => {
     const handleClick = async () => {
         CheckNickname();
         const dataToSend = {
-            address: `${getAddress},${inputs.detailAddress}`,
+            address: `${inputs.detailAddress}`,
             nickName: inputs.nickname,
             tos: 'yes',
         };
@@ -88,7 +88,7 @@ const Register: React.FC = () => {
         } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
             setError('이미 사용중인 닉네임입니다. 다른 닉네임으로 만들어주세요');
             return;
-        } else if (!getAddress) {
+        } else if (!inputs.detailAddress) {
             setError('주소를 입력하세요');
             return;
         } else if (!ageAgree || !serviceAgree || !privateAgree) {
@@ -182,9 +182,9 @@ const Register: React.FC = () => {
             </StyledRegisterBlock>
             <StyledRegisterBlock>
                 <StyledTitleText>주소</StyledTitleText>
-                <AddressBox setGetAddress={setGetAddress} />
+                {/* <AddressBox setGetAddress={setGetAddress} /> */}
                 <StyledInput
-                    placeholder="상세주소를 입력하세요"
+                    placeholder="주소를 입력하세요"
                     type="text"
                     name="detailAddress"
                     value={detailAddress}
