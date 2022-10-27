@@ -5,6 +5,9 @@ import KeywordBox from 'common/components/KeywordBox';
 import AddressBox from 'common/components/AddressBox';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { default as callApi } from 'common/api';
+import { getDebouncedFunc } from 'common/funcs';
+import { ItemList } from 'common/components';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
@@ -52,9 +55,14 @@ const Register: React.FC = () => {
     const [adAgree, setAdAgree] = useState<boolean>(false);
     const [selected, setSelected] = useState('');
     const [getkeyword, setGetKeyword] = useState();
-    const [getAddress, setGetAddress] = useState();
+
+    const [disabledToggle, setDisabledToggle] = useState<boolean>(false);
+    const [address, setAddress] = useState<string>('');
+    const [addressData, setAddressData] = useState<any>();
+    const [addressMsg, setAddressMsg] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [check, setCheck] = useState();
+
     const location = useLocation();
     const [inputs, setInputs] = useState({
         //email: '',
@@ -111,10 +119,6 @@ const Register: React.FC = () => {
         if (res.status === 201) console.log(res.data);
     };
 
-    const handleSelect = (e: { target: { value: SetStateAction<string> } }) => {
-        setSelected(e.target.value);
-    };
-
     const handleInput = (e: { target: { name: string; value: string } }) => {
         const { name, value } = e.target;
         setInputs({
@@ -142,6 +146,33 @@ const Register: React.FC = () => {
     const handleChange = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
         setState((state) => !state);
     };
+
+    const onClickAddressItem = (address: string) => {
+        setInputs({
+            ...inputs,
+            detailAddress: address,
+        });
+        setDisabledToggle(true);
+    };
+
+    const loadAddressData = async (address: string) => {
+        try {
+            const { data } = await callApi.searchAddress(address);
+            setAddressData(data.value.content);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const dloadClassData = useCallback(getDebouncedFunc(loadAddressData, 500), []); // 자동완성값 디바운싱 함수
+
+    useEffect(() => {
+        if (inputs.detailAddress !== '') {
+            dloadClassData(inputs.detailAddress); // 검색값이 있으면 자동완성값 로딩
+        } else {
+            setAddressData([]);
+        }
+    }, [inputs.detailAddress]);
 
     useEffect(() => {
         ageAgree && serviceAgree && privateAgree && adAgree ? setAllAgree(true) : setAllAgree(false);
@@ -190,6 +221,16 @@ const Register: React.FC = () => {
                     value={detailAddress}
                     onChange={handleInput}
                 />
+            </StyledRegisterBlock>
+            <StyledRegisterBlock>
+                {addressData &&
+                    addressData.map((item: any, index: number) => {
+                        return (
+                            <div onClick={() => onClickAddressItem(item.home)} key={index}>
+                                {item.home}
+                            </div>
+                        );
+                    })}
             </StyledRegisterBlock>
             <StyledRegisterBlock>
                 <StyledTitleText>관심사</StyledTitleText>

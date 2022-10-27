@@ -78,7 +78,7 @@ const QuestionDetails: React.FC = () => {
             setLoading(false);
         };
         fetchData();
-    }, [commentsList]);
+    }, []);
 
     function timeForToday(value: any) {
         const today = new Date();

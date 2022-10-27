@@ -50,7 +50,7 @@ const MagazineDetails: React.FC = () => {
             setLoading(false);
         };
         fetchData();
-    }, [commentsList]);
+    }, []);
 
     const scrollHandler = () => {
         sideBarRef.current.style.transition = 'all 0.5s ease-in-out';

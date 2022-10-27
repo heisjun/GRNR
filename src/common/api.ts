@@ -5,7 +5,7 @@ export const callApi = async (method?: string, path?: string, data?: any, params
         'content-type': 'application/json',
     };
 
-    const baseUrl = process.env.REACT_APP_BASE_URL;
+    const baseUrl = 'https://www.gardenersclub.co.kr/api';
     const fullUrl = `${baseUrl}${path}`;
 
     if (method === 'get' || method === 'delete') {
@@ -19,6 +19,7 @@ export default {
     loadRecentQuestion: (form: any) => callApi('get', '/api/inquiry/recent', null, form),
     questionGet: (id: number) => callApi('get', '/api/inquiry/' + id + '/detail', null),
     getDetailList: (id: number, category: string) => callApi('get', `/api/${category}/${id}/detail`, null),
+    searchAddress: (address: string) => callApi('get', '/api/address/view?home=' + address),
 
     /*testGet: (form: any) => callApi('get', 'api주소', null, form),
     testPost: (form: any) => callApi('post', 'api주소', form, {}),
