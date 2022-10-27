@@ -77,11 +77,11 @@ const Register: React.FC = () => {
     const handleClick = async () => {
         CheckNickname();
         const dataToSend = {
-            nickname: inputs.nickname,
             address: `${getAddress},${inputs.detailAddress}`,
+            nickName: inputs.nickname,
             tos: 'yes',
         };
-        if (!dataToSend.nickname) {
+        if (!dataToSend.nickName) {
             setError('닉네임을 입력하세요');
             return;
         } else if (check !== '사용가능한 닉네임입니다.') {
