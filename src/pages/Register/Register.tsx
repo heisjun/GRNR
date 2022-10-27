@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
+const TOKEN = localStorage.getItem('accesstoken');
 
 const KeywordData = [
     {
@@ -52,6 +53,7 @@ const Register: React.FC = () => {
     const [getkeyword, setGetKeyword] = useState();
     const [getAddress, setGetAddress] = useState();
     const [error, setError] = useState<string>('');
+    const [check, setCheck] = useState();
     const location = useLocation();
     const [inputs, setInputs] = useState({
         //email: '',
@@ -59,29 +61,21 @@ const Register: React.FC = () => {
         detailAddress: '',
     });
     const { nickname, detailAddress } = inputs;
-    const onSubmit = () => {
-        const dataToSend = {
-            //email: `${inputs.email}@${selected}`,
-            nickname: inputs.nickname,
-            address: `${getAddress},${inputs.detailAddress}`,
-            keyword: getkeyword,
-        };
-        if (!dataToSend.nickname) {
-            setError('닉네임을 입력하세요');
-            return;
-        } else if (!getAddress) {
-            setError('주소를 입력하세요');
-            return;
-        } else if (!ageAgree || !serviceAgree || !privateAgree) {
-            setError('약관에 동의해주세요');
-            return;
-        } else {
-            setError('');
-            console.log(dataToSend);
+
+    const CheckNickname = async () => {
+        try {
+            const response = await axios.get(
+                `https://www.gardenersclub.co.kr/api/api/login/nickName/duplicate?nickName=${inputs.nickname}`,
+            );
+            setCheck(response.data.value);
+            console.log(response.data.value);
+        } catch (e) {
+            console.log(e);
         }
     };
 
     const handleClick = async () => {
+        CheckNickname();
         const dataToSend = {
             nickname: inputs.nickname,
             address: `${getAddress},${inputs.detailAddress}`,
@@ -89,6 +83,9 @@ const Register: React.FC = () => {
         };
         if (!dataToSend.nickname) {
             setError('닉네임을 입력하세요');
+            return;
+        } else if (check !== '사용가능한 닉네임입니다.') {
+            setError('이미 사용중인 닉네임입니다. 다른 닉네임으로 만들어주세요');
             return;
         } else if (!getAddress) {
             setError('주소를 입력하세요');
@@ -105,6 +102,7 @@ const Register: React.FC = () => {
         const res = await axios.put(`https://www.gardenersclub.co.kr/api/api/register`, addRegisterDto, {
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${TOKEN}`,
             },
         });
 
@@ -150,29 +148,9 @@ const Register: React.FC = () => {
     return (
         <StyledRegisterContainer>
             <StyledTitleText>추가 정보 입력</StyledTitleText>
-
-            {/* <StyledRegisterBlock>
-                <StyledTitleText>이메일</StyledTitleText>
-                <StyledEmailInput>
-                    <StyledInput placeholder="이메일" type="text" name="email" value={email} onChange={handleInput} />
-
-                    <StyledNormalText>@</StyledNormalText>
-
-                    <StyledSelector onChange={handleSelect} value={selected}>
-                        <option key="null" value="null">
-                            선택해주세요
-                        </option>
-                        <option key="google" value="google.com">
-                            google.com
-                        </option>
-                        <option key="naver" value="naver.com">
-                            naver.com
-                        </option>
-                    </StyledSelector>
-                </StyledEmailInput>
-            </StyledRegisterBlock> */}
             <StyledRegisterBlock>
                 <StyledTitleText>닉네임</StyledTitleText>
+
                 <StyledBodyText>다른 사용자와 겹치지 않는 닉네임을 입력해주세요</StyledBodyText>
                 <StyledInput
                     placeholder="영어 밑줄 온점 외 입력 불가"

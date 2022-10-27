@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { IUploadPicData } from 'common/types';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
@@ -29,6 +29,7 @@ const option2 = [
 ];
 
 const Picture: React.FC = () => {
+    const navigate = useNavigate();
     const [getOption1, setGetOption1] = useState('');
     const [getOption2, setGetOption2] = useState('');
     const [imgFiles, setImgFiles] = useState<{ imgfile: any }[]>([]);
@@ -122,6 +123,7 @@ const Picture: React.FC = () => {
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
+        navigate('/community/photo/');
 
         if (res.status === 201) console.log(res.data);
     };
