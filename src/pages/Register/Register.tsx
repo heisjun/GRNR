@@ -53,7 +53,6 @@ const Register: React.FC = () => {
     const [getAddress, setGetAddress] = useState();
     const [error, setError] = useState<string>('');
     const location = useLocation();
-    const snsId = location.search.split('=')[1];
     const [inputs, setInputs] = useState({
         //email: '',
         nickname: '',
@@ -66,7 +65,6 @@ const Register: React.FC = () => {
             nickname: inputs.nickname,
             address: `${getAddress},${inputs.detailAddress}`,
             keyword: getkeyword,
-            snsId: snsId,
         };
         if (!dataToSend.nickname) {
             setError('닉네임을 입력하세요');
@@ -87,7 +85,6 @@ const Register: React.FC = () => {
         const dataToSend = {
             nickname: inputs.nickname,
             address: `${getAddress},${inputs.detailAddress}`,
-            snsId: snsId,
             tos: 'yes',
         };
         if (!dataToSend.nickname) {
@@ -153,6 +150,7 @@ const Register: React.FC = () => {
     return (
         <StyledRegisterContainer>
             <StyledTitleText>추가 정보 입력</StyledTitleText>
+
             {/* <StyledRegisterBlock>
                 <StyledTitleText>이메일</StyledTitleText>
                 <StyledEmailInput>

@@ -33,6 +33,7 @@ import {
     MyFollower,
     MagazineDetails,
     KakaoLogin,
+    RegisterProcess,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -50,7 +51,7 @@ const Navigation: React.FC = () => {
                     <Route path="/community/photo/edit" element={<UpdatePhoto />} />
                     <Route path="/" element={<Popular />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/api/login/oauth2/code/kakao" element={<KakaoLogin />} />
+                    <Route path="/login/oauth2/token/gardener" element={<KakaoLogin />} />
                     <Route path="/community" element={<Popular />} />
                     <Route path="/community/popular" element={<Popular />} />
                     <Route path="/community/following" element={<Following />} />
@@ -68,6 +69,7 @@ const Navigation: React.FC = () => {
                     <Route path="/community/magazine/details/:id" element={<MagazineDetails />} />
                     <Route path="/community/dictionary" element={<Dictionary />} />
                     <Route path="/community/dictionary/details/:id" element={<DictionaryDetails />} />
+                    <Route path="/register/oauth2/token/gardener" element={<RegisterProcess />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/mypage" element={<Myfeed />} />
                     <Route path="/mypage/profile" element={<Myfeed />} />
