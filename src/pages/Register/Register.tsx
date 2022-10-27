@@ -108,9 +108,15 @@ const Register: React.FC = () => {
         const addRegisterDto = JSON.stringify(dataToSend);
         console.log(addRegisterDto);
 
-        const res = await axios.put(`https://www.gardenersclub.co.kr/api/api/register`, addRegisterDto, {
+        const body = {
+            address: `${inputs.detailAddress}`,
+            nickName: inputs.nickname,
+            tos: 'yes',
+        };
+
+        const res = await axios.put(`https://www.gardenersclub.co.kr/api/api/register`, body, {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
