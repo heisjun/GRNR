@@ -31,3 +31,4 @@ export { default as MyFollower } from './MyFollower';
 export { default as UpdatePhoto } from './Revise/Photo';
 export { default as MagazineDetails } from './MagazineDetails';
 export { default as KakaoLogin } from './KakaoLogin';
+export { default as RegisterProcess } from './RegisterProcess';

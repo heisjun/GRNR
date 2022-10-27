@@ -4,10 +4,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 
-const KakaoLogin = () => {
+const RegisterProcess = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const KAKAO_CODE = location.search.split('=')[1];
     const accessToken2 = location.search.split('=')[1];
     const accessToken = accessToken2.replace('&refreshToken', '');
     const refreshToken = location.search.split('=')[2];
@@ -20,7 +19,7 @@ const KakaoLogin = () => {
             localStorage.setItem('refreshtoken', refreshToken);
             console.log('refreshToken:', refreshToken);
             setLoginStatus({ ...loginStatus, isLogin: true });
-            navigate('./');
+            navigate('./register');
         } else return;
     };
 
@@ -39,9 +38,9 @@ const KakaoLogin = () => {
 
     return (
         <div>
-            <div>인증중</div>
+            <div>회원가입으로 처리</div>
         </div>
     );
 };
 
-export default KakaoLogin;
+export default RegisterProcess;
