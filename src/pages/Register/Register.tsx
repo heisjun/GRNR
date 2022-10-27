@@ -3,7 +3,7 @@ import { useState, useEffect, SetStateAction, useCallback } from 'react';
 import { AgreeBox } from 'domains';
 import KeywordBox from 'common/components/KeywordBox';
 import AddressBox from 'common/components/AddressBox';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -44,6 +44,7 @@ const KeywordData = [
 ];
 
 const Register: React.FC = () => {
+    const navigate = useNavigate();
     const [allAgree, setAllAgree] = useState<boolean>(false);
     const [ageAgree, setAgeAgree] = useState<boolean>(false);
     const [serviceAgree, setServiceAgree] = useState<boolean>(false);
@@ -84,7 +85,7 @@ const Register: React.FC = () => {
         if (!dataToSend.nickName) {
             setError('닉네임을 입력하세요');
             return;
-        } else if (check !== '사용가능한 닉네임입니다.') {
+        } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
             setError('이미 사용중인 닉네임입니다. 다른 닉네임으로 만들어주세요');
             return;
         } else if (!getAddress) {
@@ -105,6 +106,7 @@ const Register: React.FC = () => {
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
+        navigate('/');
 
         if (res.status === 201) console.log(res.data);
     };
