@@ -20,7 +20,7 @@ const KakaoLogin = () => {
             localStorage.setItem('기존로그인refreshtoken', refreshToken);
             console.log('refreshToken:', refreshToken);
             setLoginStatus({ ...loginStatus, isLogin: true });
-            navigate('./');
+            navigate('/');
         } else return;
     };
 
