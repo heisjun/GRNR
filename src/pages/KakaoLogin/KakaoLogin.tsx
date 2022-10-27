@@ -24,15 +24,6 @@ const KakaoLogin = () => {
         } else return;
     };
 
-    /* useEffect(() => {
-        localStorage.clear();
-        localStorage.setItem('token', String(params.token));
-        window.location.replace('/');
-    }, []);
-    const removeItem = () => {
-        localStorage.removeItem('token');
-    };
- */
     useEffect(() => {
         getToken();
     }, []);
