@@ -14,10 +14,10 @@ const RegisterProcess = () => {
 
     const getToken = () => {
         if (accessToken) {
-            localStorage.setItem('회원가입accesstoken', accessToken);
-            console.log('accessToken:', accessToken);
-            localStorage.setItem('회원가입refreshtoken', refreshToken);
-            console.log('refreshToken:', refreshToken);
+            localStorage.setItem('accesstoken', accessToken);
+            console.log('(신규)accessToken:', accessToken);
+            localStorage.setItem('refreshtoken', refreshToken);
+            console.log('(신규)refreshToken:', refreshToken);
             setLoginStatus({ ...loginStatus, isLogin: true });
             navigate('/register');
         } else return;
