@@ -1,17 +1,37 @@
+import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const MypageDropdown: React.FC = () => {
     const navigate = useNavigate();
+    const logout = async () => {
+        const token = localStorage.getItem('token');
+        console.log('삭제전토큰:', token);
+        try {
+            const data = await axios.get(`${BASEURL}/api/logout`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            console.log('로그아웃완료:', data);
+            localStorage.removeItem('accesstoken');
+            localStorage.removeItem('refreshtoken');
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     const option = [
         {
             id: 1,
             list: [
                 { name: '마이페이지', url: '/mypage' },
-                { name: '로그아웃', url: '/logout' },
+                { name: '로그아웃', url: '' },
             ],
         },
     ];
@@ -50,7 +70,7 @@ const MypageDropdown: React.FC = () => {
                                         <StyledContentItem
                                             key={option.name}
                                             onClick={() => {
-                                                navigate(option.url);
+                                                option.url === '/mypage' ? navigate(option.url) : logout();
                                             }}
                                         >
                                             {option.name}

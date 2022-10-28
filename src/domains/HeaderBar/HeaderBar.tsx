@@ -6,10 +6,8 @@ import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
 import { SubTabBar, MypageTabBar } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
-import { WritingDropdown } from 'common/components';
+import { WritingDropdown, MypageDropdown } from 'common/components';
 import { FaBell } from 'react-icons/fa';
-import axios from 'axios';
-import MypageDropdown from 'common/components/MypageDropdown';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;

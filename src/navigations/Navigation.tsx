@@ -34,7 +34,6 @@ import {
     MagazineDetails,
     KakaoLogin,
     RegisterProcess,
-    Logout,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -52,7 +51,6 @@ const Navigation: React.FC = () => {
                     <Route path="/community/photo/edit" element={<UpdatePhoto />} />
                     <Route path="/" element={<Popular />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/logout" element={<Logout />} />
                     <Route path="/login/oauth2/token/gardener" element={<KakaoLogin />} />
                     <Route path="/community" element={<Popular />} />
                     <Route path="/community/popular" element={<Popular />} />
