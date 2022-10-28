@@ -19,7 +19,7 @@ const Myfeed: React.FC = () => {
     const articleData = [{}, {}, {}, {}];
     const [questions, setQuestions] = useState(null);
     const [loading, setLoading] = useState(false);
-    useEffect(() => {
+    /* useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
@@ -36,7 +36,7 @@ const Myfeed: React.FC = () => {
 
     if (loading || !questions) {
         return <div>대기중</div>;
-    }
+    } */
     return (
         <StyledScrapBookContainer>
             <StyledProfileContainer>
@@ -100,7 +100,7 @@ const Myfeed: React.FC = () => {
                         </Link>
                     </StyledDetailsBlock>
                     <StyledDetailTitle>나의질문</StyledDetailTitle>
-                    <QuestionItem data={questions} />
+                    {/* <QuestionItem data={questions} /> */}
                 </StyledContextBlock>
             </StyledContextContainer>
         </StyledScrapBookContainer>
