@@ -9,6 +9,7 @@ import { headerItems, subTabBarItems } from 'navigations/data';
 import { WritingDropdown } from 'common/components';
 import { FaBell } from 'react-icons/fa';
 import axios from 'axios';
+import MypageDropdown from 'common/components/MypageDropdown';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
@@ -30,26 +31,6 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
 
     const loc = useLocation();
     const nav = useNavigate();
-
-    const logout = async () => {
-        const token = localStorage.getItem('token');
-        console.log(token);
-        try {
-            await axios.post(
-                `https://kapi.kakao.com/v1/user/logout`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            );
-            localStorage.removeItem('token');
-        } catch (e) {
-            console.log(e);
-        }
-    };
 
     useEffect(() => {
         if (loc.pathname.replaceAll('/', '') === 'gardeners-club') {
@@ -93,6 +74,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     useEffect(() => {
         setOverPage(crntPage);
     }, [crntPage]);
+
     if (isLogin === true) {
         if (
             loc.pathname === '/community/question/new' ||
@@ -164,15 +146,10 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     ))}
                                 </StyledMenuItemsContainer>
                                 <StyledSearchBar readOnly />
-                                <div onClick={logout}>로그아웃</div>
                                 <StyledButtonsCotainer>
                                     <StyledSearchButton />
-                                    <FaBell style={{ color: 'gray', fontSize: 20, paddingRight: 10 }} />
-                                    <Link to="/mypage" style={{ textDecoration: 'none', color: 'black' }}>
-                                        <StyledMyPageButton>
-                                            <StyleMyPageText>마이페이지</StyleMyPageText>
-                                        </StyledMyPageButton>
-                                    </Link>
+                                    <FaBell style={{ color: 'gray', fontSize: 23, paddingRight: 10 }} />
+                                    <MypageDropdown />
                                     <WritingDropdown />
                                 </StyledButtonsCotainer>
                             </StyledHeaderBar>
@@ -202,7 +179,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                 </StyledContainer>
             );
     } else {
-        if (loc.pathname === '/login' || loc.pathname === '/login/')
+        if (loc.pathname === '/login' || loc.pathname === '/register    ')
             return (
                 <StyledContainer>
                     <StyledTabsContainer>

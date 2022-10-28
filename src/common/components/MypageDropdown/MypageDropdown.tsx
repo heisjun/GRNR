@@ -1,20 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-
-import { FaPen } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
-const WritingDropdown: React.FC = () => {
+const MypageDropdown: React.FC = () => {
     const navigate = useNavigate();
     const option = [
         {
             id: 1,
             list: [
-                { name: '사진/동영상 올리기', url: '/upload' },
-                { name: '매거진 글쓰기', url: '' },
-                { name: '질문하기', url: '' },
+                { name: '마이페이지', url: '/mypage' },
+                { name: '로그아웃', url: '/logout' },
             ],
         },
     ];
@@ -39,12 +36,6 @@ const WritingDropdown: React.FC = () => {
         setIsActive(newIsActive);
     }
 
-    function onCloseBtn(index: number) {
-        const newIsActive = [...isActive];
-        newIsActive[index] = false;
-        setIsActive(newIsActive);
-    }
-
     return (
         <StyledFiltersContainer>
             <StyledFiltersBlock>
@@ -52,10 +43,7 @@ const WritingDropdown: React.FC = () => {
                     const { id, list } = item;
                     return (
                         <StyledDropdown key={id}>
-                            <StyledDropdownBtn onClick={() => onOpenBtn(index)}>
-                                <StyledDropdownText>글쓰기</StyledDropdownText>
-                                <FaPen />
-                            </StyledDropdownBtn>
+                            <StyledDropdownBtn onClick={() => onOpenBtn(index)} src={'/avatar.png'} />
                             {isActive[index] && (
                                 <StyledDropdownContent ref={dropdownListRef}>
                                     {list.map((option: any) => (
@@ -90,13 +78,13 @@ const StyledDropdown = styled.div`
     position: relative;
 `;
 
-const StyledDropdownBtn = styled.div`
-    padding: 5px 10px 5px 10px;
+const StyledDropdownBtn = styled.img`
     background: #fff;
     border: 1px solid lightgrey;
-    font-weight: 400;
+    height: 30px;
+    width: 30px;
     color: gray;
-    border-radius: 5px;
+    border-radius: 100%;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -110,17 +98,10 @@ const StyledDropdownBtn = styled.div`
     }
 `;
 
-const StyledDropdownText = styled.div`
-    padding-right: 2px;
-    font-size: 15px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-    }
-`;
-
 const StyledDropdownContent = styled.div`
     position: absolute;
     top: 110%;
-    right: -50%;
+    right: -200%;
     background: #fff;
     border: 1px solid lightgrey;
     font-weight: 300;
@@ -142,4 +123,4 @@ const StyledContentItem = styled.div`
     }
 `;
 
-export default React.memo(WritingDropdown);
+export default React.memo(MypageDropdown);

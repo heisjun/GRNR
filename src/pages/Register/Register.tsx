@@ -1,13 +1,11 @@
 import styled from 'styled-components';
-import { useState, useEffect, SetStateAction, useCallback } from 'react';
+import { useState, useEffect, SetStateAction, useCallback, useRef } from 'react';
 import { AgreeBox } from 'domains';
 import KeywordBox from 'common/components/KeywordBox';
-import AddressBox from 'common/components/AddressBox';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { default as callApi } from 'common/api';
 import { getDebouncedFunc } from 'common/funcs';
-import { ItemList } from 'common/components';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
@@ -53,23 +51,17 @@ const Register: React.FC = () => {
     const [serviceAgree, setServiceAgree] = useState<boolean>(false);
     const [privateAgree, setPrivateAgree] = useState<boolean>(false);
     const [adAgree, setAdAgree] = useState<boolean>(false);
-    const [selected, setSelected] = useState('');
     const [getkeyword, setGetKeyword] = useState();
-
     const [disabledToggle, setDisabledToggle] = useState<boolean>(false);
-    const [address, setAddress] = useState<string>('');
-    const [addressData, setAddressData] = useState<any>();
-    const [addressMsg, setAddressMsg] = useState<string>('');
+    const [addressData, setAddressData] = useState<[]>([]);
     const [error, setError] = useState<string>('');
     const [check, setCheck] = useState();
-
-    const location = useLocation();
     const [inputs, setInputs] = useState({
-        //email: '',
         nickname: '',
         detailAddress: '',
     });
     const { nickname, detailAddress } = inputs;
+    const dropdownListRef = useRef<any>(null);
 
     const CheckNickname = async () => {
         try {
@@ -127,6 +119,7 @@ const Register: React.FC = () => {
 
     const handleInput = (e: { target: { name: string; value: string } }) => {
         const { name, value } = e.target;
+        setDisabledToggle(false);
         setInputs({
             ...inputs,
             [name]: value,
@@ -184,6 +177,18 @@ const Register: React.FC = () => {
         ageAgree && serviceAgree && privateAgree && adAgree ? setAllAgree(true) : setAllAgree(false);
     }, [ageAgree, serviceAgree, privateAgree, adAgree]);
 
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
+                setDisabledToggle(true);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownListRef]);
+
     return (
         <StyledRegisterContainer>
             <StyledTitleText>추가 정보 입력</StyledTitleText>
@@ -217,7 +222,7 @@ const Register: React.FC = () => {
                     />
                 </StyledAgreeBox>
             </StyledRegisterBlock>
-            <StyledRegisterBlock>
+            <div style={{ marginTop: '5%', paddingBottom: 10 }}>
                 <StyledTitleText>주소</StyledTitleText>
                 {/* <AddressBox setGetAddress={setGetAddress} /> */}
                 <StyledInput
@@ -227,17 +232,22 @@ const Register: React.FC = () => {
                     value={detailAddress}
                     onChange={handleInput}
                 />
-            </StyledRegisterBlock>
-            <StyledRegisterBlock>
-                {addressData &&
-                    addressData.map((item: any, index: number) => {
-                        return (
-                            <div onClick={() => onClickAddressItem(item.home)} key={index}>
-                                {item.home}
-                            </div>
-                        );
-                    })}
-            </StyledRegisterBlock>
+            </div>
+            {!disabledToggle && (
+                <div ref={dropdownListRef}>
+                    <div style={{ height: 'auto', overflow: 'auto', fontSize: '1vw', paddingLeft: 5, maxHeight: 100 }}>
+                        {addressData &&
+                            addressData.map((item: any, index: number) => {
+                                return (
+                                    <div onClick={() => onClickAddressItem(item.home)} key={index}>
+                                        {item.home}
+                                    </div>
+                                );
+                            })}
+                    </div>
+                </div>
+            )}
+
             <StyledRegisterBlock>
                 <StyledTitleText>관심사</StyledTitleText>
                 <StyledBodyText>관심있는 키워드를 설정해주세요</StyledBodyText>
