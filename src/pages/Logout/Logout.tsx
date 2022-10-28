@@ -1,11 +1,15 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
+
 const Logout: React.FC = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
     const accessToken = localStorage.getItem('accesstoken');
 
@@ -24,6 +28,21 @@ const Logout: React.FC = () => {
     };
 
     useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const data = await axios.get(`${BASEURL}/api/logout`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+                console.log('로그아웃완료:', data);
+            } catch (e) {
+                console.log(e);
+            }
+            setLoading(false);
+        };
+        fetchData();
         getLogout();
     }, []);
 
