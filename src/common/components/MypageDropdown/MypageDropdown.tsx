@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { UserInfo } from 'recoil/auth';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
@@ -9,6 +11,8 @@ const TOKEN = localStorage.getItem('accesstoken');
 
 const MypageDropdown: React.FC = () => {
     const navigate = useNavigate();
+    const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
+
     const logout = async () => {
         const token = localStorage.getItem('token');
         console.log('삭제전토큰:', token);
@@ -21,6 +25,8 @@ const MypageDropdown: React.FC = () => {
             console.log('로그아웃완료:', data);
             localStorage.removeItem('accesstoken');
             localStorage.removeItem('refreshtoken');
+            setLoginStatus({ ...loginStatus, isLogin: false });
+            navigate('/');
         } catch (e) {
             console.log(e);
         }
