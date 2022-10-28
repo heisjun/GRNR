@@ -43,7 +43,6 @@ const Logout: React.FC = () => {
             setLoading(false);
         };
         fetchData();
-        getLogout();
     }, []);
 
     return (
