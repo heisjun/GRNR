@@ -16,8 +16,17 @@ const Profile: React.FC = () => {
         selfInfo: null;
         profileUrl: string;
     }
+    interface IaccountDto {
+        accountId: number;
+        nickName: string;
+        followerCount: number;
+        followingCount: number;
+        scrapCount: number;
+        likeCount: number;
+    }
     const navigate = useNavigate();
     const [profile, setProfile] = useState<Iprofile>();
+    const [accountDto, setAccountDto] = useState<IaccountDto>();
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -27,7 +36,23 @@ const Profile: React.FC = () => {
                     },
                 });
                 setProfile(profileData.data.value);
-                console.log(profileData.data.value);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${sessionStorage.getItem('accountId')}`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+
+                setAccountDto(myfeedData.data.value.accountDto);
             } catch (e) {
                 console.log(e);
             }
@@ -43,8 +68,12 @@ const Profile: React.FC = () => {
             <StyledNameText>{profile?.nickName ? profile.nickName : '닉네임'}</StyledNameText>
             <StyledIntroText>{profile?.selfInfo ? profile?.selfInfo : '소개글을 작성하세요'}</StyledIntroText>
             <div style={{ display: 'flex' }}>
-                <StyledFollowText onClick={() => navigate(`/mypage/profile/follower`)}>팔로워 0 </StyledFollowText>
-                <StyledFollowText onClick={() => navigate(`/mypage/profile/following`)}>팔로잉 0 </StyledFollowText>
+                <StyledFollowText onClick={() => navigate(`/mypage/profile/follower`)}>
+                    팔로워 {accountDto?.followerCount}
+                </StyledFollowText>
+                <StyledFollowText onClick={() => navigate(`/mypage/profile/following`)}>
+                    팔로잉 {accountDto?.followingCount}
+                </StyledFollowText>
             </div>
             <StyledEditButton>수정</StyledEditButton>
             <StyledBorderLine />
@@ -52,12 +81,12 @@ const Profile: React.FC = () => {
                 <StyledScrapBlock>
                     <StyledScrapButton />
                     <StyledScrapText>스크랩</StyledScrapText>
-                    <StyledScrapCount>123</StyledScrapCount>
+                    <StyledScrapCount>{accountDto?.scrapCount}</StyledScrapCount>
                 </StyledScrapBlock>
                 <StyledLikeBlock>
                     <StyledLikeButton />
-                    <StyledLikeText>스크랩</StyledLikeText>
-                    <StyledLikeCount>123</StyledLikeCount>
+                    <StyledLikeText>좋아요</StyledLikeText>
+                    <StyledLikeCount>{accountDto?.likeCount}</StyledLikeCount>
                 </StyledLikeBlock>
             </StyledStatBlock>
         </StyledProfileContainer>

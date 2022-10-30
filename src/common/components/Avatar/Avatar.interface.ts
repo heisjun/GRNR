@@ -1,5 +1,5 @@
 export type IAvatar = {
-    picUrl?: string;
+    picUrl?: any;
     width: string;
     height?: string;
     paddingBottom?: string;
