@@ -32,7 +32,7 @@ const Profile: React.FC = () => {
             try {
                 const profileData = await axios.get(`${BASEURL}/api/profile/view`, {
                     headers: {
-                        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2NjgzNTE1NzV9.1QkxEO1geb4YGJzpkIacpypKbnryDQJYNVOrzGXfj-GxSTvhPZrPaQdmMkEjejiDn8dpuz9aAVzEpr9nFT6hbw`,
+                        Authorization: `Bearer ${TOKEN}`,
                     },
                 });
                 setProfile(profileData.data.value);
@@ -48,7 +48,7 @@ const Profile: React.FC = () => {
             try {
                 const myfeedData = await axios.get(`${BASEURL}/api/account/${sessionStorage.getItem('accountId')}`, {
                     headers: {
-                        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2NjgzNTE1NzV9.1QkxEO1geb4YGJzpkIacpypKbnryDQJYNVOrzGXfj-GxSTvhPZrPaQdmMkEjejiDn8dpuz9aAVzEpr9nFT6hbw`,
+                        Authorization: `Bearer ${TOKEN}`,
                     },
                 });
 

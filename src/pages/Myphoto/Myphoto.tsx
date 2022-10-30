@@ -19,7 +19,7 @@ const Myphoto: React.FC = () => {
                     `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/pictures`,
                     {
                         headers: {
-                            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2NjgzNTE1NzV9.1QkxEO1geb4YGJzpkIacpypKbnryDQJYNVOrzGXfj-GxSTvhPZrPaQdmMkEjejiDn8dpuz9aAVzEpr9nFT6hbw`,
+                            Authorization: `Bearer ${TOKEN}`,
                         },
                     },
                 );
