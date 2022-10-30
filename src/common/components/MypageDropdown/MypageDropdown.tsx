@@ -42,7 +42,7 @@ const MypageDropdown: React.FC = () => {
             localStorage.removeItem('accesstoken');
             localStorage.removeItem('refreshtoken');
             setLoginStatus({ ...loginStatus, isLogin: false });
-            navigate('/');
+            window.location.replace('/');
         } catch (e) {
             console.log(e);
         }
