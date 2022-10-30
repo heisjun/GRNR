@@ -5,8 +5,11 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import QuestionItem from 'common/components/QuestionItem';
 import axios from 'axios';
+import MyfeedItem from 'common/components/MyfeedItem';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Myfeed: React.FC = () => {
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
@@ -15,28 +18,26 @@ const Myfeed: React.FC = () => {
     const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
     const [articleGap, setArticleGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
 
-    const picData = [{}, {}, {}, {}];
-    const articleData = [{}, {}, {}, {}];
-    const [questions, setQuestions] = useState(null);
-    const [loading, setLoading] = useState(false);
-    /* useEffect(() => {
+    const [picData, setPicData] = useState([]);
+    const [magazineData, setMagazineData] = useState([]);
+
+    useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
             try {
-                const response = await axios.get(`http://43.201.2.18/api/api/inquiry/recent`);
-                setQuestions(response.data.value.content);
-                console.log(response.data.value.content);
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${sessionStorage.getItem('accountId')}`, {
+                    headers: {
+                        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2NjgzNTE1NzV9.1QkxEO1geb4YGJzpkIacpypKbnryDQJYNVOrzGXfj-GxSTvhPZrPaQdmMkEjejiDn8dpuz9aAVzEpr9nFT6hbw`,
+                    },
+                });
+                setPicData(myfeedData.data.value.pictureUrlList.slice(-4));
+                setMagazineData(myfeedData.data.value.magazineDtoList);
             } catch (e) {
                 console.log(e);
             }
-            setLoading(false);
         };
         fetchData();
     }, []);
 
-    if (loading || !questions) {
-        return <div>대기중</div>;
-    } */
     return (
         <StyledScrapBookContainer>
             <StyledProfileContainer>
@@ -48,7 +49,7 @@ const Myfeed: React.FC = () => {
                 <StyledContextBlock>
                     <StyledDetailsBlock>
                         <StyledDetailTitle>사진</StyledDetailTitle>
-                        <Link to="./photo" style={{ textDecoration: 'none' }}>
+                        <Link to="/mypage/profile/photo" style={{ textDecoration: 'none' }}>
                             <StyledDetailView>전체보기</StyledDetailView>
                         </Link>
                     </StyledDetailsBlock>
@@ -59,22 +60,10 @@ const Myfeed: React.FC = () => {
                         horizontalGap={photoGap}
                         verticalGap={photoGap}
                         items={picData}
-                        RenderComponent={TodaysPhoto}
+                        RenderComponent={MyfeedItem}
                     />
                     <Link to="/upload" style={{ textDecoration: 'none' }}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                width: '100%',
-                                height: 50,
-                                backgroundColor: 'lightgray',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                color: 'black',
-                            }}
-                        >
-                            사진업로드
-                        </div>
+                        <StyledWritingBtn>사진업로드</StyledWritingBtn>
                     </Link>
                     <StyledBorderLine />
                     <StyledDetailsBlock>
@@ -89,7 +78,7 @@ const Myfeed: React.FC = () => {
                         cols={photoCols}
                         horizontalGap={photoGap}
                         verticalGap={photoGap}
-                        items={articleData}
+                        items={magazineData}
                         RenderComponent={TodaysPhoto}
                     />
                     <StyledBorderLine />
@@ -106,6 +95,20 @@ const Myfeed: React.FC = () => {
         </StyledScrapBookContainer>
     );
 };
+
+const StyledWritingBtn = styled.div`
+    display: flex;
+    width: 100%;
+    height: 50px;
+    background-color: lightgray;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    :hover {
+        background-color: gray;
+        color: white;
+    }
+`;
 
 const StyledBorderLine = styled.div`
     width: 100%;

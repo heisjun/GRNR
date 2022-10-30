@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { IMyphotoItem } from './MyphotoItem.type';
-import { IItemParams } from 'common/types';
 
 const MyphotoItem: React.FC<IMyphotoItem> = (props) => {
     const { width, height, paddingBottom, item } = props;
+    console.log(item);
 
     const [imgAnim, setImgAnim] = useState<any>();
 
@@ -18,25 +18,20 @@ const MyphotoItem: React.FC<IMyphotoItem> = (props) => {
                     setImgAnim(ImageScaleDown);
                 }}
             >
-                <StyledImg
-                    src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                    width="100%"
-                    height="100%"
-                    imgAnim={imgAnim}
-                />
+                <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
             </StyledImageBlock>
             <StyledStatsBlock>
                 <StyledStatBlock>
                     <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/like.png`} />
-                    <StyledCountText>{item.like}</StyledCountText>
+                    <StyledCountText>{item.likeCount}</StyledCountText>
                 </StyledStatBlock>
                 <StyledStatBlock>
                     <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
-                    <StyledCountText>{item.comment}</StyledCountText>
+                    <StyledCountText>{item.commentCount}</StyledCountText>
                 </StyledStatBlock>
                 <StyledStatBlock>
                     <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} />
-                    <StyledCountText>{item.scrap}</StyledCountText>
+                    <StyledCountText>{item.scrapCount}</StyledCountText>
                 </StyledStatBlock>
             </StyledStatsBlock>
         </StyledMagazineItemContainer>
@@ -92,7 +87,6 @@ const StyledStatsBlock = styled.div`
 
 const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
-    border-radius: 5px;
     object-fit: cover;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
@@ -110,7 +104,6 @@ const StyledMagazineItemContainer = styled.div<{ width: string; height?: string;
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border-radius: 5px;
 `;
 
 export default MyphotoItem;

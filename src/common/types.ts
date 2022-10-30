@@ -256,10 +256,12 @@ export type IDictionariesParams = {
 };
 
 export type IMyphotoParams = {
-    imgUr: string;
-    like: number;
-    comment: number;
-    scrap: number;
+    pictureId: number;
+    pictureUrl: string;
+    likeCount: number;
+    commentCount: number;
+    scrapCount: number;
+    viewCount: number;
 };
 
 export type IItemParams = {
@@ -296,4 +298,11 @@ export type IUploadPicData = {
     imgFile: any;
     realImg: any;
     realhashtag: { tagName: string }[];
+};
+
+export type IMyfeedItemParams = {
+    width: string;
+    height?: string;
+    paddingBottom?: string;
+    item: string;
 };
