@@ -24,11 +24,11 @@ const Login: React.FC = () => {
 
     return (
         <StyledLoginContainer>
-            <StyledLogoImg></StyledLogoImg>
-            <img src="/kakao_login.png" style={{ width: '30%' }} onClick={handleLogin} />
-            <StyledTitleText onClick={handleLogin}>카카오 계정으로 간편 로그인/회원가입</StyledTitleText>
+            <StyledLogoImg src="/Gardener.png" onClick={() => nav('/')} />
+            <img src="/kakao_login.png" style={{ width: 200 }} onClick={handleLogin} />
+
             <StyledButton onClick={onTalkButton}>
-                <StyledLoginText>TALK</StyledLoginText>
+                <StyledLoginText>로컬로그인</StyledLoginText>
             </StyledButton>
         </StyledLoginContainer>
     );
@@ -55,11 +55,9 @@ const StyledButton = styled.div`
     }
 `;
 
-const StyledLogoImg = styled.div`
+const StyledLogoImg = styled.img`
     width: 200px;
-    height: 200px;
-    border-radius: 100px;
-    background-color: silver;
+    padding-bottom: 50px;
 `;
 
 const StyledTitleText = styled.div`

@@ -54,15 +54,17 @@ const Magazine: React.FC = () => {
     return (
         <StyledMagazineContainer pageAnim={pageAnim}>
             <StyledMagazineHeader></StyledMagazineHeader>
-            <ItemList
-                width="100%"
-                imgHeight="70%"
-                cols={magazineCols}
-                horizontalGap={magazineGap}
-                verticalGap={magazineGap}
-                items={magazines}
-                RenderComponent={MagazineItem}
-            />
+            {magazines && (
+                <ItemList
+                    width="100%"
+                    imgHeight="70%"
+                    cols={magazineCols}
+                    horizontalGap={magazineGap}
+                    verticalGap={magazineGap}
+                    items={magazines}
+                    RenderComponent={MagazineItem}
+                />
+            )}
         </StyledMagazineContainer>
     );
 };

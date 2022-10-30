@@ -8,6 +8,7 @@ import { SubTabBar, MypageTabBar } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
 import { WritingDropdown, MypageDropdown } from 'common/components';
 import { FaBell } from 'react-icons/fa';
+import { Login } from 'pages';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
@@ -79,7 +80,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
             loc.pathname === '/community/question/new/' ||
             loc.pathname === '/upload' ||
             loc.pathname === '/upload/photo' ||
-            loc.pathname === '/upload/video'
+            loc.pathname === '/upload/video' ||
+            loc.pathname === '/community/photo/edit'
         )
             return (
                 <StyledContainer>
@@ -177,7 +179,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                 </StyledContainer>
             );
     } else {
-        if (loc.pathname === '/login' || loc.pathname === '/register    ')
+        if (loc.pathname === '/login' || loc.pathname === '/register')
             return (
                 <StyledContainer>
                     <StyledTabsContainer>
@@ -210,6 +212,12 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         <StyledContentBlock>{children}</StyledContentBlock>
                     </StyledContentContainer>
                 </StyledContainer>
+            );
+        else if (loc.pathname === '/upload' || loc.pathname === '/upload/photo' || loc.pathname === '/upload/video')
+            return (
+                <div style={{ display: 'flex', alignItems: 'center', height: 700 }}>
+                    <Login />
+                </div>
             );
         else
             return (
