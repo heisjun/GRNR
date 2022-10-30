@@ -4,31 +4,33 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
+
 const Profile: React.FC = () => {
     interface Iprofile {
-        nickname: string;
-        profile_image: string;
-        thumbnail_image: string;
+        accountId: number;
+        nickName: string;
+        address: string;
+        homePage: null;
+        selfInfo: null;
+        profileUrl: string;
     }
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
     const [profile, setProfile] = useState<Iprofile>();
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
-            const token = localStorage.getItem('token');
             try {
-                const response = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
+                const profileData = await axios.get(`${BASEURL}/api/profile/view`, {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-                console.log(response.data.properties);
-                setProfile(response.data.properties);
+                setProfile(profileData.data.value);
+                console.log(profileData.data.value);
             } catch (e) {
                 console.log(e);
             }
-            setLoading(false);
         };
         fetchData();
     }, []);
@@ -36,10 +38,10 @@ const Profile: React.FC = () => {
     return (
         <StyledProfileContainer>
             <StyledAvatarBlock>
-                <Avatar width="100%" paddingBottom="100%" borderRadius="100%" picUrl={profile?.profile_image} />
+                <Avatar width="100%" paddingBottom="100%" borderRadius="100%" picUrl={profile?.profileUrl} />
             </StyledAvatarBlock>
-            <StyledNameText>{profile?.nickname ? profile.nickname : '닉네임'}</StyledNameText>
-            <StyledIntroText>this is captain speaking</StyledIntroText>
+            <StyledNameText>{profile?.nickName ? profile.nickName : '닉네임'}</StyledNameText>
+            <StyledIntroText>{profile?.selfInfo ? profile?.selfInfo : '소개글을 작성하세요'}</StyledIntroText>
             <div style={{ display: 'flex' }}>
                 <StyledFollowText onClick={() => navigate(`/mypage/profile/follower`)}>팔로워 0 </StyledFollowText>
                 <StyledFollowText onClick={() => navigate(`/mypage/profile/following`)}>팔로잉 0 </StyledFollowText>

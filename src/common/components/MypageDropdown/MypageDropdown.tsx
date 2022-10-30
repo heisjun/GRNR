@@ -12,6 +12,24 @@ const TOKEN = localStorage.getItem('accesstoken');
 const MypageDropdown: React.FC = () => {
     const navigate = useNavigate();
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
+    const [profile, setProfile] = useState();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const pictureData = await axios.get(`${BASEURL}/api/picture/view`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+                setProfile(pictureData.data.value);
+                console.log(pictureData.data.value);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchData();
+    }, []);
 
     const logout = async () => {
         try {
@@ -67,7 +85,10 @@ const MypageDropdown: React.FC = () => {
                     const { id, list } = item;
                     return (
                         <StyledDropdown key={id}>
-                            <StyledDropdownBtn onClick={() => onOpenBtn(index)} src={'/avatar.png'} />
+                            <StyledDropdownBtn
+                                onClick={() => onOpenBtn(index)}
+                                src={profile ? profile : '/avatar.png'}
+                            />
                             {isActive[index] && (
                                 <StyledDropdownContent ref={dropdownListRef}>
                                     {list.map((option: any) => (
