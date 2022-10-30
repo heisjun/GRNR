@@ -1,8 +1,39 @@
 import styled from 'styled-components';
 import { Avatar } from 'common/components';
 import { Profile } from 'domains';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const MyFollowing: React.FC = () => {
+    interface Ifollowing {
+        accountId: number;
+        snsImgUrl: string;
+        nickName: string;
+        selfInfo: null;
+    }
+    const [following, setFollowing] = useState<Ifollowing[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const myfeedData = await axios.get(
+                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/following`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setFollowing(myfeedData.data.value.content);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchData();
+    }, []);
     return (
         <StyledMyphotoContainer>
             <StyledProfileContainer>
@@ -14,18 +45,22 @@ const MyFollowing: React.FC = () => {
                 <StyledTitleBlock>
                     <StyledTitleText>팔로잉</StyledTitleText>
                 </StyledTitleBlock>
-                <div style={{ display: 'flex' }}>
-                    <div style={{ width: '10%' }}>
-                        <Avatar width="60%" paddingBottom="60%" borderRadius="100%" />
-                    </div>
-                    <div style={{ width: '80%' }}>
-                        <StyledUserNickname>가입자 별명</StyledUserNickname>
-                        <StyledUserInfo>따뜻한 식물이 가득한 우리집</StyledUserInfo>
-                    </div>
-                    <StyledFollowingBtn>
-                        <StyledBtnText>팔로잉</StyledBtnText>
-                    </StyledFollowingBtn>
-                </div>
+                {following.map((item, index) => {
+                    return (
+                        <div style={{ display: 'flex' }} key={index}>
+                            <div style={{ width: '10%' }}>
+                                <Avatar width="60%" paddingBottom="60%" borderRadius="100%" picUrl={item.snsImgUrl} />
+                            </div>
+                            <div style={{ width: '80%' }}>
+                                <StyledUserNickname>{item.nickName}</StyledUserNickname>
+                                <StyledUserInfo>{item.selfInfo}</StyledUserInfo>
+                            </div>
+                            <StyledFollowingBtn>
+                                <StyledBtnText>팔로잉</StyledBtnText>
+                            </StyledFollowingBtn>
+                        </div>
+                    );
+                })}
             </StyledContextContainer>
         </StyledMyphotoContainer>
     );
