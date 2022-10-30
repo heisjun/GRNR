@@ -14,8 +14,6 @@ const MypageDropdown: React.FC = () => {
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
 
     const logout = async () => {
-        const token = localStorage.getItem('token');
-        console.log('삭제전토큰:', token);
         try {
             const data = await axios.get(`${BASEURL}/api/logout`, {
                 headers: {

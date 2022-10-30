@@ -5,9 +5,12 @@ import { pictureDtoParams } from 'common/types';
 import axios from 'axios';
 import UpdateWritingItem from 'common/components/UpdateWritingItem';
 import { default as callApi } from 'common/api';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+const minWidth = process.env.REACT_APP_MIN_WIDTH;
+
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
@@ -27,10 +30,9 @@ const option2 = [
 ];
 
 const Picture: React.FC = () => {
+    const navigate = useNavigate();
     const [textValue, setTextValue] = useState('');
-    const handleSetValue = (e: any) => {
-        setTextValue(e.target.value);
-    };
+    const [fadeAnim, setFadeAnim] = useState<any>();
     const { state } = useLocation();
     const [details, setDetails] = useState<pictureDtoParams[]>([]);
     const [getOption1, setGetOption1] = useState('');
@@ -160,33 +162,64 @@ const Picture: React.FC = () => {
         });
 
         if (res.status === 201) console.log(res.data);
+        navigate(-1);
     };
 
     return (
-        <StyledPictureContainer>
-            <StyledPictureHeader>
-                <CustomSelector optionData={option1} setGetOption={setGetOption1} />
-                <CustomSelector optionData={option2} setGetOption={setGetOption2} />
-                <div>{Number(state)}</div>
-            </StyledPictureHeader>
-            {details.map((item, index) => {
-                return (
-                    <div key={index}>
-                        <UpdateWritingItem
-                            type="PHOTO"
-                            index={index}
-                            setGetContent={setDetails}
-                            getContent={details}
-                            onRemove={index !== 0 ? onRemoveWritingItem : null}
-                            beforeData={item}
-                        />
-                    </div>
-                );
-            })}
+        <StyledContainer>
+            <StyledTabsContainer>
+                <StyledHeaderBarContainer fadeAnim={fadeAnim}>
+                    <StyledHeaderBar>
+                        <StyledTitleBlock>
+                            <Link to="/" style={{ textDecoration: 'none' }}>
+                                <StyledLogoImg src="/Gardener.png" />
+                            </Link>
+                        </StyledTitleBlock>
+                        <StyledUploadButton>
+                            <StyledUploadText onClick={onSave}>수정</StyledUploadText>
+                        </StyledUploadButton>
+                    </StyledHeaderBar>
+                </StyledHeaderBarContainer>
+                <StyledSubTabBarBlock>
+                    <StyledSubTabBarContainer fadeAnim={fadeAnim}>
+                        <StyledSubTabBarBlock1>
+                            <StyledMenuItemBlock selected={true}>
+                                <Link to={'/upload/photo'} style={{ textDecoration: 'none' }}>
+                                    <StyledMenuItemText color={'gray'}>사진</StyledMenuItemText>
+                                </Link>
+                            </StyledMenuItemBlock>
+                            <StyledMenuItemBlock selected={false}>
+                                <Link to={'/upload/video'} style={{ textDecoration: 'none' }}>
+                                    <StyledMenuItemText color={'silver'}>동영상</StyledMenuItemText>
+                                </Link>
+                            </StyledMenuItemBlock>
+                        </StyledSubTabBarBlock1>
+                    </StyledSubTabBarContainer>
+                </StyledSubTabBarBlock>
+            </StyledTabsContainer>
+            <StyledPictureContainer>
+                <StyledPictureHeader>
+                    <CustomSelector optionData={option1} setGetOption={setGetOption1} />
+                    <CustomSelector optionData={option2} setGetOption={setGetOption2} />
+                </StyledPictureHeader>
+                {details.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            <UpdateWritingItem
+                                type="PHOTO"
+                                index={index}
+                                setGetContent={setDetails}
+                                getContent={details}
+                                onRemove={index !== 0 ? onRemoveWritingItem : null}
+                                beforeData={item}
+                            />
+                        </div>
+                    );
+                })}
 
-            <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>
-            <button onClick={onSave}>제출</button>
-        </StyledPictureContainer>
+                <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>
+            </StyledPictureContainer>
+        </StyledContainer>
     );
 };
 
@@ -213,6 +246,133 @@ const StyledAddBtn = styled.button`
     }
     @media screen and (max-width: ${boundaryWidth}px) {
         margin-top: 10px;
+    }
+`;
+
+const StyledMenuItemText = styled.h2<{ color: string }>`
+    font-size: 13px;
+    color: ${({ color }) => color};
+    cursor: pointer;
+    &:hover {
+        color: #bce55c;
+    }
+    @media screen and (min-width: ${boundaryWidth}px) {
+        font-size: 13px;
+    }
+`;
+
+const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
+    margin-right: 30px;
+    border-bottom: solid;
+    border-width: ${({ selected }) => (selected ? '3px' : '0px')};
+    border-color: grey;
+    padding-bottom: ${({ selected }) => (selected ? '0px' : '3px')};
+`;
+
+const StyledSubTabBarBlock1 = styled.div`
+    width: 100%;
+    display: flex;
+    max-width: ${maxWidth}px;
+    padding: 0px 20px 0px 20px;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        padding: 0px 30px 0px 30px;
+    }
+`;
+
+const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-bottom: solid 1px;
+    border-color: silver;
+    animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
+    animation-fill-mode: forwards;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        height: 40px;
+    }
+`;
+
+const StyledLogoImg = styled.img`
+    width: 150px;
+`;
+
+const StyledUploadText = styled.div`
+    color: white;
+    font-size: 15px;
+`;
+
+const StyledUploadButton = styled.div`
+    width: 55px;
+    height: 35px;
+    background-color: grey;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: auto;
+`;
+
+const StyledTitleBlock = styled.div`
+    @media screen and (max-width: ${boundaryWidth}px) {
+        margin-right: auto;
+    }
+`;
+
+const StyledTabsContainer = styled.div``;
+
+const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+    border-bottom: solid 1px;
+    border-color: silver;
+    @media screen and (max-width: ${minWidth}px) {
+        justify-content: start;
+    }
+    @media screen and (max-width: ${boundaryWidth}px) {
+        animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
+        animation-fill-mode: forwards;
+    }
+`;
+
+const StyledHeaderBar = styled.div`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: ${minWidth}px;
+    max-width: ${maxWidth}px;
+    height: 50px;
+    padding: 0px 20px 0px 20px;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        height: 80px;
+        padding: 0px 30px 0px 30px;
+    }
+`;
+
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+`;
+
+const StyledSubTabBarBlock = styled.div`
+    position: fixed;
+    width: 100%;
+    top: 50px;
+    left: 0px;
+    z-index: 1;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        top: 80px;
     }
 `;
 

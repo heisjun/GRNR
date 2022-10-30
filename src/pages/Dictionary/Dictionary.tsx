@@ -248,15 +248,17 @@ const Dictionary: React.FC = () => {
                     filterValue.dog ||
                     filterValue.cat) && <StyledSelected onClick={onReset}>초기화</StyledSelected>}
             </div>
-            <ItemList
-                width="100%"
-                imgHeight="80%"
-                cols={magazineCols}
-                horizontalGap={magazineGap}
-                verticalGap={magazineGap}
-                items={dictionaries}
-                RenderComponent={DictionaryItem}
-            />
+            {dictionaries && (
+                <ItemList
+                    width="100%"
+                    imgHeight="80%"
+                    cols={magazineCols}
+                    horizontalGap={magazineGap}
+                    verticalGap={magazineGap}
+                    items={dictionaries}
+                    RenderComponent={DictionaryItem}
+                />
+            )}
         </StyledDictionaryContainer>
     );
 };

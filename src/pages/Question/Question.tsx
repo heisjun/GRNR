@@ -102,10 +102,6 @@ const Question: React.FC = () => {
         };
     }, []);
 
-    if (loading || !questions) {
-        return <StyledQuestionContainer pageAnim={null}>대기중</StyledQuestionContainer>;
-    }
-
     return (
         <StyledQuestionContainer pageAnim={pageAnim}>
             <StyledQuestionBanner view={viewAll}>
@@ -164,7 +160,7 @@ const Question: React.FC = () => {
                         <StyledQuestionBtn>질문하기</StyledQuestionBtn>
                     </Link>
                 </StyledFeedHeader>
-                <QuestionItem data={questions} />
+                {questions && <QuestionItem data={questions} />}
             </StyledQuestionBlock>
         </StyledQuestionContainer>
     );
