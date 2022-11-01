@@ -77,14 +77,6 @@ const StyledTagBoxesBlock = styled.div`
     padding: 3% 0% 3% 0%;
 `;
 
-const StyledTagBox = styled.div`
-    width: 20%;
-    padding-bottom: 20%;
-    border-radius: 35%;
-    border: solid 1px;
-    border-color: silver;
-`;
-
 const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;

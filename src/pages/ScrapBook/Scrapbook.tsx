@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ItemList, TodaysPhoto, MagazineItem, DictionaryItem } from 'common/components';
 import { Profile } from 'domains';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 

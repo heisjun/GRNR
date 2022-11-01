@@ -14,7 +14,7 @@ const MyfeedItem: React.FC<IMyfeedItemParams> = (props) => {
 
     return (
         <StyledTodaysPhotoContainer width={width} height={height} paddingBottom={paddingBottom}>
-            <Link to="/community/photo/details/" style={{ textDecoration: 'none' }}>
+            <Link to={`/community/photo/details/${item.pictureId}`} style={{ textDecoration: 'none' }}>
                 <StyledImgBlock
                     onMouseEnter={() => {
                         setImgAnim(ImageScaleUp);
@@ -23,7 +23,7 @@ const MyfeedItem: React.FC<IMyfeedItemParams> = (props) => {
                         setImgAnim(ImageScaleDown);
                     }}
                 >
-                    <StyledImg src={item} width="100%" height="100%" imgAnim={imgAnim} />
+                    <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
                 </StyledImgBlock>
             </Link>
             <StyledWriterBlock>

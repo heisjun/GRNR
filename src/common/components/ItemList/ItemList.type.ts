@@ -8,6 +8,7 @@ import {
     IPhotosParams,
     IMagazinesParams,
     IMagazineDetailsItem,
+    IpicData,
 } from 'common/types';
 import React from 'react';
 
@@ -44,6 +45,7 @@ export type IItemList = {
         | IQuestionDetailsParmas[]
         | IPhotoDetailsParams[]
         | IPhotosParams[]
-        | IPhotoDetailsItems;
+        | IPhotoDetailsItems
+        | IpicData[];
     RenderComponent: React.FC<any>;
 };

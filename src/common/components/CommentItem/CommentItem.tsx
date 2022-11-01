@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
 import { ICommentItem } from './CommentItem.type';
 
@@ -7,12 +8,16 @@ const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 const CommentItem: React.FC<ICommentItem> = (props) => {
+    const navigate = useNavigate();
     const { commentsList, pictureId, category } = props;
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
     const [isActive, setIsActive] = useState([false]);
 
     function onOpenBtn(index: number) {
+        if (!TOKEN) {
+            navigate('/login');
+        }
         const newIsActive = [...isActive];
         newIsActive[index] = true;
         setIsActive(newIsActive);
@@ -38,6 +43,9 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
     };
 
     const onCommentLike = async (commentId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
         try {
             await axios.post(
                 `${BASEURL}/api/${category}/comment/${commentId}/like`,
@@ -100,6 +108,9 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
     };
 
     const onCommentReport = async (commentId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
         const res = await axios.put(
             `${BASEURL}/api/${category}/comment/${commentId}/report?report=신고된 댓글입니다
         `,
@@ -126,6 +137,9 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
                     value={comment}
                     style={{ width: '80%', borderRadius: 15, paddingLeft: 5 }}
                     onChange={(e) => {
+                        if (!TOKEN) {
+                            navigate('/login');
+                        }
                         setComment(e.target.value);
                     }}
                 />

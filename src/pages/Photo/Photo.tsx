@@ -79,7 +79,6 @@ const Photo: React.FC = () => {
             try {
                 const response = await axios.get(`${BASEURL}/api/picture/search/${location.search}`);
                 setPhotos(response.data.value.content);
-                console.log(response.data.value.content);
             } catch (e) {
                 console.log(e);
             }

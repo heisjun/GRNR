@@ -30,6 +30,7 @@ const PhotoDetails: React.FC = () => {
             try {
                 const response = await callApi.getDetailList(Number(params.id), 'picture');
                 setDetails(response.data.value);
+                console.log('렌더링중');
             } catch (e) {
                 console.log(e);
             }
@@ -145,6 +146,25 @@ const PhotoDetails: React.FC = () => {
         }
     };
 
+    const onFollowing = async (followingName: string) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+        console.log(saveFollowDto);
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     const data = [
         {
             pictureId: 2,
@@ -197,7 +217,11 @@ const PhotoDetails: React.FC = () => {
                     </StyledProfileBlock>
                     <StyledFollowButtonBlock>
                         <StyledFollowButton>
-                            <StyledFollowText>팔로우 +</StyledFollowText>
+                            <StyledFollowText
+                                onClick={() => onFollowing(details?.accountNickName ? details.accountNickName : '')}
+                            >
+                                팔로우 +
+                            </StyledFollowText>
                         </StyledFollowButton>
                     </StyledFollowButtonBlock>
                 </StyledUserInfoBlock>
