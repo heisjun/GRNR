@@ -27,7 +27,7 @@ const Myfeed: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/4`);
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${sessionStorage.getItem('accountId')}`);
                 setPicData(myfeedData.data.value.myPictureDtoList);
                 setMagazineData(myfeedData.data.value.myMagazineDtoList);
             } catch (e) {
