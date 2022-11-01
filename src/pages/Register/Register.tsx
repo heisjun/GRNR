@@ -72,7 +72,6 @@ const Register: React.FC = () => {
                 `https://www.gardenersclub.co.kr/api/api/login/nickName/duplicate?nickName=${inputs.nickname}`,
             );
             setCheck(response.data.value);
-            console.log(response.data.value);
         } catch (e) {
             console.log(e);
         }
