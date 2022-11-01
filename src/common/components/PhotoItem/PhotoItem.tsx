@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IPhotoItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 import axios from 'axios';
@@ -9,56 +9,69 @@ const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
+    const navigate = useNavigate();
     const { width, height, paddingBottom, item } = props;
     const [imgAnim, setImgAnim] = useState<any>();
 
     const onPhotoLike = async () => {
-        try {
-            await axios.post(
-                `${BASEURL}/api/picture/${item.pictureId}/like`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${item.pictureId}/like`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
                     },
-                },
-            );
-        } catch (e) {
-            console.log(e);
+                );
+            } catch (e) {
+                console.log(e);
+            }
         }
     };
 
     const onPhotoScrap = async () => {
-        try {
-            await axios.post(
-                `${BASEURL}/api/picture/${item.pictureId}/scrap`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${item.pictureId}/scrap`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
                     },
-                },
-            );
-        } catch (e) {
-            console.log(e);
+                );
+            } catch (e) {
+                console.log(e);
+            }
         }
     };
 
     const onFollowing = async (followingName: string) => {
-        const followData = { followingName: followingName };
-        const saveFollowDto = JSON.stringify(followData);
-        console.log(saveFollowDto);
-        try {
-            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
-        } catch (e) {
-            console.log(e);
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            const followData = { followingName: followingName };
+            const saveFollowDto = JSON.stringify(followData);
+            console.log(saveFollowDto);
+            try {
+                await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+            } catch (e) {
+                console.log(e);
+            }
         }
     };
 
@@ -68,7 +81,14 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                 <StyledHeaderBlock>
                     <StyledWriterBlock>
                         <StyeldAvatarBlock>
-                            <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
+                            <Link to={`/mypage/${item.accountId}`} style={{ textDecoration: 'none' }}>
+                                <Avatar
+                                    width="100%"
+                                    paddingBottom="100%"
+                                    borderRadius="100%"
+                                    picUrl={item.accountProfileUrl}
+                                />
+                            </Link>
                         </StyeldAvatarBlock>
                         <StyledWriterText>{item.accountNickName}</StyledWriterText>
                     </StyledWriterBlock>

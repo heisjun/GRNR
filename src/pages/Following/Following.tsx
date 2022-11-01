@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import FollowingItem from 'common/components/FollowingItem';
 import { FadeIn, FadeOut } from 'common/keyframes';
@@ -11,28 +11,33 @@ const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 const Following: React.FC = () => {
+    const navigate = useNavigate();
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
     const [followings, setFollowings] = useState<IFollowingsParams[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(`${BASEURL}/api/following`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                });
-                setFollowings(response.data.value.content);
-                console.log(response.data.value.content);
-            } catch (e) {
-                console.log(e);
-            }
-            setLoading(false);
-        };
-        fetchData();
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            const fetchData = async () => {
+                setLoading(true);
+                try {
+                    const response = await axios.get(`${BASEURL}/api/following`, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    });
+                    setFollowings(response.data.value.content);
+                    console.log(response.data.value.content);
+                } catch (e) {
+                    console.log(e);
+                }
+                setLoading(false);
+            };
+            fetchData();
+        }
     }, []);
 
     useEffect(() => {

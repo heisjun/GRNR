@@ -17,11 +17,6 @@ const Myphoto: React.FC = () => {
             try {
                 const myfeedData = await axios.get(
                     `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/pictures`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
                 );
                 setPicData(myfeedData.data.value.content);
             } catch (e) {

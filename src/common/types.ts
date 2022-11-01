@@ -136,6 +136,8 @@ export type pictureDtoParams = {
 
 export type IPhotosParams = {
     accountNickName?: string;
+    accountProfileUrl?: string;
+    accountId?: number;
     commentCount: number;
     firstContent: {
         contentId: number;
@@ -300,9 +302,14 @@ export type IUploadPicData = {
     realhashtag: { tagName: string }[];
 };
 
+export type IpicData = {
+    pictureId: number;
+    pictureUrl: string;
+};
+
 export type IMyfeedItemParams = {
     width: string;
     height?: string;
     paddingBottom?: string;
-    item: string;
+    item: IpicData;
 };

@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { ItemList, TodaysPhoto, MagazineItem, DictionaryItem } from 'common/components';
+import { ItemList, TodaysPhoto } from 'common/components';
 import { Profile } from 'domains';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import QuestionItem from 'common/components/QuestionItem';
 import axios from 'axios';
 import MyfeedItem from 'common/components/MyfeedItem';
 
@@ -12,25 +11,25 @@ const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 const Myfeed: React.FC = () => {
+    interface IpicData {
+        pictureId: number;
+        pictureUrl: string;
+    }
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
     const [photoGap, setPhotoGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
 
     const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
     const [articleGap, setArticleGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
 
-    const [picData, setPicData] = useState([]);
+    const [picData, setPicData] = useState<IpicData[]>([]);
     const [magazineData, setMagazineData] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/${sessionStorage.getItem('accountId')}`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                });
-                setPicData(myfeedData.data.value.pictureUrlList.slice(-4));
-                setMagazineData(myfeedData.data.value.magazineDtoList);
+                const myfeedData = await axios.get(`${BASEURL}/api/account/4`);
+                setPicData(myfeedData.data.value.myPictureDtoList);
+                setMagazineData(myfeedData.data.value.myMagazineDtoList);
             } catch (e) {
                 console.log(e);
             }
