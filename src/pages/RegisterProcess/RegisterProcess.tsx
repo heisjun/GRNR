@@ -12,7 +12,7 @@ const RegisterProcess = () => {
         if (accessToken) {
             localStorage.setItem('accesstoken', accessToken);
             localStorage.setItem('refreshtoken', refreshToken);
-            navigate('/register');
+            window.location.replace('/register');
         } else return;
     };
 
