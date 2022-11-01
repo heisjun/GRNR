@@ -1,8 +1,5 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { UserInfo } from 'recoil/auth';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const RegisterProcess = () => {
     const navigate = useNavigate();
@@ -10,15 +7,11 @@ const RegisterProcess = () => {
     const accessToken2 = location.search.split('=')[1];
     const accessToken = accessToken2.replace('&refreshToken', '');
     const refreshToken = location.search.split('=')[2];
-    const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
 
     const getToken = () => {
         if (accessToken) {
             localStorage.setItem('accesstoken', accessToken);
-            console.log('(신규)accessToken:', accessToken);
             localStorage.setItem('refreshtoken', refreshToken);
-            console.log('(신규)refreshToken:', refreshToken);
-            setLoginStatus({ ...loginStatus, isLogin: true });
             navigate('/register');
         } else return;
     };

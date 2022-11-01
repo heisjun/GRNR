@@ -6,6 +6,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { default as callApi } from 'common/api';
 import { getDebouncedFunc } from 'common/funcs';
+import { useRecoilState } from 'recoil';
+import { UserInfo } from 'recoil/auth';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
@@ -61,6 +63,7 @@ const Register: React.FC = () => {
         detailAddress: '',
     });
     const { nickname, detailAddress } = inputs;
+    const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
     const dropdownListRef = useRef<any>(null);
 
     const CheckNickname = async () => {
@@ -112,7 +115,8 @@ const Register: React.FC = () => {
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
-        navigate('/');
+        setLoginStatus({ ...loginStatus, isLogin: true });
+        window.location.replace('/');
 
         if (res.status === 201) console.log(res.data);
     };
