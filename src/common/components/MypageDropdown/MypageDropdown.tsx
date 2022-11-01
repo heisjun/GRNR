@@ -58,6 +58,7 @@ const MypageDropdown: React.FC = () => {
             console.log('로그아웃완료:', data);
             localStorage.removeItem('accesstoken');
             localStorage.removeItem('refreshtoken');
+            sessionStorage.clear();
             setLoginStatus({ ...loginStatus, isLogin: false });
             window.location.replace('/');
         } catch (e) {
