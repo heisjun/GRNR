@@ -8,7 +8,7 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
     const { data } = props;
     const FigureData = [data?.classification, data?.flowerLanguage];
     const CategoryData = [{ family: data?.korFamily, order: data?.korOrder }];
-    console.log('이미지리스트:', data?.pictureList[0]);
+
     return (
         <div>
             <StyledDicHeader>

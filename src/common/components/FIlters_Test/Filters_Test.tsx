@@ -98,12 +98,10 @@ const StyledDropdown = styled.div`
 `;
 
 const StyledDropdownBtn = styled.div`
-    padding: 5px;
-    background: #fff;
-    border: 1px solid lightgrey;
+    padding: 8px 10px 10px 14px;
+    background-color: #f4f4f4;
     font-weight: 400;
     color: gray;
-    border-radius: 5px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -115,6 +113,7 @@ const StyledDropdownBtn = styled.div`
 
 const StyledDropdownText = styled.div`
     padding-right: 2px;
+    color: #2a2a2a;
     font-size: 15px;
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 1.5vw;

@@ -193,89 +193,97 @@ const Register: React.FC = () => {
     }, [dropdownListRef]);
 
     return (
-        <StyledRegisterContainer>
-            <StyledTitleText>추가 정보 입력</StyledTitleText>
-            <StyledRegisterBlock>
-                <StyledTitleText>닉네임</StyledTitleText>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <StyledRegisterContainer>
+                <StyledContentText>추가 정보 입력</StyledContentText>
+                <StyledRegisterBlock>
+                    <StyledTitleText>닉네임</StyledTitleText>
 
-                <StyledBodyText>다른 사용자와 겹치지 않는 닉네임을 입력해주세요</StyledBodyText>
-                <StyledInput
-                    placeholder="영어 밑줄 온점 외 입력 불가"
-                    type="text"
-                    name="nickname"
-                    value={nickname}
-                    onChange={handleInput}
-                />
-            </StyledRegisterBlock>
-            <StyledRegisterBlock>
-                <StyledTitleText>약관동의</StyledTitleText>
-                <StyledAgreeBox>
-                    <AgreeBox
-                        allAgree={allAgree}
-                        allHandleChange={allHandleChange}
-                        ageAgree={ageAgree}
-                        setAgeAgree={setAgeAgree}
-                        serviceAgree={serviceAgree}
-                        setServiceAgree={setServiceAgree}
-                        privateAgree={privateAgree}
-                        setPrivateAgree={setPrivateAgree}
-                        adAgree={adAgree}
-                        setAdAgree={setAdAgree}
-                        handleChange={handleChange}
+                    <StyledBodyText>다른 사용자와 겹치지 않는 닉네임을 입력해주세요</StyledBodyText>
+                    <StyledInput
+                        placeholder="영어 밑줄 온점 외 입력 불가"
+                        type="text"
+                        name="nickname"
+                        value={nickname}
+                        onChange={handleInput}
                     />
-                </StyledAgreeBox>
-            </StyledRegisterBlock>
-            <div style={{ marginTop: '5%', paddingBottom: 10 }}>
-                <StyledTitleText>주소</StyledTitleText>
-                {/* <AddressBox setGetAddress={setGetAddress} /> */}
-                <StyledInput
-                    placeholder="주소를 입력하세요"
-                    type="text"
-                    name="detailAddress"
-                    value={detailAddress}
-                    onChange={handleInput}
-                />
-            </div>
-            {!disabledToggle && (
-                <div ref={dropdownListRef}>
-                    <div style={{ height: 'auto', overflow: 'auto', fontSize: '1vw', paddingLeft: 5, maxHeight: 100 }}>
-                        {addressData &&
-                            addressData.map((item: any, index: number) => {
-                                return (
-                                    <div onClick={() => onClickAddressItem(item.home)} key={index}>
-                                        {item.home}
-                                    </div>
-                                );
-                            })}
-                    </div>
-                </div>
-            )}
+                </StyledRegisterBlock>
 
-            <StyledRegisterBlock>
-                <StyledTitleText>관심사</StyledTitleText>
-                <StyledBodyText>관심있는 키워드를 설정해주세요</StyledBodyText>
-                <KeywordBox data={KeywordData} setGetKeyword={setGetKeyword} columns={2} gap={5} />
-            </StyledRegisterBlock>
-            <StyledRegisterBlock>
-                <StyledErrorMessage>{error}</StyledErrorMessage>
-                <StyledButton onClick={handleClick}>가입하기</StyledButton>
-            </StyledRegisterBlock>
-        </StyledRegisterContainer>
+                <div style={{ marginTop: '5%', paddingBottom: 10 }}>
+                    <StyledTitleText>주소</StyledTitleText>
+                    {/* <AddressBox setGetAddress={setGetAddress} /> */}
+                    <StyledInput
+                        placeholder="주소를 입력하세요"
+                        type="text"
+                        name="detailAddress"
+                        value={detailAddress}
+                        onChange={handleInput}
+                    />
+                </div>
+                {!disabledToggle && (
+                    <div ref={dropdownListRef}>
+                        <div
+                            style={{
+                                height: 'auto',
+                                overflow: 'auto',
+                                fontSize: '1vw',
+                                paddingLeft: 5,
+                                maxHeight: 100,
+                            }}
+                        >
+                            {addressData &&
+                                addressData.map((item: any, index: number) => {
+                                    return (
+                                        <div onClick={() => onClickAddressItem(item.home)} key={index}>
+                                            {item.home}
+                                        </div>
+                                    );
+                                })}
+                        </div>
+                    </div>
+                )}
+
+                <StyledRegisterBlock>
+                    <StyledTitleText>관심사</StyledTitleText>
+                    <StyledBodyText>관심있는 키워드를 설정해주세요</StyledBodyText>
+                    {/*  <KeywordBox data={KeywordData} setGetKeyword={setGetKeyword} columns={2} gap={5} /> */}
+                </StyledRegisterBlock>
+                <StyledRegisterBlock>
+                    <StyledTitleText>약관동의</StyledTitleText>
+                    <StyledAgreeBox>
+                        <AgreeBox
+                            allAgree={allAgree}
+                            allHandleChange={allHandleChange}
+                            ageAgree={ageAgree}
+                            setAgeAgree={setAgeAgree}
+                            serviceAgree={serviceAgree}
+                            setServiceAgree={setServiceAgree}
+                            privateAgree={privateAgree}
+                            setPrivateAgree={setPrivateAgree}
+                            adAgree={adAgree}
+                            setAdAgree={setAdAgree}
+                            handleChange={handleChange}
+                        />
+                    </StyledAgreeBox>
+                </StyledRegisterBlock>
+                <StyledRegisterBlock>
+                    <StyledErrorMessage>{error}</StyledErrorMessage>
+                    <StyledButton onClick={handleClick}>가입하기</StyledButton>
+                </StyledRegisterBlock>
+            </StyledRegisterContainer>
+        </div>
     );
 };
 
 const StyledRegisterContainer = styled.div`
+    width: 370px;
+    padding: 25px;
+    background-color: white;
     display: flex;
     flex-direction: column;
-    margin-left: 20%;
-    margin-right: 20%;
     @media screen and (max-width: ${boundaryWidth}px) {
         margin-left: 10%;
         margin-right: 10%;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        margin-left: 270px;
-        margin-right: 270px;
     }
 `;
 
@@ -286,7 +294,7 @@ const StyledRegisterBlock = styled.div`
 
 const StyledTitleText = styled.div`
     font-size: 1.5vw;
-    color: grey;
+    color: #545a5e;
     font-weight: bold;
     margin-bottom: 1%;
     margin-top: 1%;
@@ -295,6 +303,21 @@ const StyledTitleText = styled.div`
     }
     @media screen and (min-width: ${maxWidth}px) {
         font-size: 15px;
+    }
+`;
+
+const StyledContentText = styled.div`
+    text-align: center;
+    font-size: 28px;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        font-size: 3vw;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        font-size: 28px;
     }
 `;
 

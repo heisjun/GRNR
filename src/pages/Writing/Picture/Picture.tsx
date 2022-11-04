@@ -104,7 +104,6 @@ const Picture: React.FC = () => {
         };
 
         const uploaderString = JSON.stringify(test);
-        console.log('saveList:', uploaderString);
         formData.append('saveList', new Blob([uploaderString], { type: 'application/json' }));
 
         for (let i = 0; i < getContent.length; i++) {
@@ -114,7 +113,6 @@ const Picture: React.FC = () => {
             }
 
             formData.append('file', getContent[i].realImg);
-            console.log(getContent[i].realImg);
         }
 
         const res = await axios.post(`https://www.gardenersclub.co.kr/api/api/picture/save`, formData, {
@@ -148,12 +146,12 @@ const Picture: React.FC = () => {
                         <StyledSubTabBarBlock1>
                             <StyledMenuItemBlock selected={true}>
                                 <Link to={'/upload/photo'} style={{ textDecoration: 'none' }}>
-                                    <StyledMenuItemText color={'gray'}>사진</StyledMenuItemText>
+                                    <StyledMenuItemText color={'#0d6637'}>사진</StyledMenuItemText>
                                 </Link>
                             </StyledMenuItemBlock>
                             <StyledMenuItemBlock selected={false}>
                                 <Link to={'/upload/video'} style={{ textDecoration: 'none' }}>
-                                    <StyledMenuItemText color={'silver'}>동영상</StyledMenuItemText>
+                                    <StyledMenuItemText color={'gray'}>동영상</StyledMenuItemText>
                                 </Link>
                             </StyledMenuItemBlock>
                         </StyledSubTabBarBlock1>
@@ -192,7 +190,7 @@ const StyledMenuItemText = styled.h2<{ color: string }>`
     color: ${({ color }) => color};
     cursor: pointer;
     &:hover {
-        color: #bce55c;
+        color: #0d6637;
     }
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 13px;
@@ -203,17 +201,17 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
     margin-right: 30px;
     border-bottom: solid;
     border-width: ${({ selected }) => (selected ? '3px' : '0px')};
-    border-color: grey;
+    border-color: #0d6637;
     padding-bottom: ${({ selected }) => (selected ? '0px' : '3px')};
 `;
 
 const StyledSubTabBarBlock1 = styled.div`
     width: 100%;
     display: flex;
-    max-width: ${maxWidth}px;
     padding: 0px 20px 0px 20px;
     @media screen and (min-width: ${boundaryWidth}px) {
-        padding: 0px 30px 0px 30px;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 `;
 
@@ -244,7 +242,6 @@ const StyledLogoImg = styled.img`
 const StyledPictureHeader = styled.div`
     display: flex;
     justify-content: flex-start;
-    margin-top: -20px;
     padding-bottom: 15px;
 `;
 
@@ -270,9 +267,9 @@ const StyledUploadText = styled.div`
 
 const StyledUploadButton = styled.div`
     width: 55px;
-    height: 35px;
-    background-color: grey;
-    border-radius: 5px;
+    height: 25px;
+    padding: 9px;
+    background-color: #0d6637;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -315,20 +312,20 @@ const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    min-width: ${minWidth}px;
-    max-width: ${maxWidth}px;
     height: 50px;
     padding: 0px 20px 0px 20px;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 80px;
-        padding: 0px 30px 0px 30px;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 `;
 
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    padding-left: 20%;
+    padding-right: 20%;
 `;
 
 const StyledSubTabBarBlock = styled.div`

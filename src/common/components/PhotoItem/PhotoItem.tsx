@@ -12,6 +12,7 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const navigate = useNavigate();
     const { width, height, paddingBottom, item } = props;
     const [imgAnim, setImgAnim] = useState<any>();
+    const [hover, setHover] = useState<boolean>(false);
 
     const onPhotoLike = async () => {
         if (!TOKEN) {
@@ -75,56 +76,55 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
         }
     };
 
+    const onGoUser = () => {
+        sessionStorage.setItem('userId', String(item?.accountId));
+        navigate(`/userpage/${item.accountId}`);
+    };
+
     return (
         <>
             <StyledPhotoItemContainer width={width} height={height} paddingBottom={paddingBottom}>
-                <StyledHeaderBlock>
-                    <StyledWriterBlock>
-                        <StyeldAvatarBlock>
-                            <Link to={`/mypage/${item.accountId}`} style={{ textDecoration: 'none' }}>
-                                <Avatar
-                                    width="100%"
-                                    paddingBottom="100%"
-                                    borderRadius="100%"
-                                    picUrl={item.accountProfileUrl}
-                                />
-                            </Link>
-                        </StyeldAvatarBlock>
-                        <StyledWriterText>{item.accountNickName}</StyledWriterText>
-                    </StyledWriterBlock>
-                    <StyledFollowButton>
-                        <StyledFollowText onClick={() => onFollowing(item.accountNickName ? item.accountNickName : '')}>
-                            팔로우+
-                        </StyledFollowText>
-                    </StyledFollowButton>
-                </StyledHeaderBlock>
-                <Link to={`./details/${item.pictureId}`} style={{ textDecoration: 'none' }}>
-                    <StyledPhotoBlock
-                        onMouseEnter={() => {
-                            setImgAnim(ImageScaleUp);
-                        }}
-                        onMouseLeave={() => {
-                            setImgAnim(ImageScaleDown);
-                        }}
-                    >
-                        <StyledImg src={item.firstContent.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
-                    </StyledPhotoBlock>
-                </Link>
+                <StyledPhotoBlock
+                    onMouseEnter={() => {
+                        setHover(true);
+                    }}
+                    onMouseLeave={() => {
+                        setHover(false);
+                    }}
+                >
+                    {hover && (
+                        <StyledHoverBackgrouond onClick={() => navigate(`./details/${item.pictureId}`)}>
+                            <StyledProfileBlock>
+                                <StyledAvatarBlock onClick={onGoUser}>
+                                    <Avatar
+                                        width="100%"
+                                        paddingBottom="100%"
+                                        borderRadius="100%"
+                                        picUrl={item.accountProfileUrl}
+                                    />
+                                </StyledAvatarBlock>
+                                <StyledNicknameBlock>{item.accountNickName}</StyledNicknameBlock>
+                            </StyledProfileBlock>
+                            <StyledBorderLine />
+                            <StyledDetailsText>{item.firstContent.explain}</StyledDetailsText>
+                        </StyledHoverBackgrouond>
+                    )}
+
+                    <StyledImg src={item.firstContent.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                </StyledPhotoBlock>
+
                 <StyledFooterBlock>
-                    <StyledDetailsBlock>
-                        <StyledDetailsText>{item.firstContent.explain}</StyledDetailsText>
-                    </StyledDetailsBlock>
                     <StyledButtonsBlock>
                         <StyledLikeButton
-                            src={`${process.env.REACT_APP_BASE_SRC}/like.png`}
+                            src={`/like.png`}
                             onClick={() => {
                                 onPhotoLike();
                             }}
                         />
                         <StyledText>{item.likeCount}</StyledText>
-                        <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
+                        <StyledLikeButton src={`/comment.png`} />
                         <StyledText>{item.commentCount}</StyledText>
-                        <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} onClick={onPhotoScrap} />
+                        <StyledLikeButton src={`/scrap.png`} onClick={onPhotoScrap} />
                         <StyledText>{item.scrapCount}</StyledText>
                     </StyledButtonsBlock>
                 </StyledFooterBlock>
@@ -133,22 +133,39 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     );
 };
 
-const ImageScaleUp = keyframes`
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.1);
-    }
+const StyledBorderLine = styled.div`
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 16px;
+    border-bottom: solid 1px;
+    border-color: #ececec;
+    opacity: 0.34;
+`;
+const StyledHoverBackgrouond = styled.div`
+    background-color: rgb(0, 0, 0, 0.45);
+    position: absolute;
+    width: 100%;
+    height: 92.5%;
+    z-index: 1;
 `;
 
-const ImageScaleDown = keyframes`
-    0% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
+const StyledProfileBlock = styled.div`
+    display: flex;
+    padding: 10px;
+    margin-top: 55%;
+    align-items: center;
+`;
+const StyledAvatarBlock = styled.div`
+    width: 15%;
+    position: relative;
+    z-index: 20;
+    padding-right: 14px;
+`;
+
+const StyledNicknameBlock = styled.div`
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
 `;
 const StyledText = styled.div`
     font-size: 15;
@@ -160,62 +177,11 @@ const StyledLikeButton = styled.img`
     cursor: pointer;
 `;
 
-const StyeldAvatarBlock = styled.div`
-    width: 15%;
-`;
-
-const StyledWriterText = styled.div`
-    margin-left: 5%;
-    font-size: 13px;
-    font-weight: bold;
-    color: grey;
-`;
-
-const StyledFollowText = styled.div`
-    font-size: 10px;
-    color: grey;
-`;
-
-const StyledFollowButton = styled.div`
-    width: 22%;
-    height: 45%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid 2px;
-    border-radius: 15px;
-    border-color: grey;
-    cursor: pointer;
-    &:hover {
-        background-color: silver;
-    }
-`;
-
-const StyledWriterBlock = styled.div`
-    flex: 1;
-    display: flex;
-    align-items: center;
-`;
-
-const StyledHeaderBlock = styled.div`
-    position: absolute;
-    height: 15%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: white;
-`;
-
 const StyledDetailsText = styled.div`
-    font-size: 11px;
-    font-weight: 500;
-    color: grey;
-    padding-top: 5%;
-`;
-
-const StyledDetailsBlock = styled.div`
-    width: 100%;
-    height: 55%;
+    font-size: 15px;
+    font-weight: 400;
+    color: white;
+    padding-left: 10px;
 `;
 
 const StyledButtonsBlock = styled.div`
@@ -229,6 +195,7 @@ const StyledButtonsBlock = styled.div`
 
 const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
+
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
     object-fit: cover;
@@ -236,17 +203,17 @@ const StyledImg = styled.img<{ imgAnim: any }>`
 
 const StyledPhotoBlock = styled.div`
     position: absolute;
-    top: 15%;
+    top: 8%;
     width: 100%;
-    height: 65%;
+    height: 90%;
     background-color: silver;
     overflow: hidden;
 `;
 
 const StyledFooterBlock = styled.div`
     position: absolute;
-    top: 75%;
-    height: 25%;
+    top: 91.5%;
+    height: 30%;
     width: 100%;
     display: flex;
     flex-direction: column;

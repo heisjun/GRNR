@@ -43,7 +43,7 @@ const DailyPlant: React.FC<IDailyPlant> = (props) => {
                     {imgUrls.map((item, index) => (
                         <StyledImg
                             key={index}
-                            src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
+                            src={`/sample2.jpg`}
                             width={`${100 / pageNum}%`}
                             height="100%"
                             onMouseEnter={() => {
@@ -97,7 +97,7 @@ const StyledIndicator = styled.div<{ focused: boolean }>`
     width: 15%;
     padding-bottom: 15%;
     border-radius: 100%;
-    background-color: ${({ focused }) => (focused ? 'grey' : 'silver')};
+    background-color: ${({ focused }) => (focused ? 'grey' : '#676767')};
     cursor: pointer;
 `;
 

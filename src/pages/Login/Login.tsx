@@ -23,17 +23,25 @@ const Login: React.FC = () => {
     };
 
     return (
-        <StyledLoginContainer>
-            <StyledLogoImg src="/Gardener.png" onClick={() => nav('/')} />
-            <img src="/kakao_login.png" style={{ width: 200 }} onClick={handleLogin} />
-
-            <StyledButton onClick={onTalkButton}>
-                <StyledLoginText>로컬로그인</StyledLoginText>
-            </StyledButton>
-        </StyledLoginContainer>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 10 }}>
+            <StyledLoginContainer>
+                <StyledLogoImg src="/Gardener.png" onClick={() => nav('/')} />
+                <StyledBasicText> 지금 바로 간편하게</StyledBasicText>
+                <StyledBasicText>가드너스 클럽에 가입해보세요</StyledBasicText>
+                <img src="/kakao_login.png" style={{ width: 200, marginTop: 20 }} onClick={handleLogin} />
+                <StyledButton onClick={onTalkButton}>
+                    <StyledLoginText>로컬로그인</StyledLoginText>
+                </StyledButton>
+            </StyledLoginContainer>
+        </div>
     );
 };
 
+const StyledBasicText = styled.div`
+    font-size: 18px;
+    color: #272727;
+    margin-bottom: 5px;
+`;
 const StyledLoginText = styled.div`
     font-size: 20px;
     font-weight: bold;
@@ -57,21 +65,18 @@ const StyledButton = styled.div`
 
 const StyledLogoImg = styled.img`
     width: 200px;
-    padding-bottom: 50px;
-`;
-
-const StyledTitleText = styled.div`
-    font-size: 22px;
-    font-weight: bold;
-    color: grey;
-    margin-top: 20px;
+    padding-bottom: 100px;
 `;
 
 const StyledLoginContainer = styled.div`
-    width: 100%;
+    width: 420px;
+    height: 500px;
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    border-radius: 16px;
 `;
 
 export default Login;

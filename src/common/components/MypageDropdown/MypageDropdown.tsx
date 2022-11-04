@@ -55,7 +55,6 @@ const MypageDropdown: React.FC = () => {
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
-            console.log('로그아웃완료:', data);
             localStorage.removeItem('accesstoken');
             localStorage.removeItem('refreshtoken');
             sessionStorage.clear();

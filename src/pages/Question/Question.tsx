@@ -80,13 +80,11 @@ const Question: React.FC = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
 
     useEffect(() => {
-        console.log(getOption);
         const fetchData = async () => {
             setLoading(true);
             try {
                 const response = await axios.get(`http://43.201.2.18/api/api/inquiry/${test}`);
                 setQuestions(response.data.value.content);
-                console.log(response.data.value.content);
             } catch (e) {
                 console.log(e);
             }
@@ -167,9 +165,11 @@ const Question: React.FC = () => {
 };
 
 const StyledQuestionContainer = styled.div<{ pageAnim: any }>`
-    height: 5000px;
+    height: 1000px;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
+    padding-left: 15%;
+    padding-right: 15%;
 `;
 
 const StyledBorderLine = styled.hr`

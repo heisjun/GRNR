@@ -4,11 +4,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
-import { SubTabBar, MypageTabBar } from 'domains';
+import { SubTabBar, MypageTabBar, Footer } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
 import { WritingDropdown, MypageDropdown } from 'common/components';
 import { FaBell } from 'react-icons/fa';
 import { Login } from 'pages';
+import UserpageTabBar from 'domains/UserpageTabBar';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
@@ -88,6 +89,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                     <StyledContentContainer>
                         <StyledContentBlock>{children}</StyledContentBlock>
                     </StyledContentContainer>
+                    <Footer />
                 </StyledContainer>
             );
         else
@@ -137,7 +139,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                                 onMouseEnter={() => setOverPage(index)}
                                             >
                                                 <StyledMenuItemText
-                                                    color={item.link.split('/')[1] === crntPath ? 'grey' : 'silver'}
+                                                    color={item.link.split('/')[1] === crntPath ? '#0d6637' : '#676767'}
                                                 >
                                                     {item.name}
                                                 </StyledMenuItemText>
@@ -145,10 +147,9 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                         </StyledMenuItemBlock>
                                     ))}
                                 </StyledMenuItemsContainer>
-                                <StyledSearchBar readOnly />
                                 <StyledButtonsCotainer>
-                                    <StyledSearchButton />
-                                    <FaBell style={{ color: 'gray', fontSize: 23, paddingRight: 10 }} />
+                                    <StyledSearchBar src={'/btnSearch.png'} />
+                                    <StyledSearchBar src={'/btnAlarm.png'} />
                                     <MypageDropdown />
                                     <WritingDropdown />
                                 </StyledButtonsCotainer>
@@ -157,6 +158,12 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         <StyledSubTabBarBlock>
                             {crntPath === 'mypage' ? (
                                 <MypageTabBar
+                                    scrollDownToggle={scrollDownToggle}
+                                    setScrollDownToggle={setScrollDownToggle}
+                                    setSubTabVisible={setSubTabVisible}
+                                />
+                            ) : crntPath === 'userpage' ? (
+                                <UserpageTabBar
                                     scrollDownToggle={scrollDownToggle}
                                     setScrollDownToggle={setScrollDownToggle}
                                     setSubTabVisible={setSubTabVisible}
@@ -176,12 +183,13 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                     <StyledContentContainer>
                         <StyledContentBlock>{children}</StyledContentBlock>
                     </StyledContentContainer>
+                    <Footer />
                 </StyledContainer>
             );
     } else {
         if (loc.pathname === '/login' || loc.pathname === '/register')
             return (
-                <StyledContainer>
+                <StyledLoginContainer>
                     <StyledTabsContainer>
                         <StyledHeaderBarContainer
                             fadeAnim={fadeAnim}
@@ -208,10 +216,11 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                             </StyledHeaderBar>
                         </StyledHeaderBarContainer>
                     </StyledTabsContainer>
-                    <StyledContentContainer>
+                    <StyledLoginContentContainer>
                         <StyledContentBlock>{children}</StyledContentBlock>
-                    </StyledContentContainer>
-                </StyledContainer>
+                    </StyledLoginContentContainer>
+                    <Footer />
+                </StyledLoginContainer>
             );
         else if (loc.pathname === '/upload' || loc.pathname === '/upload/photo' || loc.pathname === '/upload/video')
             return (
@@ -266,7 +275,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                                 onMouseEnter={() => setOverPage(index)}
                                             >
                                                 <StyledMenuItemText
-                                                    color={item.link.split('/')[1] === crntPath ? 'grey' : 'silver'}
+                                                    color={item.link.split('/')[1] === crntPath ? '#0d6637' : '#676767'}
                                                 >
                                                     {item.name}
                                                 </StyledMenuItemText>
@@ -274,12 +283,12 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                         </StyledMenuItemBlock>
                                     ))}
                                 </StyledMenuItemsContainer>
-                                <StyledSearchBar readOnly />
                                 <StyledButtonsCotainer>
                                     <StyledSearchButton />
                                     <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                                         <StyledLoginButton>로그인</StyledLoginButton>
                                     </Link>
+                                    <StyledBoundary>|</StyledBoundary>
                                     <Link to="/api/register" style={{ textDecoration: 'none', color: 'black' }}>
                                         <StyledRegisterButton>회원가입</StyledRegisterButton>
                                     </Link>
@@ -308,6 +317,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                     <StyledContentContainer>
                         <StyledContentBlock>{children}</StyledContentBlock>
                     </StyledContentContainer>
+                    <Footer />
                 </StyledContainer>
             );
     }
@@ -335,35 +345,10 @@ const StyledLogoImg = styled.img`
     width: 150px;
 `;
 
-const StyledUploadText = styled.div`
-    color: white;
-    font-size: 15px;
-`;
-
-const StyledUploadButton = styled.div`
-    width: 55px;
-    height: 35px;
-    background-color: grey;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    margin-left: auto;
-`;
-
-const StyledSearchBar = styled.input`
-    display: none;
-    height: 40%;
-    border: solid 2px;
-    border-color: silver;
-    border-radius: 20px;
-    margin-right: 10px;
-    @media screen and (min-width: ${Number(boundaryWidth) + 150}px) {
-        top: 80px;
-        width: 200px;
-        display: inline;
-    }
+const StyledSearchBar = styled.img`
+    height: 30px;
+    width: 30px;
+    padding-right: 20px;
 `;
 
 const StyledSubTabBarBlock = styled.div`
@@ -379,9 +364,18 @@ const StyledSubTabBarBlock = styled.div`
 
 const StyledLoginButton = styled.div`
     font-size: 12px;
-    color: grey;
+    color: #272727;
     cursor: pointer;
-    margin-right: 10px;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        font-size: 13px;
+    }
+`;
+
+const StyledBoundary = styled.div`
+    font-size: 12px;
+    color: #272727;
+    margin-right: 5px;
+    margin-left: 5px;
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 13px;
     }
@@ -389,20 +383,12 @@ const StyledLoginButton = styled.div`
 
 const StyledRegisterButton = styled.div`
     font-size: 12px;
-    color: grey;
+    color: #272727;
     cursor: pointer;
     margin-right: 10px;
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 13px;
     }
-`;
-
-const StyledWritingButton = styled.div`
-    font-size: 12px;
-    padding: 5px;
-    color: white;
-    cursor: pointer;
-    background-color: gray;
 `;
 
 const StyledSearchButton = styled.div`
@@ -419,47 +405,12 @@ const StyledSearchButton = styled.div`
     display: none;
 `;
 
-const StyleMyPageText = styled.div`
-    font-size: 11px;
-    font-weight: bold;
-    color: white;
-`;
-
-const StyledMyPageButton = styled.div`
-    width: 25px;
-    height: 25px;
-    border-radius: 25px;
-    background-color: silver;
-    cursor: pointer;
-    margin-right: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        width: 60px;
-        height: 30px;
-        border-radius: 15px;
-    }
-    &:hover {
-        background-color: grey;
-    }
-`;
-
 const StyledButtonsCotainer = styled.div`
     height: 25px;
     display: flex;
     align-items: center;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 30px;
-    }
-`;
-
-const StyledTitleText = styled.h1`
-    font-size: 20px;
-    cursor: pointer;
-    color: black;
-    &:hover {
-        color: #bce55c;
     }
 `;
 
@@ -478,11 +429,11 @@ const StyledMenuItemsContainer = styled.div`
 `;
 
 const StyledMenuItemText = styled.div<{ color: string }>`
-    font-size: 15px;
+    font-size: 18px;
     cursor: pointer;
     color: ${({ color }) => color};
     &:hover {
-        color: #bce55c;
+        color: #0d6637;
     }
 `;
 
@@ -495,18 +446,19 @@ const StyledMenuItemBlock = styled.h2`
 
 const StyledContentBlock = styled.div`
     width: 100%;
-    min-width: ${minWidth}px;
-    max-width: ${maxWidth}px;
-    padding: 0px 10px 0px 10px;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        padding: 0px 30px 0px 30px;
-    }
+    //min-width: ${minWidth}px;
+    //max-width: ${maxWidth}px;
+    //padding: 0px 10px 0px 10px;
+    //@media screen and (min-width: ${boundaryWidth}px) {
+    //    padding: 0px 30px 0px 30px;
+    //}
 `;
 
 const StyledContentContainer = styled.div`
     background-color: white;
     display: flex;
     margin-top: 100px;
+    margin-bottom: 100px;
     justify-content: center;
     z-index: 0;
     @media screen and (max-width: ${minWidth}px) {
@@ -515,6 +467,15 @@ const StyledContentContainer = styled.div`
     @media screen and (min-width: ${boundaryWidth}px) {
         margin-top: 150px;
     }
+`;
+
+const StyledLoginContentContainer = styled.div`
+    display: flex;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
 `;
 
 const StyledTabsContainer = styled.div``;
@@ -544,13 +505,12 @@ const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    min-width: ${minWidth}px;
-    max-width: ${maxWidth}px;
     height: 50px;
     padding: 0px 20px 0px 20px;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 80px;
-        padding: 0px 30px 0px 30px;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 `;
 
@@ -558,6 +518,13 @@ const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+`;
+
+const StyledLoginContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #f5f5f5;
 `;
 
 export default HeaderBar;

@@ -23,7 +23,6 @@ const DictionaryDetails: React.FC = () => {
             try {
                 const response = await callApi.getDetailList(Number(params.id), 'images');
                 setDetails(response.data.value);
-                console.log(response.data.value);
             } catch (e) {
                 console.log(e);
             }
@@ -65,7 +64,8 @@ const StyledBorderLine = styled.div`
 `;
 
 const StyledDicDetailsContainer = styled.div`
-    width: 100%;
+    padding-left: 20%;
+    padding-right: 20%;
 `;
 
 const StyledDetailsBlock = styled.div`

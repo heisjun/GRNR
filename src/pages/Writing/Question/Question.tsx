@@ -32,11 +32,6 @@ const Question: React.FC = () => {
         }
     }, []);
 
-    useEffect(() => {
-        console.log('겟태그', getTag);
-        console.log('rela겟태그', realgetTag);
-    }, [getTag, realgetTag]);
-
     interface Uploader {
         title: string;
         content: string;
@@ -64,8 +59,6 @@ const Question: React.FC = () => {
             tagList: realgetTag,
         };
 
-        console.log('업로드데이터:', uploader);
-
         const uploaderString = JSON.stringify(uploader);
 
         console.log('업로드스트링데이터:', uploaderString);
@@ -91,7 +84,7 @@ const Question: React.FC = () => {
                 onChange={(e) => {
                     setTitle(e.target.value);
                 }}
-                style={title.length === 0 ? { borderColor: 'red' } : { borderColor: 'silver' }}
+                style={title.length === 0 ? { borderColor: 'red' } : { borderColor: '#676767' }}
             />
             {title === '' ? <StyledTitleInfo>필수 입력 항목입니다.</StyledTitleInfo> : null}
 

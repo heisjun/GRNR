@@ -32,3 +32,5 @@ export { default as UpdatePhoto } from './Revise/Photo';
 export { default as MagazineDetails } from './MagazineDetails';
 export { default as KakaoLogin } from './KakaoLogin';
 export { default as RegisterProcess } from './RegisterProcess';
+export { default as UserFeed } from './UserFeeds/UserFeed';
+export { default as UserPhoto } from './UserFeeds/UserPhoto';

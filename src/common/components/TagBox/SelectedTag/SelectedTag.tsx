@@ -50,7 +50,6 @@ const StyledSelected = styled.div`
     margin-top: 5px;
     padding: 5px;
     font-size: 14px;
-    border-radius: 4px;
     font-weight: 300;
     display: inline-block;
 `;

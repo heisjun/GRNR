@@ -7,3 +7,4 @@ export { default as DailyPlant } from './DailyPlant';
 export { default as MypageTabBar } from './MypageTabBar';
 export { default as Profile } from './Profile';
 export { default as PlanFlow } from './PlanFlow';
+export { default as Footer } from './Footer';

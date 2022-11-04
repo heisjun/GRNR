@@ -6,7 +6,7 @@ const Avatar: React.FC<IAvatar> = (props) => {
     return (
         <StyledAvatarContainer width={width} height={height} paddingBottom={paddingBottom} borderRadius={borderRadius}>
             <StyledAvatarImage
-                src={picUrl ? picUrl : `${process.env.REACT_APP_BASE_SRC}/avatar.png`}
+                src={picUrl ? picUrl : `/avatar.png`}
                 width="100%"
                 height="100%"
                 borderRadius={borderRadius}

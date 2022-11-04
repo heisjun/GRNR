@@ -12,7 +12,7 @@ const Dictionary_classification = [
     {
         id: 1,
         name: '분류',
-        list: ['잎보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
+        list: ['잎보기식물', '꽃보기식물', '열매보기식물', '선인장,다육식물'],
     },
 ];
 
@@ -200,44 +200,58 @@ const Dictionary: React.FC = () => {
             <div style={{ display: 'flex', paddingBottom: 15 }}>
                 {filterValue.classification && (
                     <StyledSelected>
-                        {filterValue.classification}
-                        <FaTimes onClick={() => handleFilterValue('', 'classification')} />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {filterValue.classification}
+                            <FaTimes onClick={() => handleFilterValue('', 'classification')} />
+                        </div>
                     </StyledSelected>
                 )}
                 {filterValue.shape && (
                     <StyledSelected>
-                        {filterValue.shape}
-                        <FaTimes onClick={() => handleFilterValue('', 'shape')} />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {filterValue.shape}
+                            <FaTimes onClick={() => handleFilterValue('', 'shape')} style={{ paddingLeft: 3 }} />
+                        </div>
                     </StyledSelected>
                 )}
                 {filterValue.difficulty && (
                     <StyledSelected>
-                        {filterValue.difficulty}
-                        <FaTimes onClick={() => handleFilterValue('', 'difficulty')} />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {filterValue.difficulty}
+                            <FaTimes onClick={() => handleFilterValue('', 'difficulty')} style={{ paddingLeft: 3 }} />
+                        </div>
                     </StyledSelected>
                 )}
                 {filterValue.growSpeed && (
                     <StyledSelected>
-                        {filterValue.growSpeed}
-                        <FaTimes onClick={() => handleFilterValue('', 'growSpeed')} />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {filterValue.growSpeed}
+                            <FaTimes onClick={() => handleFilterValue('', 'growSpeed')} style={{ paddingLeft: 3 }} />
+                        </div>
                     </StyledSelected>
                 )}
                 {filterValue.toxicity && (
                     <StyledSelected>
-                        {filterValue.toxicity}
-                        <FaTimes onClick={() => handleFilterValue('', 'toxicity')} />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {filterValue.toxicity}
+                            <FaTimes onClick={() => handleFilterValue('', 'toxicity')} style={{ paddingLeft: 3 }} />
+                        </div>
                     </StyledSelected>
                 )}
                 {filterValue.dog && (
                     <StyledSelected>
-                        {filterValue.dog}
-                        <FaTimes onClick={() => handleFilterValue('', 'dog')} />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {filterValue.dog}
+                            <FaTimes onClick={() => handleFilterValue('', 'dog')} style={{ paddingLeft: 3 }} />
+                        </div>
                     </StyledSelected>
                 )}
                 {filterValue.cat && (
                     <StyledSelected>
-                        {filterValue.cat}
-                        <FaTimes onClick={() => handleFilterValue('', 'cat')} />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {filterValue.cat}
+                            <FaTimes onClick={() => handleFilterValue('', 'cat')} style={{ paddingLeft: 3 }} />
+                        </div>
                     </StyledSelected>
                 )}
                 {(filterValue.classification ||
@@ -266,25 +280,25 @@ const Dictionary: React.FC = () => {
 const StyledDictionaryHeader = styled.div`
     display: flex;
     justify-content: flex-start;
-    margin-top: -20px;
 `;
 
 const StyledDictionaryContainer = styled.div<{ pageAnim: any }>`
-    height: 5000px;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
+    padding-left: 20%;
+    padding-right: 20%;
 `;
 
 const StyledSelected = styled.div`
     background: gray;
     color: white;
     margin-right: 5px;
-    margin-top: 5px;
-    padding: 5px;
+    margin-top: 7px;
+    padding: 7px 7px 7px 7px;
     font-size: 14px;
-    border-radius: 4px;
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 1.5vw;
     }
+    cursor: pointer;
 `;
 export default React.memo(Dictionary);

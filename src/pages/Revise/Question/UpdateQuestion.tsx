@@ -97,7 +97,7 @@ const UpdateQuestion: React.FC = () => {
                 onChange={(e) => {
                     setTitle(e.target.value);
                 }}
-                style={title.length === 0 ? { borderColor: 'red' } : { borderColor: 'silver' }}
+                style={title.length === 0 ? { borderColor: 'red' } : { borderColor: '#676767' }}
             />
             {title === '' ? <StyledTitleInfo>필수 입력 항목입니다.</StyledTitleInfo> : null}
 

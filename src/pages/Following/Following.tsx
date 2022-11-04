@@ -30,7 +30,6 @@ const Following: React.FC = () => {
                         },
                     });
                     setFollowings(response.data.value.content);
-                    console.log(response.data.value.content);
                 } catch (e) {
                     console.log(e);
                 }
