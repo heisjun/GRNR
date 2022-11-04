@@ -53,7 +53,7 @@ const SubTabBar: React.FC<ISubTabBar> = (props) => {
                                 setSubTabVisible(true);
                             }}
                         >
-                            <StyledMenuItemText color={item.value === crntPath ? 'grey' : 'silver'}>
+                            <StyledMenuItemText color={item.value === crntPath ? '#0d6637' : '#676767'}>
                                 {item.name}
                             </StyledMenuItemText>
                         </Link>
@@ -88,7 +88,7 @@ const StyledMenuItemText = styled.h2<{ color: string }>`
     color: ${({ color }) => color};
     cursor: pointer;
     &:hover {
-        color: #bce55c;
+        color: #0d6637;
     }
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 13px;
@@ -99,17 +99,18 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
     margin-right: 30px;
     border-bottom: solid;
     border-width: ${({ selected }) => (selected ? '3px' : '0px')};
-    border-color: grey;
+    border-color: #0d6637;
     padding-bottom: ${({ selected }) => (selected ? '0px' : '3px')};
 `;
 
 const StyledSubTabBarBlock = styled.div<{ justifyContent: string }>`
     width: ${({ justifyContent }) => (justifyContent === 'center' ? '' : '100%')};
     display: flex;
-    max-width: ${maxWidth}px;
+
     padding: 0px 20px 0px 20px;
     @media screen and (min-width: ${boundaryWidth}px) {
-        padding: 0px 30px 0px 30px;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 `;
 

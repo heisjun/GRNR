@@ -21,12 +21,7 @@ const TodaysArticle: React.FC<IItemParams> = (props) => {
                             setImgAnim(ImageScaleDown);
                         }}
                     >
-                        <StyledImg
-                            src={`${process.env.REACT_APP_BASE_SRC}/sample2.jpg`}
-                            width="100%"
-                            height="100%"
-                            imgAnim={imgAnim}
-                        />
+                        <StyledImg src={`/sample2.jpg`} width="100%" height="100%" imgAnim={imgAnim} />
                     </StyledImgBlock>
                 </Link>
             </StyledArticleItemBlock>

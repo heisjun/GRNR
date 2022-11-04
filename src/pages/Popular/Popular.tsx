@@ -5,6 +5,8 @@ import { DailyInfo } from 'domains';
 import { FadeIn, FadeOut } from 'common/keyframes';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+const minWidth = process.env.REACT_APP_MIN_WIDTH;
 
 const Popular: React.FC = () => {
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
@@ -43,38 +45,40 @@ const Popular: React.FC = () => {
         <StyledPopularContainer pageAnim={pageAnim}>
             <DailyInfo />
             <StyledBorderLine />
-            <StyledDetailsBlock>
-                <StyledTitleText>오늘의 인기 사진</StyledTitleText>
-                <StyledMoreText>더보기</StyledMoreText>
-            </StyledDetailsBlock>
-            <ItemList
-                width="100%"
-                imgHeight="100%"
-                cols={photoCols}
-                horizontalGap={photoGap}
-                verticalGap={photoGap}
-                items={picData}
-                RenderComponent={TodaysPhoto}
-            />
-            <StyledBorderLine />
-            <StyledDetailsBlock>
-                <StyledTitleText>오늘의 인기 아티클</StyledTitleText>
-                <StyledMoreText>더보기</StyledMoreText>
-            </StyledDetailsBlock>
-            <ItemList
-                width="100%"
-                imgHeight="70%"
-                cols={articleCols}
-                horizontalGap={articleGap}
-                verticalGap={articleGap}
-                items={artData}
-                RenderComponent={TodaysArticle}
-            />
-            <StyledBorderLine />
-            <StyledDetailsBlock>
-                <StyledTitleText>오늘의 Q&A</StyledTitleText>
-                <StyledMoreText>더보기</StyledMoreText>
-            </StyledDetailsBlock>
+            <StyledBottomContainer>
+                <StyledDetailsBlock>
+                    <StyledTitleText>오늘의 인기 사진</StyledTitleText>
+                    <StyledMoreText>더보기</StyledMoreText>
+                </StyledDetailsBlock>
+                <ItemList
+                    width="100%"
+                    imgHeight="100%"
+                    cols={photoCols}
+                    horizontalGap={photoGap}
+                    verticalGap={photoGap}
+                    items={picData}
+                    RenderComponent={TodaysPhoto}
+                />
+                <StyledBorderLine />
+                <StyledDetailsBlock>
+                    <StyledTitleText>오늘의 인기 아티클</StyledTitleText>
+                    <StyledMoreText>더보기</StyledMoreText>
+                </StyledDetailsBlock>
+                <ItemList
+                    width="100%"
+                    imgHeight="70%"
+                    cols={articleCols}
+                    horizontalGap={articleGap}
+                    verticalGap={articleGap}
+                    items={artData}
+                    RenderComponent={TodaysArticle}
+                />
+                <StyledBorderLine />
+                <StyledDetailsBlock>
+                    <StyledTitleText>오늘의 Q&A</StyledTitleText>
+                    <StyledMoreText>더보기</StyledMoreText>
+                </StyledDetailsBlock>
+            </StyledBottomContainer>
         </StyledPopularContainer>
     );
 };
@@ -107,11 +111,20 @@ const StyledBorderLine = styled.div`
 `;
 
 const StyledPopularContainer = styled.div<{ pageAnim: any }>`
+    margin-top: -30px;
     display: flex;
     flex-direction: column;
-    height: 5000px;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        margin-top: -10px;
+    }
+    //min-width: ${minWidth}px;
+    //max-width: ${maxWidth}px;
 `;
 
+const StyledBottomContainer = styled.div`
+    padding-left: 15%;
+    padding-right: 15%;
+`;
 export default Popular;

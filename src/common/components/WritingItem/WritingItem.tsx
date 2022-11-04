@@ -95,10 +95,6 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
         imgRef.current.click();
     };
 
-    useEffect(() => {
-        console.log('태그네임:', realgetTag);
-        console.log('내용', getContent);
-    }, [realgetTag, getContent]);
     return (
         <StyledPictureBody>
             <StyledImgBlock>
@@ -218,13 +214,13 @@ const StyledImgBlock = styled.div`
 const StyledImg = styled.img`
     width: 100%;
     height: 280px;
-    border-radius: 5px;
+    object-fit: cover;
 `;
 
 const StyledVideo = styled.video`
     width: 100%;
     height: 280px;
-    border-radius: 5px;
+    object-fit: cover;
 `;
 const StyledContentBlock = styled.div`
     width: 48%;
@@ -250,7 +246,6 @@ const StyledInputBlock = styled.textarea`
     border: 1px solid lightgrey;
     font-weight: 400;
     color: gray;
-    border-radius: 5px;
     height: 150px;
     @media screen and (max-width: ${boundaryWidth}px) {
         margin-top: 10px;

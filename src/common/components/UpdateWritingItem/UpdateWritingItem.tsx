@@ -22,7 +22,6 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
     const [getImg, setGetImg] = useState<any>(beforeData.pictureUrl ? beforeData.pictureUrl : imageUrl);
     const [imgfile, setImgFile] = useState<File | null>(null); //파일오브젝트이고..
     const [realgetTag, setRealgetTag] = useState<{ tagName: string }[]>(beforeData.tagList);
-    console.log('realgetTag:', realgetTag);
 
     const imgRef = useRef<any>(null);
 
@@ -95,7 +94,6 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
                 } else return item;
             }),
         );
-        console.log('전달할내용:', getContent);
     }, [getImg, textValue, getOption, realgetTag]);
 
     return (
@@ -214,13 +212,12 @@ const StyledImgBlock = styled.div`
 const StyledImg = styled.img`
     width: 100%;
     height: 280px;
-    border-radius: 5px;
+    object-fit: cover;
 `;
 
 const StyledVideo = styled.video`
     width: 100%;
     height: 280px;
-    border-radius: 5px;
 `;
 const StyledContentBlock = styled.div`
     width: 48%;
@@ -246,7 +243,7 @@ const StyledInputBlock = styled.textarea`
     border: 1px solid lightgrey;
     font-weight: 400;
     color: gray;
-    border-radius: 5px;
+
     height: 150px;
     @media screen and (max-width: ${boundaryWidth}px) {
         margin-top: 10px;

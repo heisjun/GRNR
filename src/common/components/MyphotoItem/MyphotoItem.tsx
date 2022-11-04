@@ -4,7 +4,6 @@ import { IMyphotoItem } from './MyphotoItem.type';
 
 const MyphotoItem: React.FC<IMyphotoItem> = (props) => {
     const { width, height, paddingBottom, item } = props;
-    console.log(item);
 
     const [imgAnim, setImgAnim] = useState<any>();
 

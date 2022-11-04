@@ -43,7 +43,9 @@ const MypageTabBar: React.FC<IMypageTabBar> = (props) => {
                                 }}
                                 onMouseEnter={() => setOverPage(index)}
                             >
-                                <StyledMenuItemText color={item.link.split('/')[2] === crntPath ? 'grey' : 'silver'}>
+                                <StyledMenuItemText
+                                    color={item.link.split('/')[2] === crntPath ? '#0d6637' : '#676767'}
+                                >
                                     {item.name}
                                 </StyledMenuItemText>
                             </Link>
@@ -80,7 +82,7 @@ const StyledMenuItemText = styled.h2<{ color: string }>`
     color: ${({ color }) => color};
     cursor: pointer;
     &:hover {
-        color: #bce55c;
+        color: #0d6637;
     }
     @media screen and (min-width: ${boundaryWidth}px) {
         font-size: 15px;

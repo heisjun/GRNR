@@ -120,6 +120,8 @@ export type IPhotoDetailsParams = {
     scrapCount: number;
     likeCount: number;
     viewCount: number;
+    accountId: number;
+    accountProfileUrl: string;
 };
 
 export type pictureDtoParams = {

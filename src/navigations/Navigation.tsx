@@ -34,6 +34,8 @@ import {
     MagazineDetails,
     KakaoLogin,
     RegisterProcess,
+    UserFeed,
+    UserPhoto,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -89,6 +91,9 @@ const Navigation: React.FC = () => {
                     <Route path="/mypage/mygarden/plants" element={<Myplants />} />
                     <Route path="/mypage/setting" element={null} />
                     <Route path="/mypage/setting/setting1" element={null} />
+                    <Route path="/userpage" element={<Login />} />
+                    <Route path="/userpage/:id" element={<UserFeed />} />
+                    <Route path="/userpage/photo/:id" element={<UserPhoto />} />
                 </Routes>
             </HeaderBar>
         </Router>

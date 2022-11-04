@@ -21,6 +21,7 @@ const PhotoDetails: React.FC = () => {
     const [details, setDetails] = useState<IPhotoDetailsParams>();
     const [commentsList, setCommentsList] = useState<ICommentsParams>();
     const [openModal, setOpenModal] = useState(false);
+    const myAccountId = sessionStorage.getItem('accountId');
 
     const params = useParams();
 
@@ -30,7 +31,6 @@ const PhotoDetails: React.FC = () => {
             try {
                 const response = await callApi.getDetailList(Number(params.id), 'picture');
                 setDetails(response.data.value);
-                console.log('렌더링중');
             } catch (e) {
                 console.log(e);
             }
@@ -193,8 +193,12 @@ const PhotoDetails: React.FC = () => {
             <StyledDetailsBlock>
                 <StyledTopTextBlock>
                     <StyledViewCountText>조회 {details?.viewCount}명</StyledViewCountText>
-                    <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
-                    <StyledReportText onClick={onEdit}>수정</StyledReportText>
+                    {myAccountId === String(details?.accountId) && (
+                        <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
+                    )}
+                    {myAccountId === String(details?.accountId) && (
+                        <StyledReportText onClick={onEdit}>수정</StyledReportText>
+                    )}
                     <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
                 </StyledTopTextBlock>
                 <ItemList
@@ -210,7 +214,12 @@ const PhotoDetails: React.FC = () => {
                     <StyledProfileBlock>
                         <StyledWriterBlock>
                             <StyeldAvatarBlock>
-                                <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
+                                <Avatar
+                                    width="100%"
+                                    paddingBottom="100%"
+                                    borderRadius="100%"
+                                    picUrl={details?.accountProfileUrl}
+                                />
                             </StyeldAvatarBlock>
                             <StyledWriterText>{details?.accountNickName}</StyledWriterText>
                         </StyledWriterBlock>
@@ -311,6 +320,8 @@ const StyledButtonsContainer = styled.div`
 `;
 
 const StyledPhotoDetailsContainer = styled.div`
+    padding-left: 15%;
+    padding-right: 15%;
     display: flex;
     justify-content: center;
 `;

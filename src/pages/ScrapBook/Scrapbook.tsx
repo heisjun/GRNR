@@ -1,10 +1,14 @@
 import styled from 'styled-components';
-import { ItemList, TodaysPhoto, MagazineItem, DictionaryItem } from 'common/components';
+import { ItemList, TodaysPhoto, MagazineItem, DictionaryItem, MyfeedItem } from 'common/components';
 import { Profile } from 'domains';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { IpicData } from 'common/types';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const ScrapBook: React.FC = () => {
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
@@ -13,9 +17,21 @@ const ScrapBook: React.FC = () => {
     const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
     const [articleGap, setArticleGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
 
-    const picData = [{}, {}, {}, {}];
+    const [picData, setPicData] = useState<IpicData[]>([]);
     const articleData = [{}, {}, {}, {}];
     const dicData = [{}, {}, {}];
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const myfeedData = await axios.get(`${BASEURL}/api/account/11/scraps`);
+                setPicData(myfeedData.data.value.scrapPictureDtoList.slice(-4));
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchData();
+    }, []);
 
     return (
         <StyledScrapBookContainer>
@@ -40,7 +56,7 @@ const ScrapBook: React.FC = () => {
                         horizontalGap={photoGap}
                         verticalGap={photoGap}
                         items={picData}
-                        RenderComponent={TodaysPhoto}
+                        RenderComponent={MyfeedItem}
                     />
                     <StyledBorderLine />
                     <StyledDetailsBlock>

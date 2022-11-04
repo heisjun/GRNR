@@ -52,7 +52,6 @@ const Picture: React.FC = () => {
             try {
                 const response = await callApi.getDetailList(Number(state), 'picture');
                 setDetails(response.data.value.pictureContentDtoList);
-                console.log('불러온데이터:', response.data.value.pictureContentDtoList);
             } catch (e) {
                 console.log(e);
             }
@@ -109,7 +108,6 @@ const Picture: React.FC = () => {
         const filename = url.split('/').pop(); // url 구조에 맞게 수정할 것
         const metadata = { type: `image/${ext}` };
         const file = new File([data], filename!, metadata);
-        console.log('되나?:', file);
         return file;
     };
 
@@ -122,7 +120,6 @@ const Picture: React.FC = () => {
     }
 
     const onSave = async () => {
-        console.log('디테일스:', details);
         const formData = new FormData();
 
         for (let i = 0; i < details.length; i++) {
@@ -142,7 +139,6 @@ const Picture: React.FC = () => {
         const picId = JSON.stringify(state);
 
         formData.append('pictureId', new Blob([picId], { type: 'application/json' }));
-        console.log('saveList:', uploaderString);
         formData.append('saveList', new Blob([uploaderString], { type: 'application/json' }));
 
         for (let i = 0; i < details.length; i++) {
@@ -150,7 +146,7 @@ const Picture: React.FC = () => {
                 console.log('데이터없음');
                 return;
             }
-            console.log(details[i].pictureUrl);
+
             formData.append('file', await convertURLtoFile(details[i].pictureUrl));
         }
 
@@ -180,23 +176,8 @@ const Picture: React.FC = () => {
                         </StyledUploadButton>
                     </StyledHeaderBar>
                 </StyledHeaderBarContainer>
-                <StyledSubTabBarBlock>
-                    <StyledSubTabBarContainer fadeAnim={fadeAnim}>
-                        <StyledSubTabBarBlock1>
-                            <StyledMenuItemBlock selected={true}>
-                                <Link to={'/upload/photo'} style={{ textDecoration: 'none' }}>
-                                    <StyledMenuItemText color={'gray'}>사진</StyledMenuItemText>
-                                </Link>
-                            </StyledMenuItemBlock>
-                            <StyledMenuItemBlock selected={false}>
-                                <Link to={'/upload/video'} style={{ textDecoration: 'none' }}>
-                                    <StyledMenuItemText color={'silver'}>동영상</StyledMenuItemText>
-                                </Link>
-                            </StyledMenuItemBlock>
-                        </StyledSubTabBarBlock1>
-                    </StyledSubTabBarContainer>
-                </StyledSubTabBarBlock>
             </StyledTabsContainer>
+
             <StyledPictureContainer>
                 <StyledPictureHeader>
                     <CustomSelector optionData={option1} setGetOption={setGetOption1} />
@@ -227,10 +208,13 @@ const StyledPictureContainer = styled.div`
     height: 2000px;
 `;
 
+const StyledLogoImg = styled.img`
+    width: 150px;
+`;
+
 const StyledPictureHeader = styled.div`
     display: flex;
     justify-content: flex-start;
-    margin-top: -20px;
     padding-bottom: 15px;
 `;
 
@@ -249,56 +233,6 @@ const StyledAddBtn = styled.button`
     }
 `;
 
-const StyledMenuItemText = styled.h2<{ color: string }>`
-    font-size: 13px;
-    color: ${({ color }) => color};
-    cursor: pointer;
-    &:hover {
-        color: #bce55c;
-    }
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 13px;
-    }
-`;
-
-const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
-    margin-right: 30px;
-    border-bottom: solid;
-    border-width: ${({ selected }) => (selected ? '3px' : '0px')};
-    border-color: grey;
-    padding-bottom: ${({ selected }) => (selected ? '0px' : '3px')};
-`;
-
-const StyledSubTabBarBlock1 = styled.div`
-    width: 100%;
-    display: flex;
-    max-width: ${maxWidth}px;
-    padding: 0px 20px 0px 20px;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        padding: 0px 30px 0px 30px;
-    }
-`;
-
-const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
-    width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    border-bottom: solid 1px;
-    border-color: silver;
-    animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
-    animation-fill-mode: forwards;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        height: 40px;
-    }
-`;
-
-const StyledLogoImg = styled.img`
-    width: 150px;
-`;
-
 const StyledUploadText = styled.div`
     color: white;
     font-size: 15px;
@@ -306,9 +240,9 @@ const StyledUploadText = styled.div`
 
 const StyledUploadButton = styled.div`
     width: 55px;
-    height: 35px;
-    background-color: grey;
-    border-radius: 5px;
+    height: 25px;
+    padding: 9px;
+    background-color: #0d6637;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -349,20 +283,20 @@ const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    min-width: ${minWidth}px;
-    max-width: ${maxWidth}px;
     height: 50px;
     padding: 0px 20px 0px 20px;
     @media screen and (min-width: ${boundaryWidth}px) {
         height: 80px;
-        padding: 0px 30px 0px 30px;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 `;
 
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    padding-left: 20%;
+    padding-right: 20%;
 `;
 
 const StyledSubTabBarBlock = styled.div`

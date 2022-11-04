@@ -54,7 +54,7 @@ const WritingDropdown: React.FC = () => {
                         <StyledDropdown key={id}>
                             <StyledDropdownBtn onClick={() => onOpenBtn(index)}>
                                 <StyledDropdownText>글쓰기</StyledDropdownText>
-                                <FaPen />
+                                <StyledWriteIcon src={'/btnWrite.png'} />
                             </StyledDropdownBtn>
                             {isActive[index] && (
                                 <StyledDropdownContent ref={dropdownListRef}>
@@ -84,6 +84,11 @@ const StyledFiltersBlock = styled.div`
     display: flex;
 `;
 
+const StyledWriteIcon = styled.img`
+    height: 20px;
+    width: 20px;
+`;
+
 const StyledDropdown = styled.div`
     user-select: none;
     margin-right: 10px;
@@ -91,12 +96,10 @@ const StyledDropdown = styled.div`
 `;
 
 const StyledDropdownBtn = styled.div`
-    padding: 5px 10px 5px 10px;
-    background: #fff;
-    border: 1px solid lightgrey;
-    font-weight: 400;
-    color: gray;
-    border-radius: 5px;
+    padding: 9px 12px 9px 12px;
+    background: #0d6637;
+    font-weight: 500;
+    color: white;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -104,14 +107,10 @@ const StyledDropdownBtn = styled.div`
     @media screen and (max-width: ${boundaryWidth}px) {
         padding: 3px;
     }
-    :hover {
-        background-color: gray;
-        color: white;
-    }
 `;
 
 const StyledDropdownText = styled.div`
-    padding-right: 2px;
+    padding-right: 8px;
     font-size: 15px;
     @media screen and (max-width: ${boundaryWidth}px) {
     }

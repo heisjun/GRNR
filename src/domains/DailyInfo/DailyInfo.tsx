@@ -21,12 +21,7 @@ const DailyInfo: React.FC = () => {
                             setImgAnim(ImageScaleDown);
                         }}
                     >
-                        <StyledImg
-                            src={`${process.env.REACT_APP_BASE_SRC}/sample.jpeg`}
-                            width="100%"
-                            height="100%"
-                            imgAnim={imgAnim}
-                        />
+                        <StyledImg src={`/sample.jpeg`} width="100%" height="100%" imgAnim={imgAnim} />
                     </StyledTipImgBlock>
                 </Link>
                 <StyledTipSummaryBlock>

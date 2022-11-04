@@ -114,7 +114,6 @@ const StyledDropdownBtn = styled.div`
     border: 1px solid lightgrey;
     font-weight: 400;
     color: gray;
-    border-radius: 5px;
     display: flex;
     align-items: center;
     cursor: pointer;

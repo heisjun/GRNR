@@ -6,11 +6,12 @@ import { useEffect, useState } from 'react';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
+const accountId = sessionStorage.getItem('accountId');
 
 const MyFollower: React.FC = () => {
     interface Ifollowing {
         accountId: number;
-        snsImgUrl: string;
+        profileUrl: string;
         nickName: string;
         selfInfo: null;
     }
@@ -19,14 +20,11 @@ const MyFollower: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/follower`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${accountId}/follower`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
                     },
-                );
+                });
                 setFollowing(myfeedData.data.value.content);
             } catch (e) {
                 console.log(e);
@@ -47,16 +45,16 @@ const MyFollower: React.FC = () => {
                 </StyledTitleBlock>
                 {following.map((item, index) => {
                     return (
-                        <div style={{ display: 'flex' }} key={index}>
+                        <div style={{ display: 'flex', paddingBottom: 10 }} key={index}>
                             <div style={{ width: '10%' }}>
-                                <Avatar width="60%" paddingBottom="60%" borderRadius="100%" picUrl={item.snsImgUrl} />
+                                <Avatar width="60%" paddingBottom="60%" borderRadius="100%" picUrl={item.profileUrl} />
                             </div>
-                            <div style={{ width: '80%' }}>
+                            <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
                                 <StyledUserNickname>{item.nickName}</StyledUserNickname>
-                                <StyledUserInfo>{item.selfInfo}</StyledUserInfo>
+                                <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
                             </div>
                             <StyledFollowingBtn>
-                                <StyledBtnText>팔로잉</StyledBtnText>
+                                <StyledBtnText>팔로워</StyledBtnText>
                             </StyledFollowingBtn>
                         </div>
                     );
@@ -69,11 +67,18 @@ const MyFollower: React.FC = () => {
 const StyledFollowingBtn = styled.div`
     width: 10%;
     border-radius: 10px;
-    background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #0d6637;
+    cursor: pointer;
 `;
 
 const StyledBtnText = styled.div`
-    font-size: 15px;
+    font-size: 13px;
+    font-weight: 500;
     color: white;
     text-align: center;
 `;
@@ -120,7 +125,8 @@ const StyledContextContainer = styled.div`
 
 const StyledMyphotoContainer = styled.div`
     margin-top: 40px;
-    width: 100%;
+    padding-left: 15%;
+    padding-right: 15%;
     display: flex;
 `;
 

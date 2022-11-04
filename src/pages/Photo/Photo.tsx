@@ -7,6 +7,8 @@ import { IPhotosParams } from 'common/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+const minWidth = process.env.REACT_APP_MIN_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 
@@ -32,7 +34,7 @@ const Photo: React.FC = () => {
     const [photos, setPhotos] = useState<IPhotosParams[]>([]);
     const [loading, setLoading] = useState(false);
 
-    const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 1);
+    const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 1);
     const [photoHorizontalGap, setPhotoHorizontalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 0);
     const [photoVerticalGap, setPhotoVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
@@ -48,6 +50,13 @@ const Photo: React.FC = () => {
             return { ...prev, [name]: value };
         });
     };
+
+    useEffect(() => {
+        window.addEventListener('resize', resizeHandler);
+        return () => {
+            window.removeEventListener('resize', resizeHandler);
+        };
+    }, []);
 
     useEffect(() => {
         handleFilterValue(selectedPlace, 'homePlace');
@@ -88,7 +97,7 @@ const Photo: React.FC = () => {
     }, [location.search]);
 
     const resizeHandler = () => {
-        setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 4 : 1);
+        setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 3 : 1);
         setPhotoHorizontalGap(window.innerWidth > Number(boundaryWidth) ? 2 : 0);
         setPhotoVerticalGap(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
     };
@@ -109,6 +118,40 @@ const Photo: React.FC = () => {
 
     return (
         <StyledPhotoContainer pageAnim={pageAnim}>
+            <div style={{ width: '100%', height: 500, display: 'flex' }}>
+                <div
+                    style={{
+                        width: '65%',
+                        backgroundColor: 'gray',
+                        marginRight: '2%',
+                        backgroundImage: 'url(/sample.jpeg)',
+                        backgroundSize: 'cover',
+                    }}
+                ></div>
+                <div
+                    style={{ width: '33%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+                >
+                    <div
+                        style={{
+                            width: '100%',
+                            height: '48%',
+                            backgroundColor: 'gray',
+                            backgroundImage: 'url(/sample2.jpg)',
+                            backgroundSize: 'cover',
+                        }}
+                    ></div>
+                    <div
+                        style={{
+                            width: '100%',
+                            height: '48%',
+                            backgroundColor: 'gray',
+                            backgroundImage: 'url(/sample2.jpg)',
+                            backgroundSize: 'cover',
+                        }}
+                    ></div>
+                </div>
+            </div>
+            <StyledBorderLine />
             <StyledPhotoHeader>
                 <Filters_Test setGetFilter={setSelectedPlace} data={PhotoFilter_Place} />
                 <Filters_Test setGetFilter={setSelectedOrder} data={PhotoFilter_Order} />
@@ -117,14 +160,18 @@ const Photo: React.FC = () => {
             <div style={{ display: 'flex' }}>
                 {filterValue.sort && (
                     <StyledSelected>
-                        {filterValue.sort}
-                        <FaTimes onClick={() => handleFilterValue('', 'sort')} />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {filterValue.sort}
+                            <FaTimes onClick={() => handleFilterValue('', 'sort')} style={{ paddingLeft: 3 }} />
+                        </div>
                     </StyledSelected>
                 )}
                 {filterValue.homePlace && (
                     <StyledSelected>
-                        {filterValue.homePlace}
-                        <FaTimes onClick={() => handleFilterValue('', 'homePlace')} />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {filterValue.homePlace}
+                            <FaTimes onClick={() => handleFilterValue('', 'homePlace')} style={{ paddingLeft: 3 }} />
+                        </div>
                     </StyledSelected>
                 )}
                 {(filterValue.homePlace || filterValue.sort) && (
@@ -132,21 +179,28 @@ const Photo: React.FC = () => {
                 )}
             </div>
 
-            <ItemList
-                width="100%"
-                imgHeight="150%"
-                cols={photoCols}
-                horizontalGap={photoHorizontalGap}
-                verticalGap={photoVerticalGap}
-                items={photos}
-                RenderComponent={PhotoItem}
-            />
+            {photos ? (
+                <ItemList
+                    width="100%"
+                    imgHeight="120%"
+                    cols={photoCols}
+                    horizontalGap={photoHorizontalGap}
+                    verticalGap={photoVerticalGap}
+                    items={photos}
+                    RenderComponent={PhotoItem}
+                />
+            ) : (
+                <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>
+                    <div style={{ fontSize: 18, fontWeight: 400 }}>찾으시는 결과가 없습니다!</div>
+                </div>
+            )}
         </StyledPhotoContainer>
     );
 };
 
 const StyledPhotoContainer = styled.div<{ pageAnim: any }>`
-    height: 500px;
+    padding-left: 20%;
+    padding-right: 20%;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
 `;
@@ -154,20 +208,26 @@ const StyledPhotoContainer = styled.div<{ pageAnim: any }>`
 const StyledPhotoHeader = styled.div`
     display: flex;
     justify-content: flex-start;
-    margin-top: -20px;
 `;
 
 const StyledSelected = styled.div`
     background: gray;
     color: white;
     margin-right: 5px;
-    margin-top: 5px;
-    padding: 5px;
+    margin-top: 7px;
+    padding: 7px 7px 7px 7px;
     font-size: 14px;
-    border-radius: 4px;
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 1.5vw;
     }
+    cursor: pointer;
+`;
+
+const StyledBorderLine = styled.div`
+    width: 100%;
+    border-bottom: solid 1px;
+    border-color: #eaeaea;
+    margin: 40px 0px 40px 0px;
 `;
 
 export default Photo;

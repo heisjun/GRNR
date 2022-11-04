@@ -40,6 +40,29 @@ export const mypageTabBarItems = [
     },
 ];
 
+export const userpageTabBarItems = [
+    {
+        name: '모두보기',
+        link: '/userpage',
+    },
+    {
+        name: '사진',
+        link: '/userpage/photo',
+    },
+    {
+        name: '매거진',
+        link: '/userpage/magazine',
+    },
+    {
+        name: 'Q&A',
+        link: '/userpage/question',
+    },
+    {
+        name: '스크랩북',
+        link: '/userpage/scrapbook',
+    },
+];
+
 export const mypageSubTabBarItems = [
     [
         { name: '나의 피드', link: '/mypage/profile/myfeed', value: 'myfeed' },
