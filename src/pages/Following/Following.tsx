@@ -8,7 +8,8 @@ import { IFollowingsParams } from 'common/types';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN =
+    'eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2Njg4NDkyODR9.p07BW1EIF5YVSUalqKfTCsBjdbT-d39brK2yeXxmIICe8IS5Z8Bim0vanhxZPWsiz0VFgMDvZTm79NaDoZrptg';
 
 const Following: React.FC = () => {
     const navigate = useNavigate();

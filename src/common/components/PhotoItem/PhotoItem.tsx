@@ -14,9 +14,9 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
     const [imgAnim, setImgAnim] = useState<any>();
     const [hover, setHover] = useState<boolean>(false);
-    const [like, setLike] = useState(false);
+    const [like, setLike] = useState(item.myLike);
     const [likeCount, setLikeCount] = useState<any>(item.likeCount);
-    const [scrap, setScrap] = useState(false);
+    const [scrap, setScrap] = useState(item.myScrap);
     const [scrapCount, setScrapCount] = useState<any>(item.scrapCount);
 
     const onPhotoLike = async () => {
@@ -184,7 +184,7 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                                 style={{ color: 'red' }}
                             />
                         )}
-                        <StyledText>{likeCount}</StyledText>
+                        <StyledText>{likeCount ? likeCount : item.likeCount}</StyledText>
                         <FaRegCommentDots />
                         <StyledText>{item.commentCount}</StyledText>
                         {!scrap ? (

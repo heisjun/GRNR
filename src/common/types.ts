@@ -155,6 +155,8 @@ export type IPhotosParams = {
             tagName: string;
         }[];
     };
+    myLike?: boolean;
+    myScrap?: boolean;
     likeCount?: number;
     pictureId?: number;
     scrapCount?: number;

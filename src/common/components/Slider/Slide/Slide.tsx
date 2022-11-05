@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { ISlide } from './Slide.type';
 
 const Slide: React.FC<ISlide> = (props) => {
-    const { ImgUrl, index } = props;
+    const { data, index } = props;
     return (
         <div>
-            <StyledImg src={ImgUrl.pictureUrlList[index]}></StyledImg>
+            <StyledImg src={data.pictureUrlList[index]}></StyledImg>
             <StyledSpace />
-            <StyledViews>{`조회 ${ImgUrl.time} 회`}</StyledViews>
+            <StyledViews>{`조회 ${data.time} 회`}</StyledViews>
             <StyledTextArea>
-                <StyledText>{ImgUrl.text}</StyledText>
+                <StyledText>{data.text}</StyledText>
             </StyledTextArea>
         </div>
     );
@@ -28,9 +28,9 @@ const StyledSpace = styled.div`
 
 const StyledViews = styled.div`
     width: 100%;
-    font-size: 15px;
-    font-weight: 500;
-    color: grey;
+    font-size: 16px;
+    font-weight: bold;
+    color: #393939;
     padding: 10px;
 `;
 
