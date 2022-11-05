@@ -21,11 +21,9 @@ const TaggedPhoto: React.FC<ITaggedPhoto> = (props) => {
                     <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
                 </StyledImageBlock>
             </StyledImageContainer>
-            <StyledTagBoxesBlock />
-
             <StyledDetailsText>{item.explain}</StyledDetailsText>
 
-            <div style={{ display: 'flex', paddingTop: 15 }}>
+            <div style={{ display: 'flex', padding: 10 }}>
                 {item.tagList &&
                     item.tagList.map((i, index) => (
                         <div key={index}>
@@ -33,8 +31,6 @@ const TaggedPhoto: React.FC<ITaggedPhoto> = (props) => {
                         </div>
                     ))}
             </div>
-
-            <StyledBorderLine />
         </StyledTaggedPhotoContainer>
     );
 };
@@ -68,13 +64,14 @@ const StyledDetailsText = styled.div`
     font-size: 15px;
     font-weight: 100;
     color: grey;
+    padding: 10px;
 `;
 
 const StyledTagBoxesBlock = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 3% 0% 3% 0%;
+    padding: 5px 0px 5px px;
 `;
 
 const StyledImg = styled.img<{ imgAnim: any }>`
@@ -88,7 +85,6 @@ const StyledImageBlock = styled.div`
     overflow: hidden;
     width: 100%;
     height: 100%;
-    border-radius: 5px;
 `;
 
 const StyledImageContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
@@ -97,7 +93,6 @@ const StyledImageContainer = styled.div<{ width: string; height?: string; paddin
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
     background-color: grey;
-    border-radius: 5px;
 `;
 
 const StyledTaggedPhotoContainer = styled.div``;

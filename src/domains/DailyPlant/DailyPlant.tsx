@@ -42,8 +42,7 @@ const DailyPlant: React.FC<IDailyPlant> = (props) => {
                 <StyledImgBlock pageNum={pageNum} ref={slideRef}>
                     {imgUrls.map((item, index) => (
                         <StyledImg
-                            key={index}
-                            src={`/sample2.jpg`}
+                            src={`/sample.jpeg`}
                             width={`${100 / pageNum}%`}
                             height="100%"
                             onMouseEnter={() => {
@@ -88,25 +87,25 @@ const ImageScaleDown = keyframes`
 
 const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
-    object-fit: cover;
+    position: relative;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
 `;
 
 const StyledIndicator = styled.div<{ focused: boolean }>`
-    width: 15%;
-    padding-bottom: 15%;
+    width: 6%;
+    padding-bottom: 6%;
     border-radius: 100%;
-    background-color: ${({ focused }) => (focused ? 'grey' : '#676767')};
+    background-color: ${({ focused }) => (focused ? '#676767' : 'silver')};
     cursor: pointer;
 `;
 
 const StyledIndicatorBlock = styled.div`
     position: absolute;
-    width: 20%;
+    width: 10%;
     height: 5%;
     top: 90%;
-    left: 40%;
+    left: 45%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -160,8 +159,6 @@ const StyledDailyPlantContainer = styled.div<{
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
     border-radius: ${({ borderRadius }) => borderRadius};
-    border: solid 2px;
-    border-radius: 5px;
     border-color: silver;
 `;
 

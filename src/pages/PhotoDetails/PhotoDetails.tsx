@@ -5,7 +5,7 @@ import { TaggedPhoto } from 'domains';
 import { getDebouncedFunc } from 'common/funcs';
 import { useParams, useNavigate } from 'react-router-dom';
 import { default as callApi } from 'common/api';
-import { IPhotoDetailsParams, ICommentsParams } from 'common/types';
+import { ICommentsParams, IPhotoDetailsParams } from 'common/types';
 import axios from 'axios';
 import CommentItem from 'common/components/CommentItem';
 import Modal from 'react-modal';
@@ -48,6 +48,7 @@ const PhotoDetails: React.FC = () => {
                 `,
                 );
                 setCommentsList(CommentData.data.value.content[0]);
+                console.log(CommentData.data.value.content[0]);
             } catch (e) {
                 console.log(e);
             }
@@ -199,7 +200,9 @@ const PhotoDetails: React.FC = () => {
                     {myAccountId === String(details?.accountId) && (
                         <StyledReportText onClick={onEdit}>수정</StyledReportText>
                     )}
-                    <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
+                    {myAccountId !== String(details?.accountId) && (
+                        <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
+                    )}
                 </StyledTopTextBlock>
                 <ItemList
                     width="100%"
@@ -380,6 +383,7 @@ const StyledProfileBlock = styled.div`
 const StyledUserInfoBlock = styled.div`
     width: 100%;
     display: flex;
+    background-color: #f5f5f5;
 `;
 
 const customStyles = {

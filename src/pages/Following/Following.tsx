@@ -59,7 +59,8 @@ const Following: React.FC = () => {
 };
 
 const StyledFollowingContainer = styled.div<{ pageAnim: any }>`
-    height: 2000px;
+    padding-left: 20%;
+    padding-right: 20%;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
 `;
