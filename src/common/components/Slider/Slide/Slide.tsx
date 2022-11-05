@@ -18,7 +18,7 @@ const Slide: React.FC<ISlide> = (props) => {
 
 const StyledImg = styled.img`
     width: 100%;
-    height: 440px;
+    height: 540px;
 `;
 
 const StyledSpace = styled.div`

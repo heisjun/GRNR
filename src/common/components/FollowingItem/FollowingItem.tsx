@@ -2,27 +2,23 @@ import { Avatar } from 'common/components';
 import Slider from 'common/components/Slider';
 import React, { useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
+
 import { FaHeart, FaRegHeart, FaRegCommentDots, FaBookmark, FaRegBookmark, FaGratipay } from 'react-icons/fa';
 import { IFollowingItem } from './FollowingItem.type';
-import ModalComments from '../ModalComments';
 
 const FollowingItem: React.FC<IFollowingItem> = (props) => {
     const { data } = props;
-    const [isOpenComments, setIsOpenComments] = useState(false);
 
     return (
         <StyledFollowingFeeds>
-            <StyledModalBlock visible={isOpenComments}>
-                <StyledModalContent visible={isOpenComments}>
-                    {isOpenComments && <ModalComments close={setIsOpenComments} />}
-                </StyledModalContent>
-            </StyledModalBlock>
             <StyledFeedsBlock>
                 <StyledBlockHeader>
                     <StyledHeaderItem>
-                        <Avatar width="9%" paddingBottom="9%" borderRadius="100%" />
-                        <StyledNickname> {data.accountNickName}</StyledNickname>
-                        <StyledTime> {data.time}</StyledTime>
+                        <Avatar width="9%" paddingBottom="9%" borderRadius="100%" picUrl={data.accountProfileUrl} />
+                        <div>
+                            <StyledNickname> {data.accountNickName}</StyledNickname>
+                            <StyledTime> {data.time}</StyledTime>
+                        </div>
                     </StyledHeaderItem>
                     <StyledHeaderItem2>
                         <StyledClickText color="lightgray">신고</StyledClickText>
@@ -32,15 +28,15 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                 <Slider item={data} />
                 <StyledBlockFooter>
                     <StyledFooterItem>
-                        <FaRegHeart style={{ fontSize: '30' }} />
+                        <FaRegHeart style={{ fontSize: '25' }} />
                         <div>{data.likeCount}</div>
                     </StyledFooterItem>
-                    <StyledFooterItem onClick={() => setIsOpenComments(true)}>
-                        <FaRegCommentDots style={{ fontSize: '30' }} />
+                    <StyledFooterItem>
+                        <FaRegCommentDots style={{ fontSize: '25' }} />
                         <div>{data.commentCount}</div>
                     </StyledFooterItem>
                     <StyledFooterItem>
-                        <FaRegBookmark style={{ fontSize: '30' }} />
+                        <FaRegBookmark style={{ fontSize: '25' }} />
                         <div>{data.scrapCount}</div>
                     </StyledFooterItem>
                 </StyledBlockFooter>
@@ -99,8 +95,8 @@ const StyledFollowingFeeds = styled.div`
 
 const StyledFeedsBlock = styled.div`
     border: 1px solid gray;
-    width: 440px;
-    height: 700px;
+    width: 550px;
+    height: 800px;
     margin-bottom: 40px;
     background-color: white;
 `;
@@ -134,6 +130,8 @@ const StyledClickText = styled.div<{ color: string }>`
 const StyledTime = styled.div`
     color: lightgray;
     font-size: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
 `;
 
 const StyledHeaderItem2 = styled.div`

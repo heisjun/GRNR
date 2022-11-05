@@ -12,3 +12,4 @@ export { default as MyphotoItem } from './MyphotoItem';
 export { default as WritingDropdown } from './WritingDropdown';
 export { default as MypageDropdown } from './MypageDropdown';
 export { default as MyfeedItem } from './MyfeedItem';
+export { default as CommentItemModal } from './CommenntItemModal';

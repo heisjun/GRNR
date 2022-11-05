@@ -44,7 +44,7 @@ const Popular: React.FC = () => {
     return (
         <StyledPopularContainer pageAnim={pageAnim}>
             <DailyInfo />
-            <StyledBorderLine />
+            <StyledBorderPlace />
             <StyledBottomContainer>
                 <StyledDetailsBlock>
                     <StyledTitleText>오늘의 인기 사진</StyledTitleText>
@@ -107,7 +107,12 @@ const StyledBorderLine = styled.div`
     width: 100%;
     border-bottom: solid 1px;
     border-color: #eaeaea;
-    margin: 30px 0px 20px 0px;
+    margin: 30px 0px 30px 0px;
+`;
+
+const StyledBorderPlace = styled.div`
+    width: 100%;
+    margin: 30px 0px 30px 0px;
 `;
 
 const StyledPopularContainer = styled.div<{ pageAnim: any }>`

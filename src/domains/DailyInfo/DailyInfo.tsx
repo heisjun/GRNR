@@ -11,26 +11,8 @@ const DailyInfo: React.FC = () => {
 
     return (
         <StyledDailyInfoContainer>
-            <StyledTipBlock>
-                <Link to="community/magazine/details" style={{ textDecoration: 'none' }}>
-                    <StyledTipImgBlock
-                        onMouseEnter={() => {
-                            setImgAnim(ImageScaleUp);
-                        }}
-                        onMouseLeave={() => {
-                            setImgAnim(ImageScaleDown);
-                        }}
-                    >
-                        <StyledImg src={`/sample.jpeg`} width="100%" height="100%" imgAnim={imgAnim} />
-                    </StyledTipImgBlock>
-                </Link>
-                <StyledTipSummaryBlock>
-                    <StyledTipTitleText>실내에서 식물을 끝장나게 키우는 방법</StyledTipTitleText>
-                    <StyledTipWriterText>taemin</StyledTipWriterText>
-                </StyledTipSummaryBlock>
-            </StyledTipBlock>
             <StyledDailyPlantBlock>
-                <DailyPlant width="100%" height="100%" borderRadius="5px" imgUrls={['', '', '']} />
+                <DailyPlant width="100%" height="100%" borderRadius="0px" imgUrls={['', '', '']} />
             </StyledDailyPlantBlock>
         </StyledDailyInfoContainer>
     );
@@ -100,13 +82,13 @@ const StyledTipBlock = styled.div`
 `;
 
 const StyledDailyPlantBlock = styled.div`
-    width: 23.5%;
-    height: 99%;
+    width: 100%;
 `;
 
 const StyledDailyInfoContainer = styled.div`
     display: flex;
     width: 100%;
+    height: 500px;
 `;
 
 export default DailyInfo;

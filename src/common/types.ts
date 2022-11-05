@@ -27,12 +27,14 @@ export type ICommentsParams = {
         parentId: null;
         likeCount: number;
         accountNicName: string;
+        accountProfileUrl: string;
         commentChildDtoList: {
             parentId: number;
             commentId: number;
             content: string;
             report: boolean;
             accountNicName: string;
+            accountProfileUrl: string;
             likeCount: number;
             commentNicNameList: {
                 commentId: number;
@@ -94,6 +96,7 @@ export type IDictionaryDetailsParams = {
 export type IFollowingsParams = {
     id: number;
     accountNickName: string;
+    accountProfileUrl: string;
     pictureUrlList: [];
     category: string;
     text: string;

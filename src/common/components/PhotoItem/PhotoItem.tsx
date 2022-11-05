@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IPhotoItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 import axios from 'axios';
+import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark, FaRegCommentDots } from 'react-icons/fa';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
@@ -13,6 +14,10 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
     const [imgAnim, setImgAnim] = useState<any>();
     const [hover, setHover] = useState<boolean>(false);
+    const [like, setLike] = useState(false);
+    const [likeCount, setLikeCount] = useState<any>(item.likeCount);
+    const [scrap, setScrap] = useState(false);
+    const [scrapCount, setScrapCount] = useState<any>(item.scrapCount);
 
     const onPhotoLike = async () => {
         if (!TOKEN) {
@@ -29,6 +34,31 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                         },
                     },
                 );
+                setLike(true);
+                setLikeCount(likeCount + 1);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const onPhotoUnLike = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${item.pictureId}/like`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setLike(false);
+                setLikeCount(likeCount - 1);
             } catch (e) {
                 console.log(e);
             }
@@ -50,6 +80,31 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                         },
                     },
                 );
+                setScrap(true);
+                setScrapCount(scrapCount + 1);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const onPhotoUnScrap = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${item.pictureId}/scrap`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setScrap(false);
+                setScrapCount(scrapCount - 1);
             } catch (e) {
                 console.log(e);
             }
@@ -115,17 +170,29 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
 
                 <StyledFooterBlock>
                     <StyledButtonsBlock>
-                        <StyledLikeButton
-                            src={`/like.png`}
-                            onClick={() => {
-                                onPhotoLike();
-                            }}
-                        />
-                        <StyledText>{item.likeCount}</StyledText>
-                        <StyledLikeButton src={`/comment.png`} />
+                        {!like ? (
+                            <FaRegHeart
+                                onClick={() => {
+                                    onPhotoLike();
+                                }}
+                            />
+                        ) : (
+                            <FaHeart
+                                onClick={() => {
+                                    onPhotoUnLike();
+                                }}
+                                style={{ color: 'red' }}
+                            />
+                        )}
+                        <StyledText>{likeCount}</StyledText>
+                        <FaRegCommentDots />
                         <StyledText>{item.commentCount}</StyledText>
-                        <StyledLikeButton src={`/scrap.png`} onClick={onPhotoScrap} />
-                        <StyledText>{item.scrapCount}</StyledText>
+                        {!scrap ? (
+                            <FaRegBookmark onClick={onPhotoScrap} />
+                        ) : (
+                            <FaBookmark onClick={onPhotoUnScrap} style={{ color: '#0d6637' }} />
+                        )}
+                        <StyledText>{scrapCount}</StyledText>
                     </StyledButtonsBlock>
                 </StyledFooterBlock>
             </StyledPhotoItemContainer>
@@ -195,7 +262,6 @@ const StyledButtonsBlock = styled.div`
 
 const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
-
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
     object-fit: cover;

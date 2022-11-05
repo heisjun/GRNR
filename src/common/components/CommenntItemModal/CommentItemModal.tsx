@@ -1,21 +1,25 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
 import styled from 'styled-components';
-import { ICommentItem } from './CommentItem.type';
+import { ICommentItem } from './CommentItemModal.type';
+import { default as callApi } from 'common/api';
 import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark, FaRegCommentDots } from 'react-icons/fa';
+import { IPhotoDetailsParams } from 'common/types';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 const profilePic = sessionStorage.getItem('profileUrl');
 
-const CommentItem: React.FC<ICommentItem> = (props) => {
+const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const navigate = useNavigate();
     const { commentsList, pictureId, category } = props;
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
     const [isActive, setIsActive] = useState([false]);
+    const [loading, setLoading] = useState(false);
+    const [details, setDetails] = useState<IPhotoDetailsParams>();
 
     function onOpenBtn(index: number) {
         if (!TOKEN) {
@@ -31,6 +35,20 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
         newIsActive[index] = false;
         setIsActive(newIsActive);
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await callApi.getDetailList(Number(pictureId), 'picture');
+                setDetails(response.data.value);
+            } catch (e) {
+                console.log(e);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, []);
 
     const onDeleteComment = async (commentId: number) => {
         try {
@@ -131,21 +149,6 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
 
     return (
         <StyledCommentListContainer>
-            <div>댓글:{commentsList?.commentQuantity}</div>
-            <StyledInputContainer>
-                <StyledInputBox
-                    type="text"
-                    value={comment}
-                    placeholder="댓글을 입력해주세요"
-                    onChange={(e) => {
-                        if (!TOKEN) {
-                            navigate('/login');
-                        }
-                        setComment(e.target.value);
-                    }}
-                />
-                <StyledInputBtn onClick={onCommentSave}>게시</StyledInputBtn>
-            </StyledInputContainer>
             {commentsList?.commentDtoList &&
                 commentsList?.commentDtoList.map((item, index) => {
                     return (
@@ -167,7 +170,7 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
                                     <FaRegHeart
                                         style={{
                                             cursor: 'pointer',
-                                            fontSize: 20,
+                                            fontSize: 15,
                                         }}
                                         onClick={() => onCommentLike(item.commentId)}
                                     />
@@ -210,7 +213,7 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
                                                     <FaRegHeart
                                                         style={{
                                                             cursor: 'pointer',
-                                                            fontSize: 20,
+                                                            fontSize: 15,
                                                         }}
                                                         onClick={() => onCommentLike(item.commentId)}
                                                     />
@@ -273,16 +276,81 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
                         </StyledCommentListContainer>
                     );
                 })}
+            <StyledCommentInfoBlock>
+                <div style={{ display: 'flex' }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: 15,
+                            paddingLeft: 5,
+                            paddingRight: 5,
+                        }}
+                    >
+                        <FaRegHeart style={{ fontSize: 20, paddingRight: 5 }} /> {details?.likeCount}
+                    </div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: 15,
+                            paddingLeft: 5,
+                            paddingRight: 5,
+                        }}
+                    >
+                        <FaRegCommentDots style={{ fontSize: 20, paddingRight: 5 }} />
+                        {commentsList?.commentQuantity}
+                    </div>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: 15,
+                        paddingLeft: 5,
+                        paddingRight: 5,
+                    }}
+                >
+                    <FaRegBookmark style={{ fontSize: 20, paddingRight: 5 }} />
+                    {details?.scrapCount}
+                </div>
+            </StyledCommentInfoBlock>
+            <StyledInputContainer>
+                <StyledInputBox
+                    type="text"
+                    value={comment}
+                    placeholder="댓글을 입력해주세요"
+                    onChange={(e) => {
+                        if (!TOKEN) {
+                            navigate('/login');
+                        }
+                        setComment(e.target.value);
+                    }}
+                />
+                <StyledInputBtn onClick={onCommentSave}>게시</StyledInputBtn>
+            </StyledInputContainer>
         </StyledCommentListContainer>
     );
 };
 
 const StyledCommentListContainer = styled.div``;
 
+const StyledCommentInfoBlock = styled.div`
+    position: absolute;
+    display: flex;
+    align-items: center;
+    bottom: 65px;
+    width: 40%;
+    right: 0;
+    justify-content: space-between;
+`;
+
 const StyledInputContainer = styled.div`
-    margin-bottom: 15px;
+    bottom: 0;
+    width: 40%;
+    right: 0;
     margin-top: 15px;
-    position: relative;
+    position: absolute;
 `;
 
 const StyledInputBox = styled.input`
@@ -298,7 +366,7 @@ const StyledInputBox = styled.input`
 const StyledInputBtn = styled.div`
     position: absolute;
     top: 20px;
-    right: 10px;
+    right: 15px;
     color: #0d6637;
     font-size: 16px;
     font-weight: bold;
@@ -325,8 +393,8 @@ const StyledCommentNickname = styled.div`
 
 const StyledCommentContent = styled.div`
     font-weight: 300;
-    font-size: 17px;
-    padding: 0px 0px 5px 10px;
+    font-size: 14px;
+    padding: 0px 0px 0px 10px;
 `;
 
 const StyledAvatarBlock = styled.div`
@@ -347,4 +415,4 @@ const StyledcommentSubItemContainer = styled.div`
 const StyledcommentSubItem = styled.div`
     padding-right: 1vw;
 `;
-export default CommentItem;
+export default CommentItemModal;
