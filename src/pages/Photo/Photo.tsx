@@ -103,7 +103,7 @@ const Photo: React.FC = () => {
             }
         };
         fetchData();
-    }, [location.search]);
+    }, [location.search, PhotoItem]);
 
     const resizeHandler = () => {
         setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 3 : 1);

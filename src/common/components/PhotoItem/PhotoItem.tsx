@@ -184,7 +184,7 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                                 style={{ color: 'red' }}
                             />
                         )}
-                        <StyledText>{likeCount ? likeCount : item.likeCount}</StyledText>
+                        <StyledText>{item.likeCount}</StyledText>
                         <FaRegCommentDots />
                         <StyledText>{item.commentCount}</StyledText>
                         {!scrap ? (
