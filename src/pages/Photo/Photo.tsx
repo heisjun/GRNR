@@ -64,15 +64,6 @@ const Photo: React.FC = () => {
         handleFilterValue(selectedOrder, 'sort');
     }, [selectedOrder]);
 
-    useEffect(() => {
-        const queryString = `?${filterValue.sort ? `order=${filterValue.sort}` : ''} & 
-    ${filterValue.homePlace ? `homePlace=${filterValue.homePlace}` : ''}`;
-
-        const realQuery = queryString.replace(/\s+/g, '');
-
-        navigate(`/community/photo/${realQuery}`);
-    }, [filterValue.homePlace, filterValue.sort]);
-
     const onReset = () => {
         setFilterValue({
             sort: '',
@@ -104,6 +95,15 @@ const Photo: React.FC = () => {
         };
         fetchData();
     }, [location.search, PhotoItem]);
+
+    useEffect(() => {
+        const queryString = `?${filterValue.sort ? `order=${filterValue.sort}` : ''} & 
+    ${filterValue.homePlace ? `homePlace=${filterValue.homePlace}` : ''}`;
+
+        const realQuery = queryString.replace(/\s+/g, '');
+
+        navigate(`/community/photo/${realQuery}`);
+    }, [filterValue.homePlace, filterValue.sort]);
 
     const resizeHandler = () => {
         setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 3 : 1);

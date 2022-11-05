@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { IPhotoItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 import axios from 'axios';
 import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark, FaRegCommentDots } from 'react-icons/fa';
+import { atom, useRecoilState } from 'recoil';
+import uuid from 'react-uuid';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
@@ -15,9 +17,20 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const [imgAnim, setImgAnim] = useState<any>();
     const [hover, setHover] = useState<boolean>(false);
     const [like, setLike] = useState(item.myLike);
-    const [likeCount, setLikeCount] = useState<any>(item.likeCount);
     const [scrap, setScrap] = useState(item.myScrap);
-    const [scrapCount, setScrapCount] = useState<any>(item.scrapCount);
+
+    const likecountState = atom({
+        key: `likecountState${uuid()}`,
+        default: item.likeCount,
+    });
+
+    const ScrapcountState = atom({
+        key: `ScrapcountState${uuid()}`,
+        default: item.scrapCount,
+    });
+
+    const [likeCount, setLikeCount] = useRecoilState(likecountState);
+    const [scrapCount, setScrapCount] = useRecoilState(ScrapcountState);
 
     const onPhotoLike = async () => {
         if (!TOKEN) {
@@ -184,7 +197,7 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                                 style={{ color: 'red' }}
                             />
                         )}
-                        <StyledText>{item.likeCount}</StyledText>
+                        <StyledText>{likeCount}</StyledText>
                         <FaRegCommentDots />
                         <StyledText>{item.commentCount}</StyledText>
                         {!scrap ? (
