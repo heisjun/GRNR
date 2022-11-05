@@ -53,13 +53,6 @@ const ImageScaleDown = keyframes`
     }
 `;
 
-const StyledBorderLine = styled.div`
-    width: 100%;
-    border-bottom: solid 1px;
-    border-color: silver;
-    margin: 30px 0px 30px 0px;
-`;
-
 const StyledDetailsText = styled.div`
     font-size: 15px;
     font-weight: 100;

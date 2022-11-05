@@ -10,11 +10,17 @@ import { ICommentsParams, IPhotoDetailsParams } from 'common/types';
 import { TaggedPhoto } from 'domains';
 import axios from 'axios';
 import CommentItemModal from '../CommenntItemModal';
+import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+import { FaGreaterThan } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import Avatar from '../Avatar';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Slider: React.FC<ISlider> = (props) => {
     const { item } = props;
+    const navigate = useNavigate();
     const TOTAL_SLIDES = item.pictureUrlList.length;
     const [currentSlide, setCurrentSlide] = useState(0);
     const Slidetransform = (currentSlide * 100) / TOTAL_SLIDES;
@@ -36,6 +42,25 @@ const Slider: React.FC<ISlider> = (props) => {
             setCurrentSlide(TOTAL_SLIDES);
         } else {
             setCurrentSlide(currentSlide - 1);
+        }
+    };
+
+    const onFollowing = async (followingName: string) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+        console.log(saveFollowDto);
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+        } catch (e) {
+            console.log(e);
         }
     };
 
@@ -105,7 +130,9 @@ const Slider: React.FC<ISlider> = (props) => {
                         onMouseEnter={() => setHideBtn(false)}
                         onMouseLeave={() => setHideBtn(true)}
                     >
-                        <StyledBtnText>이전</StyledBtnText>
+                        <StyledBtnText>
+                            <MdArrowBackIosNew style={{ fontSize: 18, fontWeight: 300 }} />
+                        </StyledBtnText>
                     </PrevButton>
                 )
             ) : null}
@@ -116,7 +143,9 @@ const Slider: React.FC<ISlider> = (props) => {
                         onMouseEnter={() => setHideBtn(false)}
                         onMouseLeave={() => setHideBtn(true)}
                     >
-                        <StyledBtnText>다음</StyledBtnText>
+                        <StyledBtnText>
+                            <MdArrowForwardIos style={{ fontSize: 18, fontWeight: 300 }} />
+                        </StyledBtnText>
                     </NextButton>
                 )
             ) : null}
@@ -135,7 +164,7 @@ const Slider: React.FC<ISlider> = (props) => {
                                 maxHeight: 600,
                             }}
                         >
-                            <div style={{ height: 1000 }}>
+                            <div>
                                 <ItemList
                                     width="100%"
                                     imgHeight="100%"
@@ -145,6 +174,32 @@ const Slider: React.FC<ISlider> = (props) => {
                                     items={details?.pictureContentDtoList ? details?.pictureContentDtoList : data}
                                     RenderComponent={TaggedPhoto}
                                 />
+                                <StyledUserInfoBlock>
+                                    <StyledProfileBlock>
+                                        <StyledWriterBlock>
+                                            <StyeldAvatarBlock>
+                                                <Avatar
+                                                    width="100%"
+                                                    paddingBottom="100%"
+                                                    borderRadius="100%"
+                                                    picUrl={details?.accountProfileUrl}
+                                                />
+                                            </StyeldAvatarBlock>
+                                            <StyledWriterText>{details?.accountNickName}</StyledWriterText>
+                                        </StyledWriterBlock>
+                                    </StyledProfileBlock>
+                                    <StyledFollowButtonBlock>
+                                        <StyledFollowButton>
+                                            <StyledFollowText
+                                                onClick={() =>
+                                                    onFollowing(details?.accountNickName ? details.accountNickName : '')
+                                                }
+                                            >
+                                                팔로우 +
+                                            </StyledFollowText>
+                                        </StyledFollowButton>
+                                    </StyledFollowButtonBlock>
+                                </StyledUserInfoBlock>
                             </div>
                         </div>
                     </div>
@@ -182,7 +237,7 @@ const Slider: React.FC<ISlider> = (props) => {
                             onMouseLeave={() => setHideBtn(true)}
                             style={{ width: '100%' }}
                         >
-                            <Slide ImgUrl={item} index={index} />
+                            <Slide data={item} index={index} />
                         </div>
                     );
                 })}
@@ -201,7 +256,7 @@ const Container = styled.div`
 const StyledBtnText = styled.div`
     display: flex;
     justify-content: center;
-    margin-top: 16px;
+    margin-top: 11px;
 `;
 
 const StyledIndicator = styled.div`
@@ -214,17 +269,18 @@ const StyledIndicator = styled.div`
     z-index: 10;
 `;
 const NextButton = styled.div`
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 100px;
-    background-color: white;
-    color: gray;
-    margin-left: 525px;
+    opacity: 0.9;
+    box-shadow: 0 6px 14px 0 rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    margin-left: 500px;
     border-radius: 100%;
     position: absolute;
     z-index: 10;
     top: 35%;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+
     cursor: pointer;
     &:hover {
         background-color: gray;
@@ -233,18 +289,18 @@ const NextButton = styled.div`
 `;
 
 const PrevButton = styled.div`
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 100px;
-    background-color: white;
-    color: gray;
-    margin-left: -25px;
+    opacity: 0.9;
+    box-shadow: 0 6px 14px 0 rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    margin-left: 10px;
     border-radius: 100%;
     border: none;
     position: absolute;
     z-index: 10;
     top: 35%;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     &:hover {
         background-color: gray;
@@ -273,5 +329,57 @@ const customStyles = {
         borderRadius: '0px',
     },
 };
+
+const StyledFollowText = styled.div`
+    font-size: 15px;
+    color: grey;
+`;
+
+const StyledFollowButton = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px;
+    border-radius: 25px;
+    border-color: silver;
+    cursor: pointer;
+    &:hover {
+        background-color: silver;
+    }
+`;
+
+const StyledFollowButtonBlock = styled.div`
+    width: 18%;
+`;
+
+const StyeldAvatarBlock = styled.div`
+    width: 10%;
+`;
+
+const StyledWriterText = styled.div`
+    margin-left: 2%;
+    font-size: 20px;
+    color: grey;
+`;
+
+const StyledWriterBlock = styled.div`
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+`;
+
+const StyledProfileBlock = styled.div`
+    flex: 1;
+`;
+
+const StyledUserInfoBlock = styled.div`
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+`;
 
 export default Slider;

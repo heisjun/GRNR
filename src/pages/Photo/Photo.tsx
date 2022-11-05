@@ -7,10 +7,10 @@ import { IPhotosParams } from 'common/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 
-const maxWidth = process.env.REACT_APP_MAX_WIDTH;
-const minWidth = process.env.REACT_APP_MIN_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN =
+    'eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2Njg4NzE4Nzd9.WixubUub2kA9cWY1s2CFLaTKlr56XyKm8LTx6H08mvA3JuLeVCGcdSlQNIeMRvCrr5s5zByZ4wSQK96Uwa7n4A';
 
 const PhotoFilter_Order = [
     {
@@ -84,14 +84,25 @@ const Photo: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(`${BASEURL}/api/picture/search/${location.search}`);
-                setPhotos(response.data.value.content);
-            } catch (e) {
-                console.log(e);
+            if (!TOKEN) {
+                try {
+                    const response = await axios.get(`${BASEURL}/api/picture/search${location.search}`);
+                    setPhotos(response.data.value.content);
+                } catch (e) {
+                    console.log(e);
+                }
+            } else {
+                try {
+                    const response = await axios.get(`${BASEURL}/api/picture/search${location.search}`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    });
+                    setPhotos(response.data.value.content);
+                } catch (e) {
+                    console.log(e);
+                }
             }
-            setLoading(false);
         };
         fetchData();
     }, [location.search]);

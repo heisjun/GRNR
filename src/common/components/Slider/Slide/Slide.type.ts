@@ -1,5 +1,5 @@
 export type ISlide = {
-    ImgUrl: {
+    data: {
         id: number;
         accountNickName: string;
         pictureUrlList: [];
