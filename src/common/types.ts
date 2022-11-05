@@ -157,9 +157,9 @@ export type IPhotosParams = {
     };
     myLike?: boolean;
     myScrap?: boolean;
-    likeCount?: number;
+    likeCount: number;
     pictureId?: number;
-    scrapCount?: number;
+    scrapCount: number;
     viewCount?: number;
     time: number;
 };
