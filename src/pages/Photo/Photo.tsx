@@ -9,9 +9,7 @@ import { FaTimes } from 'react-icons/fa';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN =
-    'eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2Njg4NzE4Nzd9.WixubUub2kA9cWY1s2CFLaTKlr56XyKm8LTx6H08mvA3JuLeVCGcdSlQNIeMRvCrr5s5zByZ4wSQK96Uwa7n4A';
-
+const TOKEN = localStorage.getItem('accesstoken');
 const PhotoFilter_Order = [
     {
         id: 1,
