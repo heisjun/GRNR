@@ -6,6 +6,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+const TOKEN = localStorage.getItem('accesstoken');
+
 const UpdateQuestion: React.FC = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
@@ -75,8 +77,7 @@ const UpdateQuestion: React.FC = () => {
         const res = await axios.put('http://43.201.2.18/api/api/inquiry/revise', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                Authorization:
-                    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjY2IiwiZXhwIjoxNjY0ODkzNjk4fQ.6Cy47SpwlVFB7oPtZUAhbggmU2_DGPyenAPul1iyEo8JdBDUxLm5fWsJCWJs4ucNOrf5t3j8AmSgigx61cotTg',
+                Authorization: `Bearer ${TOKEN}`,
             },
         });
         navigate(-1);

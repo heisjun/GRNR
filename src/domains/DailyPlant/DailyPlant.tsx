@@ -42,6 +42,7 @@ const DailyPlant: React.FC<IDailyPlant> = (props) => {
                 <StyledImgBlock pageNum={pageNum} ref={slideRef}>
                     {imgUrls.map((item, index) => (
                         <StyledImg
+                            key={index}
                             src={`/sample.jpeg`}
                             width={`${100 / pageNum}%`}
                             height="100%"

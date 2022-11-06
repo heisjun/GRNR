@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Slide from './Slide/Slide';
 import styled from 'styled-components';
 import Indicator from './Indicator';
@@ -11,7 +11,6 @@ import { TaggedPhoto } from 'domains';
 import axios from 'axios';
 import CommentItemModal from '../CommenntItemModal';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
-import { FaGreaterThan } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
 
@@ -30,6 +29,7 @@ const Slider: React.FC<ISlider> = (props) => {
     const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
     const [commentsList, setCommentsList] = useState<ICommentsParams>();
+
     const NextSlide = () => {
         if (currentSlide >= TOTAL_SLIDES) {
             setCurrentSlide(0);
@@ -64,30 +64,45 @@ const Slider: React.FC<ISlider> = (props) => {
         }
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await callApi.getDetailList(Number(item.id), 'picture');
-                setDetails(response.data.value);
-            } catch (e) {
-                console.log(e);
-            }
-            setLoading(false);
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
+    const fetchData = useCallback(async () => {
+        if (!TOKEN) {
             try {
                 const CommentData = await axios.get(
                     `${BASEURL}/api/picture/${item.id}/comment/view
                 `,
                 );
                 setCommentsList(CommentData.data.value.content[0]);
-                console.log(CommentData.data.value.content[0]);
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/picture/${item.id}/comment/view
+                `,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setCommentsList(CommentData.data.value.content[0]);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await callApi.getDetailList(Number(item.id), 'picture');
+                setDetails(response.data.value);
             } catch (e) {
                 console.log(e);
             }

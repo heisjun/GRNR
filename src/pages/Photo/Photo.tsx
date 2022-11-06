@@ -10,6 +10,7 @@ import { FaTimes } from 'react-icons/fa';
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
+
 const PhotoFilter_Order = [
     {
         id: 1,
@@ -94,7 +95,7 @@ const Photo: React.FC = () => {
             }
         };
         fetchData();
-    }, [location.search, PhotoItem]);
+    }, [location.search]);
 
     useEffect(() => {
         const queryString = `?${filterValue.sort ? `order=${filterValue.sort}` : ''} & 
