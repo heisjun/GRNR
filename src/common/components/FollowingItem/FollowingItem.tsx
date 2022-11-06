@@ -2,12 +2,87 @@ import { Avatar } from 'common/components';
 import Slider from 'common/components/Slider';
 import React, { useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
-
 import { FaHeart, FaRegHeart, FaRegCommentDots, FaBookmark, FaRegBookmark, FaGratipay } from 'react-icons/fa';
 import { IFollowingItem } from './FollowingItem.type';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { atom, useRecoilState, useSetRecoilState } from 'recoil';
+
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const FollowingItem: React.FC<IFollowingItem> = (props) => {
     const { data } = props;
+    const navigate = useNavigate();
+
+    const likecountState = atom({
+        key: `likecountState_${data.id}`,
+        default: data.likeCount,
+    });
+
+    const ScrapcountState = atom({
+        key: `ScrapcountState_${data.id}`,
+        default: data.scrapCount,
+    });
+
+    const scrapExistState = atom({
+        key: `scrapExistState_${data.id}`,
+        default: data.myScrap,
+    });
+
+    const likeExistState = atom({
+        key: `likeExistState_${data.id}`,
+        default: data.myLike,
+    });
+
+    const [likeCount, setLikeCount] = useRecoilState(likecountState);
+    const [scrapCount, setScrapCount] = useRecoilState(ScrapcountState);
+    const [like, setLike] = useRecoilState(likeExistState);
+    const [scrap, setScrap] = useRecoilState(scrapExistState);
+    const setCountUseSetRecoilState = useSetRecoilState(likecountState);
+    const setScrapCountUseSetRecoilState = useSetRecoilState(ScrapcountState);
+
+    const onPhotoLike = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${data.id}/like`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const onPhotoScrap = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${data.id}/scrap`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
 
     return (
         <StyledFollowingFeeds>
@@ -28,16 +103,50 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                 <Slider item={data} />
                 <StyledBlockFooter>
                     <StyledFooterItem>
-                        <FaRegHeart style={{ fontSize: '25' }} />
-                        <div>{data.likeCount}</div>
+                        {!like ? (
+                            <FaRegHeart
+                                onClick={() => {
+                                    onPhotoLike();
+                                    setLike(true);
+                                    setCountUseSetRecoilState(likeCount + 1);
+                                }}
+                            />
+                        ) : (
+                            <FaHeart
+                                onClick={() => {
+                                    onPhotoLike();
+                                    setLike(false);
+                                    setCountUseSetRecoilState(likeCount - 1);
+                                }}
+                                style={{ color: 'red' }}
+                            />
+                        )}
+                        <div>{likeCount}</div>
                     </StyledFooterItem>
                     <StyledFooterItem>
                         <FaRegCommentDots style={{ fontSize: '25' }} />
                         <div>{data.commentCount}</div>
                     </StyledFooterItem>
                     <StyledFooterItem>
-                        <FaRegBookmark style={{ fontSize: '25' }} />
-                        <div>{data.scrapCount}</div>
+                        {!scrap ? (
+                            <FaRegBookmark
+                                onClick={() => {
+                                    onPhotoScrap();
+                                    setScrap(true);
+                                    setScrapCountUseSetRecoilState(scrapCount + 1);
+                                }}
+                            />
+                        ) : (
+                            <FaBookmark
+                                onClick={() => {
+                                    onPhotoScrap();
+                                    setScrap(false);
+                                    setScrapCountUseSetRecoilState(scrapCount - 1);
+                                }}
+                                style={{ color: '#0d6637' }}
+                            />
+                        )}
+                        <div>{scrapCount}</div>
                     </StyledFooterItem>
                 </StyledBlockFooter>
             </StyledFeedsBlock>

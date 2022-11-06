@@ -10,7 +10,6 @@ import { IPhotoDetailsParams } from 'common/types';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
-const profilePic = sessionStorage.getItem('profileUrl');
 
 const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const navigate = useNavigate();
@@ -100,6 +99,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
+
             setComment('');
         } catch (e) {
             console.log(e);
@@ -167,13 +167,24 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                     <StyledCommentContent>{item.content}</StyledCommentContent>
                                 </StyledCommentItem>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <FaRegHeart
-                                        style={{
-                                            cursor: 'pointer',
-                                            fontSize: 15,
-                                        }}
-                                        onClick={() => onCommentLike(item.commentId)}
-                                    />
+                                    {item.myLike ? (
+                                        <FaHeart
+                                            style={{
+                                                cursor: 'pointer',
+                                                fontSize: 15,
+                                                color: 'red',
+                                            }}
+                                            onClick={() => onCommentLike(item.commentId)}
+                                        />
+                                    ) : (
+                                        <FaRegHeart
+                                            style={{
+                                                cursor: 'pointer',
+                                                fontSize: 15,
+                                            }}
+                                            onClick={() => onCommentLike(item.commentId)}
+                                        />
+                                    )}
                                 </div>
                             </StyledCommentBlock>
                             <StyledcommentSubItemContainer>

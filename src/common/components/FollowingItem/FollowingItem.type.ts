@@ -10,6 +10,8 @@ export type IFollowingItem = {
         scrapCount: number;
         likeCount: number;
         commentCount: number;
+        myLike: boolean;
+        myScrap: boolean;
         time: number;
     };
 };

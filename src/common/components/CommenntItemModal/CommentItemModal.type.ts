@@ -6,6 +6,7 @@ export type ICommentItem = {
             accountProfileUrl: string;
             inquiryId: number;
             commentId: number;
+            myLike: boolean;
             commentNicNameList: null;
             content: string;
             report: boolean;
@@ -16,6 +17,7 @@ export type ICommentItem = {
                 accountProfileUrl: string;
                 parentId: number;
                 commentId: number;
+                myLike: boolean;
                 content: string;
                 report: boolean;
                 accountNicName: string;

@@ -21,6 +21,7 @@ export type ICommentsParams = {
     commentDtoList: {
         inquiryId: number;
         commentId: number;
+        myLike: boolean;
         commentNicNameList: null;
         content: string;
         report: boolean;
@@ -31,6 +32,7 @@ export type ICommentsParams = {
         commentChildDtoList: {
             parentId: number;
             commentId: number;
+            myLike: boolean;
             content: string;
             report: boolean;
             accountNicName: string;
@@ -104,6 +106,8 @@ export type IFollowingsParams = {
     scrapCount: number;
     likeCount: number;
     commentCount: number;
+    myLike: boolean;
+    myScrap: boolean;
     time: number;
 };
 export type IPhotoDetailsParams = {
@@ -155,8 +159,8 @@ export type IPhotosParams = {
             tagName: string;
         }[];
     };
-    myLike?: boolean;
-    myScrap?: boolean;
+    myLike: boolean;
+    myScrap: boolean;
     likeCount: number;
     pictureId?: number;
     scrapCount: number;
