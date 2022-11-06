@@ -43,7 +43,6 @@ const Navigation: React.FC = () => {
     return (
         <Router>
             <ScrollToTop />
-
             <HeaderBar>
                 <Routes>
                     <Route path="/upload" element={<WritingPicture />} />
