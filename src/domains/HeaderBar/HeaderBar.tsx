@@ -519,7 +519,6 @@ const StyledContainer = styled.div`
     flex-direction: column;
     margin: 0 auto;
     width: 100%;
-    max-width: 1140px;
 `;
 
 const StyledLoginContainer = styled.div`
