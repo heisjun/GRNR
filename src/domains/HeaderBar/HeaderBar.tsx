@@ -7,7 +7,6 @@ import { IHeaderBar } from './HeaderBar.type';
 import { SubTabBar, MypageTabBar, Footer } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
 import { WritingDropdown, MypageDropdown } from 'common/components';
-import { FaBell } from 'react-icons/fa';
 import { Login } from 'pages';
 import UserpageTabBar from 'domains/UserpageTabBar';
 
@@ -517,6 +516,8 @@ const StyledHeaderBar = styled.div`
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
     margin: 0 auto;
     width: 100%;
 `;

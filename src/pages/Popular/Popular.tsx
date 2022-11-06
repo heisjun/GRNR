@@ -98,20 +98,17 @@ const StyledMoreText = styled.div`
 `;
 
 const StyledDetailsBlock = styled.div`
-    width: 100%;
     display: flex;
     margin-bottom: 15px;
 `;
 
 const StyledBorderLine = styled.div`
-    width: 100%;
     border-bottom: solid 1px;
     border-color: #eaeaea;
     margin: 30px 0px 30px 0px;
 `;
 
 const StyledBorderPlace = styled.div`
-    width: 100%;
     margin: 30px 0px 30px 0px;
 `;
 
@@ -124,8 +121,6 @@ const StyledPopularContainer = styled.div<{ pageAnim: any }>`
     @media screen and (max-width: ${boundaryWidth}px) {
         margin-top: -10px;
     }
-    //min-width: ${minWidth}px;
-    //max-width: ${maxWidth}px;
 `;
 
 const StyledBottomContainer = styled.div`
