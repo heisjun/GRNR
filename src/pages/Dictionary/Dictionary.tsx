@@ -481,9 +481,14 @@ const StyledDictionaryHeader = styled.div`
 `;
 
 const StyledDictionaryContainer = styled.div<{ pageAnim: any }>`
+    display: flex;
+    flex-direction: column;
     width: 100%;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
+    max-width: 1140px;
+    padding-left: 20%;
+    padding-right: 20%;
 `;
 
 const StyledSelected = styled.div`
