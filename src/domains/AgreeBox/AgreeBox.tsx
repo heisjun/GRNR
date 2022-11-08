@@ -24,7 +24,7 @@ const AgreeBox: React.FC<IAgreeBox> = (props) => {
             id: 'agree-all',
             value: allAgree,
             clickEvent: allHandleChange,
-            text: '전체동의',
+            text: '모두동의 (선택 정보 포함)',
             line: true,
         },
         {
@@ -56,12 +56,19 @@ const AgreeBox: React.FC<IAgreeBox> = (props) => {
         <>
             {inputList.map((item) => (
                 <StyledContainer key={item.id}>
-                    <StyledLabel htmlFor={item.id}>
-                        <input id={item.id} type="checkbox" checked={item.value} onChange={item.clickEvent} />
+                    {item.line ? (
+                        <StyledAllLabel htmlFor={item.id}>
+                            <input id={item.id} type="checkbox" checked={item.value} onChange={item.clickEvent} />
 
-                        <StyledText>{item.text}</StyledText>
-                    </StyledLabel>
-                    {item.line ? <StyledLine /> : null}
+                            <StyledAllText>{item.text}</StyledAllText>
+                        </StyledAllLabel>
+                    ) : (
+                        <StyledLabel htmlFor={item.id}>
+                            <input id={item.id} type="checkbox" checked={item.value} onChange={item.clickEvent} />
+
+                            <StyledText>{item.text}</StyledText>
+                        </StyledLabel>
+                    )}
                 </StyledContainer>
             ))}
         </>
@@ -69,25 +76,45 @@ const AgreeBox: React.FC<IAgreeBox> = (props) => {
 };
 
 const StyledContainer = styled.div`
-    padding: 2%;
+    padding: 10px;
 `;
-const StyledLabel = styled.label`
-    color: grey;
+const StyledAllLabel = styled.label`
     display: flex;
+    padding: 15px;
+    background-color: #f2f2f2;
 `;
 
-const StyledText = styled.div`
+const StyledLabel = styled.label`
+    display: flex;
+    padding-left: 15px;
+`;
+
+const StyledAllText = styled.div`
     padding: 5px;
-    font-size: 1.3vw;
+    font-size: 14px;
+    font-weight: bold;
+    color: #303030;
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 2.5vw;
     }
     @media screen and (min-width: ${maxWidth}px) {
-        font-size: 15px;
+        font-size: 14px;
+    }
+`;
+
+const StyledText = styled.div`
+    padding: 5px;
+    font-size: 14px;
+    color: #303030;
+    @media screen and (max-width: ${boundaryWidth}px) {
+        font-size: 2.5vw;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        font-size: 14px;
     }
 `;
 const StyledLine = styled.hr`
-    margin-bottom: -5;
+    margin-bottom: -5px;
 `;
 
 export default AgreeBox;

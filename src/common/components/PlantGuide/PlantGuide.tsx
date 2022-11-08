@@ -1,8 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PlantGuideItem from '../PlantGuideItem';
-import { BsSun } from 'react-icons/bs';
-import { GiFertilizerBag, GiWateringCan, GiLongAntennaeBug } from 'react-icons/gi';
 
 const data = {
     index: ['1', '2', '3', '4'],
@@ -21,49 +18,144 @@ const PlantGuide: React.FC = () => {
     return (
         <StyledGuideContainer>
             <StyledGuideTitle>
-                <StyledText>몬스테라 테라로사</StyledText>
                 <StyledBoldText>PLANT GUIDE</StyledBoldText>
             </StyledGuideTitle>
             <StyledGuideBlock>
                 <StyledPlaceBlock>
-                    <BsSun style={{ fontSize: 30, color: 'gray', paddingBottom: '1vw' }} />
-                    <StyledText>공간</StyledText>
-                    <StyledText>공간에 대한 설명</StyledText>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                            <StyledIconImg src={'/placeIcon.png'} />
+                            <StyledText>공간</StyledText>
+                        </div>
+                        <StyledVerticleBorder />
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <StyledExplainText>
+                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
+                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
+                            </StyledExplainText>
+                            <StyledDetailBtn>
+                                <StyledBtnText>자세히 보기</StyledBtnText>
+                            </StyledDetailBtn>
+                        </div>
+                    </div>
                 </StyledPlaceBlock>
                 <StyledWaterBlock>
-                    <GiWateringCan style={{ fontSize: 30, color: 'gray', paddingBottom: '1vw' }} />
-                    <StyledText>물주기</StyledText>
-                    <StyledText>물에 대한 설명</StyledText>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                            <StyledIconImg src={'/waterIcon.png'} />
+                            <StyledText>물</StyledText>
+                        </div>
+                        <StyledVerticleBorder />
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <StyledExplainText>
+                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
+                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
+                            </StyledExplainText>
+                            <StyledDetailBtn>
+                                <StyledBtnText>자세히 보기</StyledBtnText>
+                            </StyledDetailBtn>
+                        </div>
+                    </div>
                 </StyledWaterBlock>
                 <StyledFertilizerBlock>
-                    <GiFertilizerBag style={{ fontSize: 30, color: 'gray', paddingBottom: '1vw' }} />
-                    <StyledText>비료</StyledText>
-                    <StyledText>비료에 대한 설명</StyledText>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                            <StyledIconImg src={'/fertilizerIcon.png'} />
+                            <StyledText>비료</StyledText>
+                        </div>
+                        <StyledVerticleBorder />
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <StyledExplainText>
+                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
+                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
+                            </StyledExplainText>
+                            <StyledDetailBtn>
+                                <StyledBtnText>자세히 보기</StyledBtnText>
+                            </StyledDetailBtn>
+                        </div>
+                    </div>
                 </StyledFertilizerBlock>
                 <StyledPestBlock>
-                    <GiLongAntennaeBug style={{ fontSize: 30, color: 'gray', paddingBottom: '1vw' }} />
-                    <StyledText>해충</StyledText>
-                    <StyledText>해충에 대한 설명</StyledText>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                            <StyledIconImg src={'/antiBugIcon.png'} />
+                            <StyledText>해충</StyledText>
+                        </div>
+                        <StyledVerticleBorder />
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <StyledExplainText>
+                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
+                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
+                            </StyledExplainText>
+                            <StyledDetailBtn>
+                                <StyledBtnText>자세히 보기</StyledBtnText>
+                            </StyledDetailBtn>
+                        </div>
+                    </div>
                 </StyledPestBlock>
             </StyledGuideBlock>
-            <PlantGuideItem data={data} />
         </StyledGuideContainer>
     );
 };
 
-const StyledText = styled.div`
-    font-size: 15px;
-    padding-bottom: 0.5vw;
-    color: gray;
+const StyledDetailBtn = styled.div`
+    width: 94px;
+    height: 30px;
+    margin: 18px 0px 0px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0d6637;
+    cursor: pointer;
 `;
 
+const StyledBtnText = styled.span`
+    font-family: NotoSansKR;
+    font-size: 13px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #fff;
+`;
+
+const StyledIconImg = styled.img`
+    width: 70px;
+    height: 70px;
+    margin-bottom: 18px;
+    object-fit: contain;
+`;
+
+const StyledText = styled.div`
+    font-family: NotoSansKR;
+    font-size: 20px;
+    font-weight: bold;
+    color: #272727;
+`;
+
+const StyledExplainText = styled.div`
+    font-family: NotoSansKR;
+    font-size: 16px;
+    color: #424242;
+`;
+
+const StyledVerticleBorder = styled.div`
+    width: 1px;
+    height: 90px;
+    margin: 13px 32px 18px;
+    background-color: #e3e3e3;
+`;
 const StyledBoldText = styled.div`
-    font-size: 25px;
-    font-weight: 900;
-    color: gray;
+    font-size: 30px;
+    font-weight: bold;
+
+    color: #272727;
 `;
 const StyledGuideContainer = styled.div`
     width: 100%;
+    margin-top: 120px;
 `;
 
 const StyledGuideTitle = styled.div`
@@ -75,36 +167,32 @@ const StyledGuideBlock = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 40px;
-    margin-top: 40px;
+    margin-top: 30px;
 `;
 
 const BasicBlock = styled.div`
     width: 49%;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
+    height: 190px;
+    box-sizing: border-box;
+    padding: 37px 33px 32px 32px;
+    box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.04);
+    border: solid 1px #e7e7e7;
+    background-color: #fff;
 `;
 
 const StyledPlaceBlock = styled(BasicBlock)`
-    border-bottom: 0.5px solid gray;
-    border-right: 0.5px solid gray;
+    margin-bottom: 20px;
+    margin-right: 20px;
 `;
 
 const StyledWaterBlock = styled(BasicBlock)`
-    border-bottom: 0.5px solid gray;
-    border-left: 0.5px solid gray;
+    margin-bottom: 20px;
 `;
 
 const StyledFertilizerBlock = styled(BasicBlock)`
-    border-top: 0.5px solid gray;
-    border-right: 0.5px solid gray;
+    margin-right: 20px;
 `;
 
-const StyledPestBlock = styled(BasicBlock)`
-    border-top: 0.5px solid gray;
-    border-left: 0.5px solid gray;
-`;
+const StyledPestBlock = styled(BasicBlock)``;
 
 export default PlantGuide;

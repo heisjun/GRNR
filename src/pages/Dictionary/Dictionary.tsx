@@ -7,6 +7,7 @@ import { IDictionariesParams } from 'common/types';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
+import DictionaryBanner from 'common/components/DictionaryBanner';
 
 const Dictionary_classification = [
     {
@@ -63,12 +64,14 @@ const Dictionary_cat = [
 ];
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const Dictionary: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [magazineCols, setMagazineCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
-    const [magazineGap, setMagazineGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 6);
+    const [magazineGap, setMagazineGap] = useState(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
+    const [magazineVerticalGap, setMagazineVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
     const [loading, setLoading] = useState(false);
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
     const [dictionaries, setDictionaries] = useState<IDictionariesParams[]>([]);
@@ -79,8 +82,6 @@ const Dictionary: React.FC = () => {
     const [selectedToxicity, setSelectedToxicity] = useState('');
     const [selectedDog, setSelectedDog] = useState('');
     const [selectedCat, setSelectedCat] = useState('');
-    const [slidePage, setSlidePage] = useState<number>(0);
-    const [slideIdx, setSlideIdx] = useState<number>(0);
 
     const [filterValue, setFilterValue] = useState({
         classification: '',
@@ -99,7 +100,8 @@ const Dictionary: React.FC = () => {
 
     const resizeHandler = () => {
         setMagazineCols(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
-        setMagazineGap(window.innerWidth > Number(boundaryWidth) ? 4 : 6);
+        setMagazineGap(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
+        setMagazineVerticalGap(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
     };
 
     useEffect(() => {
@@ -188,59 +190,9 @@ const Dictionary: React.FC = () => {
         fetchData();
     }, [location.search]);
 
-    const leftButton = () => {
-        if (slidePage > 0) {
-            setSlidePage((prev) => prev - 1211);
-            setSlideIdx((prev) => prev - 1);
-        }
-    };
-
-    const rightButton = () => {
-        if (dictionaries.length * 1211 > slidePage) {
-            setSlidePage((prev) => prev + 1211);
-            setSlideIdx((prev) => prev + 1);
-        }
-    };
-
     return (
         <StyledDictionaryContainer pageAnim={pageAnim}>
-            <StyleBannerBoxStyle>
-                {dictionaries.map((item, idx) => (
-                    <StyledMainBannerContainer key={idx} slidePage={slidePage}>
-                        <StyledImageContainer>
-                            <img src={item.plantPicUrl} alt="" />
-                            <StyledSlideButtonBox>
-                                <StyledArrowStyle onClick={leftButton}>&#60;</StyledArrowStyle>
-                                <em>/</em>
-                                <StyledArrowStyle onClick={rightButton}>&#62;</StyledArrowStyle>
-                            </StyledSlideButtonBox>
-                        </StyledImageContainer>
-                        <StyledContentContainer>
-                            <StyledTextStyle>Editors's Pick</StyledTextStyle>
-                            <StyledEnglishName>asdsad</StyledEnglishName>
-                            <StyledKoreanName>{item.plantName}</StyledKoreanName>
-                            <StyledContentBox>
-                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
-                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 산을 타고 몸을 쓴 다음
-                                밥을 먹으면 기가 막힌 코스가 될 것이다. 낯선 도시에 가면 내가 아는 룰이 의미를 잃는다.
-                            </StyledContentBox>
-                            <StyledKeywordContainer>
-                                <StyledKeywordBox>키워드</StyledKeywordBox>
-                                <StyledKeywordBox>키워드</StyledKeywordBox>
-                                <StyledKeywordBox>키워드</StyledKeywordBox>
-                            </StyledKeywordContainer>
-                        </StyledContentContainer>
-                    </StyledMainBannerContainer>
-                ))}
-                ;
-            </StyleBannerBoxStyle>
-            <StyledDotBox>
-                {dictionaries.map((_, idx) => (
-                    <StyledDot key={idx} slideIdx={slideIdx} idx={idx}>
-                        <span></span>
-                    </StyledDot>
-                ))}
-            </StyledDotBox>
+            <DictionaryBanner data={dictionaries} />
             <StyledLine />
             <StyledDictionaryHeader>
                 <Filters_Test setGetFilter={setSelectedClassification} data={Dictionary_classification} />
@@ -251,7 +203,7 @@ const Dictionary: React.FC = () => {
                 <Filters_Test setGetFilter={setSelectedDog} data={Dictionary_dog} />
                 <Filters_Test setGetFilter={setSelectedCat} data={Dictionary_cat} />
             </StyledDictionaryHeader>
-            <div style={{ display: 'flex', paddingBottom: 15 }}>
+            <div style={{ display: 'flex', paddingBottom: 20 }}>
                 {filterValue.classification && (
                     <StyledSelected>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -319,10 +271,10 @@ const Dictionary: React.FC = () => {
             {dictionaries && (
                 <ItemList
                     width="100%"
-                    imgHeight="80%"
+                    imgHeight="120%"
                     cols={magazineCols}
                     horizontalGap={magazineGap}
-                    verticalGap={magazineGap}
+                    verticalGap={magazineVerticalGap}
                     items={dictionaries}
                     RenderComponent={DictionaryItem}
                 />
@@ -331,148 +283,11 @@ const Dictionary: React.FC = () => {
     );
 };
 
-interface IStyled {
-    slidePage?: number;
-    slideIdx?: number;
-    idx?: number;
-}
-
-const StyleBannerBoxStyle = styled.div`
-    width: 1140px;
-    display: flex;
-    overflow: hidden;
-    margin: 40px 0 30px 0;
-`;
-
-const StyledMainBannerContainer = styled.div<IStyled>`
-    position: relative;
-    right: ${({ slidePage }) => `${slidePage}px`};
-    display: flex;
-
-    height: 480px;
-    background-color: #f8f8f8;
-`;
-
-const StyledImageContainer = styled.div`
-    position: relative;
-    padding-right: 13px;
-    width: 763px;
-    height: 100%;
-    img {
-        width: 763px;
-        height: 100%;
-    }
-`;
-
-const StyledSlideButtonBox = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: absolute;
-    bottom: 0;
-    padding: 11px 16px;
-    width: 91px;
-    height: 38px;
-    background-color: white;
-    z-index: 100;
-    em {
-        margin-top: 10px;
-        font-size: 45px;
-        font-weight: 300;
-        color: #d8d8d8;
-        transform: rotate(-15deg);
-        line-height: 150%;
-    }
-`;
-
-const StyledArrowStyle = styled.span`
-    font-size: 40px;
-    font-weight: 200;
-    color: #4a4a4a;
-    line-height: 150%;
-    cursor: pointer;
-    :hover {
-        color: #9b9b9b;
-    }
-`;
-
-const StyledContentContainer = styled.div`
-    padding: 28px 41px 0 17px;
-    width: 377px;
-`;
-
-const StyledTextStyle = styled.h3`
-    margin: 0 196px 40px 0;
-    width: 100%;
-    height: 29px;
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 150%;
-    color: #0d6637;
-`;
-
-const StyledEnglishName = styled.h4`
-    width: 319px;
-    margin: 40px 158px 11px 0;
-    font-family: NotoSansKR;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 150%;
-    color: #8c8c8c;
-`;
-
-const StyledKoreanName = styled.h2`
-    width: 319px;
-    margin: 11px 106px 16px 0;
-    font-family: NotoSansKR;
-    font-size: 28px;
-    font-weight: bold;
-    line-height: 150%;
-    color: #272727;
-`;
-
-const StyledContentBox = styled.p`
-    width: 319px;
-    height: 156px;
-    margin: 16px 0 30px;
-    font-family: NotoSansKR;
-    font-size: 15px;
-    line-height: 150%;
-    color: #424242;
-`;
-
-const StyledDotBox = styled.div`
-    margin-bottom: 40px;
-    display: flex;
-    overflow: hidden;
-`;
-
-const StyledDot = styled.div<IStyled>`
-    min-width: ${({ slideIdx, idx }) => (slideIdx === idx ? '25px' : '10px')};
-    height: 10px;
-    margin: 30px 10px 0 0;
-    border-radius: 5px;
-    background-color: ${({ slideIdx, idx }) => (slideIdx === idx ? '#0d6637' : '#d8d8d8')};
-`;
-
 const StyledLine = styled.div`
     width: 1140px;
     height: 1px;
     margin: 40px 0px;
     background-color: #ececec;
-`;
-
-const StyledKeywordContainer = styled.div`
-    display: flex;
-`;
-
-const StyledKeywordBox = styled.div`
-    margin: 0 8px 0 0;
-    padding: 6px 12px;
-    border-radius: 16px;
-    border: solid 1px #dedede;
-    background-color: #fff;
-    font-size: 14px;
 `;
 
 const StyledDictionaryHeader = styled.div`
@@ -481,14 +296,16 @@ const StyledDictionaryHeader = styled.div`
 `;
 
 const StyledDictionaryContainer = styled.div<{ pageAnim: any }>`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
-    max-width: 1140px;
-    padding-left: 20%;
-    padding-right: 20%;
+    @media screen and (max-width: ${maxWidth}px) {
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        margin-left: 390px;
+        margin-right: 390px;
+    }
 `;
 
 const StyledSelected = styled.div`

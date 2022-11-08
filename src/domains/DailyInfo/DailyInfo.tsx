@@ -88,7 +88,7 @@ const StyledDailyPlantBlock = styled.div`
 const StyledDailyInfoContainer = styled.div`
     display: flex;
     width: 100%;
-    height: 500px;
+    height: 720px;
 `;
 
 export default DailyInfo;

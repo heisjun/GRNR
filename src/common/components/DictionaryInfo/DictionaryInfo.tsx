@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IDictionaryInfo } from './DictionaryInfo.type';
 
@@ -6,146 +6,285 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
     const { data } = props;
-    const FigureData = [data?.classification, data?.flowerLanguage];
-    const CategoryData = [{ family: data?.korFamily, order: data?.korOrder }];
+    const [slidePage, setSlidePage] = useState<number>(0);
+    const [slideIdx, setSlideIdx] = useState<number>(0);
+    console.log(data?.pictureList.length);
+
+    const leftButton = () => {
+        if (slidePage > 0) {
+            setSlidePage((prev) => prev - 1140);
+            setSlideIdx((prev) => prev - 1);
+        }
+    };
+
+    const rightButton = () => {
+        if (data?.pictureList.length ? data.pictureList.length * 1140 : 3 * 1140 >= slidePage) {
+            setSlidePage((prev) => prev + 1140);
+            setSlideIdx((prev) => prev + 1);
+        }
+    };
 
     return (
         <div>
-            <StyledDicHeader>
-                식물사전 {'>'} {data?.plantName}
-            </StyledDicHeader>
+            <StyleBannerBoxStyle>
+                {data?.pictureList.map((item, idx) => (
+                    <StyledMainBannerContainer key={idx} slidePage={slidePage}>
+                        <StyledImageContainer>
+                            <img src={item} alt="" />
+                            <StyledSlideButtonBox>
+                                <StyledArrowStyle onClick={leftButton}>&#60;</StyledArrowStyle>
+                                <em>/</em>
+                                <StyledArrowStyle onClick={rightButton}>&#62;</StyledArrowStyle>
+                            </StyledSlideButtonBox>
+                        </StyledImageContainer>
+                    </StyledMainBannerContainer>
+                ))}
+            </StyleBannerBoxStyle>
+            <StyledDotBox>
+                {data?.pictureList.map((_, idx) => (
+                    <StyledDot key={idx} slideIdx={slideIdx} idx={idx}>
+                        <span></span>
+                    </StyledDot>
+                ))}
+            </StyledDotBox>
             <StyledInfoContainer>
-                <StyledImgBlock src={data?.pictureList[0]} />
-                <StyledContentBlock>
+                <StyledInfoBlock>
                     <StyledEngName>{data?.scientificName}</StyledEngName>
+                    <StyledKorName>{data?.plantName}</StyledKorName>
+                    <StyledFigure>{data?.description_detail}</StyledFigure>
+                </StyledInfoBlock>
+                <StyledInfoBlock>
+                    <StyledIndex>출신</StyledIndex>
+                    <StyledIndexContent>{data?.distribution}</StyledIndexContent>
+                    <StyledIndex>분류</StyledIndex>
                     <StyledFlexDiv>
-                        <StyledKorName>{data?.plantName}</StyledKorName>
-                        <StyledDifficulty>
-                            {data?.difficulty ? '★'.repeat(parseInt(data.difficulty)) : null}
-                        </StyledDifficulty>
+                        <StyledCategory>
+                            <StyledFamily>과(Family)</StyledFamily>
+                            <StyledFamilyDetail>
+                                {data?.korFamily}({data?.enFamily})
+                            </StyledFamilyDetail>
+                        </StyledCategory>
+                        <StyledArrow src={'/btnArrow.png'} />
+                        <StyledCategory>
+                            <StyledFamily>목(Oreder)</StyledFamily>
+                            <StyledFamilyDetail>
+                                {data?.korOrder}({data?.enOrder})
+                            </StyledFamilyDetail>
+                        </StyledCategory>
+                        <StyledArrow src={'/btnArrow.png'} />
+                        <StyledCategory>
+                            <StyledFamily>속(Genus)</StyledFamily>
+                            <StyledFamilyDetail>
+                                {data?.korClass}({data?.enClass})
+                            </StyledFamilyDetail>
+                        </StyledCategory>
                     </StyledFlexDiv>
-                    {FigureData.map((item, index) => {
-                        return <StyledFigure key={index}>{item}</StyledFigure>;
-                    })}
+                    <StyledIndex>키워드</StyledIndex>
                     <StyledFlexDiv>
-                        <StyledIndex>출신</StyledIndex>
-                        <StyledIndexContent>{data?.distribution}</StyledIndexContent>
+                        <StyledKeywordBox>
+                            <StyledKeywordText>{data?.flowerLanguage}</StyledKeywordText>
+                        </StyledKeywordBox>
+                        <StyledKeywordBox>
+                            <StyledKeywordText>{data?.classification}</StyledKeywordText>
+                        </StyledKeywordBox>
                     </StyledFlexDiv>
-                    <StyledFlexDiv>
-                        <StyledIndex>분류</StyledIndex>
-                        {CategoryData.map((item, index) => {
-                            return (
-                                <StyledCategory key={index}>
-                                    <div>{item.family}</div>
-                                    <div>{item.order}</div>
-                                </StyledCategory>
-                            );
-                        })}
-                    </StyledFlexDiv>
-
-                    <StyledIndexContent>{data?.description_detail}</StyledIndexContent>
-                </StyledContentBlock>
+                </StyledInfoBlock>
             </StyledInfoContainer>
         </div>
     );
 };
 
+const StyledKeywordBox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 7px 0px 7px;
+    height: 37px;
+    margin: 11px 8px 0 0;
+    border-radius: 19px;
+    border: solid 1px #dedede;
+    background-color: #fff;
+`;
+
+const StyledKeywordText = styled.div`
+    font-family: NotoSansKR;
+    font-size: 14px;
+    color: #616161;
+`;
+
+const StyledInfoBlock = styled.div`
+    width: 50%;
+`;
+
 const StyledIndex = styled.div`
-    color: gray;
-    padding-right: 20px;
-    margin-top: 1vw;
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: bold;
+    color: #272727;
 `;
 
 const StyledIndexContent = styled.div`
-    color: gray;
-    margin-top: 1vw;
-    font-weight: 300;
+    margin: 8px 0 26px;
+    font-family: NotoSansKR;
+    font-size: 16px;
+    color: #272727;
 `;
 
 const StyledFigure = styled.div`
-    background: lightgray;
-    color: gray;
-    margin-right: 2vw;
-    margin-top: 0.5vw;
-    padding: 5px 15px 5px 15px;
-    font-size: 14px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 0.5vw;
+    padding-right: 50px;
+    margin: 22px 0px 49px 0;
+    font-family: NotoSansKR;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: normal;
+    color: #2e2e2e;
 `;
 
 const StyledCategory = styled.div`
-    background: lightgray;
-    color: gray;
-    margin-right: 1vw;
-    margin-top: 0.5vw;
-    padding: 5px 10px 5px 10px;
-    font-size: 14px;
-    font-weight: 200;
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 0.5vw;
+    width: 160px;
+    height: 66px;
+    margin: 10px 4px 0 0;
+    padding: 11px 22px 10px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.02);
+    background-color: #fff;
 `;
 
-const StyledDifficulty = styled.div`
-    display: flex;
-    color: gray;
+const StyledFamily = styled.div`
+    margin: 0 26px 6px 25px;
+    text-align: center;
+    font-family: NotoSansKR;
     font-size: 13px;
-    margin-bottom: 0.5vw;
-    align-items: center;
+    font-weight: 500;
+    color: #989898;
+`;
+
+const StyledFamilyDetail = styled.div`
+    margin: 6px 0 0;
+    font-family: NotoSansKR;
+    font-size: 14px;
+
+    text-align: center;
+    color: #272727;
+`;
+
+const StyledArrow = styled.img`
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
 `;
 
 const StyledFlexDiv = styled.div`
     display: flex;
+    align-items: center;
+    margin-bottom: 26px;
 `;
 
 const StyledEngName = styled.div`
-    font-size: 17px;
-    font-style: italic;
-    color: gray;
-    margin-bottom: 0.5vw;
+    margin: 0 0px 6px 0;
+    font-family: NotoSansKR;
+    font-size: 18px;
+    font-weight: 500;
+    color: #8c8c8c;
 `;
 
 const StyledKorName = styled.div`
-    font-size: 25px;
-    font-weight: 600;
-    color: gray;
-    margin-bottom: 0.5vw;
-    margin-right: 1vw;
-`;
-
-const StyledImgBlock = styled.img`
-    width: 35%;
-
-    background-color: gray;
-    border-radius: 2px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        width: 60%;
-        padding-bottom: 60%;
-    }
-`;
-
-const StyledContentBlock = styled.div`
-    width: 60%;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        width: 100%;
-    }
+    margin: 6px 0px 1px 0;
+    font-family: NotoSansKR;
+    font-size: 32px;
+    font-weight: bold;
+    color: #272727;
 `;
 
 const StyledInfoContainer = styled.div`
     display: flex;
-    justify-content: space-between;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        display: flex;
-        flex-direction: column;
+    width: 100%;
+    height: 350px;
+    box-sizing: border-box;
+    padding: 40px 23px 36px 30px;
+    background-color: #f8f8f8;
+`;
+
+interface IStyled {
+    slidePage?: number;
+    slideIdx?: number;
+    idx?: number;
+}
+
+const StyleBannerBoxStyle = styled.div`
+    width: 1140px;
+    display: flex;
+    margin: 40px 0 30px 0;
+    overflow: hidden;
+`;
+
+const StyledMainBannerContainer = styled.div<IStyled>`
+    position: relative;
+    right: ${({ slidePage }) => `${slidePage}px`};
+    display: flex;
+    height: 480px;
+    background-color: #f8f8f8;
+`;
+
+const StyledImageContainer = styled.div`
+    position: relative;
+    width: 1140px;
+    height: 100%;
+    img {
+        width: 1140px;
+        height: 100%;
+        object-fit: cover;
     }
 `;
 
-const StyledDicHeader = styled.div`
-    margin-bottom: 20px;
-    color: gray;
-    font-size: 15px;
-    font-weight: 400;
+const StyledSlideButtonBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    padding: 11px 16px;
+    width: 91px;
+    height: 38px;
+    background-color: white;
+    z-index: 100;
+    em {
+        margin-top: 10px;
+        font-size: 45px;
+        font-weight: 300;
+        color: #d8d8d8;
+        transform: rotate(-15deg);
+        line-height: 150%;
+    }
 `;
 
+const StyledArrowStyle = styled.span`
+    font-size: 40px;
+    font-weight: 200;
+    color: #4a4a4a;
+    line-height: 150%;
+    cursor: pointer;
+    :hover {
+        color: #9b9b9b;
+    }
+`;
+
+const StyledDot = styled.div<IStyled>`
+    min-width: ${({ slideIdx, idx }) => (slideIdx === idx ? '25px' : '10px')};
+    height: 10px;
+    margin: 30px 10px 0 0;
+    border-radius: 5px;
+    background-color: ${({ slideIdx, idx }) => (slideIdx === idx ? '#0d6637' : '#d8d8d8')};
+`;
+
+const StyledDotBox = styled.div`
+    margin-bottom: 40px;
+    display: flex;
+    overflow: hidden;
+`;
 export default DictionaryInfo;

@@ -8,6 +8,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
@@ -209,10 +211,18 @@ const Photo: React.FC = () => {
 };
 
 const StyledPhotoContainer = styled.div<{ pageAnim: any }>`
-    padding-left: 20%;
-    padding-right: 20%;
+    padding-top: 40px;
+    @media screen and (max-width: ${maxWidth}px) {
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        margin-left: 390px;
+        margin-right: 390px;
+    }
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
+    margin-bottom: 120px;
 `;
 
 const StyledPhotoHeader = styled.div`

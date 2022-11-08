@@ -4,86 +4,47 @@ import { Link } from 'react-router-dom';
 import { IItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 
-const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
+const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const TodaysPhoto: React.FC<IItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
 
-    const [imgAnim, setImgAnim] = useState<any>();
+    const [hover, setHover] = useState<boolean>(false);
 
     return (
         <StyledTodaysPhotoContainer width={width} height={height} paddingBottom={paddingBottom}>
             <Link to="community/photo/details" style={{ textDecoration: 'none' }}>
                 <StyledImgBlock
                     onMouseEnter={() => {
-                        setImgAnim(ImageScaleUp);
+                        setHover(true);
                     }}
                     onMouseLeave={() => {
-                        setImgAnim(ImageScaleDown);
+                        setHover(false);
                     }}
                 >
-                    <StyledImg src={`/sample2.jpg`} width="100%" height="100%" imgAnim={imgAnim} />
+                    {hover && (
+                        <StyledHoverBackgrouond>
+                            <StyledProfileBlock>
+                                <StyledAvatarBlock>
+                                    <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
+                                </StyledAvatarBlock>
+                                <StyledNicknameBlock>greenary</StyledNicknameBlock>
+                            </StyledProfileBlock>
+                            <StyledBorderLine />
+                            <StyledDetailsText>인기 사진글</StyledDetailsText>
+                        </StyledHoverBackgrouond>
+                    )}
+                    <StyledImg src={`/sample2.jpg`} width="100%" height="100%" />
                 </StyledImgBlock>
             </Link>
-            <StyledWriterBlock>
-                <StyeldAvatarBlock>
-                    <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
-                </StyeldAvatarBlock>
-                <StyledNicknameBlock>greenary</StyledNicknameBlock>
-            </StyledWriterBlock>
         </StyledTodaysPhotoContainer>
     );
 };
 
-const ImageScaleUp = keyframes`
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.1);
-    }
-`;
-
-const ImageScaleDown = keyframes`
-    0% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
-`;
-
-const StyledNicknameBlock = styled.div`
-    color: grey;
-    font-size: 10px;
-    margin-left: 3%;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 1.1px;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        font-size: ${maxWidth * 0.011}px;
-    }
-`;
-
-const StyeldAvatarBlock = styled.div`
-    width: 10%;
-`;
-
-const StyledWriterBlock = styled.div`
-    position: absolute;
-    width: 95%;
-    top: 85%;
-    left: 5%;
-    display: flex;
-    align-items: center;
-`;
-
-const StyledImg = styled.img<{ imgAnim: any }>`
+const StyledImg = styled.img`
     cursor: pointer;
     object-fit: cover;
-    animation: ${({ imgAnim }) => imgAnim} 0.2s;
-    animation-fill-mode: forwards;
 `;
 
 const StyledImgBlock = styled.div`
@@ -98,8 +59,48 @@ const StyledTodaysPhotoContainer = styled.div<{ width: string; height?: string; 
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border: solid 1px;
-    border-color: silver;
+`;
+
+const StyledBorderLine = styled.div`
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 16px;
+    border-bottom: solid 1px;
+    border-color: #ececec;
+    opacity: 0.34;
+`;
+const StyledHoverBackgrouond = styled.div`
+    background-color: rgb(0, 0, 0, 0.45);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+`;
+
+const StyledProfileBlock = styled.div`
+    display: flex;
+    padding: 10px;
+    margin-top: 55%;
+    align-items: center;
+`;
+const StyledAvatarBlock = styled.div`
+    width: 36px;
+    position: relative;
+    z-index: 20;
+    padding-right: 10px;
+`;
+
+const StyledNicknameBlock = styled.div`
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+`;
+
+const StyledDetailsText = styled.div`
+    font-size: 15px;
+    font-weight: 400;
+    color: white;
+    padding-left: 10px;
 `;
 
 export default TodaysPhoto;

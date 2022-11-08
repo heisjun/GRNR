@@ -7,9 +7,10 @@ import axios from 'axios';
 import { IFollowingsParams } from 'common/types';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
-
 const Following: React.FC = () => {
     const navigate = useNavigate();
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
@@ -48,9 +49,6 @@ const Following: React.FC = () => {
 
     return (
         <StyledFollowingContainer pageAnim={pageAnim}>
-            <Link to="./keyword" style={{ textDecoration: 'none' }}>
-                <StyledTItleText>관심있는 키워드를 설정해보세요! </StyledTItleText>
-            </Link>
             {followings.map((i, index) => {
                 return <FollowingItem key={index} data={i} />;
             })}
@@ -59,18 +57,10 @@ const Following: React.FC = () => {
 };
 
 const StyledFollowingContainer = styled.div<{ pageAnim: any }>`
-    padding-left: 20%;
-    padding-right: 20%;
+    padding-top: 40px;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
-`;
-
-const StyledTItleText = styled.div`
-    font-size: 15px;
-    font-weight: 600;
-    color: gray;
-    margin-bottom: 20px;
-    display: inline-block;
+    background-color: #f5f5f5;
 `;
 
 export default Following;

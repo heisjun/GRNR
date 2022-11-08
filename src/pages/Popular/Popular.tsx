@@ -47,8 +47,8 @@ const Popular: React.FC = () => {
             <StyledBorderPlace />
             <StyledBottomContainer>
                 <StyledDetailsBlock>
-                    <StyledTitleText>오늘의 인기 사진</StyledTitleText>
-                    <StyledMoreText>더보기</StyledMoreText>
+                    <StyledTitleText>인기 사진</StyledTitleText>
+                    <StyledMoreText>더보기 {'>'}</StyledMoreText>
                 </StyledDetailsBlock>
                 <ItemList
                     width="100%"
@@ -86,19 +86,26 @@ const Popular: React.FC = () => {
 const StyledTitleText = styled.div`
     font-size: 17px;
     font-weight: bold;
-    color: grey;
+    color: #272727;
     flex: 1;
+    @media screen and (min-width: ${maxWidth}px) {
+        font-size: 26px;
+    }
 `;
 
 const StyledMoreText = styled.div`
     font-size: 12px;
-    font-weight: bold;
-    color: silver;
+    font-weight: 500;
+    color: #a6a6a6;
     cursor: pointer;
+    @media screen and (min-width: ${maxWidth}px) {
+        font-size: 14px;
+    }
 `;
 
 const StyledDetailsBlock = styled.div`
     display: flex;
+    align-items: center;
     margin-bottom: 15px;
 `;
 
@@ -113,7 +120,6 @@ const StyledBorderPlace = styled.div`
 `;
 
 const StyledPopularContainer = styled.div<{ pageAnim: any }>`
-    margin-top: -30px;
     display: flex;
     flex-direction: column;
     animation: ${({ pageAnim }) => pageAnim} 1s;
@@ -124,7 +130,13 @@ const StyledPopularContainer = styled.div<{ pageAnim: any }>`
 `;
 
 const StyledBottomContainer = styled.div`
-    padding-left: 15%;
-    padding-right: 15%;
+    @media screen and (max-width: ${maxWidth}px) {
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        margin-left: 390px;
+        margin-right: 390px;
+    }
 `;
 export default Popular;

@@ -27,7 +27,10 @@ const Login: React.FC = () => {
             <StyledLoginContainer>
                 <StyledLogoImg src="/Gardener.png" onClick={() => nav('/')} />
                 <StyledBasicText> 지금 바로 간편하게</StyledBasicText>
-                <StyledBasicText>가드너스 클럽에 가입해보세요</StyledBasicText>
+                <StyledBasicText>
+                    <p style={{ fontWeight: 'bold', color: '#043935' }}>가드너스 클럽</p>
+                    <p>에 가입해보세요</p>
+                </StyledBasicText>
                 <img src="/kakao_login.png" style={{ width: 200, marginTop: 20 }} onClick={handleLogin} />
                 <StyledButton onClick={onTalkButton}>
                     <StyledLoginText>로컬로그인</StyledLoginText>
@@ -40,7 +43,7 @@ const Login: React.FC = () => {
 const StyledBasicText = styled.div`
     font-size: 18px;
     color: #272727;
-    margin-bottom: 5px;
+    display: flex;
 `;
 const StyledLoginText = styled.div`
     font-size: 20px;
@@ -64,11 +67,13 @@ const StyledButton = styled.div`
 `;
 
 const StyledLogoImg = styled.img`
-    width: 200px;
-    padding-bottom: 100px;
+    width: 210px;
+    padding-bottom: 50px;
 `;
 
 const StyledLoginContainer = styled.div`
+    margin-top: 108px;
+    margin-bottom: 88px;
     width: 420px;
     height: 500px;
     background-color: white;
