@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { IDictionaryItem, IItemParams } from 'common/types';
+import { IDictionaryItem } from 'common/types';
 import { Link } from 'react-router-dom';
+import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
 const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
     const { width, height, paddingBottom, item } = props;
@@ -23,7 +24,11 @@ const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
                 </StyledImageBlock>
 
                 <StyledTitleBlock>
-                    <StyledTitleText>{item.plantName}</StyledTitleText>
+                    <div>
+                        <StyledEngTitleText>{item.scientificName}</StyledEngTitleText>
+                        <StyledTitleText>{item.plantName}</StyledTitleText>
+                    </div>
+                    <FaRegBookmark style={{ fontSize: 20, color: 'black' }} />
                 </StyledTitleBlock>
             </StyledDictionaryItemContainer>
         </Link>
@@ -48,19 +53,30 @@ const ImageScaleDown = keyframes`
     }
 `;
 
+const StyledEngTitleText = styled.div`
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #919191;
+`;
 const StyledTitleText = styled.div`
-    color: grey;
-    font-size: 13px;
-    margin-left: 2%;
+    font-family: NotoSansKR;
+    font-size: 20px;
+    font-weight: bold;
+    color: #272727;
 `;
 
 const StyledTitleBlock = styled.div`
     position: absolute;
     top: 85%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 15%;
+    padding-right: 5px;
+    box-sizing: border-box;
     background-color: white;
 `;
 
@@ -83,9 +99,6 @@ const StyledDictionaryItemContainer = styled.div<{ width: string; height?: strin
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border: solid 1px;
-    border-color: grey;
-    background-color: silver;
 `;
 
 export default DictionaryItem;

@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
@@ -154,47 +156,6 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
     );
 };
 
-const SlideUp = keyframes`
-    from{
-        transform: translateY(500px);
-    }
-    to{
-        transform:translateY(0px);
-    }
-`;
-const StyledModalBlock = styled.div<{ visible: boolean }>`
-    ${(props) =>
-        props.visible &&
-        css`
-            width: 440px;
-            height: 700px;
-            margin-bottom: 40px;
-            background-color: rgba(0, 0, 0, 0.6);
-            position: absolute;
-            z-index: 20;
-            overflow: hidden;
-        `}
-`;
-
-const StyledModalContent = styled.div<{ visible: boolean }>`
-    ${(props) =>
-        props.visible &&
-        css`
-            width: 440px;
-            height: 500px;
-            top: 200px;
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            margin-bottom: 40px;
-            background-color: white;
-            position: absolute;
-            animation-name: ${SlideUp};
-            animation-duration: 0.25s;
-            animation-timing-function: ease-out;
-            animation-fill-mode: forwards;
-        `}
-`;
-
 const StyledFollowingFeeds = styled.div`
     position: relative;
     display: flex;
@@ -203,17 +164,25 @@ const StyledFollowingFeeds = styled.div`
 `;
 
 const StyledFeedsBlock = styled.div`
-    border: 1px solid gray;
     width: 550px;
     height: 800px;
     margin-bottom: 40px;
     background-color: white;
+    @media screen and (min-width: ${maxWidth}px) {
+        width: 720px;
+        height: 885px;
+    }
 `;
 
 const StyledBlockHeader = styled.div`
+    box-sizing: border-box;
     display: flex;
     padding: 3%;
     height: 4%;
+    @media screen and (min-width: ${maxWidth}px) {
+        padding: 16px 24px;
+        height: 80px;
+    }
 `;
 
 const StyledHeaderItem = styled.div`

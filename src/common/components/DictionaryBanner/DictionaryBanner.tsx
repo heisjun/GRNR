@@ -1,0 +1,220 @@
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { IDictionaryBanner } from './DictionaryBanner.type';
+import { default as callApi } from 'common/api';
+import { IDictionaryDetailsParams } from 'common/types';
+
+const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
+    const { data } = props;
+    const [slidePage, setSlidePage] = useState<number>(0);
+    const [slideIdx, setSlideIdx] = useState<number>(0);
+
+    const leftButton = () => {
+        if (slidePage > 0) {
+            setSlidePage((prev) => prev - 1211);
+            setSlideIdx((prev) => prev - 1);
+        }
+    };
+
+    const rightButton = () => {
+        if (3 * 1211 > slidePage) {
+            setSlidePage((prev) => prev + 1211);
+            setSlideIdx((prev) => prev + 1);
+        }
+    };
+
+    return (
+        <div>
+            <StyleBannerBoxStyle>
+                {data.slice(0, 4).map((item, idx) => (
+                    <StyledMainBannerContainer key={idx} slidePage={slidePage}>
+                        <StyledImageContainer>
+                            <img src={item.plantPicUrl} alt="" />
+                            <StyledSlideButtonBox>
+                                <StyledArrowStyle onClick={leftButton}>&#60;</StyledArrowStyle>
+                                <em>/</em>
+                                <StyledArrowStyle onClick={rightButton}>&#62;</StyledArrowStyle>
+                            </StyledSlideButtonBox>
+                        </StyledImageContainer>
+                        <StyledContentContainer>
+                            <StyledTextStyle>Editors's Pick</StyledTextStyle>
+                            <StyledEnglishName>{item.scientificName}</StyledEnglishName>
+                            <StyledKoreanName>{item.plantName}</StyledKoreanName>
+                            <StyledContentBox>{item.description_detail}</StyledContentBox>
+                            <StyledKeywordContainer>
+                                {item.classification_flower && (
+                                    <StyledKeywordBox>{item.classification_flower}</StyledKeywordBox>
+                                )}
+                                {item.classification_fruit && (
+                                    <StyledKeywordBox>{item.classification_fruit}</StyledKeywordBox>
+                                )}
+                                {item.classification_leaf && (
+                                    <StyledKeywordBox>{item.classification_leaf}</StyledKeywordBox>
+                                )}
+                                {item.classification_succulent && (
+                                    <StyledKeywordBox>{item.classification_succulent}</StyledKeywordBox>
+                                )}
+                                {item.flowerLanguage && <StyledKeywordBox>{item.flowerLanguage}</StyledKeywordBox>}
+                            </StyledKeywordContainer>
+                        </StyledContentContainer>
+                    </StyledMainBannerContainer>
+                ))}
+            </StyleBannerBoxStyle>
+            <StyledDotBox>
+                {data.slice(0, 4).map((_, idx) => (
+                    <StyledDot key={idx} slideIdx={slideIdx} idx={idx}>
+                        <span></span>
+                    </StyledDot>
+                ))}
+            </StyledDotBox>
+        </div>
+    );
+};
+
+interface IStyled {
+    slidePage?: number;
+    slideIdx?: number;
+    idx?: number;
+}
+
+const StyleBannerBoxStyle = styled.div`
+    width: 1140px;
+    display: flex;
+    overflow: hidden;
+    margin: 40px 0 30px 0;
+`;
+
+const StyledMainBannerContainer = styled.div<IStyled>`
+    position: relative;
+    right: ${({ slidePage }) => `${slidePage}px`};
+    display: flex;
+
+    height: 480px;
+    background-color: #f8f8f8;
+`;
+
+const StyledImageContainer = styled.div`
+    position: relative;
+    padding-right: 13px;
+    width: 763px;
+    height: 100%;
+    img {
+        width: 763px;
+        height: 100%;
+        object-fit: cover;
+    }
+`;
+
+const StyledSlideButtonBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    padding: 11px 16px;
+    width: 91px;
+    height: 38px;
+    background-color: white;
+    z-index: 100;
+    em {
+        margin-top: 10px;
+        font-size: 45px;
+        font-weight: 300;
+        color: #d8d8d8;
+        transform: rotate(-15deg);
+        line-height: 150%;
+    }
+`;
+
+const StyledArrowStyle = styled.span`
+    font-size: 40px;
+    font-weight: 200;
+    color: #4a4a4a;
+    line-height: 150%;
+    cursor: pointer;
+    :hover {
+        color: #9b9b9b;
+    }
+`;
+
+const StyledContentContainer = styled.div`
+    padding: 28px 41px 0 17px;
+    width: 377px;
+`;
+
+const StyledTextStyle = styled.h3`
+    margin: 0 196px 40px 0;
+    width: 100%;
+    height: 29px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 150%;
+    color: #0d6637;
+`;
+
+const StyledEnglishName = styled.h4`
+    width: 319px;
+    margin: 40px 158px 11px 0;
+    font-family: NotoSansKR;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 150%;
+    color: #8c8c8c;
+`;
+
+const StyledKoreanName = styled.h2`
+    width: 319px;
+    margin: 11px 106px 16px 0;
+    font-family: NotoSansKR;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 150%;
+    color: #272727;
+`;
+
+const StyledContentBox = styled.p`
+    width: 319px;
+    height: 156px;
+    margin: 16px 0 30px;
+    font-family: NotoSansKR;
+    font-size: 15px;
+    line-height: 150%;
+    color: #424242;
+`;
+
+const StyledDotBox = styled.div`
+    margin-bottom: 40px;
+    display: flex;
+    overflow: hidden;
+`;
+
+const StyledDot = styled.div<IStyled>`
+    min-width: ${({ slideIdx, idx }) => (slideIdx === idx ? '25px' : '10px')};
+    height: 10px;
+    margin: 30px 10px 0 0;
+    border-radius: 5px;
+    background-color: ${({ slideIdx, idx }) => (slideIdx === idx ? '#0d6637' : '#d8d8d8')};
+`;
+
+const StyledLine = styled.div`
+    width: 1140px;
+    height: 1px;
+    margin: 40px 0px;
+    background-color: #ececec;
+`;
+
+const StyledKeywordContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
+const StyledKeywordBox = styled.div`
+    margin: 0 9px 8px 0;
+    padding: 6px 12px;
+    border-radius: 16px;
+    border: solid 1px #dedede;
+    background-color: #fff;
+    font-size: 14px;
+`;
+
+export default DictionaryBanner;

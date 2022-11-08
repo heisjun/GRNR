@@ -133,7 +133,7 @@ const Picture: React.FC = () => {
                     <StyledHeaderBar>
                         <StyledTitleBlock>
                             <Link to="/" style={{ textDecoration: 'none' }}>
-                                <StyledLogoImg src="/Gardener.png" />
+                                <StyledLogoImg src="/gardenersLogo.png" />
                             </Link>
                         </StyledTitleBlock>
                         <StyledUploadButton>
@@ -186,14 +186,14 @@ const Picture: React.FC = () => {
 };
 
 const StyledMenuItemText = styled.h2<{ color: string }>`
-    font-size: 13px;
+    font-size: 16px;
     color: ${({ color }) => color};
     cursor: pointer;
     &:hover {
         color: #0d6637;
     }
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 13px;
+    @media screen and (min-width: ${maxWidth}px) {
+        font-size: 16px;
     }
 `;
 
@@ -207,36 +207,43 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
 
 const StyledSubTabBarBlock1 = styled.div`
     width: 100%;
+    height: 50px;
     display: flex;
+    align-items: center;
     padding: 0px 20px 0px 20px;
-    @media screen and (min-width: ${boundaryWidth}px) {
+    @media screen and (max-width: ${maxWidth}px) {
         padding-left: 20%;
         padding-right: 20%;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        margin-left: 390px;
+        margin-right: 390px;
     }
 `;
 
 const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
     width: 100%;
-    height: 40px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: white;
     border-bottom: solid 1px;
     border-color: silver;
+    box-sizing: border-box;
     animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
     animation-fill-mode: forwards;
     @media screen and (min-width: ${boundaryWidth}px) {
-        height: 40px;
+        height: 50px;
     }
 `;
 
 const StyledPictureContainer = styled.div`
-    height: 2000px;
+    padding-bottom: 120px;
 `;
 
 const StyledLogoImg = styled.img`
-    width: 150px;
+    width: 198px;
 `;
 
 const StyledPictureHeader = styled.div`
@@ -283,7 +290,9 @@ const StyledTitleBlock = styled.div`
     }
 `;
 
-const StyledContentContainer = styled.div``;
+const StyledContentContainer = styled.div`
+    padding-top: 40px;
+`;
 
 const StyledTabsContainer = styled.div``;
 
@@ -296,7 +305,6 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     justify-content: center;
     align-items: center;
     width: 100%;
-    background-color: white;
     border-bottom: solid 1px;
     border-color: silver;
     @media screen and (max-width: ${minWidth}px) {
@@ -314,27 +322,38 @@ const StyledHeaderBar = styled.div`
     width: 100%;
     height: 50px;
     padding: 0px 20px 0px 20px;
-    @media screen and (min-width: ${boundaryWidth}px) {
+    @media screen and (max-width: ${maxWidth}px) {
         height: 80px;
         padding-left: 20%;
         padding-right: 20%;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        height: 80px;
+        margin-left: 390px;
+        margin-right: 390px;
     }
 `;
 
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
-    padding-left: 20%;
-    padding-right: 20%;
+    @media screen and (max-width: ${maxWidth}px) {
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        margin-right: 390px;
+        margin-left: 390px;
+    }
 `;
 
 const StyledSubTabBarBlock = styled.div`
     position: fixed;
     width: 100%;
-    top: 50px;
+    top: 80px;
     left: 0px;
     z-index: 1;
-    @media screen and (min-width: ${boundaryWidth}px) {
+    @media screen and (min-width: ${maxWidth}px) {
         top: 80px;
     }
 `;

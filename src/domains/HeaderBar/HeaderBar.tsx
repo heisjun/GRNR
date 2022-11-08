@@ -119,7 +119,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                             setSubTabVisible(true);
                                         }}
                                     >
-                                        <StyledLogoImg src="/Gardener.png" />
+                                        <StyledLogoImg src="/gardenersLogo.png" />
                                     </Link>
                                 </StyledTitleBlock>
 
@@ -209,7 +209,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                             setSubTabVisible(true);
                                         }}
                                     >
-                                        <StyledLogoImg src="/Gardener.png" />
+                                        <StyledLogoImg src="/gardenersLogo.png" />
                                     </Link>
                                 </StyledTitleBlock>
                             </StyledHeaderBar>
@@ -255,7 +255,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                             setSubTabVisible(true);
                                         }}
                                     >
-                                        <StyledLogoImg src="/Gardener.png" />
+                                        <StyledLogoImg src="/gardenersLogo.png" />
                                     </Link>
                                 </StyledTitleBlock>
 
@@ -341,7 +341,7 @@ const headerFadeOut = keyframes`
 `;
 
 const StyledLogoImg = styled.img`
-    width: 150px;
+    width: 198px;
 `;
 
 const StyledSearchBar = styled.img`
@@ -454,17 +454,15 @@ const StyledContentBlock = styled.div`
 `;
 
 const StyledContentContainer = styled.div`
-    background-color: white;
     display: flex;
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin-top: 130px;
     justify-content: center;
     z-index: 0;
-    @media screen and (max-width: ${minWidth}px) {
+    @media screen and (max-width: ${maxWidth}px) {
         justify-content: start;
     }
-    @media screen and (min-width: ${boundaryWidth}px) {
-        margin-top: 150px;
+    @media screen and (min-width: ${maxWidth}px) {
+        margin-top: 130px;
     }
 `;
 
@@ -506,18 +504,22 @@ const StyledHeaderBar = styled.div`
     width: 100%;
     height: 50px;
     padding: 0px 20px 0px 20px;
-    @media screen and (min-width: ${boundaryWidth}px) {
+
+    @media screen and (max-width: ${maxWidth}px) {
         height: 80px;
         padding-left: 20%;
         padding-right: 20%;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        height: 80px;
+        margin-left: 390px;
+        margin-right: 390px;
     }
 `;
 
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-    width: 100%;
     margin: 0 auto;
     width: 100%;
 `;

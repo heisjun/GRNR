@@ -265,6 +265,13 @@ export type IPhotoParams = {
 export type IDictionariesParams = {
     plantDicId: number;
     plantName: string;
+    scientificName: string;
+    classification_leaf: string;
+    classification_flower: string;
+    classification_fruit: string;
+    classification_succulent: string;
+    description_detail: string;
+    flowerLanguage: string;
     plantPicUrl: string;
 };
 

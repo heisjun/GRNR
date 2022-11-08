@@ -10,7 +10,7 @@ import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
-const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
+const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
 const TOKEN = localStorage.getItem('accesstoken');
 
 const KeywordData = [
@@ -196,12 +196,11 @@ const Register: React.FC = () => {
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             <StyledRegisterContainer>
                 <StyledContentText>추가 정보 입력</StyledContentText>
+                <StyledBorderLine />
                 <StyledRegisterBlock>
                     <StyledTitleText>닉네임</StyledTitleText>
-
-                    <StyledBodyText>다른 사용자와 겹치지 않는 닉네임을 입력해주세요</StyledBodyText>
                     <StyledInput
-                        placeholder="영어 밑줄 온점 외 입력 불가"
+                        placeholder="닉네임을 입력해주세요"
                         type="text"
                         name="nickname"
                         value={nickname}
@@ -213,7 +212,7 @@ const Register: React.FC = () => {
                     <StyledTitleText>주소</StyledTitleText>
                     {/* <AddressBox setGetAddress={setGetAddress} /> */}
                     <StyledInput
-                        placeholder="주소를 입력하세요"
+                        placeholder="시,군,구,동 입력"
                         type="text"
                         name="detailAddress"
                         value={detailAddress}
@@ -244,12 +243,12 @@ const Register: React.FC = () => {
                 )}
 
                 <StyledRegisterBlock>
-                    <StyledTitleText>관심사</StyledTitleText>
-                    <StyledBodyText>관심있는 키워드를 설정해주세요</StyledBodyText>
+                    <StyledTitleText>관심사(중복선택 가능)</StyledTitleText>
                     {/*  <KeywordBox data={KeywordData} setGetKeyword={setGetKeyword} columns={2} gap={5} /> */}
+                    <StyledBorderLine />
                 </StyledRegisterBlock>
                 <StyledRegisterBlock>
-                    <StyledTitleText>약관동의</StyledTitleText>
+                    <StyledTitleText>이용약관</StyledTitleText>
                     <StyledAgreeBox>
                         <AgreeBox
                             allAgree={allAgree}
@@ -276,33 +275,31 @@ const Register: React.FC = () => {
 };
 
 const StyledRegisterContainer = styled.div`
-    width: 370px;
-    padding: 25px;
+    width: 420px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 50px;
+    box-sizing: border-box;
     background-color: white;
     display: flex;
     flex-direction: column;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        margin-left: 10%;
-        margin-right: 10%;
-    }
 `;
 
 const StyledRegisterBlock = styled.div`
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 `;
 
 const StyledTitleText = styled.div`
-    font-size: 1.5vw;
+    font-size: 16px;
     color: #545a5e;
     font-weight: bold;
-    margin-bottom: 1%;
-    margin-top: 1%;
+    margin-bottom: 10px;
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 3vw;
     }
     @media screen and (min-width: ${maxWidth}px) {
-        font-size: 15px;
+        font-size: 16px;
     }
 `;
 
@@ -311,86 +308,43 @@ const StyledContentText = styled.div`
     font-size: 28px;
     color: black;
     font-weight: bold;
-    margin-bottom: 1%;
-    margin-top: 1%;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 3vw;
-    }
+    padding-top: 40px;
     @media screen and (min-width: ${maxWidth}px) {
         font-size: 28px;
     }
 `;
 
-const StyledNormalText = styled.div`
-    font-size: 1.4vw;
-    color: grey;
-    padding: 5px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 2.8vw;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        font-size: 16px;
-    }
-`;
 const StyledInput = styled.input`
-    width: 97%;
-    font-size: 1.3vw;
-    padding: 5px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 2.5vw;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        font-size: 15px;
-    }
-`;
-
-const StyledSelector = styled.select`
     width: 100%;
-    font-size: 1.3vw;
-    color: grey;
-    padding: 5px;
+    font-size: 14px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    height: 50px;
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 2.5vw;
     }
     @media screen and (min-width: ${maxWidth}px) {
-        font-size: 15px;
+        font-size: 14px;
     }
-`;
-
-const StyledBodyText = styled.div`
-    font-size: 1.3vw;
-    color: grey;
-    margin-bottom: 1%;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 2.5vw;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        font-size: 15px;
-    }
-`;
-
-const StyledEmailInput = styled.div`
-    display: flex;
 `;
 
 const StyledAgreeBox = styled.div`
-    border: 1px solid grey;
     width: 100%;
 `;
 
 const StyledButton = styled.button`
     width: 100%;
-    font-size: 1.7vw;
-    background-color: grey;
-    color: white;
+    font-size: 16px;
+    background-color: #d8d8d8;
+    color: #969696;
     font-weight: 500;
     border: none;
-    padding: 3%;
+    padding: 14px;
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 3vw;
     }
     @media screen and (min-width: ${maxWidth}px) {
-        font-size: 15px;
+        font-size: 16px;
     }
 `;
 
@@ -399,6 +353,12 @@ const StyledErrorMessage = styled.div`
     font-size: 15px;
     margin-bottom: 2px;
     height: 20px;
+`;
+
+const StyledBorderLine = styled.div`
+    border-bottom: solid 1px;
+    border-color: #eaeaea;
+    margin: 30px 0px 10px 0px;
 `;
 
 export default Register;

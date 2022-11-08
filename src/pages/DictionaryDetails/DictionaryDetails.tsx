@@ -8,6 +8,7 @@ import { default as callApi } from 'common/api';
 import { IDictionaryDetailsParams } from 'common/types';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const DictionaryDetails: React.FC = () => {
     const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
@@ -33,7 +34,6 @@ const DictionaryDetails: React.FC = () => {
     return (
         <StyledDicDetailsContainer>
             <DictionaryInfo data={details} />
-            <StyledBorderLine />
             <PlantGuide />
             <StyledBorderLine />
             <StyledDetailsBlock>
@@ -64,8 +64,14 @@ const StyledBorderLine = styled.div`
 `;
 
 const StyledDicDetailsContainer = styled.div`
-    padding-left: 20%;
-    padding-right: 20%;
+    @media screen and (max-width: ${maxWidth}px) {
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        margin-left: 390px;
+        margin-right: 390px;
+    }
 `;
 
 const StyledDetailsBlock = styled.div`
