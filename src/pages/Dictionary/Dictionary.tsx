@@ -71,7 +71,7 @@ const Dictionary: React.FC = () => {
     const location = useLocation();
     const [magazineCols, setMagazineCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
     const [magazineGap, setMagazineGap] = useState(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
-    const [magazineVerticalGap, setMagazineVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
+    const [magazineVerticalGap, setMagazineVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 40 : 4);
     const [loading, setLoading] = useState(false);
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
     const [dictionaries, setDictionaries] = useState<IDictionariesParams[]>([]);
@@ -101,7 +101,7 @@ const Dictionary: React.FC = () => {
     const resizeHandler = () => {
         setMagazineCols(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
         setMagazineGap(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
-        setMagazineVerticalGap(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
+        setMagazineVerticalGap(window.innerWidth > Number(boundaryWidth) ? 40 : 4);
     };
 
     useEffect(() => {
@@ -268,6 +268,7 @@ const Dictionary: React.FC = () => {
                     filterValue.dog ||
                     filterValue.cat) && <StyledSelected onClick={onReset}>초기화</StyledSelected>}
             </div>
+
             {dictionaries && (
                 <ItemList
                     width="100%"

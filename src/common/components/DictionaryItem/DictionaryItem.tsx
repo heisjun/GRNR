@@ -4,6 +4,8 @@ import { IDictionaryItem } from 'common/types';
 import { Link } from 'react-router-dom';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+
 const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
     const { width, height, paddingBottom, item } = props;
 
@@ -28,7 +30,7 @@ const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
                         <StyledEngTitleText>{item.scientificName}</StyledEngTitleText>
                         <StyledTitleText>{item.plantName}</StyledTitleText>
                     </div>
-                    <FaRegBookmark style={{ fontSize: 20, color: 'black' }} />
+                    <StyledIcon src={'/btnBlankBookmark.png'} />
                 </StyledTitleBlock>
             </StyledDictionaryItemContainer>
         </Link>
@@ -53,6 +55,10 @@ const ImageScaleDown = keyframes`
     }
 `;
 
+const StyledIcon = styled.img`
+    width: 30px;
+    height: 30px;
+`;
 const StyledEngTitleText = styled.div`
     font-family: NotoSansKR;
     font-size: 15px;
@@ -69,7 +75,7 @@ const StyledTitleText = styled.div`
 
 const StyledTitleBlock = styled.div`
     position: absolute;
-    top: 85%;
+    top: 89%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -78,6 +84,9 @@ const StyledTitleBlock = styled.div`
     padding-right: 5px;
     box-sizing: border-box;
     background-color: white;
+    @media screen and (min-width: ${maxWidth}px) {
+        top: 83%;
+    }
 `;
 
 const StyledImg = styled.img<{ imgAnim: any }>`
@@ -92,6 +101,10 @@ const StyledImageBlock = styled.div`
     overflow: hidden;
     width: 100%;
     height: 100%;
+    @media screen and (min-width: ${maxWidth}px) {
+        width: 366px;
+        height: 368px;
+    }
 `;
 
 const StyledDictionaryItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
@@ -99,6 +112,11 @@ const StyledDictionaryItemContainer = styled.div<{ width: string; height?: strin
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
+    @media screen and (min-width: ${maxWidth}px) {
+        width: 366px;
+        height: 463px;
+        padding-bottom: 0%;
+    }
 `;
 
 export default DictionaryItem;

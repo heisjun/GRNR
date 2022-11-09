@@ -88,6 +88,7 @@ const StyledDailyPlantBlock = styled.div`
 const StyledDailyInfoContainer = styled.div`
     display: flex;
     width: 100%;
+    max-width: 1920px;
     height: 720px;
 `;
 

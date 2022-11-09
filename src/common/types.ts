@@ -46,6 +46,33 @@ export type ICommentsParams = {
     }[];
 };
 
+export type ItestComments = {
+    inquiryId: number;
+    commentId: number;
+    myLike: boolean;
+    commentNicNameList: null;
+    content: string;
+    report: boolean;
+    parentId: null;
+    likeCount: number;
+    accountNicName: string;
+    accountProfileUrl: string;
+    commentChildDtoList: {
+        parentId: number;
+        commentId: number;
+        myLike: boolean;
+        content: string;
+        report: boolean;
+        accountNicName: string;
+        accountProfileUrl: string;
+        likeCount: number;
+        commentNicNameList: {
+            commentId: number;
+            nicNameTags: string;
+        }[];
+    }[];
+};
+
 export type IDictionaryDetailsParams = {
     plantDicId: number;
     pictureList: string[];
@@ -101,7 +128,7 @@ export type IFollowingsParams = {
     accountProfileUrl: string;
     pictureUrlList: [];
     category: string;
-    text: string;
+    textList: [];
     tagList: [];
     scrapCount: number;
     likeCount: number;
@@ -109,6 +136,7 @@ export type IFollowingsParams = {
     myLike: boolean;
     myScrap: boolean;
     time: number;
+    createTime: string;
 };
 export type IPhotoDetailsParams = {
     pictureId: number;

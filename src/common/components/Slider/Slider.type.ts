@@ -4,7 +4,7 @@ export type ISlider = {
         accountNickName: string;
         pictureUrlList: [];
         category: string;
-        text: string;
+        textList: [];
         tagList: [];
         scrapCount: number;
         likeCount: number;

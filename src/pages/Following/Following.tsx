@@ -11,6 +11,7 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
+
 const Following: React.FC = () => {
     const navigate = useNavigate();
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
@@ -19,7 +20,7 @@ const Following: React.FC = () => {
 
     useEffect(() => {
         if (!TOKEN) {
-            navigate('/login');
+            window.location.replace('/login');
         } else {
             const fetchData = async () => {
                 setLoading(true);

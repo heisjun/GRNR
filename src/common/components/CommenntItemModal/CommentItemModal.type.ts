@@ -1,3 +1,5 @@
+import { ItestComments } from 'common/types';
+
 export type ICommentItem = {
     commentsList?: {
         inquiryId: number;
@@ -31,4 +33,6 @@ export type ICommentItem = {
     };
     pictureId?: string;
     category: string;
+    testComments: ItestComments[];
+    setTestComments: any;
 };

@@ -2,6 +2,9 @@ import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IMagazineItemParams } from 'common/types';
+import Avatar from '../Avatar';
+
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const MagazineItem: React.FC<IMagazineItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
@@ -18,12 +21,21 @@ const MagazineItem: React.FC<IMagazineItemParams> = (props) => {
                         setImgAnim(ImageScaleDown);
                     }}
                 >
-                    <StyledImg src={item.coverPictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                    <StyledImg src={'/sample2.jpg'} width="100%" height="100%" imgAnim={imgAnim} />
                 </StyledImageBlock>
             </Link>
+
             <StyledTitleBlock>
-                <StyledTitleText>{item.title}</StyledTitleText>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <StyledNickname>Leanne Simpson</StyledNickname>
+                    <StyledBorder />
+                    <StyledDate>2022.08.08</StyledDate>
+                </div>
+                <StyledTitleText>아레카야자를 곁들인 화이트 우드톤 홈 플랜트 디자인</StyledTitleText>
             </StyledTitleBlock>
+            <StyledAvatarBlock>
+                <Avatar width="100%" height="100%" borderRadius="100%" />
+            </StyledAvatarBlock>
         </StyledMagazineItemContainer>
     );
 };
@@ -46,20 +58,61 @@ const ImageScaleDown = keyframes`
     }
 `;
 
+const StyledAvatarBlock = styled.div`
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 70%;
+    right: 5%;
+    z-index: 30;
+`;
+
+const StyledBorder = styled.div`
+    width: 1px;
+    height: 16px;
+    margin: 0px 20px;
+    background-color: #ececec;
+`;
+const StyledNickname = styled.div`
+    font-family: NotoSansKR;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #5d5d5d;
+`;
+
+const StyledDate = styled.div`
+    font-family: NotoSansKR;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #9d9d9d;
+`;
 const StyledTitleText = styled.div`
-    color: grey;
-    font-size: 13px;
-    margin-left: 2%;
+    margin: 10px 20px 0 0;
+    font-family: NotoSansKR;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #272727;
 `;
 
 const StyledTitleBlock = styled.div`
     position: absolute;
-    top: 90%;
+    top: 84%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     width: 100%;
     height: 10%;
-    background-color: white;
 `;
 
 const StyledImg = styled.img<{ imgAnim: any }>`
@@ -72,8 +125,12 @@ const StyledImg = styled.img<{ imgAnim: any }>`
 const StyledImageBlock = styled.div`
     position: absolute;
     overflow: hidden;
-    width: 100%;
-    height: 100%;
+    width: 366px;
+    height: 222px;
+    @media screen and (min-width: ${maxWidth}px) {
+        width: 366px;
+        height: 222px;
+    }
 `;
 
 const StyledMagazineItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
@@ -81,9 +138,10 @@ const StyledMagazineItemContainer = styled.div<{ width: string; height?: string;
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border: solid 1px;
-    border-color: grey;
-    background-color: silver;
+
+    @media screen and (min-width: ${maxWidth}px) {
+        width: 366px;
+    }
 `;
 
 export default MagazineItem;

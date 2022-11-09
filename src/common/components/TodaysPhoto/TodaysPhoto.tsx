@@ -59,6 +59,11 @@ const StyledTodaysPhotoContainer = styled.div<{ width: string; height?: string; 
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
+    @media screen and (min-width: ${maxWidth}px) {
+        width: 270px;
+        height: 260px;
+        padding-bottom: 0;
+    }
 `;
 
 const StyledBorderLine = styled.div`

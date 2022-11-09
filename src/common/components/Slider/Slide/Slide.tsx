@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { ISlide } from './Slide.type';
 
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+
 const Slide: React.FC<ISlide> = (props) => {
     const { data, index } = props;
     return (
@@ -10,7 +12,7 @@ const Slide: React.FC<ISlide> = (props) => {
             <StyledSpace />
             <StyledViews>{`조회 ${data.time} 회`}</StyledViews>
             <StyledTextArea>
-                <StyledText>{data.text}</StyledText>
+                <StyledText>{data.textList[index]}</StyledText>
             </StyledTextArea>
         </div>
     );
@@ -18,7 +20,10 @@ const Slide: React.FC<ISlide> = (props) => {
 
 const StyledImg = styled.img`
     width: 100%;
-    height: 540px;
+    height: 600px;
+    @media screen and (min-width: ${maxWidth}px) {
+        height: 600px;
+    }
 `;
 
 const StyledSpace = styled.div`
@@ -31,18 +36,17 @@ const StyledViews = styled.div`
     font-size: 16px;
     font-weight: bold;
     color: #393939;
-    padding: 10px;
+    margin: 0px 24px 8px;
 `;
 
 const StyledTextArea = styled.div`
     width: 100%;
+    margin: 0px 24px 8px;
 `;
 
 const StyledText = styled.div`
-    font-size: 15px;
-    font-weight: 300;
-    color: grey;
-    padding-left: 10px;
+    font-size: 16px;
+    color: #6a6a6a;
 `;
 
 export default Slide;

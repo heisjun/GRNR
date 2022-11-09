@@ -288,7 +288,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                         <StyledLoginButton>로그인</StyledLoginButton>
                                     </Link>
                                     <StyledBoundary>|</StyledBoundary>
-                                    <Link to="/api/register" style={{ textDecoration: 'none', color: 'black' }}>
+                                    <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                                         <StyledRegisterButton>회원가입</StyledRegisterButton>
                                     </Link>
                                 </StyledButtonsCotainer>
@@ -422,7 +422,7 @@ const StyledTitleBlock = styled.div`
 const StyledMenuItemsContainer = styled.div`
     flex: 1;
     display: flex;
-    @media screen and (max-width: ${boundaryWidth}px) {
+    @media screen and (max-width: ${950}px) {
         display: none;
     }
 `;
@@ -503,7 +503,6 @@ const StyledHeaderBar = styled.div`
     align-items: center;
     width: 100%;
     height: 50px;
-    padding: 0px 20px 0px 20px;
 
     @media screen and (max-width: ${maxWidth}px) {
         height: 80px;

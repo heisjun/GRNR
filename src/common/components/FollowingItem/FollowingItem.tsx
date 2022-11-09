@@ -1,8 +1,7 @@
 import { Avatar } from 'common/components';
 import Slider from 'common/components/Slider';
-import React, { useState } from 'react';
-import styled, { css, keyframes } from 'styled-components';
-import { FaHeart, FaRegHeart, FaRegCommentDots, FaBookmark, FaRegBookmark, FaGratipay } from 'react-icons/fa';
+import React from 'react';
+import styled from 'styled-components';
 import { IFollowingItem } from './FollowingItem.type';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -94,7 +93,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                         <Avatar width="9%" paddingBottom="9%" borderRadius="100%" picUrl={data.accountProfileUrl} />
                         <div>
                             <StyledNickname> {data.accountNickName}</StyledNickname>
-                            <StyledTime> {data.time}</StyledTime>
+                            <StyledTime> {data.createTime}</StyledTime>
                         </div>
                     </StyledHeaderItem>
                     <StyledHeaderItem2>
@@ -106,7 +105,8 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                 <StyledBlockFooter>
                     <StyledFooterItem>
                         {!like ? (
-                            <FaRegHeart
+                            <StyledIcon
+                                src="/btnBlankHeart.png"
                                 onClick={() => {
                                     onPhotoLike();
                                     setLike(true);
@@ -114,7 +114,8 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                                 }}
                             />
                         ) : (
-                            <FaHeart
+                            <StyledIcon
+                                src="/btnHeart.png"
                                 onClick={() => {
                                     onPhotoLike();
                                     setLike(false);
@@ -125,13 +126,14 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                         )}
                         <div>{likeCount}</div>
                     </StyledFooterItem>
-                    <StyledFooterItem>
-                        <FaRegCommentDots style={{ fontSize: '25' }} />
+                    <StyledFooterCenterItem>
+                        <StyledIcon src="/btnComment.png" />
                         <div>{data.commentCount}</div>
-                    </StyledFooterItem>
+                    </StyledFooterCenterItem>
                     <StyledFooterItem>
                         {!scrap ? (
-                            <FaRegBookmark
+                            <StyledIcon
+                                src="/btnBlankBookmark.png"
                                 onClick={() => {
                                     onPhotoScrap();
                                     setScrap(true);
@@ -139,7 +141,8 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                                 }}
                             />
                         ) : (
-                            <FaBookmark
+                            <StyledIcon
+                                src="/btnBookmark.png"
                                 onClick={() => {
                                     onPhotoScrap();
                                     setScrap(false);
@@ -164,8 +167,8 @@ const StyledFollowingFeeds = styled.div`
 `;
 
 const StyledFeedsBlock = styled.div`
-    width: 550px;
-    height: 800px;
+    width: 720px;
+    height: 885px;
     margin-bottom: 40px;
     background-color: white;
     @media screen and (min-width: ${maxWidth}px) {
@@ -177,8 +180,8 @@ const StyledFeedsBlock = styled.div`
 const StyledBlockHeader = styled.div`
     box-sizing: border-box;
     display: flex;
-    padding: 3%;
-    height: 4%;
+    padding: 16px 24px;
+    height: 80px;
     @media screen and (min-width: ${maxWidth}px) {
         padding: 16px 24px;
         height: 80px;
@@ -192,48 +195,82 @@ const StyledHeaderItem = styled.div`
 `;
 
 const StyledNickname = styled.div`
-    color: gray;
-    font-size: 14px;
-    font-weight: 400;
-    padding-left: 10px;
-    padding-right: 10px;
+    margin: 0 0px 2px 14px;
+    font-family: NotoSansKR;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #272727;
 `;
 
 const StyledClickText = styled.div<{ color: string }>`
     color: ${(props) => props.color};
     font-size: 14px;
     font-weight: 400;
+    margin-left: 10px;
 `;
 
 const StyledTime = styled.div`
     color: lightgray;
     font-size: 12px;
-    padding-left: 10px;
-    padding-right: 10px;
+    margin: 0 0px 2px 14px;
 `;
 
 const StyledHeaderItem2 = styled.div`
-    display: flex;
     width: 20%;
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: space-between;
 `;
 
 const StyledBlockFooter = styled.div`
-    height: 7.5%;
+    height: 70px;
     display: flex;
     align-items: center;
+    @media screen and (min-width: ${maxWidth}px) {
+        height: 70px;
+    }
 `;
 
 const StyledFooterItem = styled.div`
+    box-sizing: border-box;
     display: flex;
-    width: 33.3%;
-    height: 55px;
+    width: 240px;
+    height: 70px;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
-    border-top: 1px solid gray;
-    border-right: 0.5px solid gray;
+    font-size: 18px;
+    border-top: 1px solid #ececec;
+
+    @media screen and (min-width: ${maxWidth}px) {
+        width: 240px;
+        height: 70px;
+    }
+`;
+const StyledFooterCenterItem = styled.div`
+    box-sizing: border-box;
+    display: flex;
+    width: 240px;
+    height: 70px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border-top: 1px solid #ececec;
+    border-right: 1px solid #ececec;
+    border-left: 1px solid #ececec;
+    @media screen and (min-width: ${maxWidth}px) {
+        width: 240px;
+        height: 70px;
+    }
+`;
+
+const StyledIcon = styled.img`
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
 `;
 
 export default FollowingItem;

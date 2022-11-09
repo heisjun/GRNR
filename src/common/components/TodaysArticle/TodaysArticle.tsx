@@ -1,112 +1,177 @@
-import { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
-import { IItemParams } from 'common/types';
-import { Avatar } from 'common/components';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 
-const TodaysArticle: React.FC<IItemParams> = (props) => {
-    const { width, height, paddingBottom, item } = props;
+const data = [{}, {}, {}];
 
-    const [imgAnim, setImgAnim] = useState<any>();
+const TodaysArticle = () => {
+    const slideRef = useRef(document.createElement('img'));
+    const [slidePage, setSlidePage] = useState<number>(0);
+    const [slideIdx, setSlideIdx] = useState<number>(0);
+    const Slidetransform = slidePage / 11.5;
 
+    const leftButton = () => {
+        if (slidePage > 0) {
+            setSlidePage((prev) => prev - 660);
+            setSlideIdx((prev) => prev - 1);
+        }
+    };
+
+    const rightButton = () => {
+        if (2 > slideIdx) {
+            setSlidePage((prev) => prev + 660);
+            setSlideIdx((prev) => prev + 1);
+        }
+    };
+
+    useEffect(() => {
+        slideRef.current.style.transition = 'all 0.5s ease-in-out';
+        slideRef.current.style.transform = `translateX(-${Slidetransform}%)`;
+    }, [slideIdx]);
     return (
-        <StyledTodaysArticleContainer width={width}>
-            <StyledArticleItemBlock height={height} paddingBottom={paddingBottom}>
-                <Link to="community/magazine/details" style={{ textDecoration: 'none' }}>
-                    <StyledImgBlock
-                        onMouseEnter={() => {
-                            setImgAnim(ImageScaleUp);
-                        }}
-                        onMouseLeave={() => {
-                            setImgAnim(ImageScaleDown);
-                        }}
-                    >
-                        <StyledImg src={`/sample2.jpg`} width="100%" height="100%" imgAnim={imgAnim} />
-                    </StyledImgBlock>
-                </Link>
-            </StyledArticleItemBlock>
-            <StyledSummaryContainer>
-                <StyledTitleBlock>식물이 주는 영감을 통해 작업합니다.</StyledTitleBlock>
-                <StyledWriterBlock>
-                    <StyeldAvatarBlock>
-                        <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
-                    </StyeldAvatarBlock>
-                    <StyledWriterText>gardener</StyledWriterText>
-                </StyledWriterBlock>
-            </StyledSummaryContainer>
-        </StyledTodaysArticleContainer>
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+            <div style={{ display: 'flex' }}>
+                <StyledTitle>
+                    식물이 주는 <br />
+                    영감을 통해 작업합니다.
+                </StyledTitle>
+                <StyledContent>
+                    Amun-Ra was the local god of Karnak (Luxor) and during the New Kingdom, when the princes of Thebes
+                    ruled Egypt, he became the preeminent state god, with a temple that reflected his status. At the
+                    height of its power, the temple owned 421,000 head of cattle…
+                </StyledContent>
+            </div>
+            <StyledSlideButtonBox>
+                <StyledArrowStyle onClick={leftButton}>
+                    <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                </StyledArrowStyle>
+                <em>/</em>
+                <StyledArrowStyle onClick={rightButton}>
+                    <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                </StyledArrowStyle>
+            </StyledSlideButtonBox>
+            <StyleBannerBoxStyle ref={slideRef}>
+                {data.map((item, idx) => (
+                    <StyledMainBannerContainer key={idx}>
+                        <StyledImageContainer>
+                            <img src={'/sample.jpeg'} alt="" />
+                        </StyledImageContainer>
+                    </StyledMainBannerContainer>
+                ))}
+            </StyleBannerBoxStyle>
+            <StyledDotBox>
+                {data.map((_, idx) => (
+                    <StyledDot key={idx} slideIdx={slideIdx} idx={idx}>
+                        <span></span>
+                    </StyledDot>
+                ))}
+            </StyledDotBox>
+        </div>
     );
 };
 
-const ImageScaleUp = keyframes`
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.1);
-    }
-`;
+interface IStyled {
+    slidePage?: number;
+    slideIdx?: number;
+    idx?: number;
+}
 
-const ImageScaleDown = keyframes`
-    0% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
-`;
-
-const StyeldAvatarBlock = styled.div`
-    width: 9%;
-`;
-
-const StyledWriterText = styled.div`
-    margin-left: 2%;
-    font-size: 13px;
-    color: grey;
-`;
-
-const StyledWriterBlock = styled.div`
+const StyleBannerBoxStyle = styled.div`
+    width: 1140px;
     display: flex;
-    align-items: center;
-    margin-top: 2px;
+    margin: 40px 0 10px 0;
 `;
 
-const StyledTitleBlock = styled.div`
-    font-size: 15px;
-    font-weight: bold;
-    color: grey;
-`;
-
-const StyledSummaryContainer = styled.div`
-    margin-top: 10px;
-`;
-
-const StyledImg = styled.img<{ imgAnim: any }>`
-    cursor: pointer;
-    object-fit: cover;
-    animation: ${({ imgAnim }) => imgAnim} 0.2s;
-    animation-fill-mode: forwards;
-`;
-
-const StyledImgBlock = styled.div`
-    position: absolute;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-`;
-
-const StyledArticleItemBlock = styled.div<{ height?: string; paddingBottom?: string }>`
+const StyledMainBannerContainer = styled.div<IStyled>`
     position: relative;
-    width: 100%;
-    border: solid 1px;
-    border-color: silver;
-    height: ${({ height }) => height};
-    padding-bottom: ${({ paddingBottom }) => paddingBottom};
+    display: flex;
+    height: 420px;
 `;
 
-const StyledTodaysArticleContainer = styled.div<{ width: string }>`
-    width: ${({ width }) => width};
+const StyledImageContainer = styled.div`
+    position: relative;
+    width: 660px;
+    height: 100%;
+    img {
+        width: 640px;
+        height: 100%;
+        object-fit: cover;
+    }
 `;
 
+const StyledSlideButtonBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 558px;
+    padding: 11px 16px;
+    width: 91px;
+    height: 38px;
+    background-color: white;
+    z-index: 100;
+    em {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 45px;
+        font-weight: 100;
+        padding-right: 10px;
+        color: #d8d8d8;
+        transform: rotate(-18deg);
+        line-height: 150%;
+    }
+`;
+
+const StyledArrowStyle = styled.span`
+    font-size: 30px;
+    color: #4a4a4a;
+    line-height: 150%;
+    padding-top: 5px;
+    cursor: pointer;
+    :hover {
+        color: #9b9b9b;
+    }
+`;
+
+const StyledDot = styled.div<IStyled>`
+    min-width: ${({ slideIdx, idx }) => (slideIdx === idx ? '25px' : '10px')};
+    height: 10px;
+    margin: 30px 10px 0 0;
+    border-radius: 5px;
+    background-color: ${({ slideIdx, idx }) => (slideIdx === idx ? '#0d6637' : '#d8d8d8')};
+`;
+
+const StyledDotBox = styled.div`
+    margin-bottom: 40px;
+    display: flex;
+    overflow: hidden;
+`;
+
+const StyledTitle = styled.div`
+    width: 379px;
+    height: 106px;
+    margin: 20px 8px 31px 0px;
+    font-family: AppleSDGothicNeo;
+    font-size: 40px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #1e1e1e;
+`;
+
+const StyledContent = styled.div`
+    width: 356px;
+    height: 100px;
+    margin: 20px 65px 38px 70px;
+    font-family: NotoSansKR;
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.54;
+    letter-spacing: normal;
+    color: #4a4a4a;
+`;
 export default TodaysArticle;

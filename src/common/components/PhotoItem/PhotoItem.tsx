@@ -144,7 +144,8 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                 <StyledFooterBlock>
                     <StyledButtonsBlock>
                         {!like ? (
-                            <FaRegHeart
+                            <StyledIcon
+                                src="/btnBlankHeart.png"
                                 onClick={() => {
                                     onPhotoLike();
                                     setLike(true);
@@ -152,7 +153,8 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                                 }}
                             />
                         ) : (
-                            <FaHeart
+                            <StyledIcon
+                                src="/btnHeart.png"
                                 onClick={() => {
                                     onPhotoLike();
                                     setLike(false);
@@ -162,10 +164,11 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                             />
                         )}
                         <StyledText>{likeCount}</StyledText>
-                        <FaRegCommentDots />
+                        <StyledIcon src="/btnComment.png" />
                         <StyledText>{item.commentCount}</StyledText>
                         {!scrap ? (
-                            <FaRegBookmark
+                            <StyledIcon
+                                src="/btnBlankBookmark.png"
                                 onClick={() => {
                                     onPhotoScrap();
                                     setScrap(true);
@@ -173,7 +176,8 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                                 }}
                             />
                         ) : (
-                            <FaBookmark
+                            <StyledIcon
+                                src="/btnBookmark.png"
                                 onClick={() => {
                                     onPhotoScrap();
                                     setScrap(false);
@@ -190,9 +194,15 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     );
 };
 
+const StyledIcon = styled.img`
+    width: 20px;
+    height: 20px;
+`;
+
 const StyledBorderLine = styled.div`
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 16px;
     margin-bottom: 16px;
     border-bottom: solid 1px;
     border-color: #ececec;
@@ -213,16 +223,21 @@ const StyledProfileBlock = styled.div`
     align-items: center;
 `;
 const StyledAvatarBlock = styled.div`
-    width: 15%;
+    width: 40px;
     position: relative;
     z-index: 20;
     padding-right: 14px;
 `;
 
 const StyledNicknameBlock = styled.div`
-    color: white;
+    font-family: NotoSansKR;
     font-size: 16px;
     font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #fff;
 `;
 const StyledText = styled.div`
     font-size: 15;
@@ -230,15 +245,16 @@ const StyledText = styled.div`
     color: gray;
 `;
 
-const StyledLikeButton = styled.img`
-    cursor: pointer;
-`;
-
 const StyledDetailsText = styled.div`
+    margin: 0px 0 78px 16px;
+    font-family: NotoSansKR;
     font-size: 15px;
-    font-weight: 400;
-    color: white;
-    padding-left: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.53;
+    letter-spacing: normal;
+    color: #fff;
 `;
 
 const StyledButtonsBlock = styled.div`
