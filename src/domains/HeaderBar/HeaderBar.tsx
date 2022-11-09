@@ -25,6 +25,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [overPage, setOverPage] = useState<number>(0);
     const [crntPage, setCrntPage] = useState<number>(0);
     const [crntPath, setCrntPath] = useState<string>('');
+    const [isActive, setIsActive] = useState(false);
 
     const { isLogin } = useRecoilValue(UserInfo);
 
@@ -147,7 +148,9 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     ))}
                                 </StyledMenuItemsContainer>
                                 <StyledButtonsCotainer>
-                                    <StyledSearchBar src={'/btnSearch.png'} />
+                                    {isActive && <StyledSearchBaInput />}
+                                    <StyledSearchBar src={'/btnSearch.png'} onClick={() => setIsActive(!isActive)} />
+
                                     <StyledSearchBar src={'/btnAlarm.png'} />
                                     <MypageDropdown />
                                     <WritingDropdown />
@@ -527,6 +530,16 @@ const StyledLoginContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    background-color: #f5f5f5;
+`;
+
+const StyledSearchBaInput = styled.input`
+    transition: width 1s linear;
+    width: 270px;
+    height: 40px;
+
+    padding: 6px 0 4px 14px;
+    border: solid 1px #e3e5ec;
     background-color: #f5f5f5;
 `;
 

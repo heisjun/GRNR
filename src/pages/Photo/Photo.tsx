@@ -6,6 +6,7 @@ import axios from 'axios';
 import { IPhotosParams } from 'common/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
+import { AutoScaling } from 'aws-sdk';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
@@ -130,82 +131,92 @@ const Photo: React.FC = () => {
 
     return (
         <StyledPhotoContainer pageAnim={pageAnim}>
-            <div style={{ width: '100%', height: 500, display: 'flex' }}>
-                <div
-                    style={{
-                        width: '65%',
-                        backgroundColor: 'gray',
-                        marginRight: '2%',
-                        backgroundImage: 'url(/sample.jpeg)',
-                        backgroundSize: 'cover',
-                    }}
-                ></div>
-                <div
-                    style={{ width: '33%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-                >
+            <div style={{ maxWidth: 1140, margin: 'auto' }}>
+                <div style={{ width: '100%', height: 500, display: 'flex' }}>
                     <div
                         style={{
-                            width: '100%',
-                            height: '48%',
+                            width: '65%',
                             backgroundColor: 'gray',
-                            backgroundImage: 'url(/sample2.jpg)',
+                            marginRight: '2%',
+                            backgroundImage: 'url(/sample.jpeg)',
                             backgroundSize: 'cover',
                         }}
                     ></div>
                     <div
                         style={{
-                            width: '100%',
-                            height: '48%',
-                            backgroundColor: 'gray',
-                            backgroundImage: 'url(/sample2.jpg)',
-                            backgroundSize: 'cover',
+                            width: '33%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
                         }}
-                    ></div>
+                    >
+                        <div
+                            style={{
+                                width: '100%',
+                                height: '48%',
+                                backgroundColor: 'gray',
+                                backgroundImage: 'url(/sample2.jpg)',
+                                backgroundSize: 'cover',
+                            }}
+                        ></div>
+                        <div
+                            style={{
+                                width: '100%',
+                                height: '48%',
+                                backgroundColor: 'gray',
+                                backgroundImage: 'url(/sample2.jpg)',
+                                backgroundSize: 'cover',
+                            }}
+                        ></div>
+                    </div>
+                </div>
+                <StyledBorderLine />
+                <StyledPhotoHeader>
+                    <Filters_Test setGetFilter={setSelectedPlace} data={PhotoFilter_Place} />
+                    <Filters_Test setGetFilter={setSelectedOrder} data={PhotoFilter_Order} />
+                </StyledPhotoHeader>
+
+                <div style={{ display: 'flex' }}>
+                    {filterValue.sort && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.sort}
+                                <FaTimes onClick={() => handleFilterValue('', 'sort')} style={{ paddingLeft: 3 }} />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {filterValue.homePlace && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.homePlace}
+                                <FaTimes
+                                    onClick={() => handleFilterValue('', 'homePlace')}
+                                    style={{ paddingLeft: 3 }}
+                                />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {(filterValue.homePlace || filterValue.sort) && (
+                        <StyledSelected onClick={onReset}>초기화</StyledSelected>
+                    )}
+
+                    {photos ? (
+                        <ItemList
+                            width="100%"
+                            imgHeight="120%"
+                            cols={photoCols}
+                            horizontalGap={photoHorizontalGap}
+                            verticalGap={photoVerticalGap}
+                            items={photos}
+                            RenderComponent={PhotoItem}
+                        />
+                    ) : (
+                        <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>
+                            <div style={{ fontSize: 18, fontWeight: 400 }}>찾으시는 결과가 없습니다!</div>
+                        </div>
+                    )}
                 </div>
             </div>
-            <StyledBorderLine />
-            <StyledPhotoHeader>
-                <Filters_Test setGetFilter={setSelectedPlace} data={PhotoFilter_Place} />
-                <Filters_Test setGetFilter={setSelectedOrder} data={PhotoFilter_Order} />
-            </StyledPhotoHeader>
-
-            <div style={{ display: 'flex' }}>
-                {filterValue.sort && (
-                    <StyledSelected>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {filterValue.sort}
-                            <FaTimes onClick={() => handleFilterValue('', 'sort')} style={{ paddingLeft: 3 }} />
-                        </div>
-                    </StyledSelected>
-                )}
-                {filterValue.homePlace && (
-                    <StyledSelected>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {filterValue.homePlace}
-                            <FaTimes onClick={() => handleFilterValue('', 'homePlace')} style={{ paddingLeft: 3 }} />
-                        </div>
-                    </StyledSelected>
-                )}
-                {(filterValue.homePlace || filterValue.sort) && (
-                    <StyledSelected onClick={onReset}>초기화</StyledSelected>
-                )}
-            </div>
-
-            {photos ? (
-                <ItemList
-                    width="100%"
-                    imgHeight="120%"
-                    cols={photoCols}
-                    horizontalGap={photoHorizontalGap}
-                    verticalGap={photoVerticalGap}
-                    items={photos}
-                    RenderComponent={PhotoItem}
-                />
-            ) : (
-                <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>
-                    <div style={{ fontSize: 18, fontWeight: 400 }}>찾으시는 결과가 없습니다!</div>
-                </div>
-            )}
         </StyledPhotoContainer>
     );
 };

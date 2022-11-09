@@ -34,28 +34,30 @@ const DictionaryDetails: React.FC = () => {
     }, []);
     return (
         <StyledDicDetailsContainer>
-            <DictionaryInfo data={details} />
-            <PlantGuide />
-            <Faq />
+            <div style={{ maxWidth: 1140, margin: 'auto' }}>
+                <DictionaryInfo data={details} />
+                <PlantGuide />
+                <Faq />
 
-            <StyledDetailsBlock>
-                <StyledDetailTitle>
-                    #<span>{details?.plantName}</span> 관련 매거진
-                </StyledDetailTitle>
-                <StyledMoreText>
-                    더보기 <StyledArrowIcon src="/btnArrowGray.png" />
-                </StyledMoreText>
-            </StyledDetailsBlock>
-            <div style={{ width: 1140 }}>
-                <ItemList
-                    width="100%"
-                    imgHeight="80%"
-                    cols={articleCols}
-                    horizontalGap={articleGap}
-                    verticalGap={articleGap}
-                    items={articleData}
-                    RenderComponent={MagazineItem}
-                />
+                <StyledDetailsBlock>
+                    <StyledDetailTitle>
+                        #<span>{details?.plantName}</span> 관련 매거진
+                    </StyledDetailTitle>
+                    <StyledMoreText>
+                        더보기 <StyledArrowIcon src="/btnArrowGray.png" />
+                    </StyledMoreText>
+                </StyledDetailsBlock>
+                <div style={{ width: 1140 }}>
+                    <ItemList
+                        width="100%"
+                        imgHeight="80%"
+                        cols={articleCols}
+                        horizontalGap={articleGap}
+                        verticalGap={articleGap}
+                        items={articleData}
+                        RenderComponent={MagazineItem}
+                    />
+                </div>
             </div>
         </StyledDicDetailsContainer>
     );

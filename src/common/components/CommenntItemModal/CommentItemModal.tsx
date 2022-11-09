@@ -405,7 +405,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                         fontWeight: 500,
                     }}
                 >
-                    <StyledInfoIcon src="/btnBlankbookMark.png" />
+                    <StyledInfoIcon src="/btnBlankBookmark.png" />
                     {details?.scrapCount}
                 </div>
             </StyledCommentInfoBlock>
