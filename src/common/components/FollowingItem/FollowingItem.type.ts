@@ -1,3 +1,5 @@
+import { IFollowingsParams } from 'common/types';
+
 export type IFollowingItem = {
     data: {
         id: number;
@@ -15,4 +17,6 @@ export type IFollowingItem = {
         time: number;
         createTime: string;
     };
+    setFunc: any;
+    items: IFollowingsParams[];
 };

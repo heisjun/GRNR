@@ -121,7 +121,6 @@ const Slider: React.FC<ISlider> = (props) => {
                     },
                 );
                 setComment(CommentData.data.value.content[0].commentDtoList);
-                console.log('이건가:', CommentData.data.value.content[0].commentDtoList);
             } catch (e) {
                 console.log(e);
             }

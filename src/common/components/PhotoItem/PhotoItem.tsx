@@ -4,43 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { IPhotoItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 import axios from 'axios';
-import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark, FaRegCommentDots } from 'react-icons/fa';
-import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const navigate = useNavigate();
-    const { width, height, paddingBottom, item } = props;
+    const { width, height, paddingBottom, item, setFunc, items } = props;
     const [hover, setHover] = useState<boolean>(false);
-
-    const likecountState = atom({
-        key: `likecountState${item.pictureId}`,
-        default: item.likeCount,
-    });
-
-    const ScrapcountState = atom({
-        key: `ScrapcountState${item.pictureId}`,
-        default: item.scrapCount,
-    });
-
-    const scrapExistState = atom({
-        key: `scrapExistState${item.pictureId}`,
-        default: item.myScrap,
-    });
-
-    const likeExistState = atom({
-        key: `likeExistState${item.pictureId}`,
-        default: item.myLike,
-    });
-
-    const [likeCount, setLikeCount] = useRecoilState(likecountState);
-    const [scrapCount, setScrapCount] = useRecoilState(ScrapcountState);
-    const [like, setLike] = useRecoilState(likeExistState);
-    const [scrap, setScrap] = useRecoilState(scrapExistState);
-    const setCountUseSetRecoilState = useSetRecoilState(likecountState);
-    const setScrapCountUseSetRecoilState = useSetRecoilState(ScrapcountState);
 
     const onPhotoLike = async () => {
         if (!TOKEN) {
@@ -56,6 +27,37 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                             Authorization: `Bearer ${TOKEN}`,
                         },
                     },
+                );
+                setFunc(
+                    items.map((it) =>
+                        it.pictureId === item.pictureId ? { ...it, myLike: true, likeCount: item.likeCount + 1 } : it,
+                    ),
+                );
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const onPhotoUnLike = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${item.pictureId}/like`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setFunc(
+                    items.map((it) =>
+                        it.pictureId === item.pictureId ? { ...it, myLike: false, likeCount: item.likeCount - 1 } : it,
+                    ),
                 );
             } catch (e) {
                 console.log(e);
@@ -77,6 +79,41 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                             Authorization: `Bearer ${TOKEN}`,
                         },
                     },
+                );
+                setFunc(
+                    items.map((it) =>
+                        it.pictureId === item.pictureId
+                            ? { ...it, myScrap: true, scrapCount: item.scrapCount + 1 }
+                            : it,
+                    ),
+                );
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const onPhotoUnScrap = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${item.pictureId}/scrap`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setFunc(
+                    items.map((it) =>
+                        it.pictureId === item.pictureId
+                            ? { ...it, myScrap: false, scrapCount: item.scrapCount - 1 }
+                            : it,
+                    ),
                 );
             } catch (e) {
                 console.log(e);
@@ -143,50 +180,42 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
 
                 <StyledFooterBlock>
                     <StyledButtonsBlock>
-                        {!like ? (
+                        {!item.myLike ? (
                             <StyledIcon
                                 src="/btnBlankHeart.png"
                                 onClick={() => {
                                     onPhotoLike();
-                                    setLike(true);
-                                    setCountUseSetRecoilState(likeCount + 1);
                                 }}
                             />
                         ) : (
                             <StyledIcon
                                 src="/btnHeart.png"
                                 onClick={() => {
-                                    onPhotoLike();
-                                    setLike(false);
-                                    setCountUseSetRecoilState(likeCount - 1);
+                                    onPhotoUnLike();
                                 }}
                                 style={{ color: 'red' }}
                             />
                         )}
-                        <StyledText>{likeCount}</StyledText>
+                        <StyledText>{item.likeCount}</StyledText>
                         <StyledIcon src="/btnComment.png" />
                         <StyledText>{item.commentCount}</StyledText>
-                        {!scrap ? (
+                        {!item.myScrap ? (
                             <StyledIcon
                                 src="/btnBlankBookmark.png"
                                 onClick={() => {
                                     onPhotoScrap();
-                                    setScrap(true);
-                                    setScrapCountUseSetRecoilState(scrapCount + 1);
                                 }}
                             />
                         ) : (
                             <StyledIcon
                                 src="/btnBookmark.png"
                                 onClick={() => {
-                                    onPhotoScrap();
-                                    setScrap(false);
-                                    setScrapCountUseSetRecoilState(scrapCount - 1);
+                                    onPhotoUnScrap();
                                 }}
                                 style={{ color: '#0d6637' }}
                             />
                         )}
-                        <StyledText>{scrapCount}</StyledText>
+                        <StyledText>{item.scrapCount}</StyledText>
                     </StyledButtonsBlock>
                 </StyledFooterBlock>
             </StyledPhotoItemContainer>

@@ -51,7 +51,7 @@ const Following: React.FC = () => {
     return (
         <StyledFollowingContainer pageAnim={pageAnim}>
             {followings.map((i, index) => {
-                return <FollowingItem key={index} data={i} />;
+                return <FollowingItem key={index} data={i} setFunc={setFollowings} items={followings} />;
             })}
         </StyledFollowingContainer>
     );

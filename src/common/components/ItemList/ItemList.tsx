@@ -4,7 +4,7 @@ import { IItemList } from './ItemList.type';
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const ItemList: React.FC<IItemList> = (props) => {
-    const { width, imgHeight, horizontalGap, verticalGap, cols, items, RenderComponent } = props;
+    const { width, imgHeight, horizontalGap, verticalGap, cols, items, RenderComponent, setFunc } = props;
     const length = String((100 - (cols - 1) * horizontalGap) / cols - 0.1) + '%';
     return (
         <StyledItemListContainer width={width}>
@@ -15,7 +15,13 @@ const ItemList: React.FC<IItemList> = (props) => {
                     marginRight={(index + 1) % cols === 0 ? 0 : horizontalGap}
                     marginBottom={verticalGap}
                 >
-                    <RenderComponent width="100%" paddingBottom={imgHeight} item={item} />
+                    <RenderComponent
+                        width="100%"
+                        paddingBottom={imgHeight}
+                        item={item}
+                        setFunc={setFunc}
+                        items={items}
+                    />
                 </StyledItemBlock>
             ))}
         </StyledItemListContainer>
