@@ -5,7 +5,7 @@ export type IFollowingItem = {
         accountProfileUrl: string;
         pictureUrlList: [];
         category: string;
-        text: string;
+        textList: [];
         tagList: [];
         scrapCount: number;
         likeCount: number;
@@ -13,5 +13,6 @@ export type IFollowingItem = {
         myLike: boolean;
         myScrap: boolean;
         time: number;
+        createTime: string;
     };
 };

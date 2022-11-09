@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IDictionaryBanner } from './DictionaryBanner.type';
-import { default as callApi } from 'common/api';
-import { IDictionaryDetailsParams } from 'common/types';
+import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 
 const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
     const { data } = props;
@@ -11,14 +10,14 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
 
     const leftButton = () => {
         if (slidePage > 0) {
-            setSlidePage((prev) => prev - 1211);
+            setSlidePage((prev) => prev - 1140);
             setSlideIdx((prev) => prev - 1);
         }
     };
 
     const rightButton = () => {
-        if (3 * 1211 > slidePage) {
-            setSlidePage((prev) => prev + 1211);
+        if (3 * 1140 > slidePage) {
+            setSlidePage((prev) => prev + 1140);
             setSlideIdx((prev) => prev + 1);
         }
     };
@@ -31,9 +30,13 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
                         <StyledImageContainer>
                             <img src={item.plantPicUrl} alt="" />
                             <StyledSlideButtonBox>
-                                <StyledArrowStyle onClick={leftButton}>&#60;</StyledArrowStyle>
+                                <StyledArrowStyle onClick={leftButton}>
+                                    <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                                </StyledArrowStyle>
                                 <em>/</em>
-                                <StyledArrowStyle onClick={rightButton}>&#62;</StyledArrowStyle>
+                                <StyledArrowStyle onClick={rightButton}>
+                                    <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                                </StyledArrowStyle>
                             </StyledSlideButtonBox>
                         </StyledImageContainer>
                         <StyledContentContainer>
@@ -95,7 +98,7 @@ const StyledMainBannerContainer = styled.div<IStyled>`
 
 const StyledImageContainer = styled.div`
     position: relative;
-    padding-right: 13px;
+
     width: 763px;
     height: 100%;
     img {
@@ -118,19 +121,21 @@ const StyledSlideButtonBox = styled.div`
     z-index: 100;
     em {
         margin-top: 10px;
+        margin-bottom: 10px;
         font-size: 45px;
-        font-weight: 300;
+        font-weight: 100;
+        padding-right: 10px;
         color: #d8d8d8;
-        transform: rotate(-15deg);
+        transform: rotate(-18deg);
         line-height: 150%;
     }
 `;
 
 const StyledArrowStyle = styled.span`
-    font-size: 40px;
-    font-weight: 200;
+    font-size: 30px;
     color: #4a4a4a;
     line-height: 150%;
+    padding-top: 5px;
     cursor: pointer;
     :hover {
         color: #9b9b9b;
@@ -138,6 +143,7 @@ const StyledArrowStyle = styled.span`
 `;
 
 const StyledContentContainer = styled.div`
+    box-sizing: border-box;
     padding: 28px 41px 0 17px;
     width: 377px;
 `;

@@ -6,25 +6,20 @@ import { FadeIn, FadeOut } from 'common/keyframes';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
-const minWidth = process.env.REACT_APP_MIN_WIDTH;
 
 const Popular: React.FC = () => {
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
     const [photoGap, setPhotoGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
-
-    const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
-    const [articleGap, setArticleGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
+    const [photoVerticalGap, setPhotoVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 20 : 4);
 
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
 
     const picData = [{}, {}, {}, {}, {}, {}, {}, {}];
-    const artData = [{}, {}, {}];
 
     const resizeHandler = () => {
         setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
         setPhotoGap(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
-        setArticleCols(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
-        setArticleGap(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
+        setPhotoVerticalGap(window.innerWidth > Number(boundaryWidth) ? 20 : 4);
     };
 
     useEffect(() => {
@@ -48,43 +43,47 @@ const Popular: React.FC = () => {
             <StyledBottomContainer>
                 <StyledDetailsBlock>
                     <StyledTitleText>인기 사진</StyledTitleText>
-                    <StyledMoreText>더보기 {'>'}</StyledMoreText>
+                    <StyledMoreText>
+                        더보기 <StyledArrowIcon src="/btnArrowGray.png" />
+                    </StyledMoreText>
                 </StyledDetailsBlock>
                 <ItemList
                     width="100%"
                     imgHeight="100%"
                     cols={photoCols}
                     horizontalGap={photoGap}
-                    verticalGap={photoGap}
+                    verticalGap={photoVerticalGap}
                     items={picData}
                     RenderComponent={TodaysPhoto}
                 />
                 <StyledBorderLine />
                 <StyledDetailsBlock>
-                    <StyledTitleText>오늘의 인기 아티클</StyledTitleText>
-                    <StyledMoreText>더보기</StyledMoreText>
+                    <StyledTitleText>인기 아티클</StyledTitleText>
+                    <StyledMoreText>
+                        더보기 <StyledArrowIcon src="/btnArrowGray.png" />
+                    </StyledMoreText>
                 </StyledDetailsBlock>
-                <ItemList
-                    width="100%"
-                    imgHeight="70%"
-                    cols={articleCols}
-                    horizontalGap={articleGap}
-                    verticalGap={articleGap}
-                    items={artData}
-                    RenderComponent={TodaysArticle}
-                />
+                <TodaysArticle />
                 <StyledBorderLine />
                 <StyledDetailsBlock>
-                    <StyledTitleText>오늘의 Q&A</StyledTitleText>
-                    <StyledMoreText>더보기</StyledMoreText>
+                    <StyledTitleText>Q&A</StyledTitleText>
+                    <StyledMoreText>
+                        더보기 <StyledArrowIcon src="/btnArrowGray.png" />
+                    </StyledMoreText>
                 </StyledDetailsBlock>
             </StyledBottomContainer>
         </StyledPopularContainer>
     );
 };
 
+const StyledArrowIcon = styled.img`
+    width: 14px;
+    height: 14px;
+    margin: 2px 0 2px 4px;
+    object-fit: contain;
+`;
 const StyledTitleText = styled.div`
-    font-size: 17px;
+    font-size: 26px;
     font-weight: bold;
     color: #272727;
     flex: 1;
@@ -94,6 +93,8 @@ const StyledTitleText = styled.div`
 `;
 
 const StyledMoreText = styled.div`
+    display: flex;
+    align-items: center;
     font-size: 12px;
     font-weight: 500;
     color: #a6a6a6;

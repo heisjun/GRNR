@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { IItemList } from './ItemList.type';
 
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+
 const ItemList: React.FC<IItemList> = (props) => {
     const { width, imgHeight, horizontalGap, verticalGap, cols, items, RenderComponent } = props;
     const length = String((100 - (cols - 1) * horizontalGap) / cols - 0.1) + '%';
@@ -23,7 +25,11 @@ const ItemList: React.FC<IItemList> = (props) => {
 const StyledItemBlock = styled.div<{ length: string; marginRight: number; marginBottom: number }>`
     width: ${({ length }) => length};
     margin-right: ${({ marginRight }) => marginRight}%;
-    margin-bottom: ${({ marginBottom }) => (marginBottom !== 0 ? marginBottom - 0.5 : ``)}%;
+    margin-bottom: ${({ marginBottom }) => (marginBottom !== 0 ? marginBottom - 0.5 : ``)}px;
+    @media screen and (min-width: ${maxWidth}px) {
+        margin-right: ${({ marginRight }) => marginRight}%;
+        margin-bottom: ${({ marginBottom }) => marginBottom}px;
+    }
 `;
 
 const StyledItemListContainer = styled.div<{ width: string }>`

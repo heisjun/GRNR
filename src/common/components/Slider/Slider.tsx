@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Slide from './Slide/Slide';
 import styled from 'styled-components';
 import Indicator from './Indicator';
@@ -6,13 +6,15 @@ import { ISlider } from './Slider.type';
 import Modal from 'react-modal';
 import ItemList from '../ItemList';
 import { default as callApi } from 'common/api';
-import { ICommentsParams, IPhotoDetailsParams } from 'common/types';
+import { ICommentsParams, IPhotoDetailsParams, ItestComments } from 'common/types';
 import { TaggedPhoto } from 'domains';
 import axios from 'axios';
 import CommentItemModal from '../CommenntItemModal';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
+
+const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
@@ -29,6 +31,9 @@ const Slider: React.FC<ISlider> = (props) => {
     const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
     const [commentsList, setCommentsList] = useState<ICommentsParams>();
+    const [comment, setComment] = useState<ItestComments[]>([]);
+
+    const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
     const NextSlide = () => {
         if (currentSlide >= TOTAL_SLIDES) {
@@ -93,12 +98,43 @@ const Slider: React.FC<ISlider> = (props) => {
         }
     }, []);
 
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+    const fetchData2 = useCallback(async () => {
+        if (!TOKEN) {
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/picture/${item.id}/comment/view
+                `,
+                );
+                setComment(CommentData.data.value.content[0].commentDtoList);
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/picture/${item.id}/comment/view
+                `,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setComment(CommentData.data.value.content[0].commentDtoList);
+                console.log('이건가:', CommentData.data.value.content[0].commentDtoList);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }, []);
 
     useEffect(() => {
-        const fetchData = async () => {
+        fetchData();
+        fetchData2();
+    }, [fetchData, fetchData2]);
+
+    useEffect(() => {
+        const fetchData3 = async () => {
             setLoading(true);
             try {
                 const response = await callApi.getDetailList(Number(item.id), 'picture');
@@ -108,7 +144,7 @@ const Slider: React.FC<ISlider> = (props) => {
             }
             setLoading(false);
         };
-        fetchData();
+        fetchData3();
     }, []);
 
     useEffect(() => {
@@ -171,12 +207,11 @@ const Slider: React.FC<ISlider> = (props) => {
 
             <Modal isOpen={isOpenModal} ariaHideApp={false} style={customStyles}>
                 <div style={{ display: 'flex' }}>
-                    <div style={{ width: '60%', height: 600, backgroundColor: 'white' }}>
+                    <div style={{ width: 708, backgroundColor: 'white' }}>
                         <div
                             style={{
-                                height: '600',
                                 overflow: 'auto',
-                                maxHeight: 600,
+                                maxHeight: 750,
                             }}
                         >
                             <div>
@@ -200,7 +235,10 @@ const Slider: React.FC<ISlider> = (props) => {
                                                     picUrl={details?.accountProfileUrl}
                                                 />
                                             </StyeldAvatarBlock>
-                                            <StyledWriterText>{details?.accountNickName}</StyledWriterText>
+                                            <div>
+                                                <StyledWriterText>{details?.accountNickName}</StyledWriterText>
+                                                <StyledWriterintro>취향을 담은 가드너스클럽장</StyledWriterintro>
+                                            </div>
                                         </StyledWriterBlock>
                                     </StyledProfileBlock>
                                     <StyledFollowButtonBlock>
@@ -210,7 +248,7 @@ const Slider: React.FC<ISlider> = (props) => {
                                                     onFollowing(details?.accountNickName ? details.accountNickName : '')
                                                 }
                                             >
-                                                팔로우 +
+                                                팔로우
                                             </StyledFollowText>
                                         </StyledFollowButton>
                                     </StyledFollowButtonBlock>
@@ -218,24 +256,32 @@ const Slider: React.FC<ISlider> = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div style={{ width: '40%', backgroundColor: 'white' }}>
+                    <div style={{ width: 432, backgroundColor: 'white' }}>
                         <div
+                            onClick={() => setIsOpenModal(false)}
                             style={{
-                                height: '600',
-                                overflow: 'auto',
-                                maxHeight: 500,
-                                padding: 5,
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                marginRight: 15,
+                                marginTop: 5,
+                                cursor: 'pointer',
                             }}
                         >
-                            <div
-                                onClick={() => setIsOpenModal(false)}
-                                style={{ display: 'flex', justifyContent: 'flex-end' }}
-                            >
-                                X
-                            </div>
+                            닫기 X
+                        </div>
+                        <div
+                            style={{
+                                overflow: 'auto',
+                                maxHeight: 610,
+                                padding: 16,
+                                boxSizing: 'border-box',
+                            }}
+                        >
                             <CommentItemModal
                                 commentsList={commentsList}
                                 pictureId={String(item.id)}
+                                testComments={comment}
+                                setTestComments={setComment}
                                 category="picture"
                             />
                         </div>
@@ -262,10 +308,13 @@ const Slider: React.FC<ISlider> = (props) => {
 };
 
 const Container = styled.div`
-    height: 84.5%;
+    height: 735px;
     background-color: white;
     margin: auto;
     overflow: hidden;
+    @media screen and (min-width: ${maxWidth}px) {
+        height: 735px;
+    }
 `;
 
 const StyledBtnText = styled.div`
@@ -290,11 +339,11 @@ const NextButton = styled.div`
     opacity: 0.9;
     box-shadow: 0 6px 14px 0 rgba(0, 0, 0, 0.5);
     background-color: #fff;
-    margin-left: 500px;
+    margin-left: 656px;
     border-radius: 100%;
     position: absolute;
     z-index: 10;
-    top: 35%;
+    top: 40%;
 
     cursor: pointer;
     &:hover {
@@ -310,12 +359,12 @@ const PrevButton = styled.div`
     opacity: 0.9;
     box-shadow: 0 6px 14px 0 rgba(0, 0, 0, 0.5);
     background-color: #fff;
-    margin-left: 10px;
+    margin-left: 24px;
     border-radius: 100%;
     border: none;
     position: absolute;
     z-index: 10;
-    top: 35%;
+    top: 40%;
     cursor: pointer;
     &:hover {
         background-color: gray;
@@ -337,8 +386,8 @@ const customStyles = {
         marginRight: 'auto',
         marginLeft: 'auto',
         marginTop: '100px',
-        width: '900px',
-        height: '600px',
+        width: '1140px',
+        height: '750px',
         padding: '0',
         overflow: 'hidden',
         borderRadius: '0px',
@@ -346,19 +395,19 @@ const customStyles = {
 };
 
 const StyledFollowText = styled.div`
-    font-size: 15px;
-    color: grey;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
 `;
 
 const StyledFollowButton = styled.div`
-    width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid 2px;
-    border-radius: 25px;
-    border-color: silver;
+    width: 72px;
+    height: 30px;
+    padding: 4px 16px 6px 17px;
+    background-color: #0d6637;
     cursor: pointer;
     &:hover {
         background-color: silver;
@@ -374,15 +423,26 @@ const StyeldAvatarBlock = styled.div`
 `;
 
 const StyledWriterText = styled.div`
-    margin-left: 2%;
-    font-size: 20px;
-    color: grey;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0px 0px 1px 18px;
+    line-height: 1.63;
+    letter-spacing: normal;
+    color: #272727;
+`;
+
+const StyledWriterintro = styled.div`
+    margin: 1px 0px 0px 18px;
+    font-family: NotoSansKR;
+    font-size: 14px;
+    line-height: 1.86;
+    letter-spacing: normal;
+    color: #7b7b7b;
 `;
 
 const StyledWriterBlock = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 2px;
 `;
 
 const StyledProfileBlock = styled.div`
@@ -390,10 +450,13 @@ const StyledProfileBlock = styled.div`
 `;
 
 const StyledUserInfoBlock = styled.div`
+    box-sizing: border-box;
     width: 100%;
-    height: 100px;
+    height: 120px;
     display: flex;
     align-items: center;
+    margin: 50px 0px 20px;
+    padding: 20px 16px;
     background-color: #f5f5f5;
 `;
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IDictionaryInfo } from './DictionaryInfo.type';
+import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -9,6 +10,7 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
     const [slidePage, setSlidePage] = useState<number>(0);
     const [slideIdx, setSlideIdx] = useState<number>(0);
     console.log(data?.pictureList.length);
+    console.log(slideIdx);
 
     const leftButton = () => {
         if (slidePage > 0) {
@@ -18,7 +20,7 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
     };
 
     const rightButton = () => {
-        if (data?.pictureList.length ? data.pictureList.length * 1140 : 3 * 1140 >= slidePage) {
+        if ((data?.pictureList.length ? data.pictureList.length - 1 : 0) > slideIdx) {
             setSlidePage((prev) => prev + 1140);
             setSlideIdx((prev) => prev + 1);
         }
@@ -32,9 +34,13 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                         <StyledImageContainer>
                             <img src={item} alt="" />
                             <StyledSlideButtonBox>
-                                <StyledArrowStyle onClick={leftButton}>&#60;</StyledArrowStyle>
+                                <StyledArrowStyle onClick={leftButton}>
+                                    <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                                </StyledArrowStyle>
                                 <em>/</em>
-                                <StyledArrowStyle onClick={rightButton}>&#62;</StyledArrowStyle>
+                                <StyledArrowStyle onClick={rightButton}>
+                                    <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                                </StyledArrowStyle>
                             </StyledSlideButtonBox>
                         </StyledImageContainer>
                     </StyledMainBannerContainer>
@@ -203,7 +209,7 @@ const StyledKorName = styled.div`
 
 const StyledInfoContainer = styled.div`
     display: flex;
-    width: 100%;
+    width: 1140px;
     height: 350px;
     box-sizing: border-box;
     padding: 40px 23px 36px 30px;
@@ -255,19 +261,21 @@ const StyledSlideButtonBox = styled.div`
     z-index: 100;
     em {
         margin-top: 10px;
+        margin-bottom: 10px;
         font-size: 45px;
-        font-weight: 300;
+        font-weight: 100;
+        padding-right: 10px;
         color: #d8d8d8;
-        transform: rotate(-15deg);
+        transform: rotate(-18deg);
         line-height: 150%;
     }
 `;
 
 const StyledArrowStyle = styled.span`
-    font-size: 40px;
-    font-weight: 200;
+    font-size: 30px;
     color: #4a4a4a;
     line-height: 150%;
+    padding-top: 5px;
     cursor: pointer;
     :hover {
         color: #9b9b9b;

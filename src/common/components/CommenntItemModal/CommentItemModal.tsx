@@ -10,10 +10,9 @@ import { IPhotoDetailsParams } from 'common/types';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
-
 const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const navigate = useNavigate();
-    const { commentsList, pictureId, category } = props;
+    const { commentsList, pictureId, category, testComments, setTestComments } = props;
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
     const [isActive, setIsActive] = useState([false]);
@@ -83,6 +82,10 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     };
 
     const onCommentSave = async () => {
+        if (!comment) {
+            alert('댓글을 입력해 주세요!');
+            return;
+        }
         try {
             const body = {
                 commentId: null,
@@ -99,7 +102,25 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
-
+            const newComment = {
+                inquiryId: pictureId,
+                commentId: null,
+                myLike: false,
+                commentNameList: [
+                    {
+                        commentId: null,
+                        nickNameTag: null,
+                    },
+                ],
+                content: comment,
+                report: false,
+                parentId: null,
+                likeCount: 0,
+                accountNicName: 'heisjun',
+                accountProfileUrl: 'http://k.kakaocdn.net/dn/AZ6Ew/btrOzeCSFCr/6KokjoYfCyzi3Fk4ShUAz1/img_110x110.jpg',
+                commentChildDtoList: null,
+            };
+            setTestComments([...testComments, newComment]);
             setComment('');
         } catch (e) {
             console.log(e);
@@ -107,6 +128,10 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     };
 
     const onReCommentSave = async (commentId: number, content: string) => {
+        if (!content) {
+            alert('댓글을 입력해 주세요!');
+            return;
+        }
         try {
             const body = {
                 commentId: commentId,
@@ -123,6 +148,38 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
+            const newComment = {
+                inquiryId: pictureId,
+                commentId: commentId,
+                myLike: false,
+                commentNameList: [
+                    {
+                        commentId: null,
+                        nickNameTag: null,
+                    },
+                ],
+                content: null,
+                report: false,
+                parentId: null,
+                likeCount: 0,
+                accountNicName: 'heisjun',
+                accountProfileUrl: 'http://k.kakaocdn.net/dn/AZ6Ew/btrOzeCSFCr/6KokjoYfCyzi3Fk4ShUAz1/img_110x110.jpg',
+                commentChildDtoList: [
+                    {
+                        parentId: commentId,
+                        commentId: null,
+                        myLike: false,
+                        content: content,
+                        report: false,
+                        accountNicName: 'heisjun',
+                        accountProfileUrl:
+                            'http://k.kakaocdn.net/dn/AZ6Ew/btrOzeCSFCr/6KokjoYfCyzi3Fk4ShUAz1/img_110x110.jpg',
+                        likeCount: 0,
+                        commentNicNameList: null,
+                    },
+                ],
+            };
+            setTestComments([...testComments, newComment]);
         } catch (e) {
             console.log(e);
         }
@@ -149,8 +206,8 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
 
     return (
         <StyledCommentListContainer>
-            {commentsList?.commentDtoList &&
-                commentsList?.commentDtoList.map((item, index) => {
+            {testComments &&
+                testComments.map((item, index) => {
                     return (
                         <StyledCommentListContainer key={index}>
                             <StyledCommentBlock>
@@ -189,7 +246,13 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                             </StyledCommentBlock>
                             <StyledcommentSubItemContainer>
                                 <StyledcommentSubItem> 좋아요 {item.likeCount} 개</StyledcommentSubItem>
-                                <StyledcommentSubItem onClick={() => onOpenBtn(index)}>답글달기</StyledcommentSubItem>
+                                {isActive[index] ? (
+                                    <StyledcommentSubItem onClick={() => onCloseBtn(index)}>닫기</StyledcommentSubItem>
+                                ) : (
+                                    <StyledcommentSubItem onClick={() => onOpenBtn(index)}>
+                                        답글달기
+                                    </StyledcommentSubItem>
+                                )}
                                 {item.accountNicName !== sessionStorage.getItem('nickName') && (
                                     <StyledcommentSubItem onClick={() => onCommentReport(item.commentId)}>
                                         신고
@@ -259,28 +322,50 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                 <div
                                     style={{
                                         display: 'flex',
-                                        justifyContent: 'space-between',
                                         marginBottom: 10,
+                                        marginLeft: 36,
+                                        justifyContent: 'space-between',
                                     }}
                                 >
-                                    <Avatar width="6%" paddingBottom="6%" borderRadius="100%" />
+                                    <StyledAvatarBlock>
+                                        <Avatar
+                                            width="100%"
+                                            paddingBottom="100%"
+                                            borderRadius="100%"
+                                            picUrl={sessionStorage.getItem('picUrl')}
+                                        />
+                                    </StyledAvatarBlock>
 
                                     <input
                                         type="text"
                                         value={recomment}
-                                        style={{ width: '80%', borderRadius: 15, paddingLeft: 5 }}
+                                        style={{
+                                            width: '70%',
+                                            borderRadius: 15,
+                                            paddingLeft: 5,
+                                            borderColor: 'gray',
+                                            borderWidth: 1.5,
+                                        }}
                                         onChange={(e) => {
                                             setRecomment(e.target.value);
                                         }}
                                     />
                                     <button
+                                        style={{
+                                            color: 'white',
+                                            backgroundColor: '#0d6637',
+                                            border: 'none',
+                                            borderRadius: 15,
+                                            paddingLeft: 10,
+                                            paddingRight: 10,
+                                        }}
                                         onClick={() => {
                                             onReCommentSave(item.commentId, recomment);
                                             onCloseBtn(index);
                                             setRecomment('');
                                         }}
                                     >
-                                        저장
+                                        입력
                                     </button>
                                 </div>
                             )}
@@ -293,23 +378,22 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                         style={{
                             display: 'flex',
                             alignItems: 'center',
-                            fontSize: 15,
-                            paddingLeft: 5,
-                            paddingRight: 5,
+                            fontSize: 14,
+                            fontWeight: 500,
+                            marginRight: 20,
                         }}
                     >
-                        <FaRegHeart style={{ fontSize: 20, paddingRight: 5 }} /> {details?.likeCount}
+                        <StyledInfoIcon src="/btnBlankHeart.png" /> {details?.likeCount}
                     </div>
                     <div
                         style={{
                             display: 'flex',
                             alignItems: 'center',
-                            fontSize: 15,
-                            paddingLeft: 5,
-                            paddingRight: 5,
+                            fontSize: 14,
+                            fontWeight: 500,
                         }}
                     >
-                        <FaRegCommentDots style={{ fontSize: 20, paddingRight: 5 }} />
+                        <StyledInfoIcon src="/btnComment.png" />
                         {commentsList?.commentQuantity}
                     </div>
                 </div>
@@ -317,12 +401,11 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        fontSize: 15,
-                        paddingLeft: 5,
-                        paddingRight: 5,
+                        fontSize: 14,
+                        fontWeight: 500,
                     }}
                 >
-                    <FaRegBookmark style={{ fontSize: 20, paddingRight: 5 }} />
+                    <StyledInfoIcon src="/btnBlankbookMark.png" />
                     {details?.scrapCount}
                 </div>
             </StyledCommentInfoBlock>
@@ -349,16 +432,16 @@ const StyledCommentListContainer = styled.div``;
 const StyledCommentInfoBlock = styled.div`
     position: absolute;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     bottom: 65px;
-    width: 40%;
-    right: 0;
-    justify-content: space-between;
+    width: 402px;
+    right: 10;
 `;
 
 const StyledInputContainer = styled.div`
     bottom: 0;
-    width: 40%;
+    width: 432px;
     right: 0;
     margin-top: 15px;
     position: absolute;
@@ -376,7 +459,7 @@ const StyledInputBox = styled.input`
 
 const StyledInputBtn = styled.div`
     position: absolute;
-    top: 20px;
+    top: 15px;
     right: 15px;
     color: #0d6637;
     font-size: 16px;
@@ -425,5 +508,12 @@ const StyledcommentSubItemContainer = styled.div`
 
 const StyledcommentSubItem = styled.div`
     padding-right: 1vw;
+    cursor: pointer;
+`;
+
+const StyledInfoIcon = styled.img`
+    width: 24px;
+    height: 24px;
+    margin-right: 6px;
 `;
 export default CommentItemModal;

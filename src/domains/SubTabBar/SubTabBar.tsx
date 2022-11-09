@@ -105,7 +105,7 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
 const StyledSubTabBarBlock = styled.div<{ justifyContent: string }>`
     width: ${({ justifyContent }) => (justifyContent === 'center' ? '' : '100%')};
     display: flex;
-    padding: 0px 20px 0px 20px;
+    padding: 0px 20px 0px 0px;
     @media screen and (max-width: ${maxWidth}px) {
         padding-left: 20%;
         padding-right: 20%;

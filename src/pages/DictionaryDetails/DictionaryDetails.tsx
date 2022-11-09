@@ -3,20 +3,21 @@ import PlantGuide from 'common/components/PlantGuide';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
-import { ItemList, DictionaryItem } from 'common/components';
+import { ItemList, DictionaryItem, MagazineItem } from 'common/components';
 import { default as callApi } from 'common/api';
 import { IDictionaryDetailsParams } from 'common/types';
+import Faq from 'common/components/FAQ';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const DictionaryDetails: React.FC = () => {
-    const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
+    const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
     const [articleGap, setArticleGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
     const [loading, setLoading] = useState(false);
     const params = useParams();
     const [details, setDetails] = useState<IDictionaryDetailsParams>();
-    const articleData = [{}, {}, {}, {}];
+    const articleData = [{}, {}, {}];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,35 +36,33 @@ const DictionaryDetails: React.FC = () => {
         <StyledDicDetailsContainer>
             <DictionaryInfo data={details} />
             <PlantGuide />
-            <StyledBorderLine />
+            <Faq />
+
             <StyledDetailsBlock>
-                <StyledDetailTitle>{`#${details?.plantName}  관련 아티클`}</StyledDetailTitle>
-                <Link to="./dictionary" style={{ textDecoration: 'none' }}>
-                    <StyledDetailView>전체보기</StyledDetailView>
-                </Link>
+                <StyledDetailTitle>
+                    #<span>{details?.plantName}</span> 관련 매거진
+                </StyledDetailTitle>
+                <StyledMoreText>
+                    더보기 <StyledArrowIcon src="/btnArrowGray.png" />
+                </StyledMoreText>
             </StyledDetailsBlock>
-            <ItemList
-                width="100%"
-                imgHeight="80%"
-                cols={articleCols}
-                horizontalGap={articleGap}
-                verticalGap={articleGap}
-                items={articleData}
-                RenderComponent={DictionaryItem}
-            />
-            <StyledBorderLine />
+            <div style={{ width: 1140 }}>
+                <ItemList
+                    width="100%"
+                    imgHeight="80%"
+                    cols={articleCols}
+                    horizontalGap={articleGap}
+                    verticalGap={articleGap}
+                    items={articleData}
+                    RenderComponent={MagazineItem}
+                />
+            </div>
         </StyledDicDetailsContainer>
     );
 };
 
-const StyledBorderLine = styled.div`
-    width: 100%;
-    border-bottom: solid 1px;
-    border-color: #eaeaea;
-    margin: 70px 0px 20px 0px;
-`;
-
 const StyledDicDetailsContainer = styled.div`
+    margin-bottom: 120px;
     @media screen and (max-width: ${maxWidth}px) {
         padding-left: 20%;
         padding-right: 20%;
@@ -75,7 +74,7 @@ const StyledDicDetailsContainer = styled.div`
 `;
 
 const StyledDetailsBlock = styled.div`
-    width: 100%;
+    width: 1140px;
     display: flex;
     margin-bottom: 15px;
     margin-top: 15px;
@@ -83,17 +82,35 @@ const StyledDetailsBlock = styled.div`
 `;
 
 const StyledDetailTitle = styled.div`
-    color: gray;
-    font-size: 14px;
-    font-weight: 400;
-    margin-top: 5px;
+    font-family: NotoSansKR;
+    display: flex;
+    font-size: 26px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #272727;
+    span {
+        color: #0d6637;
+        font-weight: bold;
+    }
 `;
 
-const StyledDetailView = styled.div`
-    color: lightgray;
+const StyledArrowIcon = styled.img`
+    width: 14px;
+    height: 14px;
+    margin: 2px 0 2px 4px;
+    object-fit: contain;
+`;
+
+const StyledMoreText = styled.div`
+    display: flex;
+    align-items: center;
     font-size: 14px;
-    font-weight: 400;
-    margin-top: 5px;
+    font-weight: 500;
+    color: #a6a6a6;
+    cursor: pointer;
 `;
 
 export default DictionaryDetails;

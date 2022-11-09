@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-
-import { FaPen } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -91,12 +89,11 @@ const StyledWriteIcon = styled.img`
 
 const StyledDropdown = styled.div`
     user-select: none;
-    margin-right: 10px;
     position: relative;
 `;
 
 const StyledDropdownBtn = styled.div`
-    padding: 9px 12px 9px 12px;
+    padding: 9px 14px 11px 16px;
     background: #0d6637;
     font-weight: 500;
     color: white;

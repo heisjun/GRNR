@@ -163,6 +163,7 @@ const StyledGuideTitle = styled.div`
 `;
 
 const StyledGuideBlock = styled.div`
+    width: 1140px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
