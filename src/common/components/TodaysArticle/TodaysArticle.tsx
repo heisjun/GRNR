@@ -61,7 +61,15 @@ const TodaysArticle = () => {
             </StyleBannerBoxStyle>
             <StyledDotBox>
                 {data.map((_, idx) => (
-                    <StyledDot key={idx} slideIdx={slideIdx} idx={idx}>
+                    <StyledDot
+                        key={idx}
+                        slideIdx={slideIdx}
+                        idx={idx}
+                        onClick={() => {
+                            setSlideIdx(idx);
+                            setSlidePage(idx * 660);
+                        }}
+                    >
                         <span></span>
                     </StyledDot>
                 ))}

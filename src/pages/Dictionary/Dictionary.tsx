@@ -66,6 +66,9 @@ const Dictionary_cat = [
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
+
 const Dictionary: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -176,23 +179,32 @@ const Dictionary: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(
-                    `https://www.gardenersclub.co.kr/api/api/images/search${location.search}`,
-                );
-                setDictionaries(response.data.value.content);
-            } catch (e) {
-                console.log(e);
+            if (!TOKEN) {
+                try {
+                    const response = await axios.get(`${BASEURL}/api/images/search${location.search}`);
+                    setDictionaries(response.data.value.content);
+                } catch (e) {
+                    console.log(e);
+                }
+            } else {
+                try {
+                    const response = await axios.get(`${BASEURL}/api/images/search${location.search}`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    });
+                    setDictionaries(response.data.value.content);
+                } catch (e) {
+                    console.log(e);
+                }
             }
-            setLoading(false);
         };
         fetchData();
     }, [location.search]);
 
     return (
         <StyledDictionaryContainer pageAnim={pageAnim}>
-            <div style={{ maxWidth: 1140, margin: 'auto' }}>
+            <div style={{ width: 1140, margin: 'auto' }}>
                 <DictionaryBanner data={dictionaries} />
                 <StyledLine />
                 <StyledDictionaryHeader>
@@ -285,6 +297,7 @@ const Dictionary: React.FC = () => {
                         verticalGap={magazineVerticalGap}
                         items={dictionaries}
                         RenderComponent={DictionaryItem}
+                        setFunc={setDictionaries}
                     />
                 ) : (
                     <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>

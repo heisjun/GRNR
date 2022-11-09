@@ -35,6 +35,7 @@ export type IItemList = {
     horizontalGap: number;
     verticalGap: number;
     cols: number;
+    setFunc?: any;
     items:
         | IMagazinesParams[]
         | IMagazineDetailsItem

@@ -301,6 +301,7 @@ export type IDictionariesParams = {
     description_detail: string;
     flowerLanguage: string;
     plantPicUrl: string;
+    myScrap: boolean;
 };
 
 export type IMyphotoParams = {
@@ -329,6 +330,8 @@ export type IPhotoItemParams = {
     width: string;
     height?: string;
     paddingBottom?: string;
+    setFunc: any;
+    items: IPhotosParams[];
     item: IPhotosParams;
 };
 
@@ -336,6 +339,8 @@ export type IDictionaryItem = {
     width: string;
     height?: string;
     paddingBottom?: string;
+    setFunc: any;
+    items: IDictionariesParams[];
     item: IDictionariesParams;
 };
 

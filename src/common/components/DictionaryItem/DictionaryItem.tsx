@@ -1,19 +1,49 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { IDictionaryItem } from 'common/types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
+import axios from 'axios';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
+
 const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
-    const { width, height, paddingBottom, item } = props;
+    const navigate = useNavigate();
+    const { width, height, paddingBottom, item, setFunc, items } = props;
 
     const [imgAnim, setImgAnim] = useState<any>();
 
+    const onPhotoScrap = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/images/${item.plantDicId}/scrap`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+
+                setFunc(
+                    items.map((it) => (it.plantDicId === item.plantDicId ? { ...it, myScrap: !item.myScrap } : it)),
+                );
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
     return (
-        <Link to={`./details/${item.plantDicId}`} style={{ textDecoration: 'none' }}>
-            <StyledDictionaryItemContainer width={width} height={height} paddingBottom={paddingBottom}>
+        <StyledDictionaryItemContainer width={width} height={height} paddingBottom={paddingBottom}>
+            <Link to={`./details/${item.plantDicId}`} style={{ textDecoration: 'none' }}>
                 <StyledImageBlock
                     onMouseEnter={() => {
                         setImgAnim(ImageScaleUp);
@@ -24,16 +54,20 @@ const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
                 >
                     <StyledImg src={item.plantPicUrl} width="100%" height="100%" imgAnim={imgAnim} />
                 </StyledImageBlock>
+            </Link>
 
-                <StyledTitleBlock>
-                    <div>
-                        <StyledEngTitleText>{item.scientificName}</StyledEngTitleText>
-                        <StyledTitleText>{item.plantName}</StyledTitleText>
-                    </div>
-                    <StyledIcon src={'/btnBlankBookmark.png'} />
-                </StyledTitleBlock>
-            </StyledDictionaryItemContainer>
-        </Link>
+            <StyledTitleBlock>
+                <div>
+                    <StyledEngTitleText>{item.scientificName}</StyledEngTitleText>
+                    <StyledTitleText>{item.plantName}</StyledTitleText>
+                </div>
+                {item.myScrap ? (
+                    <StyledIcon src={'/btnBookmark.png'} onClick={() => onPhotoScrap()} />
+                ) : (
+                    <StyledIcon src={'/btnBlankBookmark.png'} onClick={() => onPhotoScrap()} />
+                )}
+            </StyledTitleBlock>
+        </StyledDictionaryItemContainer>
     );
 };
 

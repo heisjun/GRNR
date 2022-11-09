@@ -131,7 +131,7 @@ const Photo: React.FC = () => {
 
     return (
         <StyledPhotoContainer pageAnim={pageAnim}>
-            <div style={{ maxWidth: 1140, margin: 'auto' }}>
+            <div style={{ width: 1140, margin: 'auto' }}>
                 <div style={{ width: '100%', height: 500, display: 'flex' }}>
                     <div
                         style={{
@@ -209,6 +209,7 @@ const Photo: React.FC = () => {
                         verticalGap={photoVerticalGap}
                         items={photos}
                         RenderComponent={PhotoItem}
+                        setFunc={setPhotos}
                     />
                 ) : (
                     <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>

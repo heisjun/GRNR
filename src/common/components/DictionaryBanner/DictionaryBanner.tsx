@@ -65,7 +65,15 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
             </StyleBannerBoxStyle>
             <StyledDotBox>
                 {data.slice(0, 4).map((_, idx) => (
-                    <StyledDot key={idx} slideIdx={slideIdx} idx={idx}>
+                    <StyledDot
+                        key={idx}
+                        slideIdx={slideIdx}
+                        idx={idx}
+                        onClick={() => {
+                            setSlideIdx(idx);
+                            setSlidePage(idx * 1140);
+                        }}
+                    >
                         <span></span>
                     </StyledDot>
                 ))}

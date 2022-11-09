@@ -10,6 +10,7 @@ import { IPhotoDetailsParams } from 'common/types';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
+
 const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const navigate = useNavigate();
     const { commentsList, pictureId, category, testComments, setTestComments } = props;
@@ -61,7 +62,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         }
     };
 
-    const onCommentLike = async (commentId: number) => {
+    const onCommentLike = async (commentId: number, likeCount: number) => {
         if (!TOKEN) {
             navigate('/login');
         }
@@ -75,6 +76,36 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 },
+            );
+            setTestComments(
+                testComments.map((it) =>
+                    it.commentId === commentId ? { ...it, myLike: true, likeCount: likeCount + 1 } : it,
+                ),
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onCommentUnLike = async (commentId: number, likeCount: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        try {
+            await axios.post(
+                `${BASEURL}/api/${category}/comment/${commentId}/like`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            setTestComments(
+                testComments.map((it) =>
+                    it.commentId === commentId ? { ...it, myLike: false, likeCount: likeCount - 1 } : it,
+                ),
             );
         } catch (e) {
             console.log(e);
@@ -116,8 +147,8 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 report: false,
                 parentId: null,
                 likeCount: 0,
-                accountNicName: 'heisjun',
-                accountProfileUrl: 'http://k.kakaocdn.net/dn/AZ6Ew/btrOzeCSFCr/6KokjoYfCyzi3Fk4ShUAz1/img_110x110.jpg',
+                accountNicName: sessionStorage.getItem('nickName'),
+                accountProfileUrl: sessionStorage.getItem('profileUrl'),
                 commentChildDtoList: null,
             };
             setTestComments([...testComments, newComment]);
@@ -148,38 +179,26 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
-            const newComment = {
-                inquiryId: pictureId,
-                commentId: commentId,
-                myLike: false,
-                commentNameList: [
-                    {
-                        commentId: null,
-                        nickNameTag: null,
-                    },
-                ],
-                content: null,
-                report: false,
-                parentId: null,
-                likeCount: 0,
-                accountNicName: 'heisjun',
-                accountProfileUrl: 'http://k.kakaocdn.net/dn/AZ6Ew/btrOzeCSFCr/6KokjoYfCyzi3Fk4ShUAz1/img_110x110.jpg',
-                commentChildDtoList: [
-                    {
-                        parentId: commentId,
-                        commentId: null,
-                        myLike: false,
-                        content: content,
-                        report: false,
-                        accountNicName: 'heisjun',
-                        accountProfileUrl:
-                            'http://k.kakaocdn.net/dn/AZ6Ew/btrOzeCSFCr/6KokjoYfCyzi3Fk4ShUAz1/img_110x110.jpg',
-                        likeCount: 0,
-                        commentNicNameList: null,
-                    },
-                ],
-            };
-            setTestComments([...testComments, newComment]);
+
+            const commentChildDtoList = [
+                {
+                    parentId: commentId,
+                    commentId: null,
+                    myLike: false,
+                    content: content,
+                    report: false,
+                    accountNicName: sessionStorage.getItem('nickName'),
+                    accountProfileUrl: sessionStorage.getItem('profileUrl'),
+                    likeCount: 0,
+                    commentNicNameList: null,
+                },
+            ];
+
+            setTestComments(
+                testComments.map((it) =>
+                    it.commentId === commentId ? { ...it, commentChildDtoList: commentChildDtoList } : it,
+                ),
+            );
         } catch (e) {
             console.log(e);
         }
@@ -231,7 +250,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                 fontSize: 15,
                                                 color: 'red',
                                             }}
-                                            onClick={() => onCommentLike(item.commentId)}
+                                            onClick={() => onCommentUnLike(item.commentId, item.likeCount)}
                                         />
                                     ) : (
                                         <FaRegHeart
@@ -239,7 +258,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                 cursor: 'pointer',
                                                 fontSize: 15,
                                             }}
-                                            onClick={() => onCommentLike(item.commentId)}
+                                            onClick={() => onCommentLike(item.commentId, item.likeCount)}
                                         />
                                     )}
                                 </div>
@@ -289,7 +308,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                             cursor: 'pointer',
                                                             fontSize: 15,
                                                         }}
-                                                        onClick={() => onCommentLike(item.commentId)}
+                                                        onClick={() => onCommentLike(item.commentId, item.likeCount)}
                                                     />
                                                 </div>
                                             </div>
