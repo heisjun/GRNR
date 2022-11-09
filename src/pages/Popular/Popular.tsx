@@ -3,11 +3,14 @@ import { useState, useEffect } from 'react';
 import { ItemList, TodaysPhoto, TodaysArticle } from 'common/components';
 import { DailyInfo } from 'domains';
 import { FadeIn, FadeOut } from 'common/keyframes';
+import TodaysQuestion from 'common/components/TodaysQuestion';
+import { useNavigate } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const Popular: React.FC = () => {
+    const navigate = useNavigate();
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
     const [photoGap, setPhotoGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
     const [photoVerticalGap, setPhotoVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 20 : 4);
@@ -43,10 +46,11 @@ const Popular: React.FC = () => {
             <StyledBottomContainer>
                 <StyledDetailsBlock>
                     <StyledTitleText>인기 사진</StyledTitleText>
-                    <StyledMoreText>
+                    <StyledMoreText onClick={() => navigate('/community/photo')}>
                         더보기 <StyledArrowIcon src="/btnArrowGray.png" />
                     </StyledMoreText>
                 </StyledDetailsBlock>
+
                 <ItemList
                     width="100%"
                     imgHeight="100%"
@@ -56,10 +60,11 @@ const Popular: React.FC = () => {
                     items={picData}
                     RenderComponent={TodaysPhoto}
                 />
+
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledTitleText>인기 아티클</StyledTitleText>
-                    <StyledMoreText>
+                    <StyledMoreText onClick={() => navigate('/community/magazine')}>
                         더보기 <StyledArrowIcon src="/btnArrowGray.png" />
                     </StyledMoreText>
                 </StyledDetailsBlock>
@@ -67,10 +72,11 @@ const Popular: React.FC = () => {
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledTitleText>Q&A</StyledTitleText>
-                    <StyledMoreText>
+                    <StyledMoreText onClick={() => navigate('/community/question')}>
                         더보기 <StyledArrowIcon src="/btnArrowGray.png" />
                     </StyledMoreText>
                 </StyledDetailsBlock>
+                <TodaysQuestion />
             </StyledBottomContainer>
         </StyledPopularContainer>
     );
@@ -108,12 +114,11 @@ const StyledDetailsBlock = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 15px;
+    max-width: 1140px;
 `;
 
 const StyledBorderLine = styled.div`
-    border-bottom: solid 1px;
-    border-color: #eaeaea;
-    margin: 30px 0px 30px 0px;
+    height: 60px;
 `;
 
 const StyledBorderPlace = styled.div`
@@ -123,6 +128,7 @@ const StyledBorderPlace = styled.div`
 const StyledPopularContainer = styled.div<{ pageAnim: any }>`
     display: flex;
     flex-direction: column;
+    align-items: center;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
     @media screen and (max-width: ${boundaryWidth}px) {
@@ -131,13 +137,15 @@ const StyledPopularContainer = styled.div<{ pageAnim: any }>`
 `;
 
 const StyledBottomContainer = styled.div`
-    @media screen and (max-width: ${maxWidth}px) {
+    max-width: 1140px;
+    margin: 0 auto;
+    /*  @media screen and (max-width: ${maxWidth}px) {
         padding-left: 20%;
         padding-right: 20%;
     }
     @media screen and (min-width: ${maxWidth}px) {
         margin-left: 390px;
         margin-right: 390px;
-    }
+    } */
 `;
 export default Popular;

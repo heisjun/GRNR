@@ -192,94 +192,106 @@ const Dictionary: React.FC = () => {
 
     return (
         <StyledDictionaryContainer pageAnim={pageAnim}>
-            <DictionaryBanner data={dictionaries} />
-            <StyledLine />
-            <StyledDictionaryHeader>
-                <Filters_Test setGetFilter={setSelectedClassification} data={Dictionary_classification} />
-                <Filters_Test setGetFilter={setSelectedShape} data={Dictionary_shape} />
-                <Filters_Test setGetFilter={setSelectedDifficulty} data={Dictionary_difficulty} />
-                <Filters_Test setGetFilter={setSelectedGrowSpeed} data={Dictionary_growSpeed} />
-                <Filters_Test setGetFilter={setSelectedToxicity} data={Dictionary_toxicity} />
-                <Filters_Test setGetFilter={setSelectedDog} data={Dictionary_dog} />
-                <Filters_Test setGetFilter={setSelectedCat} data={Dictionary_cat} />
-            </StyledDictionaryHeader>
-            <div style={{ display: 'flex', paddingBottom: 20 }}>
-                {filterValue.classification && (
-                    <StyledSelected>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {filterValue.classification}
-                            <FaTimes onClick={() => handleFilterValue('', 'classification')} />
-                        </div>
-                    </StyledSelected>
-                )}
-                {filterValue.shape && (
-                    <StyledSelected>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {filterValue.shape}
-                            <FaTimes onClick={() => handleFilterValue('', 'shape')} style={{ paddingLeft: 3 }} />
-                        </div>
-                    </StyledSelected>
-                )}
-                {filterValue.difficulty && (
-                    <StyledSelected>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {filterValue.difficulty}
-                            <FaTimes onClick={() => handleFilterValue('', 'difficulty')} style={{ paddingLeft: 3 }} />
-                        </div>
-                    </StyledSelected>
-                )}
-                {filterValue.growSpeed && (
-                    <StyledSelected>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {filterValue.growSpeed}
-                            <FaTimes onClick={() => handleFilterValue('', 'growSpeed')} style={{ paddingLeft: 3 }} />
-                        </div>
-                    </StyledSelected>
-                )}
-                {filterValue.toxicity && (
-                    <StyledSelected>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {filterValue.toxicity}
-                            <FaTimes onClick={() => handleFilterValue('', 'toxicity')} style={{ paddingLeft: 3 }} />
-                        </div>
-                    </StyledSelected>
-                )}
-                {filterValue.dog && (
-                    <StyledSelected>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {filterValue.dog}
-                            <FaTimes onClick={() => handleFilterValue('', 'dog')} style={{ paddingLeft: 3 }} />
-                        </div>
-                    </StyledSelected>
-                )}
-                {filterValue.cat && (
-                    <StyledSelected>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {filterValue.cat}
-                            <FaTimes onClick={() => handleFilterValue('', 'cat')} style={{ paddingLeft: 3 }} />
-                        </div>
-                    </StyledSelected>
-                )}
-                {(filterValue.classification ||
-                    filterValue.shape ||
-                    filterValue.difficulty ||
-                    filterValue.growSpeed ||
-                    filterValue.toxicity ||
-                    filterValue.dog ||
-                    filterValue.cat) && <StyledSelected onClick={onReset}>초기화</StyledSelected>}
-            </div>
+            <div style={{ maxWidth: 1140, margin: 'auto' }}>
+                <DictionaryBanner data={dictionaries} />
+                <StyledLine />
+                <StyledDictionaryHeader>
+                    <Filters_Test setGetFilter={setSelectedClassification} data={Dictionary_classification} />
+                    <Filters_Test setGetFilter={setSelectedShape} data={Dictionary_shape} />
+                    <Filters_Test setGetFilter={setSelectedDifficulty} data={Dictionary_difficulty} />
+                    <Filters_Test setGetFilter={setSelectedGrowSpeed} data={Dictionary_growSpeed} />
+                    <Filters_Test setGetFilter={setSelectedToxicity} data={Dictionary_toxicity} />
+                    <Filters_Test setGetFilter={setSelectedDog} data={Dictionary_dog} />
+                    <Filters_Test setGetFilter={setSelectedCat} data={Dictionary_cat} />
+                </StyledDictionaryHeader>
+                <div style={{ display: 'flex', paddingBottom: 20 }}>
+                    {filterValue.classification && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.classification}
+                                <FaTimes onClick={() => handleFilterValue('', 'classification')} />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {filterValue.shape && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.shape}
+                                <FaTimes onClick={() => handleFilterValue('', 'shape')} style={{ paddingLeft: 3 }} />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {filterValue.difficulty && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.difficulty}
+                                <FaTimes
+                                    onClick={() => handleFilterValue('', 'difficulty')}
+                                    style={{ paddingLeft: 3 }}
+                                />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {filterValue.growSpeed && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.growSpeed}
+                                <FaTimes
+                                    onClick={() => handleFilterValue('', 'growSpeed')}
+                                    style={{ paddingLeft: 3 }}
+                                />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {filterValue.toxicity && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.toxicity}
+                                <FaTimes onClick={() => handleFilterValue('', 'toxicity')} style={{ paddingLeft: 3 }} />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {filterValue.dog && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.dog}
+                                <FaTimes onClick={() => handleFilterValue('', 'dog')} style={{ paddingLeft: 3 }} />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {filterValue.cat && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.cat}
+                                <FaTimes onClick={() => handleFilterValue('', 'cat')} style={{ paddingLeft: 3 }} />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {(filterValue.classification ||
+                        filterValue.shape ||
+                        filterValue.difficulty ||
+                        filterValue.growSpeed ||
+                        filterValue.toxicity ||
+                        filterValue.dog ||
+                        filterValue.cat) && <StyledSelected onClick={onReset}>초기화</StyledSelected>}
+                </div>
 
-            {dictionaries && (
-                <ItemList
-                    width="100%"
-                    imgHeight="120%"
-                    cols={magazineCols}
-                    horizontalGap={magazineGap}
-                    verticalGap={magazineVerticalGap}
-                    items={dictionaries}
-                    RenderComponent={DictionaryItem}
-                />
-            )}
+                {dictionaries ? (
+                    <ItemList
+                        width="100%"
+                        imgHeight="120%"
+                        cols={magazineCols}
+                        horizontalGap={magazineGap}
+                        verticalGap={magazineVerticalGap}
+                        items={dictionaries}
+                        RenderComponent={DictionaryItem}
+                    />
+                ) : (
+                    <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>
+                        <div style={{ fontSize: 18, fontWeight: 400 }}>찾으시는 결과가 없습니다!</div>
+                    </div>
+                )}
+            </div>
         </StyledDictionaryContainer>
     );
 };
