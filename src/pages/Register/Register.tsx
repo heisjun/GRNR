@@ -11,40 +11,10 @@ import { UserInfo } from 'recoil/auth';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
-const TOKEN = localStorage.getItem('accesstoken');
 
-const KeywordData = [
-    {
-        id: 1,
-        tagName: '키워드1',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 2,
-        tagName: '키워드2',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 3,
-        tagName: '키워드3',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 4,
-        tagName: '키워드4',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 5,
-        tagName: '키워드5',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-    {
-        id: 6,
-        tagName: '키워드6',
-        keyword: '#키워드 #키워드 #키워드',
-    },
-];
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN =
+    'eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2NjkxOTY3Nzh9.dc66VmzxWieyhVrphrrwDFuiFT2my2_hm5tG9zVu4zZYugSNGOylmaXmpaDS38UFvqRQg9hBqCj_EOSPP5_T-g';
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
@@ -53,8 +23,8 @@ const Register: React.FC = () => {
     const [serviceAgree, setServiceAgree] = useState<boolean>(false);
     const [privateAgree, setPrivateAgree] = useState<boolean>(false);
     const [adAgree, setAdAgree] = useState<boolean>(false);
-    const [getkeyword, setGetKeyword] = useState();
-    const [disabledToggle, setDisabledToggle] = useState<boolean>(false);
+    const [loading, setLoading] = useState(false);
+    const [disabledToggle, setDisabledToggle] = useState<boolean>(true);
     const [addressData, setAddressData] = useState<[]>([]);
     const [error, setError] = useState<string>('');
     const [check, setCheck] = useState();
@@ -70,6 +40,11 @@ const Register: React.FC = () => {
         try {
             const response = await axios.get(
                 `https://www.gardenersclub.co.kr/api/api/login/nickName/duplicate?nickName=${inputs.nickname}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
             );
             setCheck(response.data.value);
         } catch (e) {
@@ -122,7 +97,7 @@ const Register: React.FC = () => {
 
     const handleInput = (e: { target: { name: string; value: string } }) => {
         const { name, value } = e.target;
-        setDisabledToggle(false);
+
         setInputs({
             ...inputs,
             [name]: value,
@@ -159,8 +134,13 @@ const Register: React.FC = () => {
 
     const loadAddressData = async (address: string) => {
         try {
-            const { data } = await callApi.searchAddress(address);
+            const { data } = await axios.get(`${BASEURL}/api/address/view?home=${address}`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
             setAddressData(data.value.content);
+            setDisabledToggle(false);
         } catch (e) {
             console.log(e);
         }
@@ -210,7 +190,6 @@ const Register: React.FC = () => {
 
                 <div style={{ marginTop: '5%', paddingBottom: 10 }}>
                     <StyledTitleText>주소</StyledTitleText>
-                    {/* <AddressBox setGetAddress={setGetAddress} /> */}
                     <StyledInput
                         placeholder="시,군,구,동 입력"
                         type="text"
@@ -223,7 +202,7 @@ const Register: React.FC = () => {
                     <div ref={dropdownListRef}>
                         <div
                             style={{
-                                height: 'auto',
+                                height: 100,
                                 overflow: 'auto',
                                 fontSize: '1vw',
                                 paddingLeft: 5,

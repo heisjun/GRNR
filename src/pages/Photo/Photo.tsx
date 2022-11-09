@@ -176,7 +176,7 @@ const Photo: React.FC = () => {
                     <Filters_Test setGetFilter={setSelectedOrder} data={PhotoFilter_Order} />
                 </StyledPhotoHeader>
 
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', paddingBottom: 20 }}>
                     {filterValue.sort && (
                         <StyledSelected>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -199,23 +199,22 @@ const Photo: React.FC = () => {
                     {(filterValue.homePlace || filterValue.sort) && (
                         <StyledSelected onClick={onReset}>초기화</StyledSelected>
                     )}
-
-                    {photos ? (
-                        <ItemList
-                            width="100%"
-                            imgHeight="120%"
-                            cols={photoCols}
-                            horizontalGap={photoHorizontalGap}
-                            verticalGap={photoVerticalGap}
-                            items={photos}
-                            RenderComponent={PhotoItem}
-                        />
-                    ) : (
-                        <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>
-                            <div style={{ fontSize: 18, fontWeight: 400 }}>찾으시는 결과가 없습니다!</div>
-                        </div>
-                    )}
                 </div>
+                {photos ? (
+                    <ItemList
+                        width="100%"
+                        imgHeight="120%"
+                        cols={photoCols}
+                        horizontalGap={photoHorizontalGap}
+                        verticalGap={photoVerticalGap}
+                        items={photos}
+                        RenderComponent={PhotoItem}
+                    />
+                ) : (
+                    <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>
+                        <div style={{ fontSize: 18, fontWeight: 400 }}>찾으시는 결과가 없습니다!</div>
+                    </div>
+                )}
             </div>
         </StyledPhotoContainer>
     );
