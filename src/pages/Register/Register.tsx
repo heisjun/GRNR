@@ -13,8 +13,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN =
-    'eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2NjkxOTY3Nzh9.dc66VmzxWieyhVrphrrwDFuiFT2my2_hm5tG9zVu4zZYugSNGOylmaXmpaDS38UFvqRQg9hBqCj_EOSPP5_T-g';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
