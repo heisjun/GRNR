@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IDictionaryBanner } from './DictionaryBanner.type';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+import { Link, useNavigate } from 'react-router-dom';
 
 const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
     const { data } = props;
+    const navigate = useNavigate();
     const [slidePage, setSlidePage] = useState<number>(0);
     const [slideIdx, setSlideIdx] = useState<number>(0);
 
@@ -27,19 +29,19 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
             <StyleBannerBoxStyle>
                 {data.slice(0, 4).map((item, idx) => (
                     <StyledMainBannerContainer key={idx} slidePage={slidePage}>
-                        <StyledImageContainer>
+                        <StyledSlideButtonBox>
+                            <StyledArrowStyle onClick={leftButton}>
+                                <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                            </StyledArrowStyle>
+                            <em>/</em>
+                            <StyledArrowStyle onClick={rightButton}>
+                                <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                            </StyledArrowStyle>
+                        </StyledSlideButtonBox>
+                        <StyledImageContainer onClick={() => navigate(`./details/${item.plantDicId}`)}>
                             <img src={item.plantPicUrl} alt="" />
-                            <StyledSlideButtonBox>
-                                <StyledArrowStyle onClick={leftButton}>
-                                    <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
-                                </StyledArrowStyle>
-                                <em>/</em>
-                                <StyledArrowStyle onClick={rightButton}>
-                                    <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
-                                </StyledArrowStyle>
-                            </StyledSlideButtonBox>
                         </StyledImageContainer>
-                        <StyledContentContainer>
+                        <StyledContentContainer onClick={() => navigate(`./details/${item.plantDicId}`)}>
                             <StyledTextStyle>Editors's Pick</StyledTextStyle>
                             <StyledEnglishName>{item.scientificName}</StyledEnglishName>
                             <StyledKoreanName>{item.plantName}</StyledKoreanName>
@@ -99,7 +101,6 @@ const StyledMainBannerContainer = styled.div<IStyled>`
     position: relative;
     right: ${({ slidePage }) => `${slidePage}px`};
     display: flex;
-
     height: 480px;
     background-color: #f8f8f8;
 `;

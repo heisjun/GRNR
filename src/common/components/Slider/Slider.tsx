@@ -32,8 +32,21 @@ const Slider: React.FC<ISlider> = (props) => {
     const [details, setDetails] = useState<IPhotoDetailsParams>();
     const [commentsList, setCommentsList] = useState<ICommentsParams>();
     const [comment, setComment] = useState<ItestComments[]>([]);
+    const dropdownListRef = useRef<any>(null);
 
     const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
+                setIsOpenModal(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownListRef]);
 
     const NextSlide = () => {
         if (currentSlide >= TOTAL_SLIDES) {
@@ -205,7 +218,7 @@ const Slider: React.FC<ISlider> = (props) => {
             </StyledIndicator>
 
             <Modal isOpen={isOpenModal} ariaHideApp={false} style={customStyles}>
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex' }} ref={dropdownListRef}>
                     <div style={{ width: 708, backgroundColor: 'white' }}>
                         <div
                             style={{
@@ -278,6 +291,7 @@ const Slider: React.FC<ISlider> = (props) => {
                         >
                             <CommentItemModal
                                 commentsList={commentsList}
+                                setCommentsList={setCommentsList}
                                 pictureId={String(item.id)}
                                 testComments={comment}
                                 setTestComments={setComment}

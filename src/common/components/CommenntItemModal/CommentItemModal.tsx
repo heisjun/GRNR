@@ -5,7 +5,7 @@ import Avatar from '../Avatar';
 import styled from 'styled-components';
 import { ICommentItem } from './CommentItemModal.type';
 import { default as callApi } from 'common/api';
-import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark, FaRegCommentDots } from 'react-icons/fa';
+import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { IPhotoDetailsParams } from 'common/types';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
@@ -13,11 +13,10 @@ const TOKEN = localStorage.getItem('accesstoken');
 
 const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const navigate = useNavigate();
-    const { commentsList, pictureId, category, testComments, setTestComments } = props;
+    const { commentsList, setCommentsList, pictureId, category, testComments, setTestComments } = props;
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
     const [isActive, setIsActive] = useState([false]);
-    const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
 
     function onOpenBtn(index: number) {
@@ -37,17 +36,28 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await callApi.getDetailList(Number(pictureId), 'picture');
-                setDetails(response.data.value);
-            } catch (e) {
-                console.log(e);
+            if (!TOKEN) {
+                try {
+                    const response = await callApi.getDetailList(Number(pictureId), 'picture');
+                    setDetails(response.data.value);
+                } catch (e) {
+                    console.log(e);
+                }
+            } else {
+                try {
+                    const response = await axios.get(`${BASEURL}/api/picture/${pictureId}/detail`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    });
+                    setDetails(response.data.value);
+                } catch (e) {
+                    console.log(e);
+                }
             }
-            setLoading(false);
         };
         fetchData();
-    }, []);
+    }, [location.search]);
 
     const onDeleteComment = async (commentId: number) => {
         try {
@@ -152,6 +162,10 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 commentChildDtoList: null,
             };
             setTestComments([...testComments, newComment]);
+            setCommentsList((prevState: any) => {
+                return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity + 1 : 0 };
+            });
+
             setComment('');
         } catch (e) {
             console.log(e);
@@ -221,6 +235,103 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         );
 
         if (res.status === 201) console.log(res.data);
+    };
+
+    const onPhotoLike = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${pictureId}/like`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+
+                setDetails((prevState: any) => {
+                    return { ...prevState, myLike: true, likeCount: details ? details.likeCount + 1 : 0 };
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const onPhotoUnLike = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${pictureId}/like`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setDetails((prevState: any) => {
+                    return { ...prevState, myLike: false, likeCount: details ? details.likeCount - 1 : 0 };
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const onPhotoScrap = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${pictureId}/scrap`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setDetails((prevState: any) => {
+                    return { ...prevState, myScrap: true, scrapCount: details ? details.scrapCount + 1 : 0 };
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const onPhotoUnScrap = async () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            try {
+                await axios.post(
+                    `${BASEURL}/api/picture/${pictureId}/scrap`,
+                    {},
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setDetails((prevState: any) => {
+                    return { ...prevState, myScrap: false, scrapCount: details ? details.scrapCount - 1 : 0 };
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
     };
 
     return (
@@ -402,7 +513,12 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                             marginRight: 20,
                         }}
                     >
-                        <StyledInfoIcon src="/btnBlankHeart.png" /> {details?.likeCount}
+                        {details?.myLike ? (
+                            <StyledInfoIcon src="/btnHeart.png" onClick={() => onPhotoUnLike()} />
+                        ) : (
+                            <StyledInfoIcon src="/btnBlankHeart.png" onClick={() => onPhotoLike()} />
+                        )}
+                        {details?.likeCount}
                     </div>
                     <div
                         style={{
@@ -424,7 +540,12 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                         fontWeight: 500,
                     }}
                 >
-                    <StyledInfoIcon src="/btnBlankBookmark.png" />
+                    {details?.myScrap ? (
+                        <StyledInfoIcon src="/btnBookmark.png" onClick={() => onPhotoUnScrap()} />
+                    ) : (
+                        <StyledInfoIcon src="/btnBlankBookmark.png" onClick={() => onPhotoScrap()} />
+                    )}
+
                     {details?.scrapCount}
                 </div>
             </StyledCommentInfoBlock>
@@ -534,5 +655,6 @@ const StyledInfoIcon = styled.img`
     width: 24px;
     height: 24px;
     margin-right: 6px;
+    cursor: pointer;
 `;
 export default CommentItemModal;
