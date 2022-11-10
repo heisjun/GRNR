@@ -223,14 +223,17 @@ const Photo: React.FC = () => {
 
 const StyledPhotoContainer = styled.div<{ pageAnim: any }>`
     padding-top: 40px;
-    @media screen and (max-width: ${maxWidth}px) {
+    /*  @media screen and (max-width: ${maxWidth}px) {
         padding-left: 20%;
         padding-right: 20%;
     }
     @media screen and (min-width: ${maxWidth}px) {
         margin-left: 390px;
         margin-right: 390px;
-    }
+    } */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
     margin-bottom: 120px;

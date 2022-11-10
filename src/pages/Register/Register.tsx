@@ -318,6 +318,10 @@ const StyledButton = styled.button`
     font-weight: 500;
     border: none;
     padding: 14px;
+    :hover {
+        background-color: #0d6637;
+        color: white;
+    }
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 3vw;
     }

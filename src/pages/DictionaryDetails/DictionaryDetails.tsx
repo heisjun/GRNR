@@ -65,14 +65,17 @@ const DictionaryDetails: React.FC = () => {
 
 const StyledDicDetailsContainer = styled.div`
     margin-bottom: 120px;
-    @media screen and (max-width: ${maxWidth}px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* @media screen and (max-width: ${maxWidth}px) {
         padding-left: 20%;
         padding-right: 20%;
     }
     @media screen and (min-width: ${maxWidth}px) {
         margin-left: 390px;
         margin-right: 390px;
-    }
+    } */
 `;
 
 const StyledDetailsBlock = styled.div`

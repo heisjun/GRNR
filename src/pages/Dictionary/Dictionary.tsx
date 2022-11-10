@@ -324,14 +324,17 @@ const StyledDictionaryHeader = styled.div`
 const StyledDictionaryContainer = styled.div<{ pageAnim: any }>`
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
-    @media screen and (max-width: ${maxWidth}px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*    @media screen and (max-width: ${maxWidth}px) {
         padding-left: 20%;
         padding-right: 20%;
     }
     @media screen and (min-width: ${maxWidth}px) {
         margin-left: 390px;
         margin-right: 390px;
-    }
+    } */
 `;
 
 const StyledSelected = styled.div`
