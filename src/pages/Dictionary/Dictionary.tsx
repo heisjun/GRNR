@@ -205,7 +205,7 @@ const Dictionary: React.FC = () => {
     return (
         <StyledDictionaryContainer pageAnim={pageAnim}>
             <div style={{ width: 1140, margin: 'auto' }}>
-                <DictionaryBanner data={dictionaries} />
+                {dictionaries && <DictionaryBanner data={dictionaries} />}
                 <StyledLine />
                 <StyledDictionaryHeader>
                     <Filters_Test setGetFilter={setSelectedClassification} data={Dictionary_classification} />

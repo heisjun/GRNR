@@ -109,25 +109,25 @@ const StyledDropdown = styled.div`
 `;
 
 const StyledDropdownBtn = styled.div`
-    padding: 5px;
-    background: #fff;
-    border: 1px solid lightgrey;
-    font-weight: 400;
-    color: gray;
+    box-sizing: border-box;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    cursor: pointer;
-    font-size: 15px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        padding: 3px;
-    }
+    width: 81px;
+    height: 38px;
+    padding: 0px 14px;
+    background-color: #f4f4f4;
 `;
 
 const StyledDropdownText = styled.div`
-    padding-right: 2px;
-    font-size: 15px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-    }
+    font-family: NotoSansKR;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #2a2a2a;
 `;
 
 const StyledDropdownContent = styled.div`

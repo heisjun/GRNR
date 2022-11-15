@@ -186,7 +186,7 @@ const MagazineDetails: React.FC = () => {
                     </StyledFollowButtonBlock>
                 </StyledUserInfoBlock>
                 <StyledBorderLine />
-                <CommentItem commentsList={commentsList} pictureId={params.id} category="magazine" />
+                {/*  <CommentItem commentsList={commentsList} pictureId={params.id} category="magazine" /> */}
             </StyledDetailsBlock>
             <StyledButtonsContainer>
                 <StyledButtonsBlock ref={sideBarRef}>

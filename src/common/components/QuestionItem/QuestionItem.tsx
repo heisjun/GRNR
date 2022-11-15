@@ -6,6 +6,8 @@ import { IQuestionItem } from './QuestionItem.type';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
+const keyword = [{ key: '키워드1' }, { key: '키워드2' }];
+
 const QuestionItem: React.FC<IQuestionItem> = (props) => {
     const { data } = props;
 
@@ -16,29 +18,24 @@ const QuestionItem: React.FC<IQuestionItem> = (props) => {
                     <Link to={`./details/${question.inquiryId}`} style={{ textDecoration: 'none' }}>
                         <StyledItemContent>
                             <StyledContentWriting>
-                                <StyledContentTitle>{question.title}</StyledContentTitle>
-                                <StyledContentBody>{question.content}</StyledContentBody>
+                                <StyledInfoText>2022.08.20</StyledInfoText>
+                                <StyledContentTitle>제목</StyledContentTitle>
+                                <StyledContentBody>내용</StyledContentBody>
                             </StyledContentWriting>
                             <StyledContentPicture>
                                 <StyledImgWrapper>
-                                    <StyledImg src={question.picList[0].pictureUrl} alt="사진" />
+                                    <StyledImg alt="사진" />
                                 </StyledImgWrapper>
                             </StyledContentPicture>
                         </StyledItemContent>
                         <StyledItemInfo>
-                            <Avatar width="3%" paddingBottom="3%" borderRadius="100%" />
-                            <StyledUserInfo>
-                                <StyledInfoText>{question.accountNicName}</StyledInfoText>|
-                                <StyledInfoText>{question.time}</StyledInfoText>|
-                                <StyledInfoText>댓글 {question.commentQuantity}</StyledInfoText>|
-                                <StyledInfoText>조회수 {question.viewQuantity}</StyledInfoText>
-                            </StyledUserInfo>
-                            {question?.itagDtoList &&
-                                question?.itagDtoList.map((e: any, index: number) => (
-                                    <StyledKeyword key={index}>{e.tagName}</StyledKeyword>
+                            {keyword &&
+                                keyword.map((e: any, index: number) => (
+                                    <StyledKeyword key={index}>{e.key}</StyledKeyword>
                                 ))}
+                            <StyledInfoText>댓글 12</StyledInfoText>
+                            <StyledInfoText>조회수 123</StyledInfoText>
                         </StyledItemInfo>
-                        <StyledBorderLine />
                     </Link>
                 </StyledItemContainer>
             ))}
@@ -56,7 +53,10 @@ const StyledImg = styled.img`
     border-radius: 5px;
 `;
 const StyledItemContainer = styled.div`
-    padding-top: 25px;
+    box-sizing: border-box;
+    margin: 20px 0px;
+    padding: 20px 20px 20px 30px;
+    border: solid 1px #eaeaea;
 `;
 
 const StyledImgWrapper = styled.div`
@@ -81,21 +81,26 @@ const StyledContentPicture = styled.div`
     border-radius: 5px;
 `;
 const StyledContentTitle = styled.div`
-    font-size: 20px;
-    font-weight: 400;
-    color: gray;
-    padding-bottom: 10px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 3vw;
-    }
+    margin: 8px 0px 8px 0;
+    font-family: NotoSansKR;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    color: #272727;
 `;
 
 const StyledContentBody = styled.div`
-    font-size: 14px;
-    color: gray;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 2.2vw;
-    }
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    color: #424242;
 `;
 
 const StyledItemInfo = styled.div`
@@ -118,12 +123,15 @@ const StyledUserInfo = styled.div`
 `;
 
 const StyledInfoText = styled.div`
-    padding-left: 10px;
-    padding-right: 10px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
+    font-family: NotoSansKR;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #9d9d9d;
+    margin-right: 20px;
 `;
 
 const StyledKeyword = styled.div`

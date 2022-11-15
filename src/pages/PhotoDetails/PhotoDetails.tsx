@@ -5,11 +5,12 @@ import { TaggedPhoto } from 'domains';
 import { getDebouncedFunc } from 'common/funcs';
 import { useParams, useNavigate } from 'react-router-dom';
 import { default as callApi } from 'common/api';
-import { ICommentsParams, IPhotoDetailsParams } from 'common/types';
+import { ICommentsParams, IPhotoDetailsParams, ItestComments } from 'common/types';
 import axios from 'axios';
 import CommentItem from 'common/components/CommentItem';
 import Modal from 'react-modal';
 import ReportModal from 'common/components/ReportModal';
+import PhotoDetailsItem from 'common/components/PhotoDetailsItem';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
@@ -22,6 +23,7 @@ const PhotoDetails: React.FC = () => {
     const [commentsList, setCommentsList] = useState<ICommentsParams>();
     const [openModal, setOpenModal] = useState(false);
     const myAccountId = sessionStorage.getItem('accountId');
+    const [comment, setComment] = useState<ItestComments[]>([]);
 
     const params = useParams();
 
@@ -39,23 +41,68 @@ const PhotoDetails: React.FC = () => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
+    const fetchData = useCallback(async () => {
+        if (!TOKEN) {
             try {
                 const CommentData = await axios.get(
                     `${BASEURL}/api/picture/${params.id}/comment/view
                 `,
                 );
                 setCommentsList(CommentData.data.value.content[0]);
-                console.log(CommentData.data.value.content[0]);
             } catch (e) {
                 console.log(e);
             }
-            setLoading(false);
-        };
-        fetchData();
+        } else {
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/picture/${params.id}/comment/view
+                `,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setCommentsList(CommentData.data.value.content[0]);
+            } catch (e) {
+                console.log(e);
+            }
+        }
     }, []);
+
+    const fetchData2 = useCallback(async () => {
+        if (!TOKEN) {
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/picture/${params.id}/comment/view
+                `,
+                );
+                setComment(CommentData.data.value.content[0].commentDtoList);
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/picture/${params.id}/comment/view
+                `,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setComment(CommentData.data.value.content[0].commentDtoList);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+        fetchData2();
+    }, [fetchData, fetchData2]);
 
     const scrollHandler = () => {
         sideBarRef.current.style.transition = 'all 0.5s ease-in-out';
@@ -188,104 +235,81 @@ const PhotoDetails: React.FC = () => {
 
     return (
         <StyledPhotoDetailsContainer>
-            <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
-                <ReportModal setOpenModal={setOpenModal} reportId={params.id} />
-            </Modal>
-            <StyledDetailsBlock>
-                <StyledTopTextBlock>
-                    <StyledViewCountText>조회 {details?.viewCount}명</StyledViewCountText>
-                    {myAccountId === String(details?.accountId) && (
-                        <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
-                    )}
-                    {myAccountId === String(details?.accountId) && (
-                        <StyledReportText onClick={onEdit}>수정</StyledReportText>
-                    )}
-                    {myAccountId !== String(details?.accountId) && (
-                        <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
-                    )}
-                </StyledTopTextBlock>
-                <ItemList
-                    width="100%"
-                    imgHeight="100%"
-                    cols={1}
-                    horizontalGap={0}
-                    verticalGap={0}
-                    items={details?.pictureContentDtoList ? details?.pictureContentDtoList : data}
-                    RenderComponent={TaggedPhoto}
-                />
-                <StyledUserInfoBlock>
-                    <StyledProfileBlock>
-                        <StyledWriterBlock>
-                            <StyeldAvatarBlock>
-                                <Avatar
-                                    width="100%"
-                                    paddingBottom="100%"
-                                    borderRadius="100%"
-                                    picUrl={details?.accountProfileUrl}
-                                />
-                            </StyeldAvatarBlock>
-                            <StyledWriterText>{details?.accountNickName}</StyledWriterText>
-                        </StyledWriterBlock>
-                    </StyledProfileBlock>
-                    <StyledFollowButtonBlock>
-                        <StyledFollowButton>
-                            <StyledFollowText
-                                onClick={() => onFollowing(details?.accountNickName ? details.accountNickName : '')}
-                            >
-                                팔로우 +
-                            </StyledFollowText>
-                        </StyledFollowButton>
-                    </StyledFollowButtonBlock>
-                </StyledUserInfoBlock>
-                <StyledBorderLine />
-                <CommentItem commentsList={commentsList} pictureId={params.id} category="picture" />
-            </StyledDetailsBlock>
-            <StyledButtonsContainer>
-                <StyledButtonsBlock ref={sideBarRef}>
-                    <StyledButtonBlock>
-                        <StyledButton onClick={onPhotoLike} />
-                        <StyledButtonText>좋아요:{details?.likeCount}</StyledButtonText>
-                    </StyledButtonBlock>
-                    <StyledButtonBlock>
-                        <StyledButton />
-                        <StyledButtonText>댓글:{commentsList?.commentQuantity}</StyledButtonText>
-                    </StyledButtonBlock>
-                    <StyledButtonBlock>
-                        <StyledButton onClick={onPhotoScrap} />
-                        <StyledButtonText>스크랩:{details?.scrapCount}</StyledButtonText>
-                    </StyledButtonBlock>
-                </StyledButtonsBlock>
-            </StyledButtonsContainer>
+            <div style={{ width: 720, margin: 'auto' }}>
+                <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
+                    <ReportModal setOpenModal={setOpenModal} reportId={params.id} />
+                </Modal>
+                <StyledDetailsBlock>
+                    <StyledTopTextBlock>
+                        <StyledViewCountText>조회 {details?.viewCount}명</StyledViewCountText>
+                        {myAccountId === String(details?.accountId) && (
+                            <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
+                        )}
+                        {myAccountId === String(details?.accountId) && (
+                            <StyledReportText onClick={onEdit}>수정</StyledReportText>
+                        )}
+                        {myAccountId !== String(details?.accountId) && (
+                            <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
+                        )}
+                    </StyledTopTextBlock>
+                    <ItemList
+                        width="100%"
+                        imgHeight="100%"
+                        cols={1}
+                        horizontalGap={0}
+                        verticalGap={0}
+                        items={details?.pictureContentDtoList ? details?.pictureContentDtoList : data}
+                        RenderComponent={PhotoDetailsItem}
+                    />
+                    <StyledUserInfoBlock>
+                        <StyledProfileBlock>
+                            <StyledWriterBlock>
+                                <StyeldAvatarBlock>
+                                    <Avatar
+                                        width="100%"
+                                        paddingBottom="100%"
+                                        borderRadius="100%"
+                                        picUrl={details?.accountProfileUrl}
+                                    />
+                                </StyeldAvatarBlock>
+                                <div>
+                                    <StyledWriterNickname>{details?.accountNickName}</StyledWriterNickname>
+                                    <StyledWriterText>{details?.accountNickName}</StyledWriterText>
+                                </div>
+                            </StyledWriterBlock>
+                        </StyledProfileBlock>
+                        <StyledFollowButtonBlock>
+                            <span onClick={() => onFollowing(details?.accountNickName ? details.accountNickName : '')}>
+                                팔로우
+                            </span>
+                        </StyledFollowButtonBlock>
+                    </StyledUserInfoBlock>
+                    <StyledBorderLine />
+                    <CommentItem
+                        commentsList={commentsList}
+                        pictureId={params.id}
+                        testComments={comment}
+                        setTestComments={setComment}
+                        category="picture"
+                        setCommentsList={setCommentsList}
+                    />
+                </StyledDetailsBlock>
+            </div>
         </StyledPhotoDetailsContainer>
     );
 };
 
-const StyledButtonText = styled.div`
-    font-size: 14px;
-    color: grey;
-    margin-top: 10px;
+const StyledWriterNickname = styled.div`
+    font-family: NotoSansKR;
+    margin: 13px 0px 1px 18px;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.63;
+    letter-spacing: normal;
+    color: #272727;
 `;
-
-const StyledButton = styled.div`
-    width: 50%;
-    padding-bottom: 50%;
-    background-color: silver;
-    border-radius: 50%;
-    cursor: pointer;
-    &:hover {
-        background-color: grey;
-    }
-`;
-
-const StyledButtonBlock = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20%;
-`;
-
 const StyledViewCountText = styled.div`
     flex: 1;
     font-size: 18px;
@@ -301,73 +325,63 @@ const StyledReportText = styled.div`
 
 const StyledTopTextBlock = styled.div`
     width: 100%;
-    height: 50px;
     display: flex;
-    margin-bottom: -15px;
 `;
 
 const StyledDetailsBlock = styled.div`
-    width: 70%;
-`;
-
-const StyledButtonsBlock = styled.div`
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const StyledButtonsContainer = styled.div`
-    position: relative;
-    width: 10%;
 `;
 
 const StyledPhotoDetailsContainer = styled.div`
-    padding-left: 15%;
-    padding-right: 15%;
+    margin-top: 40px;
+    margin-bottom: 40px;
     display: flex;
-    justify-content: center;
-`;
-
-const StyledFollowText = styled.div`
-    font-size: 15px;
-    color: grey;
-`;
-
-const StyledFollowButton = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid 2px;
-    border-radius: 25px;
-    border-color: silver;
-    cursor: pointer;
-    &:hover {
-        background-color: silver;
-    }
+    flex-direction: column;
 `;
 
 const StyledFollowButtonBlock = styled.div`
-    width: 18%;
+    box-sizing: border-box;
+    width: 72px;
+    height: 30px;
+    margin: 28px 0 22px 357px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: #0d6637;
+    span {
+        width: 36px;
+        height: 19px;
+        font-family: NotoSansKR;
+        font-size: 13px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #fff;
+    }
 `;
 
 const StyledBorderLine = styled.div`
     width: 100%;
-    border-bottom: solid 1px;
-    border-color: silver;
-    margin: 30px 0px 30px 0px;
+    height: 45px;
 `;
 
 const StyeldAvatarBlock = styled.div`
-    width: 10%;
+    width: 80px;
 `;
 
 const StyledWriterText = styled.div`
-    margin-left: 2%;
-    font-size: 20px;
-    color: grey;
+    margin: 1px 0px 14px 18px;
+    font-family: NotoSansKR;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.86;
+    letter-spacing: normal;
+    color: #7b7b7b;
 `;
 
 const StyledWriterBlock = styled.div`
@@ -381,8 +395,11 @@ const StyledProfileBlock = styled.div`
 `;
 
 const StyledUserInfoBlock = styled.div`
+    box-sizing: border-box;
     width: 100%;
     display: flex;
+    height: 120px;
+    padding: 20px 16px;
     background-color: #f5f5f5;
 `;
 
