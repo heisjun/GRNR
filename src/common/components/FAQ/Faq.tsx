@@ -107,7 +107,6 @@ const StyledQuestionTitleBlock = styled.div`
 `;
 
 const StyledQuestionTitle = styled.div`
-    width: 260px;
     height: 19px;
     margin: 3px 0px 0px 10px;
     font-family: AppleSDGothicNeo;

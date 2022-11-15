@@ -156,7 +156,6 @@ const StyledDotBox = styled.div`
 `;
 
 const StyledTitle = styled.div`
-    width: 379px;
     height: 106px;
     margin: 20px 8px 31px 0px;
     font-family: AppleSDGothicNeo;

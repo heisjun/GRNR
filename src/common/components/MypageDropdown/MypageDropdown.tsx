@@ -10,9 +10,18 @@ const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 const MypageDropdown: React.FC = () => {
+    interface Iprofile {
+        accountId: number;
+        nickName: string;
+        address: string;
+        homePage: null;
+        selfInfo: null;
+        profileUrl: string;
+    }
+
     const navigate = useNavigate();
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
-    const [profile, setProfile] = useState();
+    const [profile, setProfile] = useState<Iprofile>();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -104,7 +113,7 @@ const MypageDropdown: React.FC = () => {
                         <StyledDropdown key={id}>
                             <StyledDropdownBtn
                                 onClick={() => onOpenBtn(index)}
-                                src={profile ? profile : '/avatar.png'}
+                                src={profile ? profile.profileUrl : '/avatar.png'}
                             />
                             {isActive[index] && (
                                 <StyledDropdownContent ref={dropdownListRef}>
