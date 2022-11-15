@@ -72,7 +72,7 @@ const Question: React.FC = () => {
         } else setTest('recent');
     }, [getOption]);
 
-    const [questions, setQuestions] = useState(null);
+    const [questions, setQuestions] = useState([{}, {}]);
     const [loading, setLoading] = useState(false);
 
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
@@ -147,9 +147,8 @@ const Question: React.FC = () => {
                         <StyledNoticeIcon>공지</StyledNoticeIcon>
                         <StyledNoticeText>진짜 로그인 구별하는 방법</StyledNoticeText>
                     </StyledNoticeBlock>
-                    <FaChevronRight className="logo" />
+                    <StyledNoticeDate>2022.10.02</StyledNoticeDate>
                 </StyledNoticeContent>
-                <StyledBorderLine />
             </StyledQuestionBlock>
             <StyledQuestionBlock>
                 <StyledFeedHeader>
@@ -164,12 +163,22 @@ const Question: React.FC = () => {
     );
 };
 
+const StyledNoticeDate = styled.div`
+    font-family: NotoSansKR;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #999;
+`;
 const StyledQuestionContainer = styled.div<{ pageAnim: any }>`
-    height: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
-    padding-left: 15%;
-    padding-right: 15%;
 `;
 
 const StyledBorderLine = styled.hr`
@@ -177,7 +186,14 @@ const StyledBorderLine = styled.hr`
 `;
 
 const StyledQuestionBanner = styled.div<{ view: boolean }>`
-    background-color: lightgrey;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1920px;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(257deg, #15ff92 79%, #49715c 25%);
     padding: 5%;
     ${(props) =>
         props.view &&
@@ -186,14 +202,13 @@ const StyledQuestionBanner = styled.div<{ view: boolean }>`
 `;
 
 const StyledHeaderText = styled.div`
-    color: gray;
-    text-align: center;
-    padding-bottom: 15px;
-    font-size: 25px;
+    font-size: 32px;
     font-weight: bold;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 4vw;
-    }
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #fff;
 `;
 
 const StyledHeaderKeyword = styled.div`
@@ -206,55 +221,48 @@ const StyledHeaderKeyword = styled.div`
 `;
 
 const StyledNoticeContent = styled.div`
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        padding-top: 7px;
-        padding-bottom: 7px;
-    }
-    .logo {
-        font-size: 14px;
-        @media screen and (max-width: ${boundaryWidth}px) {
-            font-size: 1.5vw;
-        }
-    }
+    height: 80px;
+    padding: 0px 16px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ececec;
 `;
 
 const StyledNoticeBlock = styled.div`
     display: flex;
 `;
 const StyledNoticeIcon = styled.div`
-    background-color: gray;
     color: white;
     border-radius: 15px;
     display: flex;
     align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-size: 12px;
-    margin-right: 10px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 1.5vw;
-    }
+    justify-content: center;
+    width: 64px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #0d6637;
+    margin-right: 22px;
 `;
 
 const StyledNoticeText = styled.div`
     display: flex;
     align-items: center;
-    color: gray;
-    font-size: 12px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 1.5vw;
-    }
+    font-family: NotoSansKR;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #272727;
 `;
 
 const StyledQuestionBlock = styled.div`
-    padding-top: 10px;
+    width: 1140px;
+    padding-top: 30px;
     padding-bottom: 10px;
 `;
 
