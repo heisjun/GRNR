@@ -32,24 +32,7 @@ const MypageDropdown: React.FC = () => {
                     },
                 });
                 setProfile(pictureData.data.value);
-            } catch (e) {
-                console.log(e);
-            }
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const profileData = await axios.get(`${BASEURL}/api/profile/view`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                });
-                sessionStorage.setItem('accountId', profileData.data.value.accountId);
-                sessionStorage.setItem('nickName', profileData.data.value.nickName);
-                sessionStorage.setItem('profileUrl', profileData.data.value.profileUrl);
+                console.log(pictureData.data.value);
             } catch (e) {
                 console.log(e);
             }
@@ -115,7 +98,7 @@ const MypageDropdown: React.FC = () => {
                         <StyledDropdown key={id}>
                             <StyledDropdownBtn
                                 onClick={() => onOpenBtn(index)}
-                                src={`${sessionStorage.getItem('profileUrl')}`}
+                                src={profile ? `${sessionStorage.getItem('profileUrl')}` : '/avatar.png'}
                             />
                             {isActive[index] && (
                                 <StyledDropdownContent ref={dropdownListRef}>
