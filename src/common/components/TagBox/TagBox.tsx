@@ -56,7 +56,7 @@ const TagBox: React.FC<ITagBox> = (props) => {
     return (
         <StyledTagBoxContainer>
             <SelectedTag realdata={realvalue} realsetClear={setArray} />
-            <div>
+            <StyledTagBoxBlock>
                 <StyledFixText>#</StyledFixText>
                 <StyledInputHashTag>
                     <StyledInput
@@ -77,11 +77,18 @@ const TagBox: React.FC<ITagBox> = (props) => {
                         입력
                     </StyledInputBtn>
                 </StyledInputHashTag>
-            </div>
+            </StyledTagBoxBlock>
         </StyledTagBoxContainer>
     );
 };
 
+const StyledTagBoxBlock = styled.div`
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin-top: 12px;
+    background-color: #f5f5f5;
+`;
 const StyledTagBoxContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
@@ -92,13 +99,12 @@ const StyledTagBoxContainer = styled.div`
 `;
 
 const StyledInputHashTag = styled.div`
-    background-color: lightgray;
-    color: gray;
+    background-color: #f5f5f5;
+    color: #616161;
     margin-right: 5px;
     margin-top: 5px;
     padding: 5px 5px 5px 17px;
     font-size: 14px;
-
     font-weight: 300;
     display: flex;
     width: 50px;
@@ -106,13 +112,13 @@ const StyledInputHashTag = styled.div`
 
 const StyledInput = styled.input`
     border: none;
-    background-color: lightgray;
-    color: gray;
+    background-color: #f5f5f5;
+    color: #616161;
     margin-right: 5px;
+    margin-left: 5px;
     font-size: 14px;
-
     font-weight: 300;
-    width: 90%;
+    width: 100%;
 `;
 
 const StyledInputBtn = styled.div`
@@ -124,8 +130,8 @@ const StyledInputBtn = styled.div`
 
 const StyledFixText = styled.div`
     position: absolute;
-    padding: 10px 5px 5px 5px;
-    color: gray;
+    padding-left: 12px;
+    color: #616161;
 `;
 
 export default TagBox;

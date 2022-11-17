@@ -209,6 +209,7 @@ const StyledDot = styled.div<IStyled>`
     margin: 30px 10px 0 0;
     border-radius: 5px;
     background-color: ${({ slideIdx, idx }) => (slideIdx === idx ? '#0d6637' : '#d8d8d8')};
+    cursor: pointer;
 `;
 
 const StyledLine = styled.div`

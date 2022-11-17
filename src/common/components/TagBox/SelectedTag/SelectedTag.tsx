@@ -25,7 +25,7 @@ const SelectedTag: React.FC<ISelectedTag> = (props) => {
                     return (
                         <StyledDiv key={index}>
                             <StyledSelected>
-                                #{list.tagName} <FaTimes onClick={() => deleteList(list)} />
+                                <span>#{list.tagName}</span> <FaTimes onClick={() => deleteList(list)} />
                             </StyledSelected>
                         </StyledDiv>
                     );
@@ -45,13 +45,18 @@ const StyledSelectedFilterContainer = styled.div`
 
 const StyledSelected = styled.div`
     background-color: lightgray;
-    color: gray;
-    margin-right: 5px;
-    margin-top: 5px;
-    padding: 5px;
+    box-sizing: border-box;
     font-size: 14px;
-    font-weight: 300;
-    display: inline-block;
+    color: #616161;
+    margin-right: 5px;
+    margin-top: 12px;
+    padding: 6px 11px 6px 12px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    span {
+        padding-right: 5px;
+    }
 `;
 
 export default SelectedTag;

@@ -136,6 +136,7 @@ const StyledIcon = styled.img`
     height: 24px;
     margin: 0 24px 0px 0px;
     object-fit: contain;
+    cursor: pointer;
 `;
 
 export default Faq;

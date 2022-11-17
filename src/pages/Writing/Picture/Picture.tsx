@@ -17,14 +17,7 @@ const option1 = [
     {
         id: 1,
         name: '분류',
-        list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
-    },
-];
-const option2 = [
-    {
-        id: 1,
-        name: '장소',
-        list: ['실내 어두운 곳', '거실 내측', '거실 창측', '발코니'],
+        list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장,다육식물'],
     },
 ];
 
@@ -162,7 +155,6 @@ const Picture: React.FC = () => {
                 <StyledPictureContainer>
                     <StyledPictureHeader>
                         <CustomSelector optionData={option1} setGetOption={setGetOption1} />
-                        <CustomSelector optionData={option2} setGetOption={setGetOption2} />
                     </StyledPictureHeader>
                     {getContent &&
                         getContent.map((item, i: number) => {
@@ -291,6 +283,7 @@ const StyledTitleBlock = styled.div`
 `;
 
 const StyledContentContainer = styled.div`
+    width: 720px;
     padding-top: 40px;
 `;
 
@@ -301,7 +294,7 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     top: 0px;
     left: 0px;
     display: flex;
-    z-index: 2;
+    z-index: 20;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -338,14 +331,7 @@ const StyledHeaderBar = styled.div`
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
-    @media screen and (max-width: ${maxWidth}px) {
-        padding-left: 20%;
-        padding-right: 20%;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        margin-right: 390px;
-        margin-left: 390px;
-    }
+    align-items: center;
 `;
 
 const StyledSubTabBarBlock = styled.div`
@@ -353,7 +339,7 @@ const StyledSubTabBarBlock = styled.div`
     width: 100%;
     top: 80px;
     left: 0px;
-    z-index: 1;
+    z-index: 10;
     @media screen and (min-width: ${maxWidth}px) {
         top: 80px;
     }
