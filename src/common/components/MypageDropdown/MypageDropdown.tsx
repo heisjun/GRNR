@@ -26,13 +26,12 @@ const MypageDropdown: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const pictureData = await axios.get(`${BASEURL}/api/picture/view`, {
+                const profileData = await axios.get(`${BASEURL}/api/profile/view`, {
                     headers: {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-                setProfile(pictureData.data.value);
-                console.log(pictureData.data.value);
+                setProfile(profileData.data.value);
             } catch (e) {
                 console.log(e);
             }
@@ -98,7 +97,7 @@ const MypageDropdown: React.FC = () => {
                         <StyledDropdown key={id}>
                             <StyledDropdownBtn
                                 onClick={() => onOpenBtn(index)}
-                                src={profile ? `${sessionStorage.getItem('profileUrl')}` : '/avatar.png'}
+                                src={profile ? profile.profileUrl : '/avatar.png'}
                             />
                             {isActive[index] && (
                                 <StyledDropdownContent ref={dropdownListRef}>
