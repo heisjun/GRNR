@@ -6,7 +6,6 @@ import axios from 'axios';
 import { IPhotosParams } from 'common/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
-import { AutoScaling } from 'aws-sdk';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;

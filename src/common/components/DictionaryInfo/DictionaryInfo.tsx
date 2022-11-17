@@ -56,9 +56,7 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                             setSlideIdx(idx);
                             setSlidePage(idx * 1140);
                         }}
-                    >
-                        <span></span>
-                    </StyledDot>
+                    ></StyledDot>
                 ))}
             </StyledDotBox>
             <StyledInfoContainer>
@@ -296,6 +294,7 @@ const StyledDot = styled.div<IStyled>`
     margin: 30px 10px 0 0;
     border-radius: 5px;
     background-color: ${({ slideIdx, idx }) => (slideIdx === idx ? '#0d6637' : '#d8d8d8')};
+    cursor: pointer;
 `;
 
 const StyledDotBox = styled.div`

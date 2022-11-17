@@ -42,7 +42,7 @@ const Popular: React.FC = () => {
     return (
         <StyledPopularContainer pageAnim={pageAnim}>
             <DailyInfo />
-            <StyledBorderPlace />
+
             <StyledBottomContainer>
                 <StyledDetailsBlock>
                     <StyledTitleText>인기 사진</StyledTitleText>
@@ -118,7 +118,7 @@ const StyledDetailsBlock = styled.div`
 `;
 
 const StyledBorderLine = styled.div`
-    height: 60px;
+    height: 120px;
 `;
 
 const StyledBorderPlace = styled.div`
@@ -138,7 +138,7 @@ const StyledPopularContainer = styled.div<{ pageAnim: any }>`
 
 const StyledBottomContainer = styled.div`
     max-width: 1140px;
-    margin: 0 auto;
+    margin-top: 100px;
     /*  @media screen and (max-width: ${maxWidth}px) {
         padding-left: 20%;
         padding-right: 20%;

@@ -87,7 +87,6 @@ interface IStyled {
 const StyleBannerBoxStyle = styled.div`
     width: 1140px;
     display: flex;
-    margin: 40px 0 10px 0;
 `;
 
 const StyledMainBannerContainer = styled.div<IStyled>`
@@ -112,7 +111,7 @@ const StyledSlideButtonBox = styled.div`
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    top: 558px;
+    top: 518px;
     padding: 11px 16px;
     width: 91px;
     height: 38px;
@@ -147,6 +146,7 @@ const StyledDot = styled.div<IStyled>`
     margin: 30px 10px 0 0;
     border-radius: 5px;
     background-color: ${({ slideIdx, idx }) => (slideIdx === idx ? '#0d6637' : '#d8d8d8')};
+    cursor: pointer;
 `;
 
 const StyledDotBox = styled.div`
