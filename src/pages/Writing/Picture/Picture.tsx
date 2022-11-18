@@ -288,6 +288,10 @@ const StyledUploadButton = styled.div`
     align-items: center;
     cursor: pointer;
     margin-left: auto;
+    :hover {
+        background-color: gray;
+        color: #0d6637;
+    }
 `;
 
 const StyledTitleBlock = styled.div`
