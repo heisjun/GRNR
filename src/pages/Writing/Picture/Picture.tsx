@@ -55,6 +55,18 @@ const Picture: React.FC = () => {
         }
     }
 
+    function convertEng2(classification: string) {
+        if (classification === '입보기식물') {
+            return 'LEAF';
+        } else if (classification === '꽃보기식물') {
+            return 'FLOWER';
+        } else if (classification === '열매보기식물') {
+            return 'FRUIT';
+        } else if (classification === '선인장,다육식물') {
+            return 'SUCCULENT';
+        }
+    }
+
     const [getContent, setGetContent] = useState<IUploadPicData[]>([
         { loc: '', hashtag: [], details: '', imgFile: null, realImg: null, realhashtag: [] },
     ]);
@@ -74,6 +86,7 @@ const Picture: React.FC = () => {
     );
 
     interface Uploader {
+        classification: any;
         pictureSaveDtoList: {
             explain: string;
             homePlace?: string;
@@ -93,6 +106,7 @@ const Picture: React.FC = () => {
         }
 
         const test: Uploader = {
+            classification: convertEng2(getOption1),
             pictureSaveDtoList: saveDto,
         };
 
