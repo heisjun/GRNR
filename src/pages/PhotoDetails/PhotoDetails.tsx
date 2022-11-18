@@ -233,6 +233,18 @@ const PhotoDetails: React.FC = () => {
         },
     ];
 
+    function convertKor(classification: string) {
+        if (classification === 'LEAF') {
+            return '입보기식물';
+        } else if (classification === 'FLOWER') {
+            return '꽃보기식물';
+        } else if (classification === 'FRUIT') {
+            return '열매보기식물';
+        } else if (classification === 'SUCCULENT') {
+            return '선인장,다육식물';
+        }
+    }
+
     return (
         <StyledPhotoDetailsContainer>
             <div style={{ width: 720, margin: 'auto' }}>
@@ -252,6 +264,9 @@ const PhotoDetails: React.FC = () => {
                             <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
                         )}
                     </StyledTopTextBlock>
+                    <div style={{ marginTop: 20, marginBottom: 20 }}>
+                        {convertKor(details?.classification ? details.classification : 'FLOWER')}
+                    </div>
                     <ItemList
                         width="100%"
                         imgHeight="100%"
