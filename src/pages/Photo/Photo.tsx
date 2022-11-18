@@ -29,6 +29,14 @@ const PhotoFilter_Place = [
     },
 ];
 
+const PhotoFilter_Classification = [
+    {
+        id: 3,
+        name: '분류',
+        list: ['잎보기식물', '꽃보기식물', '열매보기식물', '선인장,다육식물'],
+    },
+];
+
 const Photo: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -41,10 +49,12 @@ const Photo: React.FC = () => {
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
     const [selectedPlace, setSelectedPlace] = useState('');
     const [selectedOrder, setSelectedOrder] = useState('');
+    const [selectedClassification, setSelectedClassification] = useState('');
 
     const [filterValue, setFilterValue] = useState({
         sort: '',
         homePlace: '',
+        classification: '',
     });
     const handleFilterValue = (value: string, name: string) => {
         setFilterValue((prev) => {
@@ -67,10 +77,15 @@ const Photo: React.FC = () => {
         handleFilterValue(selectedOrder, 'sort');
     }, [selectedOrder]);
 
+    useEffect(() => {
+        handleFilterValue(selectedClassification, 'classification');
+    }, [selectedClassification]);
+
     const onReset = () => {
         setFilterValue({
             sort: '',
             homePlace: '',
+            classification: '',
         });
     };
 
@@ -101,12 +116,13 @@ const Photo: React.FC = () => {
 
     useEffect(() => {
         const queryString = `?${filterValue.sort ? `order=${filterValue.sort}` : ''} & 
-    ${filterValue.homePlace ? `homePlace=${filterValue.homePlace}` : ''}`;
+    ${filterValue.homePlace ? `homePlace=${filterValue.homePlace}` : ''}& 
+    ${filterValue.classification ? `classification=${filterValue.classification}` : ''}`;
 
         const realQuery = queryString.replace(/\s+/g, '');
 
         navigate(`/community/photo/${realQuery}`);
-    }, [filterValue.homePlace, filterValue.sort]);
+    }, [filterValue.homePlace, filterValue.sort, filterValue.classification]);
 
     const resizeHandler = () => {
         setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 3 : 1);
@@ -173,6 +189,7 @@ const Photo: React.FC = () => {
                 <StyledPhotoHeader>
                     <Filters_Test setGetFilter={setSelectedPlace} data={PhotoFilter_Place} />
                     <Filters_Test setGetFilter={setSelectedOrder} data={PhotoFilter_Order} />
+                    <Filters_Test setGetFilter={setSelectedClassification} data={PhotoFilter_Classification} />
                 </StyledPhotoHeader>
 
                 <div style={{ display: 'flex', paddingBottom: 20 }}>
@@ -190,6 +207,17 @@ const Photo: React.FC = () => {
                                 {filterValue.homePlace}
                                 <FaTimes
                                     onClick={() => handleFilterValue('', 'homePlace')}
+                                    style={{ paddingLeft: 3 }}
+                                />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {filterValue.classification && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.classification}
+                                <FaTimes
+                                    onClick={() => handleFilterValue('', 'classification')}
                                     style={{ paddingLeft: 3 }}
                                 />
                             </div>

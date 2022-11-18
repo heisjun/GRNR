@@ -235,7 +235,7 @@ const PhotoDetails: React.FC = () => {
 
     function convertKor(classification: string) {
         if (classification === 'LEAF') {
-            return '입보기식물';
+            return '잎보기식물';
         } else if (classification === 'FLOWER') {
             return '꽃보기식물';
         } else if (classification === 'FRUIT') {
