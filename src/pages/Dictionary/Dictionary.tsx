@@ -101,12 +101,6 @@ const Dictionary: React.FC = () => {
         });
     };
 
-    const resizeHandler = () => {
-        setMagazineCols(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
-        setMagazineGap(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
-        setMagazineVerticalGap(window.innerWidth > Number(boundaryWidth) ? 40 : 4);
-    };
-
     useEffect(() => {
         const queryString = `?${filterValue.classification ? `classification=${filterValue.classification}` : ''}
         ${filterValue.shape ? `&shape=${filterValue.shape}` : ''}
@@ -162,13 +156,6 @@ const Dictionary: React.FC = () => {
     useEffect(() => {
         handleFilterValue(selectedCat, 'cat');
     }, [selectedCat]);
-
-    useEffect(() => {
-        window.addEventListener('resize', resizeHandler);
-        return () => {
-            window.removeEventListener('resize', resizeHandler);
-        };
-    }, []);
 
     useEffect(() => {
         setPageAnim(FadeIn);

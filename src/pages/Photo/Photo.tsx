@@ -63,13 +63,6 @@ const Photo: React.FC = () => {
     };
 
     useEffect(() => {
-        window.addEventListener('resize', resizeHandler);
-        return () => {
-            window.removeEventListener('resize', resizeHandler);
-        };
-    }, []);
-
-    useEffect(() => {
         handleFilterValue(selectedPlace, 'homePlace');
     }, [selectedPlace]);
 
@@ -123,19 +116,6 @@ const Photo: React.FC = () => {
 
         navigate(`/community/photo/${realQuery}`);
     }, [filterValue.homePlace, filterValue.sort, filterValue.classification]);
-
-    const resizeHandler = () => {
-        setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 3 : 1);
-        setPhotoHorizontalGap(window.innerWidth > Number(boundaryWidth) ? 2 : 0);
-        setPhotoVerticalGap(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
-    };
-
-    useEffect(() => {
-        window.addEventListener('resize', resizeHandler);
-        return () => {
-            window.removeEventListener('resize', resizeHandler);
-        };
-    }, []);
 
     useEffect(() => {
         setPageAnim(FadeIn);

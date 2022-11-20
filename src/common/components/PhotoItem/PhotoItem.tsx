@@ -326,6 +326,7 @@ const StyledPhotoItemContainer = styled.div<{ width: string; height?: string; pa
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     padding-bottom: ${({ paddingBottom }) => paddingBottom};
+    cursor: pointer;
 `;
 
 export default PhotoItem;

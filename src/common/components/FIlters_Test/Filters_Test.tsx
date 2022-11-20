@@ -106,18 +106,12 @@ const StyledDropdownBtn = styled.div`
     align-items: center;
     cursor: pointer;
     font-size: 15px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        padding: 3px;
-    }
 `;
 
 const StyledDropdownText = styled.div`
     padding-right: 2px;
     color: #2a2a2a;
     font-size: 15px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 1.5vw;
-    }
 `;
 
 const StyledDropdownContent = styled.div`
@@ -131,10 +125,6 @@ const StyledDropdownContent = styled.div`
     width: 130px;
     z-index: 10;
     font-size: 15px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 1.5vw;
-        width: 100px;
-    }
 `;
 
 const StyledContentItem = styled.div`

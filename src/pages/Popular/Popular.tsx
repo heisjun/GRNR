@@ -11,26 +11,13 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const Popular: React.FC = () => {
     const navigate = useNavigate();
-    const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
+    const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
     const [photoGap, setPhotoGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
-    const [photoVerticalGap, setPhotoVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 20 : 4);
+    const [photoVerticalGap, setPhotoVerticalGap] = useState(20);
 
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
 
     const picData = [{}, {}, {}, {}, {}, {}, {}, {}];
-
-    const resizeHandler = () => {
-        setPhotoCols(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
-        setPhotoGap(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
-        setPhotoVerticalGap(window.innerWidth > Number(boundaryWidth) ? 20 : 4);
-    };
-
-    useEffect(() => {
-        window.addEventListener('resize', resizeHandler);
-        return () => {
-            window.removeEventListener('resize', resizeHandler);
-        };
-    }, []);
 
     useEffect(() => {
         setPageAnim(FadeIn);
@@ -93,9 +80,6 @@ const StyledTitleText = styled.div`
     font-weight: bold;
     color: #272727;
     flex: 1;
-    @media screen and (min-width: ${maxWidth}px) {
-        font-size: 26px;
-    }
 `;
 
 const StyledMoreText = styled.div`
@@ -105,9 +89,6 @@ const StyledMoreText = styled.div`
     font-weight: 500;
     color: #a6a6a6;
     cursor: pointer;
-    @media screen and (min-width: ${maxWidth}px) {
-        font-size: 14px;
-    }
 `;
 
 const StyledDetailsBlock = styled.div`
@@ -131,21 +112,10 @@ const StyledPopularContainer = styled.div<{ pageAnim: any }>`
     align-items: center;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        margin-top: -10px;
-    }
 `;
 
 const StyledBottomContainer = styled.div`
     max-width: 1140px;
     margin-top: 100px;
-    /*  @media screen and (max-width: ${maxWidth}px) {
-        padding-left: 20%;
-        padding-right: 20%;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        margin-left: 390px;
-        margin-right: 390px;
-    } */
 `;
 export default Popular;

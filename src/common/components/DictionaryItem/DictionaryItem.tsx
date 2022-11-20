@@ -109,7 +109,7 @@ const StyledTitleText = styled.div`
 
 const StyledTitleBlock = styled.div`
     position: absolute;
-    top: 89%;
+    top: 83%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -118,9 +118,6 @@ const StyledTitleBlock = styled.div`
     padding-right: 5px;
     box-sizing: border-box;
     background-color: white;
-    @media screen and (min-width: ${maxWidth}px) {
-        top: 83%;
-    }
 `;
 
 const StyledImg = styled.img<{ imgAnim: any }>`
@@ -133,24 +130,15 @@ const StyledImg = styled.img<{ imgAnim: any }>`
 const StyledImageBlock = styled.div`
     position: absolute;
     overflow: hidden;
-    width: 100%;
-    height: 100%;
-    @media screen and (min-width: ${maxWidth}px) {
-        width: 366px;
-        height: 368px;
-    }
+    width: 366px;
+    height: 368px;
 `;
 
 const StyledDictionaryItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
     position: relative;
-    width: ${({ width }) => width};
-    height: ${({ height }) => height};
-    padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    @media screen and (min-width: ${maxWidth}px) {
-        width: 366px;
-        height: 463px;
-        padding-bottom: 0%;
-    }
+    width: 366px;
+    height: 463px;
+    padding-bottom: 0%;
 `;
 
 export default DictionaryItem;

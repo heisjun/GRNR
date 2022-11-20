@@ -26,6 +26,8 @@ const Register: React.FC = () => {
     const [disabledToggle, setDisabledToggle] = useState<boolean>(true);
     const [addressData, setAddressData] = useState<[]>([]);
     const [error, setError] = useState<string>('');
+    const [userInfo, setUserInfo] = useState('');
+    const [nickError, setNickError] = useState(false);
     const [check, setCheck] = useState();
     const [inputs, setInputs] = useState({
         nickname: '',
@@ -60,6 +62,9 @@ const Register: React.FC = () => {
         };
         if (!dataToSend.nickName) {
             setError('닉네임을 입력하세요');
+            return;
+        } else if (nickError) {
+            setError('닉네임을 확인해주세요');
             return;
         } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
             setError('이미 사용중인 닉네임입니다. 다른 닉네임으로 만들어주세요');
@@ -101,6 +106,19 @@ const Register: React.FC = () => {
             ...inputs,
             [name]: value,
         });
+    };
+
+    //비밀번호 유효성 검사
+    const checkPassword = (e: any) => {
+        const regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+        const regExp2 = /[~!@#$%^&*()+|<>?:{}]/;
+        if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {
+            setUserInfo('닉네임을 확인해 주세요');
+            setNickError(true);
+        } else {
+            setUserInfo('');
+            setNickError(false);
+        }
     };
 
     const allHandleChange = () => {
@@ -179,12 +197,15 @@ const Register: React.FC = () => {
                 <StyledRegisterBlock>
                     <StyledTitleText>닉네임</StyledTitleText>
                     <StyledInput
-                        placeholder="닉네임을 입력해주세요"
+                        placeholder="닉네임을 입력해주세요(영어, 숫자, 밑줄, 점으로 구성됩니다)"
                         type="text"
                         name="nickname"
                         value={nickname}
                         onChange={handleInput}
+                        onBlur={checkPassword}
+                        error={nickError}
                     />
+                    <StyledErrorMessage>{userInfo}</StyledErrorMessage>
                 </StyledRegisterBlock>
 
                 <div style={{ marginTop: '5%', paddingBottom: 10 }}>
@@ -195,6 +216,7 @@ const Register: React.FC = () => {
                         name="detailAddress"
                         value={detailAddress}
                         onChange={handleInput}
+                        error={false}
                     />
                 </div>
                 {!disabledToggle && (
@@ -292,18 +314,16 @@ const StyledContentText = styled.div`
     }
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ error: boolean }>`
     width: 100%;
     font-size: 14px;
     padding-left: 15px;
     box-sizing: border-box;
     height: 50px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        font-size: 2.5vw;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        font-size: 14px;
-    }
+    ${(props) =>
+        props.error &&
+        `border: 1px solid red;
+  `};
 `;
 
 const StyledAgreeBox = styled.div`

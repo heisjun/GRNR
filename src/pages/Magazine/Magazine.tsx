@@ -53,7 +53,7 @@ const Magazine: React.FC = () => {
 
     return (
         <StyledMagazineContainer pageAnim={pageAnim}>
-            <StyledMagazineHeader></StyledMagazineHeader>
+            <StyledMagazineHeader>서비스 준비 중입니다</StyledMagazineHeader>
             {magazines && (
                 <ItemList
                     width="100%"
@@ -70,16 +70,17 @@ const Magazine: React.FC = () => {
 };
 
 const StyledMagazineContainer = styled.div<{ pageAnim: any }>`
-    height: 5000px;
+    height: 500px;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
 `;
 
 const StyledMagazineHeader = styled.div`
     display: flex;
-    justify-content: flex-start;
-    margin-top: -20px;
+    justify-content: center;
+    margin-top: 30px;
     padding-bottom: 15px;
+    font-size: 20px;
 `;
 
 export default Magazine;
