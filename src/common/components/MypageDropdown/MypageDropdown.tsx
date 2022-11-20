@@ -39,6 +39,24 @@ const MypageDropdown: React.FC = () => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const profileData = await axios.get(`${BASEURL}/api/profile/view`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+                sessionStorage.setItem('accountId', profileData.data.value.accountId);
+                sessionStorage.setItem('nickName', profileData.data.value.nickName);
+                sessionStorage.setItem('profileUrl', profileData.data.value.profileUrl);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchData();
+    }, []);
+
     const logout = async () => {
         try {
             const data = await axios.get(`${BASEURL}/api/logout`, {

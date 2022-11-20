@@ -523,7 +523,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                             width="100%"
                                             paddingBottom="100%"
                                             borderRadius="100%"
-                                            picUrl={sessionStorage.getItem('picUrl')}
+                                            picUrl={sessionStorage.getItem('profileUrl')}
                                         />
                                     </StyledAvatarBlock>
 

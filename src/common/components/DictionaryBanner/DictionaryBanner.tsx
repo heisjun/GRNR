@@ -24,6 +24,14 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
         }
     };
 
+    function truncate(text: string) {
+        const replaced = text.replace(/\n/g, ' ');
+        if (replaced.length <= 230) {
+            return replaced;
+        }
+        return replaced.slice(0, 230).concat('...');
+    }
+
     return (
         <div>
             <StyleBannerBoxStyle>
@@ -45,7 +53,7 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
                             <StyledTextStyle>Editors's Pick</StyledTextStyle>
                             <StyledEnglishName>{item.scientificName}</StyledEnglishName>
                             <StyledKoreanName>{item.plantName}</StyledKoreanName>
-                            <StyledContentBox>{item.description_detail}</StyledContentBox>
+                            <StyledContentBox>{truncate(item.description_detail)}</StyledContentBox>
                             <StyledKeywordContainer>
                                 {item.classification_flower && (
                                     <StyledKeywordBox>{item.classification_flower}</StyledKeywordBox>
@@ -107,7 +115,7 @@ const StyledMainBannerContainer = styled.div<IStyled>`
 
 const StyledImageContainer = styled.div`
     position: relative;
-
+    cursor: pointer;
     width: 763px;
     height: 100%;
     img {
@@ -155,6 +163,7 @@ const StyledContentContainer = styled.div`
     box-sizing: border-box;
     padding: 28px 41px 0 17px;
     width: 377px;
+    cursor: pointer;
 `;
 
 const StyledTextStyle = styled.h3`

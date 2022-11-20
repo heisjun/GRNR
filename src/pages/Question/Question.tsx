@@ -102,7 +102,8 @@ const Question: React.FC = () => {
 
     return (
         <StyledQuestionContainer pageAnim={pageAnim}>
-            <StyledQuestionBanner view={viewAll}>
+            <StyledHeaderTemporary>서비스 준비 중입니다</StyledHeaderTemporary>
+            {/* <StyledQuestionBanner view={viewAll}>
                 <StyledHeaderText>궁금한 점을 키워드로 빠르게 확인해 보세요</StyledHeaderText>
                 <div>{searchKeyword}</div>
                 <StyledHeaderKeyword>
@@ -158,7 +159,7 @@ const Question: React.FC = () => {
                     </Link>
                 </StyledFeedHeader>
                 {questions && <QuestionItem data={questions} />}
-            </StyledQuestionBlock>
+            </StyledQuestionBlock> */}
         </StyledQuestionContainer>
     );
 };
@@ -179,6 +180,7 @@ const StyledQuestionContainer = styled.div<{ pageAnim: any }>`
     align-items: center;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
+    height: 500px;
 `;
 
 const StyledBorderLine = styled.hr`
@@ -209,6 +211,14 @@ const StyledHeaderText = styled.div`
     line-height: normal;
     letter-spacing: normal;
     color: #fff;
+`;
+const StyledHeaderTemporary = styled.div`
+    font-size: 20px;
+    margin-top: 30px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
 `;
 
 const StyledHeaderKeyword = styled.div`

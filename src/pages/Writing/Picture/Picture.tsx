@@ -17,7 +17,7 @@ const option1 = [
     {
         id: 1,
         name: '분류',
-        list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장,다육식물'],
+        list: ['잎보기식물', '꽃보기식물', '열매보기식물', '선인장,다육식물'],
     },
 ];
 
@@ -98,11 +98,17 @@ const Picture: React.FC = () => {
         const formData = new FormData();
 
         for (let i = 0; i < getContent.length; i++) {
-            saveDto.push({
-                explain: getContent[i].details,
-                homePlace: convertEng(getContent[i].loc),
-                tagDtoList: getContent[i].realhashtag,
-            });
+            if (getContent[i].loc === '공간') {
+                console.log(getContent[i].loc);
+                alert('공간을 입력해 주세요');
+                return;
+            } else {
+                saveDto.push({
+                    explain: getContent[i].details,
+                    homePlace: convertEng(getContent[i].loc),
+                    tagDtoList: getContent[i].realhashtag,
+                });
+            }
         }
 
         const test: Uploader = {
