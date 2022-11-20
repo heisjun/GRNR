@@ -22,11 +22,14 @@ const MyFollowing: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/${accountId}/following`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
+                const myfeedData = await axios.get(
+                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/following`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
                     },
-                });
+                );
                 setFollowing(myfeedData.data.value.content);
             } catch (e) {
                 console.log(e);
