@@ -69,24 +69,24 @@ const Profile: React.FC = () => {
             <StyledIntroText>{profile?.selfInfo ? profile?.selfInfo : '소개글을 작성하세요'}</StyledIntroText>
             <div style={{ display: 'flex' }}>
                 <StyledFollowText onClick={() => navigate(`/mypage/profile/follower`)}>
-                    팔로워 {accountDto?.followerCount}
+                    팔로워 <span>{accountDto?.followerCount ? accountDto?.followerCount : 0}</span>
                 </StyledFollowText>
                 <StyledFollowText onClick={() => navigate(`/mypage/profile/following`)}>
-                    팔로잉 {accountDto?.followingCount}
+                    팔로잉 <span>{accountDto?.followingCount ? accountDto?.followingCount : 0}</span>
                 </StyledFollowText>
             </div>
-            <StyledEditButton>수정</StyledEditButton>
+            <StyledEditButton>프로필 수정</StyledEditButton>
             <StyledBorderLine />
             <StyledStatBlock>
                 <StyledScrapBlock>
-                    <StyledScrapButton />
+                    <StyledScrapButton src={'/btnblankBookMark.png'} />
                     <StyledScrapText>스크랩</StyledScrapText>
-                    <StyledScrapCount>{accountDto?.scrapCount}</StyledScrapCount>
+                    <StyledScrapCount>{accountDto?.scrapCount ? accountDto?.scrapCount : 0}</StyledScrapCount>
                 </StyledScrapBlock>
                 <StyledLikeBlock>
-                    <StyledLikeButton />
+                    <StyledLikeButton src={'/btnblankHeart.png'} />
                     <StyledLikeText>좋아요</StyledLikeText>
-                    <StyledLikeCount>{accountDto?.likeCount}</StyledLikeCount>
+                    <StyledLikeCount>{accountDto?.likeCount ? accountDto?.likeCount : 0}</StyledLikeCount>
                 </StyledLikeBlock>
             </StyledStatBlock>
         </StyledProfileContainer>
@@ -94,117 +94,135 @@ const Profile: React.FC = () => {
 };
 
 const StyledLikeCount = styled.div`
-    font-size: 14px;
+    font-family: NotoSansKR;
+    font-size: 18px;
     font-weight: bold;
-    color: grey;
+    text-align: center;
+    color: #0d6637;
 `;
 
 const StyledLikeText = styled.div`
-    font-size: 12px;
-    color: grey;
-    margin-top: 5px;
+    margin-top: 9px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: #444;
 `;
 
-const StyledLikeButton = styled.div`
-    width: 100%;
-    padding-bottom: 100%;
-    border-radius: 100%;
-    background-color: grey;
+const StyledLikeButton = styled.img`
+    width: 36px;
+    height: 36px;
 `;
 
 const StyledScrapCount = styled.div`
-    font-size: 14px;
+    font-family: NotoSansKR;
+    font-size: 18px;
     font-weight: bold;
-    color: grey;
+    text-align: center;
+    color: #0d6637;
 `;
 
 const StyledScrapText = styled.div`
-    font-size: 12px;
-    color: grey;
-    margin-top: 5px;
+    margin-top: 9px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: #444;
 `;
 
-const StyledScrapButton = styled.div`
-    width: 100%;
-    padding-bottom: 100%;
-    border-radius: 100%;
-    background-color: grey;
+const StyledScrapButton = styled.img`
+    width: 36px;
+    height: 36px;
 `;
 
 const StyledLikeBlock = styled.div`
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-`;
-
-const StyledScrapBlock = styled.div`
-    width: 20%;
+    width: 140px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 20px;
+`;
+
+const StyledScrapBlock = styled.div`
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid #ececec;
 `;
 
 const StyledStatBlock = styled.div`
     width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
 `;
 
 const StyledBorderLine = styled.div`
-    width: 80%;
-    border: solid 1px;
-    border-color: silver;
+    width: 248px;
+    height: 1px;
+    margin: 28px 0 30px;
+    background-color: #ececec;
 `;
 
 const StyledEditButton = styled.div`
-    width: 25%;
-    height: 8%;
+    margin-top: 26px;
+    width: 102px;
+    height: 34px;
+    box-sizing: border-box;
+    padding: 7px 17px;
+    border-radius: 17px;
+    background-color: #ebebeb;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid 2px;
-    border-radius: 5px;
-    border-color: silver;
-    font-size: 11px;
-    color: grey;
+    font-family: NotoSansKR;
+    font-size: 14px;
+    font-weight: 500;
+    color: #444;
 `;
 
 const StyledFollowText = styled.div`
-    font-size: 11px;
-    color: grey;
-    padding-left: 5px;
-    padding-right: 5px;
+    margin-top: 11px;
+    font-family: NotoSansKR;
+    font-size: 13px;
+    color: #787878;
     cursor: pointer;
+    span {
+        padding: 0px 3px;
+        font-weight: bold;
+        color: #0d6637;
+    }
 `;
 
 const StyledIntroText = styled.div`
-    font-size: 11px;
-    color: grey;
+    margin-top: 12px;
+    font-family: NotoSansKR;
+    font-size: 14px;
+    color: #818181;
 `;
 
 const StyledNameText = styled.div`
-    font-size: 17px;
+    margin-top: 17px;
+    font-family: NotoSansKR;
+    font-size: 18px;
     font-weight: bold;
-    color: grey;
+    color: #272727;
 `;
 
 const StyledAvatarBlock = styled.div`
-    width: 45%;
+    width: 140px;
+    height: 140px;
+    margin-top: 40px;
 `;
 
 const StyledProfileContainer = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    box-sizing: border-box;
+    width: 280px;
+    height: 530px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
-    border: solid 2px;
-    border-color: silver;
-    border-radius: 5px;
+    border: solid 1px #dbdbdb;
+    background-color: #fff;
+    margin-bottom: 40px;
 `;
 
 export default Profile;

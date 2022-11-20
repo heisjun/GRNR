@@ -86,8 +86,6 @@ const MypageDropdown: React.FC = () => {
     const [isActive, setIsActive] = useState([false]);
     const dropdownListRef = useRef<any>(null);
 
-    console.log(profile?.profileUrl);
-
     useEffect(() => {
         function handleClickOutside(e: MouseEvent): void {
             if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {

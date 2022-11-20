@@ -9,8 +9,6 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
     const { data } = props;
     const [slidePage, setSlidePage] = useState<number>(0);
     const [slideIdx, setSlideIdx] = useState<number>(0);
-    console.log(data?.pictureList.length);
-    console.log(slideIdx);
 
     const leftButton = () => {
         if (slidePage > 0) {

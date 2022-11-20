@@ -159,17 +159,19 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         </StyledHeaderBarContainer>
                         <StyledSubTabBarBlock>
                             {crntPath === 'mypage' ? (
-                                <MypageTabBar
+                                /*   <MypageTabBar
                                     scrollDownToggle={scrollDownToggle}
                                     setScrollDownToggle={setScrollDownToggle}
                                     setSubTabVisible={setSubTabVisible}
-                                />
+                                /> */
+                                <></>
                             ) : crntPath === 'userpage' ? (
-                                <UserpageTabBar
+                                /*    <UserpageTabBar
                                     scrollDownToggle={scrollDownToggle}
                                     setScrollDownToggle={setScrollDownToggle}
                                     setSubTabVisible={setSubTabVisible}
-                                />
+                                /> */
+                                <></>
                             ) : (
                                 <SubTabBar
                                     visible={!scrollDownToggle}

@@ -21,15 +21,15 @@ const MyphotoItem: React.FC<IMyphotoItem> = (props) => {
             </StyledImageBlock>
             <StyledStatsBlock>
                 <StyledStatBlock>
-                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/like.png`} />
+                    <StyledLikeButton src={'/btnBlankHeart.png'} />
                     <StyledCountText>{item.likeCount}</StyledCountText>
                 </StyledStatBlock>
                 <StyledStatBlock>
-                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/comment.png`} />
+                    <StyledLikeButton src={'/btnComment.png'} />
                     <StyledCountText>{item.commentCount}</StyledCountText>
                 </StyledStatBlock>
                 <StyledStatBlock>
-                    <StyledLikeButton src={`${process.env.REACT_APP_BASE_SRC}/scrap.png`} />
+                    <StyledLikeButton src={'/btnBlankBookmark.png'} />
                     <StyledCountText>{item.scrapCount}</StyledCountText>
                 </StyledStatBlock>
             </StyledStatsBlock>
@@ -56,31 +56,30 @@ const ImageScaleDown = keyframes`
 `;
 
 const StyledCountText = styled.div`
-    color: grey;
-    font-size: 11px;
-    margin-left: 3px;
+    font-size: 14px;
+    margin-left: 8px;
+    color: #4d4d4d;
 `;
 
 const StyledLikeButton = styled.img`
     cursor: pointer;
+    width: 20px;
+    height: 20px;
 `;
 
 const StyledStatBlock = styled.div`
-    width: 25%;
-    height: 100%;
     display: flex;
-    margin-left: 1%;
     align-items: center;
 `;
 
 const StyledStatsBlock = styled.div`
     position: absolute;
-    top: 80%;
+    top: 184px;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     width: 100%;
-    height: 20%;
+    height: 56px;
     background-color: white;
 `;
 
@@ -94,15 +93,14 @@ const StyledImg = styled.img<{ imgAnim: any }>`
 const StyledImageBlock = styled.div`
     position: absolute;
     overflow: hidden;
-    width: 100%;
-    height: 80%;
+    width: 184px;
+    height: 184px;
 `;
 
 const StyledMagazineItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
     position: relative;
-    width: ${({ width }) => width};
-    height: ${({ height }) => height};
-    padding-bottom: ${({ paddingBottom }) => paddingBottom};
+    width: 184px;
+    height: 240px;
 `;
 
 export default MyphotoItem;
