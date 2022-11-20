@@ -79,12 +79,12 @@ const Profile: React.FC = () => {
             <StyledBorderLine />
             <StyledStatBlock>
                 <StyledScrapBlock>
-                    <StyledScrapButton src="/btnblankBookMark.png" />
+                    <StyledScrapButton src="/btnBlankBookmark.png" />
                     <StyledScrapText>스크랩</StyledScrapText>
                     <StyledScrapCount>{accountDto?.scrapCount ? accountDto?.scrapCount : 0}</StyledScrapCount>
                 </StyledScrapBlock>
                 <StyledLikeBlock>
-                    <StyledLikeButton src="/btnblankHeart.png" />
+                    <StyledLikeButton src="/btnBlankHeart.png" />
                     <StyledLikeText>좋아요</StyledLikeText>
                     <StyledLikeCount>{accountDto?.likeCount ? accountDto?.likeCount : 0}</StyledLikeCount>
                 </StyledLikeBlock>

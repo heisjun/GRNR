@@ -198,16 +198,8 @@ const StyledContexTitle = styled.div`
 `;
 
 const StyledScrapBookContainer = styled.div`
-    margin-top: 40px;
     display: flex;
     justify-content: center;
-`;
-
-const StyledContextTitle = styled.div`
-    color: gray;
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 5px;
 `;
 
 export default Myfeed;

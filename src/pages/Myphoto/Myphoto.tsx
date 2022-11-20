@@ -100,7 +100,6 @@ const StyledContexTitle = styled.div`
 `;
 
 const StyledScrapBookContainer = styled.div`
-    margin-top: 40px;
     display: flex;
     justify-content: center;
 `;
