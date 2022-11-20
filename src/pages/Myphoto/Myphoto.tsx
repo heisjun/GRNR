@@ -4,21 +4,26 @@ import { Profile } from 'domains';
 import { IMyphotoParams } from 'common/types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 const Myphoto: React.FC = () => {
+    const navigate = useNavigate();
     const [picData, setPicData] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/pictures`,
-                );
+                const myfeedData = await axios.get(`${BASEURL}/api/account/21/pictures`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
                 setPicData(myfeedData.data.value.content);
+                console.log(myfeedData.data.value.content);
             } catch (e) {
                 console.log(e);
             }
@@ -26,70 +31,78 @@ const Myphoto: React.FC = () => {
         fetchData();
     }, []);
     return (
-        <StyledMyphotoContainer>
+        <StyledScrapBookContainer>
             <StyledProfileContainer>
-                <StyledProfileBlock>
-                    <Profile />
-                </StyledProfileBlock>
+                <Profile />
+                <div>
+                    <StyledFeedNav onClick={() => navigate('/mypage')}>나의피드</StyledFeedNav>
+                    <StyledFeedNav nav={true} onClick={() => navigate('/mypage/profile/photo')}>
+                        사진
+                    </StyledFeedNav>
+                    <StyledFeedNav>매거진</StyledFeedNav>
+                    <StyledFeedNav>Q&A</StyledFeedNav>
+                    <StyledFeedNav>스크랩북</StyledFeedNav>
+                    <StyledFeedNav>좋아요</StyledFeedNav>
+                    <StyledFeedNav>설정</StyledFeedNav>
+                </div>
             </StyledProfileContainer>
             <StyledContextContainer>
-                <StyledTitleBlock>
-                    <StyledTitleText>사진</StyledTitleText>
-                    <StyledTitleNumber>{picData.length}</StyledTitleNumber>
-                </StyledTitleBlock>
+                <StyledContexTitle>사진</StyledContexTitle>
                 <ItemList
                     width="100%"
                     imgHeight="115%"
-                    cols={3}
-                    horizontalGap={4}
+                    cols={4}
+                    horizontalGap={2}
                     verticalGap={2}
                     items={picData}
                     RenderComponent={MyphotoItem}
                 />
             </StyledContextContainer>
-        </StyledMyphotoContainer>
+        </StyledScrapBookContainer>
     );
 };
 
-const StyledTitleText = styled.div`
-    font-size: 15px;
-    font-weight: bold;
-    color: grey;
-`;
-
-const StyledTitleNumber = styled.div`
-    font-size: 15px;
-    font-weight: bold;
-    color: silver;
-    margin-left: 5px;
-`;
-
-const StyledTitleBlock = styled.div`
-    width: 100%;
-    display: flex;
-    margin-bottom: 10px;
-`;
-
-const StyledProfileBlock = styled.div`
-    position: relative;
-    width: 85%;
-    padding-bottom: 150%;
+const StyledFeedNav = styled.div<{ nav?: boolean }>`
+    box-sizing: border-box;
+    width: 280px;
+    height: 60px;
+    padding: 18px 0px 18px 14px;
+    font-size: 16px;
+    font-weight: 500;
+    color: ${({ nav }) => (nav ? '#0d6637;' : '#272727')};
+    background-color: ${({ nav }) => (nav ? '#e7f5ee;' : 'white')};
+    cursor: pointer;
 `;
 
 const StyledProfileContainer = styled.div`
-    width: 25%;
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    height: 1000px;
+    background-color: white;
+    margin-right: 64px;
 `;
 
 const StyledContextContainer = styled.div`
-    width: 73%;
-    height: 5000px;
-    margin-left: 2%;
+    width: 796px;
 `;
 
-const StyledMyphotoContainer = styled.div`
+const StyledContexTitle = styled.div`
+    font-family: NotoSansKR;
+    font-size: 30px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #272727;
+    margin-bottom: 30px;
+`;
+
+const StyledScrapBookContainer = styled.div`
     margin-top: 40px;
-    width: 100%;
     display: flex;
+    justify-content: center;
 `;
 
 export default Myphoto;

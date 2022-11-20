@@ -25,18 +25,21 @@ const MyfeedItem: React.FC<IMyfeedItemParams> = (props) => {
                 >
                     <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
                 </StyledImgBlock>
+                <StyledStatsBlock>
+                    <StyledStatBlock>
+                        <StyledLikeButton src={'/btnBlankHeart.png'} />
+                        <StyledCountText>1</StyledCountText>
+                    </StyledStatBlock>
+                    <StyledStatBlock>
+                        <StyledLikeButton src={'/btnComment.png'} />
+                        <StyledCountText>12</StyledCountText>
+                    </StyledStatBlock>
+                    <StyledStatBlock>
+                        <StyledLikeButton src={'/btnBlankBookmark.png'} />
+                        <StyledCountText>13</StyledCountText>
+                    </StyledStatBlock>
+                </StyledStatsBlock>
             </Link>
-            <StyledWriterBlock>
-                <StyeldAvatarBlock>
-                    <Avatar
-                        width="100%"
-                        paddingBottom="100%"
-                        borderRadius="100%"
-                        picUrl={sessionStorage.getItem('profileUrl')}
-                    />
-                </StyeldAvatarBlock>
-                <StyledNicknameBlock>{sessionStorage.getItem('nickName')}</StyledNicknameBlock>
-            </StyledWriterBlock>
         </StyledTodaysPhotoContainer>
     );
 };
@@ -59,29 +62,32 @@ const ImageScaleDown = keyframes`
     }
 `;
 
-const StyledNicknameBlock = styled.div`
-    color: grey;
-    font-size: 10px;
-    margin-left: 3%;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 1.1px;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        font-size: ${maxWidth * 0.011}px;
-    }
+const StyledCountText = styled.div`
+    font-size: 14px;
+    margin-left: 8px;
+    color: #4d4d4d;
 `;
 
-const StyeldAvatarBlock = styled.div`
-    width: 10%;
+const StyledLikeButton = styled.img`
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
 `;
 
-const StyledWriterBlock = styled.div`
-    position: absolute;
-    width: 95%;
-    top: 85%;
-    left: 5%;
+const StyledStatBlock = styled.div`
     display: flex;
     align-items: center;
+`;
+
+const StyledStatsBlock = styled.div`
+    position: absolute;
+    top: 184px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 56px;
+    background-color: white;
 `;
 
 const StyledImg = styled.img<{ imgAnim: any }>`
@@ -92,19 +98,16 @@ const StyledImg = styled.img<{ imgAnim: any }>`
 `;
 
 const StyledImgBlock = styled.div`
-    position: absolute;
     overflow: hidden;
-    width: 100%;
-    height: 100%;
+    width: 184px;
+    height: 184px;
+    box-shadow: 0 6px 30px 0 rgba(0, 0, 0, 0.06);
 `;
 
 const StyledTodaysPhotoContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
     position: relative;
-    width: ${({ width }) => width};
-    height: ${({ height }) => height};
-    padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    border: solid 1px;
-    border-color: silver;
+    width: 184px;
+    height: 240px;
 `;
 
 export default MyfeedItem;
