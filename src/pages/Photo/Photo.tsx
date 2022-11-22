@@ -11,7 +11,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const PhotoFilter_Order = [
     {
@@ -133,7 +133,7 @@ const Photo: React.FC = () => {
                             width: '65%',
                             backgroundColor: 'gray',
                             marginRight: '2%',
-                            backgroundImage: 'url(/sample.jpeg)',
+                            backgroundImage: 'url(/photoMain/15.jpg)',
                             backgroundSize: 'cover',
                         }}
                     ></div>
@@ -150,7 +150,7 @@ const Photo: React.FC = () => {
                                 width: '100%',
                                 height: '48%',
                                 backgroundColor: 'gray',
-                                backgroundImage: 'url(/sample2.jpg)',
+                                backgroundImage: 'url(/photoMain/14.jpg)',
                                 backgroundSize: 'cover',
                             }}
                         ></div>
@@ -159,7 +159,7 @@ const Photo: React.FC = () => {
                                 width: '100%',
                                 height: '48%',
                                 backgroundColor: 'gray',
-                                backgroundImage: 'url(/sample2.jpg)',
+                                backgroundImage: 'url(/photoMain/16.jpg)',
                                 backgroundSize: 'cover',
                             }}
                         ></div>

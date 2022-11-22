@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { IItemParams } from 'common/types';
+import { ITodaysPhotoParams } from 'common/types';
 import { Avatar } from 'common/components';
 
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
-const TodaysPhoto: React.FC<IItemParams> = (props) => {
+const TodaysPhoto: React.FC<ITodaysPhotoParams> = (props) => {
     const { width, height, paddingBottom, item } = props;
 
     const [hover, setHover] = useState<boolean>(false);
@@ -35,7 +35,7 @@ const TodaysPhoto: React.FC<IItemParams> = (props) => {
                             <StyledDetailsText>인기 사진글</StyledDetailsText>
                         </StyledHoverBackgrouond>
                     )}
-                    <StyledImg src={`/sample2.jpg`} width="100%" height="100%" />
+                    <StyledImg src={item.imgSrc} width="100%" height="100%" />
                 </StyledImgBlock>
             </Link>
         </StyledTodaysPhotoContainer>

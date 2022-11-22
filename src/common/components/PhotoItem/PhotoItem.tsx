@@ -6,7 +6,7 @@ import { Avatar } from 'common/components';
 import axios from 'axios';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const navigate = useNavigate();

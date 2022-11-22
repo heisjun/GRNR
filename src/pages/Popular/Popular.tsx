@@ -17,7 +17,16 @@ const Popular: React.FC = () => {
 
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
 
-    const picData = [{}, {}, {}, {}, {}, {}, {}, {}];
+    const picData = [
+        { imgSrc: '/popular/2.jpg' },
+        { imgSrc: '/popular/3.jpg' },
+        { imgSrc: '/popular/4.jpg' },
+        { imgSrc: '/popular/5.jpg' },
+        { imgSrc: '/popular/6.jpg' },
+        { imgSrc: '/popular/7.jpg' },
+        { imgSrc: '/popular/8.jpg' },
+        { imgSrc: '/popular/9.jpg' },
+    ];
 
     useEffect(() => {
         setPageAnim(FadeIn);

@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const Myphoto: React.FC = () => {
     const navigate = useNavigate();

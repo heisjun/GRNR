@@ -11,8 +11,8 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN =
-    'eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2NzAzMDE0OTN9.WXFcp0XqFc5lbQvwpQWEnhAeEBoRhQtxaoycj47gjkFZ0UpsBArQZ-UH4XljxNwbu5sqlB8Y03kZ5ZFCjEZYzQ';
+const TOKEN = sessionStorage.getItem('accesstoken');
+
 const option1 = [
     {
         id: 1,

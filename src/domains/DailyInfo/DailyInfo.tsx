@@ -12,7 +12,7 @@ const DailyInfo: React.FC = () => {
     return (
         <StyledDailyInfoContainer>
             <StyledDailyPlantBlock>
-                <DailyPlant width="100%" height="100%" borderRadius="0px" imgUrls={['', '', '']} />
+                <DailyPlant width="100%" height="100%" borderRadius="0px" imgUrls={['']} />
             </StyledDailyPlantBlock>
         </StyledDailyInfoContainer>
     );

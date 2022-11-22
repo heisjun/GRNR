@@ -9,7 +9,7 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { IPhotoDetailsParams } from 'common/types';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const navigate = useNavigate();

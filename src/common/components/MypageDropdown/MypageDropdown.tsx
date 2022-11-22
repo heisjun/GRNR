@@ -7,7 +7,7 @@ import { UserInfo } from 'recoil/auth';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const MypageDropdown: React.FC = () => {
     interface Iprofile {
@@ -64,8 +64,6 @@ const MypageDropdown: React.FC = () => {
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
-            localStorage.removeItem('accesstoken');
-            localStorage.removeItem('refreshtoken');
             sessionStorage.clear();
             setLoginStatus({ ...loginStatus, isLogin: false });
             window.location.replace('/');

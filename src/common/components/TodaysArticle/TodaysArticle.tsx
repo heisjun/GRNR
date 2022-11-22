@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 
-const data = [{}, {}, {}];
+const data = [{ img: '/article/10.jpg' }, { img: '/article/11.jpg' }, { img: '/article/12.jpg' }];
 
 const TodaysArticle = () => {
     const slideRef = useRef(document.createElement('img'));
@@ -54,7 +54,7 @@ const TodaysArticle = () => {
                 {data.map((item, idx) => (
                     <StyledMainBannerContainer key={idx}>
                         <StyledImageContainer>
-                            <img src={'/sample.jpeg'} alt="" />
+                            <img src={item.img} alt="" />
                         </StyledImageContainer>
                     </StyledMainBannerContainer>
                 ))}

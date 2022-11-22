@@ -12,7 +12,7 @@ import ReportModal from 'common/components/ReportModal';
 import PhotoDetailsItem from 'common/components/PhotoDetailsItem';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const PhotoDetails: React.FC = () => {
     const navigate = useNavigate();
