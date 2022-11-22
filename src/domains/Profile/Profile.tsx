@@ -69,10 +69,10 @@ const Profile: React.FC = () => {
             <StyledIntroText>{profile?.selfInfo ? profile?.selfInfo : '소개글을 작성하세요'}</StyledIntroText>
             <div style={{ display: 'flex' }}>
                 <StyledFollowText onClick={() => navigate(`/mypage/profile/follower`)}>
-                    팔로워 <span>{accountDto?.followerCount ? accountDto?.followerCount : 0}</span>
+                    팔로워 <span>{accountDto?.followerCount}</span>
                 </StyledFollowText>
                 <StyledFollowText onClick={() => navigate(`/mypage/profile/following`)}>
-                    팔로잉 <span>{accountDto?.followingCount ? accountDto?.followingCount : 0}</span>
+                    팔로잉 <span>{accountDto?.followingCount}</span>
                 </StyledFollowText>
             </div>
             <StyledEditButton>프로필 수정</StyledEditButton>
@@ -81,12 +81,12 @@ const Profile: React.FC = () => {
                 <StyledScrapBlock>
                     <StyledScrapButton src="/btnBlankBookmark.png" />
                     <StyledScrapText>스크랩</StyledScrapText>
-                    <StyledScrapCount>{accountDto?.scrapCount ? accountDto?.scrapCount : 0}</StyledScrapCount>
+                    <StyledScrapCount>{accountDto?.scrapCount}</StyledScrapCount>
                 </StyledScrapBlock>
                 <StyledLikeBlock>
                     <StyledLikeButton src="/btnBlankHeart.png" />
                     <StyledLikeText>좋아요</StyledLikeText>
-                    <StyledLikeCount>{accountDto?.likeCount ? accountDto?.likeCount : 0}</StyledLikeCount>
+                    <StyledLikeCount>{accountDto?.likeCount}</StyledLikeCount>
                 </StyledLikeBlock>
             </StyledStatBlock>
         </StyledProfileContainer>

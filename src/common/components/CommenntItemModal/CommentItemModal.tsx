@@ -419,7 +419,9 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                             cursor: 'pointer',
                                                             fontSize: 15,
                                                         }}
-                                                        onClick={() => onCommentLike(item.commentId, item.likeCount)}
+                                                        onClick={() =>
+                                                            onCommentLike(recomment.commentId, recomment.likeCount)
+                                                        }
                                                     />
                                                 </div>
                                             </div>

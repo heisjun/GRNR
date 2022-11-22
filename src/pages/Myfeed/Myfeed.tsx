@@ -27,7 +27,7 @@ const Myfeed: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/21`, {
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${sessionStorage.getItem('accountId')}`, {
                     headers: {
                         Authorization: `Bearer ${TOKEN}`,
                     },

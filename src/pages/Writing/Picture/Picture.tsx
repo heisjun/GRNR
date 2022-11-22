@@ -11,8 +11,8 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
-
+const TOKEN =
+    'eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IjIzMjIyMzg1MjAiLCJleHAiOjE2NzAzMDE0OTN9.WXFcp0XqFc5lbQvwpQWEnhAeEBoRhQtxaoycj47gjkFZ0UpsBArQZ-UH4XljxNwbu5sqlB8Y03kZ5ZFCjEZYzQ';
 const option1 = [
     {
         id: 1,
@@ -111,6 +111,8 @@ const Picture: React.FC = () => {
             }
         }
 
+        console.log('공간까지 ok');
+
         const test: Uploader = {
             classification: convertEng2(getOption1),
             pictureSaveDtoList: saveDto,
@@ -128,15 +130,20 @@ const Picture: React.FC = () => {
             formData.append('file', getContent[i].realImg);
         }
 
-        const res = await axios.post(`https://www.gardenersclub.co.kr/api/api/picture/save`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${TOKEN}`,
-            },
-        });
-        navigate('/community/photo/');
+        console.log('사진까지 ok');
 
-        if (res.status === 201) console.log(res.data);
+        try {
+            await axios.post(`${BASEURL}/api/picture/save`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            console.log('업로드까지 ok');
+            navigate('/community/photo/');
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     return (

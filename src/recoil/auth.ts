@@ -1,11 +1,14 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
 type IUserInfo = {
     isLogin: boolean;
 };
 
-const { persistAtom } = recoilPersist();
+const { persistAtom } = recoilPersist({
+    key: 'sessionLogin',
+    storage: sessionStorage,
+});
 
 export const UserInfo = atom<IUserInfo>({
     key: 'loginStatus',
