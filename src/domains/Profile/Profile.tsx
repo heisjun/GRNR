@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const Profile: React.FC = () => {
     interface Iprofile {

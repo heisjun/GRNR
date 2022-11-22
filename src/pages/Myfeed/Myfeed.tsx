@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const Myfeed: React.FC = () => {
     const navigate = useNavigate();

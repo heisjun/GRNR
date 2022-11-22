@@ -8,7 +8,7 @@ import { IpicData } from 'common/types';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const ScrapBook: React.FC = () => {
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);

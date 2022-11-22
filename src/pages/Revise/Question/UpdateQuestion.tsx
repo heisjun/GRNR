@@ -6,7 +6,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-const TOKEN = localStorage.getItem('accesstoken');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const UpdateQuestion: React.FC = () => {
     const navigate = useNavigate();

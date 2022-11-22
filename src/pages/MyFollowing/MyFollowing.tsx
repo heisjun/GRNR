@@ -6,8 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
-const accountId = sessionStorage.getItem('accountId');
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const MyFollowing: React.FC = () => {
     const navigate = useNavigate();

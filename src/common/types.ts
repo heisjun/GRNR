@@ -367,3 +367,14 @@ export type IMyfeedItemParams = {
     paddingBottom?: string;
     item: IpicData;
 };
+
+export type IPopularPic = {
+    imgSrc: string;
+};
+
+export type ITodaysPhotoParams = {
+    width: string;
+    height?: string;
+    paddingBottom?: string;
+    item: IPopularPic;
+};
