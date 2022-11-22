@@ -10,8 +10,8 @@ const RegisterProcess = () => {
 
     const getToken = () => {
         if (accessToken) {
-            localStorage.setItem('accesstoken', accessToken);
-            localStorage.setItem('refreshtoken', refreshToken);
+            sessionStorage.setItem('accesstoken', accessToken);
+            sessionStorage.setItem('refreshtoken', refreshToken);
             window.location.replace('/register');
         } else return;
     };

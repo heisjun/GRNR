@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Avatar, ItemList } from 'common/components';
-import { TaggedPhoto } from 'domains';
 import { getDebouncedFunc } from 'common/funcs';
 import { useParams, useNavigate } from 'react-router-dom';
 import { default as callApi } from 'common/api';
@@ -365,8 +364,6 @@ const StyledFollowButtonBlock = styled.div`
     border-radius: 15px;
     background-color: #0d6637;
     span {
-        width: 36px;
-        height: 19px;
         font-family: NotoSansKR;
         font-size: 13px;
         font-weight: 500;

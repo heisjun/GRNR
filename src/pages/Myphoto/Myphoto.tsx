@@ -17,11 +17,14 @@ const Myphoto: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/21/pictures`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
+                const myfeedData = await axios.get(
+                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/pictures`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
                     },
-                });
+                );
                 setPicData(myfeedData.data.value.content);
                 console.log(myfeedData.data.value.content);
             } catch (e) {

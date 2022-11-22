@@ -140,6 +140,18 @@ const Slider: React.FC<ISlider> = (props) => {
         }
     }, []);
 
+    function convertKor(classification: string) {
+        if (classification === 'LEAF') {
+            return '잎보기식물';
+        } else if (classification === 'FLOWER') {
+            return '꽃보기식물';
+        } else if (classification === 'FRUIT') {
+            return '열매보기식물';
+        } else if (classification === 'SUCCULENT') {
+            return '선인장,다육식물';
+        }
+    }
+
     useEffect(() => {
         fetchData();
         fetchData2();
@@ -227,6 +239,9 @@ const Slider: React.FC<ISlider> = (props) => {
                             }}
                         >
                             <div>
+                                <div style={{ marginBottom: 20 }}>
+                                    {convertKor(details?.classification ? details.classification : 'FLOWER')}
+                                </div>
                                 <ItemList
                                     width="100%"
                                     imgHeight="100%"
