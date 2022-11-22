@@ -12,7 +12,6 @@ const minWidth = process.env.REACT_APP_MIN_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
-
 const option1 = [
     {
         id: 1,
@@ -119,6 +118,7 @@ const Picture: React.FC = () => {
         };
 
         const uploaderString = JSON.stringify(test);
+        console.log(uploaderString);
         formData.append('saveList', new Blob([uploaderString], { type: 'application/json' }));
 
         for (let i = 0; i < getContent.length; i++) {
@@ -138,7 +138,7 @@ const Picture: React.FC = () => {
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
-
+        navigate('/community/photo');
         if (res.status === 201) console.log(res.data);
     };
 
