@@ -34,8 +34,8 @@ const KakaoLogin = () => {
     useEffect(() => {
         const getToken = async () => {
             try {
-                sessionStorage.setItem('accesstoken', accessToken);
-                sessionStorage.setItem('refreshtoken', refreshToken);
+                localStorage.setItem('accesstoken', accessToken);
+                localStorage.setItem('refreshtoken', refreshToken);
                 setLoginStatus({ ...loginStatus, isLogin: true });
                 window.location.replace('/');
             } catch (e) {
