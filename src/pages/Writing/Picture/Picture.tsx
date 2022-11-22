@@ -132,18 +132,14 @@ const Picture: React.FC = () => {
 
         console.log('사진까지 ok');
 
-        try {
-            await axios.post(`${BASEURL}/api/picture/save`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
-            console.log('업로드까지 ok');
-            navigate('/community/photo/');
-        } catch (e) {
-            console.log(e);
-        }
+        const res = await axios.post(`${BASEURL}/api/picture/save`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        });
+
+        if (res.status === 201) console.log(res.data);
     };
 
     return (
