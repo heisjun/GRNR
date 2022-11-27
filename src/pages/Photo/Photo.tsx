@@ -6,6 +6,7 @@ import axios from 'axios';
 import { IPhotosParams } from 'common/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
+import PhotoBanner from 'common/components/PhotoBanner';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
@@ -127,48 +128,11 @@ const Photo: React.FC = () => {
     return (
         <StyledPhotoContainer pageAnim={pageAnim}>
             <div style={{ width: 1140, margin: 'auto' }}>
-                <div style={{ width: '100%', height: 500, display: 'flex' }}>
-                    <div
-                        style={{
-                            width: '65%',
-                            backgroundColor: 'gray',
-                            marginRight: '2%',
-                            backgroundImage: 'url(/photoMain/15.jpg)',
-                            backgroundSize: 'cover',
-                        }}
-                    ></div>
-                    <div
-                        style={{
-                            width: '33%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <div
-                            style={{
-                                width: '100%',
-                                height: '48%',
-                                backgroundColor: 'gray',
-                                backgroundImage: 'url(/photoMain/14.jpg)',
-                                backgroundSize: 'cover',
-                            }}
-                        ></div>
-                        <div
-                            style={{
-                                width: '100%',
-                                height: '48%',
-                                backgroundColor: 'gray',
-                                backgroundImage: 'url(/photoMain/16.jpg)',
-                                backgroundSize: 'cover',
-                            }}
-                        ></div>
-                    </div>
-                </div>
+                <PhotoBanner />
                 <StyledBorderLine />
                 <StyledPhotoHeader>
-                    <Filters_Test setGetFilter={setSelectedPlace} data={PhotoFilter_Place} />
                     <Filters_Test setGetFilter={setSelectedOrder} data={PhotoFilter_Order} />
+                    <Filters_Test setGetFilter={setSelectedPlace} data={PhotoFilter_Place} />
                     <Filters_Test setGetFilter={setSelectedClassification} data={PhotoFilter_Classification} />
                 </StyledPhotoHeader>
 

@@ -113,7 +113,6 @@ const StyledDropdownBtn = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 81px;
     height: 38px;
     padding: 0px 14px;
     background-color: #f4f4f4;

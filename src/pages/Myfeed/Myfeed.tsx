@@ -14,12 +14,14 @@ const Myfeed: React.FC = () => {
     interface IpicData {
         pictureId: number;
         pictureUrl: string;
+        myLike: boolean;
+        myScrap: boolean;
+        likeCount: number;
+        scrapCount: number;
+        commentCount: number;
     }
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
     const [photoGap, setPhotoGap] = useState(window.innerWidth > Number(boundaryWidth) ? 0 : 4);
-
-    const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
-    const [articleGap, setArticleGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
 
     const [picData, setPicData] = useState<IpicData[]>([]);
     const [magazineData, setMagazineData] = useState([]);
@@ -44,7 +46,7 @@ const Myfeed: React.FC = () => {
 
     return (
         <StyledScrapBookContainer>
-            <StyledProfileContainer>
+            {/*   <StyledProfileContainer>
                 <Profile />
                 <div>
                     <StyledFeedNav nav={true} onClick={() => navigate('/mypage')}>
@@ -57,12 +59,12 @@ const Myfeed: React.FC = () => {
                     <StyledFeedNav>좋아요</StyledFeedNav>
                     <StyledFeedNav>설정</StyledFeedNav>
                 </div>
-            </StyledProfileContainer>
+            </StyledProfileContainer> */}
             <StyledContextContainer>
                 <StyledContexTitle>나의피드</StyledContexTitle>
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        사진 <span>1</span>
+                        사진 <span>{picData.length}</span>
                     </StyledDetailTitle>
                     <Link to="/mypage/profile/photo" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>

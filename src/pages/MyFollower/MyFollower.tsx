@@ -39,7 +39,7 @@ const MyFollower: React.FC = () => {
     }, []);
     return (
         <StyledMyphotoContainer>
-            <StyledProfileContainer>
+            {/* <StyledProfileContainer>
                 <Profile />
                 <div>
                     <StyledFeedNav onClick={() => navigate('/mypage')}>나의피드</StyledFeedNav>
@@ -50,7 +50,7 @@ const MyFollower: React.FC = () => {
                     <StyledFeedNav>좋아요</StyledFeedNav>
                     <StyledFeedNav>설정</StyledFeedNav>
                 </div>
-            </StyledProfileContainer>
+            </StyledProfileContainer> */}
             <StyledContextContainer>
                 <StyledContexTitle>팔로워</StyledContexTitle>
                 {following.map((item, index) => {

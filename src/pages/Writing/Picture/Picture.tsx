@@ -55,7 +55,7 @@ const Picture: React.FC = () => {
     }
 
     function convertEng2(classification: string) {
-        if (classification === '입보기식물') {
+        if (classification === '잎보기식물') {
             return 'LEAF';
         } else if (classification === '꽃보기식물') {
             return 'FLOWER';
@@ -94,6 +94,11 @@ const Picture: React.FC = () => {
     }
 
     const onSave = async () => {
+        console.log(getOption1);
+        if (getOption1 === '분류') {
+            alert('분류를 입력해주세요!');
+            return;
+        }
         const formData = new FormData();
 
         for (let i = 0; i < getContent.length; i++) {

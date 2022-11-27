@@ -92,6 +92,7 @@ const ImageScaleDown = keyframes`
 const StyledIcon = styled.img`
     width: 30px;
     height: 30px;
+    cursor: pointer;
 `;
 const StyledEngTitleText = styled.div`
     font-family: NotoSansKR;

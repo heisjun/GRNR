@@ -168,6 +168,7 @@ export type pictureDtoParams = {
     pictureUrl: string;
     explain: string;
     homePlace: string;
+    classification: string;
     tagList: {
         pictureContentId: number;
         tagName: string;
@@ -359,6 +360,11 @@ export type IUploadPicData = {
 export type IpicData = {
     pictureId: number;
     pictureUrl: string;
+    myLike: boolean;
+    myScrap: boolean;
+    likeCount: number;
+    scrapCount: number;
+    commentCount: number;
 };
 
 export type IMyfeedItemParams = {

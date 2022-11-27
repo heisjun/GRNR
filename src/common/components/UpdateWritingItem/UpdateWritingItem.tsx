@@ -61,16 +61,22 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
 
     const Preview = () => {
         return (
-            <StyledPreviewContainer onClick={onClickFileBtn}>
+            <StyledPreviewContainer>
                 <StyledPreviewBlock>
-                    <div>{type}</div>
+                    <StyledPreviewTitle>{type}</StyledPreviewTitle>
                     {type === 'PHOTO' ? (
-                        <div>
-                            {'('}*최대 몇 장 까지{')'}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <StyledPreviewText>*최대 ~~장까지 업로드 가능합니다.</StyledPreviewText>
+                            <StyledPreviewBtn onClick={onClickFileBtn}>
+                                <span>사진 업로드 하기</span>
+                            </StyledPreviewBtn>
                         </div>
                     ) : (
-                        <div>
-                            {'('}*~GB 미만, ...초 ...길이의 영상을 권장합니다{')'}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <StyledPreviewText>*~GB 미만, —초 ~ 길이의 —영상을 권장합니다.</StyledPreviewText>
+                            <StyledPreviewBtn onClick={onClickFileBtn}>
+                                <span>동영상 업로드 하기</span>
+                            </StyledPreviewBtn>
                         </div>
                     )}
                 </StyledPreviewBlock>
@@ -151,30 +157,43 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
                         </StyledDeleteItemBtn>
                     )}
                 </StyledFlexBlock>
-                <StyledInputBlock
-                    placeholder="사진에 대해 설명해주세요"
-                    value={textValue}
-                    onChange={(e) => handleSetValue(e)}
-                />
-
-                <TagBox realsetGetTag={setRealgetTag} realvalue={realgetTag} />
+                <StyledInputContainer>
+                    <StyledInputBlock
+                        placeholder="사진에 대해 설명해주세요"
+                        value={textValue}
+                        onChange={(e) => handleSetValue(e)}
+                    />
+                    <StyledBorder />
+                    <TagBox realsetGetTag={setRealgetTag} realvalue={realgetTag} />
+                </StyledInputContainer>
             </StyledContentBlock>
         </StyledPictureBody>
     );
 };
 
+const StyledBorder = styled.div`
+    height: 1px;
+    background-color: #ececec;
+`;
+
+const StyledInputContainer = styled.div`
+    height: 352px;
+    border: 1px solid #dcdcdc;
+    padding: 16px 30px 0px 30px;
+`;
+
 const StyledDeletePictureBtn = styled.button`
     position: absolute;
     top: 85%;
     left: 3%;
-    z-index: 10;
+    z-index: 1;
 `;
 
 const StyledModifyPictureBtn = styled.button`
     position: absolute;
     top: 85%;
     left: 15%;
-    z-index: 10;
+    z-index: 1;
 `;
 
 const StyledDeleteItemBtn = styled.button`
@@ -194,16 +213,13 @@ const StyledDeleteItemBtn = styled.button`
 
 const StyledPictureBody = styled.div`
     display: flex;
+    flex-direction: column;
     margin-bottom: 30px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        display: contents;
-    }
 `;
 
 const StyledImgBlock = styled.div`
-    width: 48%;
-    margin-right: 4%;
     position: relative;
+    height: 414px;
     @media screen and (max-width: ${boundaryWidth}px) {
         width: 100%;
     }
@@ -211,47 +227,40 @@ const StyledImgBlock = styled.div`
 
 const StyledImg = styled.img`
     width: 100%;
-    height: 280px;
-    object-fit: cover;
+    height: 100%;
 `;
 
 const StyledVideo = styled.video`
     width: 100%;
-    height: 280px;
+    height: 100%;
+    object-fit: cover;
 `;
-const StyledContentBlock = styled.div`
-    width: 48%;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        width: 100%;
-    }
-`;
+const StyledContentBlock = styled.div``;
 
 const StyledFlexBlock = styled.div`
     display: flex;
     justify-content: space-between;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        margin-top: 10px;
-    }
+    margin: 20px 0px;
 `;
 
 const StyledInputBlock = styled.textarea`
-    width: 98%;
-    margin-top: 20px;
+    box-sizing: border-box;
+    resize: none;
+    width: 100%;
+    height: 291px;
     font-size: 15px;
-    padding: 5px;
+    border: none;
     background: #fff;
-    border: 1px solid lightgrey;
     font-weight: 400;
     color: gray;
-
-    height: 150px;
-    @media screen and (max-width: ${boundaryWidth}px) {
-        margin-top: 10px;
-    }
 `;
 
 const StyledPreviewContainer = styled.div`
-    background-color: lightgray;
+    background-color: #e6e6e6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 100%;
 `;
 
@@ -263,6 +272,41 @@ const StyledPreviewBlock = styled.div`
     height: 280px;
     color: gray;
     font-size: 15px;
+`;
+
+const StyledPreviewTitle = styled.div`
+    font-family: NotoSansKR;
+    font-size: 18px;
+    font-weight: bold;
+    color: #272727;
+    margin-bottom: 6px;
+`;
+
+const StyledPreviewText = styled.div`
+    font-family: NotoSansKR;
+    font-size: 14px;
+    color: #858585;
+`;
+
+const StyledPreviewBtn = styled.div`
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 140px;
+    height: 42px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0d6637;
+    span {
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #fff;
+    }
 `;
 
 export default UpdateWritingItem;

@@ -226,6 +226,7 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
 const StyledIcon = styled.img`
     width: 20px;
     height: 20px;
+    cursor: pointer;
 `;
 
 const StyledBorderLine = styled.div`
@@ -241,7 +242,6 @@ const StyledHoverBackgrouond = styled.div`
     background-color: rgb(0, 0, 0, 0.45);
     position: absolute;
     width: 100%;
-    height: 92.5%;
     z-index: 1;
 `;
 
@@ -288,7 +288,7 @@ const StyledDetailsText = styled.div`
 
 const StyledButtonsBlock = styled.div`
     width: 100%;
-    height: 45%;
+    height: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -296,24 +296,22 @@ const StyledButtonsBlock = styled.div`
 `;
 
 const StyledImg = styled.img`
-    cursor: pointer;
-
     object-fit: cover;
 `;
 
 const StyledPhotoBlock = styled.div`
     position: absolute;
-    top: 8%;
-    width: 100%;
-    height: 90%;
+    width: 366px;
+    height: 366px;
     background-color: silver;
     overflow: hidden;
+    cursor: pointer;
 `;
 
 const StyledFooterBlock = styled.div`
     position: absolute;
-    top: 91.5%;
-    height: 30%;
+    top: 366px;
+    height: 54px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -323,10 +321,9 @@ const StyledFooterBlock = styled.div`
 
 const StyledPhotoItemContainer = styled.div<{ width: string; height?: string; paddingBottom?: string }>`
     position: relative;
-    width: ${({ width }) => width};
-    height: ${({ height }) => height};
-    padding-bottom: ${({ paddingBottom }) => paddingBottom};
-    cursor: pointer;
+    width: 366px;
+    height: 420px;
+    margin-bottom: 38px;
 `;
 
 export default PhotoItem;

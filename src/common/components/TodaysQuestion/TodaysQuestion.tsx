@@ -27,6 +27,7 @@ const TodaysQuestion = () => {
                     onMouseLeave={() => {
                         onCloseBtn(index);
                     }}
+                    key={index}
                 >
                     {isActive[index] && (
                         <StyledHoverBackgrouond>
