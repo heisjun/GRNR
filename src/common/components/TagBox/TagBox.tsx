@@ -103,7 +103,8 @@ const StyledInputHashTag = styled.div`
     color: #616161;
     margin-right: 5px;
     margin-top: 5px;
-    padding: 5px 5px 5px 17px;
+
+    padding: 0px 5px 3px 17px;
     font-size: 14px;
     font-weight: 300;
     display: flex;

@@ -103,20 +103,6 @@ const PhotoDetails: React.FC = () => {
         fetchData2();
     }, [fetchData, fetchData2]);
 
-    const scrollHandler = () => {
-        sideBarRef.current.style.transition = 'all 0.5s ease-in-out';
-        sideBarRef.current.style.transform = `translateY(${window.scrollY}px)`;
-    };
-
-    const debouncedScrollHandler = getDebouncedFunc(scrollHandler, 100);
-
-    useEffect(() => {
-        window.addEventListener('scroll', debouncedScrollHandler);
-        return () => {
-            window.removeEventListener('scroll', debouncedScrollHandler);
-        };
-    }, []);
-
     const useConfirm = (message: string, onConfirm: any, onCancel: any) => {
         if (!onConfirm || typeof onConfirm !== 'function') {
             return;

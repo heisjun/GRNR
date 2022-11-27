@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Avatar } from 'common/components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -27,6 +27,9 @@ const Profile: React.FC = () => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState<Iprofile>();
     const [accountDto, setAccountDto] = useState<IaccountDto>();
+
+    const location = useLocation();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -61,37 +64,67 @@ const Profile: React.FC = () => {
     }, []);
 
     return (
-        <StyledProfileContainer>
-            <StyledAvatarBlock>
-                <Avatar width="100%" paddingBottom="100%" borderRadius="100%" picUrl={profile?.profileUrl} />
-            </StyledAvatarBlock>
-            <StyledNameText>{profile?.nickName ? profile.nickName : '닉네임'}</StyledNameText>
-            <StyledIntroText>{profile?.selfInfo ? profile?.selfInfo : '소개글을 작성하세요'}</StyledIntroText>
-            <div style={{ display: 'flex' }}>
-                <StyledFollowText onClick={() => navigate(`/mypage/profile/follower`)}>
-                    팔로워 <span>{accountDto?.followerCount}</span>
-                </StyledFollowText>
-                <StyledFollowText onClick={() => navigate(`/mypage/profile/following`)}>
-                    팔로잉 <span>{accountDto?.followingCount}</span>
-                </StyledFollowText>
+        <div>
+            <StyledProfileContainer>
+                <StyledAvatarBlock>
+                    <Avatar width="100%" paddingBottom="100%" borderRadius="100%" picUrl={profile?.profileUrl} />
+                </StyledAvatarBlock>
+                <StyledNameText>{profile?.nickName ? profile.nickName : '닉네임'}</StyledNameText>
+                <StyledIntroText>{profile?.selfInfo ? profile?.selfInfo : '소개글을 작성하세요'}</StyledIntroText>
+                <div style={{ display: 'flex' }}>
+                    <StyledFollowText onClick={() => navigate(`/mypage/profile/follower`)}>
+                        팔로워 <span>{accountDto?.followingCount}</span>
+                    </StyledFollowText>
+                    <StyledFollowText onClick={() => navigate(`/mypage/profile/following`)}>
+                        팔로잉 <span>{accountDto?.followerCount}</span>
+                    </StyledFollowText>
+                </div>
+                <StyledEditButton>프로필수정</StyledEditButton>
+                <StyledBorderLine />
+                <StyledStatBlock>
+                    <StyledScrapBlock>
+                        <StyledScrapButton src="/btnBlankBookmark.png" />
+                        <StyledScrapText>스크랩</StyledScrapText>
+                        <StyledScrapCount>{accountDto?.scrapCount}</StyledScrapCount>
+                    </StyledScrapBlock>
+                    <StyledLikeBlock>
+                        <StyledLikeButton src="/btnBlankHeart.png" />
+                        <StyledLikeText>좋아요</StyledLikeText>
+                        <StyledLikeCount>{accountDto?.likeCount}</StyledLikeCount>
+                    </StyledLikeBlock>
+                </StyledStatBlock>
+            </StyledProfileContainer>
+            <div>
+                <StyledFeedNav nav={location.pathname === '/mypage' ? true : false} onClick={() => navigate('/mypage')}>
+                    나의피드
+                </StyledFeedNav>
+                <StyledFeedNav
+                    nav={location.pathname === '/mypage/profile/photo' ? true : false}
+                    onClick={() => navigate('/mypage/profile/photo')}
+                >
+                    사진
+                </StyledFeedNav>
+                <StyledFeedNav>매거진</StyledFeedNav>
+                <StyledFeedNav>Q&A</StyledFeedNav>
+                <StyledFeedNav>스크랩북</StyledFeedNav>
+                <StyledFeedNav>좋아요</StyledFeedNav>
+                <StyledFeedNav>설정</StyledFeedNav>
             </div>
-            <StyledEditButton>프로필 수정</StyledEditButton>
-            <StyledBorderLine />
-            <StyledStatBlock>
-                <StyledScrapBlock>
-                    <StyledScrapButton src="/btnBlankBookmark.png" />
-                    <StyledScrapText>스크랩</StyledScrapText>
-                    <StyledScrapCount>{accountDto?.scrapCount}</StyledScrapCount>
-                </StyledScrapBlock>
-                <StyledLikeBlock>
-                    <StyledLikeButton src="/btnBlankHeart.png" />
-                    <StyledLikeText>좋아요</StyledLikeText>
-                    <StyledLikeCount>{accountDto?.likeCount}</StyledLikeCount>
-                </StyledLikeBlock>
-            </StyledStatBlock>
-        </StyledProfileContainer>
+        </div>
     );
 };
+
+const StyledFeedNav = styled.div<{ nav?: boolean }>`
+    box-sizing: border-box;
+    width: 280px;
+    height: 60px;
+    padding: 18px 0px 18px 14px;
+    font-size: 16px;
+    font-weight: 500;
+    color: ${({ nav }) => (nav ? '#0d6637;' : '#272727')};
+    background-color: ${({ nav }) => (nav ? '#e7f5ee;' : 'white')};
+    cursor: pointer;
+`;
 
 const StyledLikeCount = styled.div`
     font-family: NotoSansKR;

@@ -53,7 +53,7 @@ const Userfeed: React.FC = () => {
                             <StyledDetailView>전체보기</StyledDetailView>
                         </Link>
                     </StyledDetailsBlock>
-                    <ItemList
+                    {/*  <ItemList
                         width="100%"
                         imgHeight="100%"
                         cols={photoCols}
@@ -61,7 +61,7 @@ const Userfeed: React.FC = () => {
                         verticalGap={photoGap}
                         items={picData}
                         RenderComponent={MyfeedItem}
-                    />
+                    /> */}
                     <Link to="/upload" style={{ textDecoration: 'none' }}>
                         <StyledWritingBtn>사진업로드</StyledWritingBtn>
                     </Link>

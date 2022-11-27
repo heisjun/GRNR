@@ -28,15 +28,15 @@ const MyfeedItem: React.FC<IMyfeedItemParams> = (props) => {
                 <StyledStatsBlock>
                     <StyledStatBlock>
                         <StyledLikeButton src={'/btnBlankHeart.png'} />
-                        <StyledCountText>1</StyledCountText>
+                        <StyledCountText>{item.likeCount}</StyledCountText>
                     </StyledStatBlock>
                     <StyledStatBlock>
                         <StyledLikeButton src={'/btnComment.png'} />
-                        <StyledCountText>12</StyledCountText>
+                        <StyledCountText>{item.commentCount}</StyledCountText>
                     </StyledStatBlock>
                     <StyledStatBlock>
                         <StyledLikeButton src={'/btnBlankBookmark.png'} />
-                        <StyledCountText>13</StyledCountText>
+                        <StyledCountText>{item.scrapCount}</StyledCountText>
                     </StyledStatBlock>
                 </StyledStatsBlock>
             </Link>

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { IFollowingItem } from './FollowingItem.type';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BsThreeDots } from 'react-icons/bs';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
@@ -131,8 +132,9 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                         </div>
                     </StyledHeaderItem>
                     <StyledHeaderItem2>
-                        <StyledClickText color="lightgray">신고</StyledClickText>
-                        <StyledClickText color="gray">팔로우</StyledClickText>
+                        <BsThreeDots style={{ fontSize: 25, cursor: 'pointer' }} />
+                        {/*  <StyledClickText color="lightgray">신고</StyledClickText>
+                        <StyledClickText color="gray">팔로우</StyledClickText> */}
                     </StyledHeaderItem2>
                 </StyledBlockHeader>
                 <Slider item={data} />
@@ -270,11 +272,7 @@ const StyledFooterItem = styled.div`
     justify-content: center;
     font-size: 18px;
     border-top: 1px solid #ececec;
-
-    @media screen and (min-width: ${maxWidth}px) {
-        width: 240px;
-        height: 70px;
-    }
+    cursor: pointer;
 `;
 const StyledFooterCenterItem = styled.div`
     box-sizing: border-box;
@@ -287,10 +285,7 @@ const StyledFooterCenterItem = styled.div`
     border-top: 1px solid #ececec;
     border-right: 1px solid #ececec;
     border-left: 1px solid #ececec;
-    @media screen and (min-width: ${maxWidth}px) {
-        width: 240px;
-        height: 70px;
-    }
+    cursor: pointer;
 `;
 
 const StyledIcon = styled.img`

@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 
-const REST_API_KEY = '71f42bf1f95027f6634775db92fac363';
-const REDIRECT_URI = 'https://www.gardenersclub.co.kr/api/login/oauth2/code/kakao';
 const REDIRECT_URI_AFTER_LOGIN = 'https://www.gardenersclub.co.kr/register';
 
 const Login: React.FC = () => {
@@ -31,7 +29,7 @@ const Login: React.FC = () => {
                     <p style={{ fontWeight: 'bold', color: '#043935' }}>가드너스 클럽</p>
                     <p>에 가입해보세요</p>
                 </StyledBasicText>
-                <img src="/kakao_login.png" style={{ width: 200, marginTop: 20 }} onClick={handleLogin} />
+                <StyledLoginImg src="/kakao_login.png" onClick={handleLogin} />
                 <StyledButton onClick={onTalkButton}>
                     <StyledLoginText>로컬로그인</StyledLoginText>
                 </StyledButton>
@@ -39,6 +37,15 @@ const Login: React.FC = () => {
         </div>
     );
 };
+
+const StyledLoginImg = styled.img`
+    width: 200px;
+    margin-top: 20px;
+    cursor: pointer;
+    :hover {
+        opacity: 0.9;
+    }
+`;
 
 const StyledBasicText = styled.div`
     font-size: 18px;

@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
-import { SubTabBar, MypageTabBar, Footer } from 'domains';
+import { SubTabBar, MypageTabBar, Footer, Profile } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
 import { WritingDropdown, MypageDropdown } from 'common/components';
 import { Login } from 'pages';
@@ -185,7 +185,24 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         </StyledSubTabBarBlock>
                     </StyledTabsContainer>
                     <StyledContentContainer>
-                        <StyledContentBlock>{children}</StyledContentBlock>
+                        {crntPath === 'mypage' ? (
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    width: '100%',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <div style={{ marginRight: 64 }}>
+                                    <Profile />
+                                </div>
+                                <div>{children}</div>
+                            </div>
+                        ) : crntPath === 'userpage' ? (
+                            <StyledContentBlock>{children}</StyledContentBlock>
+                        ) : (
+                            <StyledContentBlock>{children}</StyledContentBlock>
+                        )}
                     </StyledContentContainer>
                     <Footer />
                 </StyledContainer>
@@ -450,25 +467,12 @@ const StyledMenuItemBlock = styled.h2`
 
 const StyledContentBlock = styled.div`
     width: 100%;
-    //min-width: ${minWidth}px;
-    //max-width: ${maxWidth}px;
-    //padding: 0px 10px 0px 10px;
-    //@media screen and (min-width: ${boundaryWidth}px) {
-    //    padding: 0px 30px 0px 30px;
-    //}
 `;
 
 const StyledContentContainer = styled.div`
     display: flex;
     margin-top: 130px;
-    justify-content: center;
     z-index: 0;
-    @media screen and (max-width: ${maxWidth}px) {
-        justify-content: start;
-    }
-    @media screen and (min-width: ${maxWidth}px) {
-        margin-top: 130px;
-    }
 `;
 
 const StyledLoginContentContainer = styled.div`

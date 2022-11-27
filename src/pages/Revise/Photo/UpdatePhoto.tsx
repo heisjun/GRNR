@@ -21,13 +21,6 @@ const option1 = [
         list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
     },
 ];
-const option2 = [
-    {
-        id: 1,
-        name: '장소',
-        list: ['실내 어두운 곳', '거실 내측', '거실 창측', '발코니'],
-    },
-];
 
 const Picture: React.FC = () => {
     const navigate = useNavigate();
@@ -36,7 +29,6 @@ const Picture: React.FC = () => {
     const { state } = useLocation();
     const [details, setDetails] = useState<pictureDtoParams[]>([]);
     const [getOption1, setGetOption1] = useState('');
-    const [getOption2, setGetOption2] = useState('');
     const [loading, setLoading] = useState(false);
     const [saveDto, setSaveDto] = useState<
         {
@@ -90,6 +82,7 @@ const Picture: React.FC = () => {
                 explain: '',
                 homePlace: '',
                 tagList: [],
+                classification: '',
             },
         ]);
     };
@@ -177,39 +170,39 @@ const Picture: React.FC = () => {
                     </StyledHeaderBar>
                 </StyledHeaderBarContainer>
             </StyledTabsContainer>
+            <StyledContentContainer>
+                <StyledPictureContainer>
+                    <StyledPictureHeader>
+                        <CustomSelector optionData={option1} setGetOption={setGetOption1} />
+                    </StyledPictureHeader>
+                    {details.map((item, index) => {
+                        return (
+                            <div key={index}>
+                                <UpdateWritingItem
+                                    type="PHOTO"
+                                    index={index}
+                                    setGetContent={setDetails}
+                                    getContent={details}
+                                    onRemove={index !== 0 ? onRemoveWritingItem : null}
+                                    beforeData={item}
+                                />
+                            </div>
+                        );
+                    })}
 
-            <StyledPictureContainer>
-                <StyledPictureHeader>
-                    <CustomSelector optionData={option1} setGetOption={setGetOption1} />
-                    <CustomSelector optionData={option2} setGetOption={setGetOption2} />
-                </StyledPictureHeader>
-                {details.map((item, index) => {
-                    return (
-                        <div key={index}>
-                            <UpdateWritingItem
-                                type="PHOTO"
-                                index={index}
-                                setGetContent={setDetails}
-                                getContent={details}
-                                onRemove={index !== 0 ? onRemoveWritingItem : null}
-                                beforeData={item}
-                            />
-                        </div>
-                    );
-                })}
-
-                <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>
-            </StyledPictureContainer>
+                    <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>
+                </StyledPictureContainer>
+            </StyledContentContainer>
         </StyledContainer>
     );
 };
 
 const StyledPictureContainer = styled.div`
-    height: 2000px;
+    padding-bottom: 120px;
 `;
 
 const StyledLogoImg = styled.img`
-    width: 150px;
+    width: 198px;
 `;
 
 const StyledPictureHeader = styled.div`
@@ -248,12 +241,21 @@ const StyledUploadButton = styled.div`
     align-items: center;
     cursor: pointer;
     margin-left: auto;
+    :hover {
+        background-color: gray;
+        color: #0d6637;
+    }
 `;
 
 const StyledTitleBlock = styled.div`
     @media screen and (max-width: ${boundaryWidth}px) {
         margin-right: auto;
     }
+`;
+
+const StyledContentContainer = styled.div`
+    width: 720px;
+    padding-top: 40px;
 `;
 
 const StyledTabsContainer = styled.div``;
@@ -263,13 +265,13 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     top: 0px;
     left: 0px;
     display: flex;
-    z-index: 2;
+    z-index: 20;
     justify-content: center;
     align-items: center;
     width: 100%;
-    background-color: white;
     border-bottom: solid 1px;
     border-color: silver;
+    background-color: white;
     @media screen and (max-width: ${minWidth}px) {
         justify-content: start;
     }
@@ -285,29 +287,22 @@ const StyledHeaderBar = styled.div`
     width: 100%;
     height: 50px;
     padding: 0px 20px 0px 20px;
-    @media screen and (min-width: ${boundaryWidth}px) {
+    @media screen and (max-width: ${maxWidth}px) {
         height: 80px;
         padding-left: 20%;
         padding-right: 20%;
+    }
+    @media screen and (min-width: ${maxWidth}px) {
+        height: 80px;
+        margin-left: 390px;
+        margin-right: 390px;
     }
 `;
 
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
-    padding-left: 20%;
-    padding-right: 20%;
-`;
-
-const StyledSubTabBarBlock = styled.div`
-    position: fixed;
-    width: 100%;
-    top: 50px;
-    left: 0px;
-    z-index: 1;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        top: 80px;
-    }
+    align-items: center;
 `;
 
 export default Picture;
