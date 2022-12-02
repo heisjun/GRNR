@@ -90,9 +90,6 @@ const StyledMenuItemText = styled.h2<{ color: string }>`
     &:hover {
         color: #0d6637;
     }
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 16px;
-    }
 `;
 
 const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
@@ -105,10 +102,11 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
 const StyledSubTabBarBlock = styled.div<{ justifyContent: string }>`
     width: ${({ justifyContent }) => (justifyContent === 'center' ? '' : '100%')};
     display: flex;
-    padding: 0px 20px 0px 0px;
-    @media screen and (max-width: ${maxWidth}px) {
-        padding-left: 20%;
-        padding-right: 20%;
+    margin-left: 10%;
+    margin-right: 10%;
+    @media screen and (max-width: 530px) {
+        margin-left: 5%;
+        margin-right: 5%;
     }
     @media screen and (min-width: ${maxWidth}px) {
         margin-left: 390px;
@@ -127,9 +125,6 @@ const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
     animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
     animation-fill-mode: forwards;
     box-sizing: border-box;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        height: 50px;
-    }
 `;
 
 export default SubTabBar;

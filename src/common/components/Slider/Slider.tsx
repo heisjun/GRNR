@@ -5,7 +5,6 @@ import Indicator from './Indicator';
 import { ISlider } from './Slider.type';
 import Modal from 'react-modal';
 import ItemList from '../ItemList';
-import { default as callApi } from 'common/api';
 import { ICommentsParams, IPhotoDetailsParams, ItestComments } from 'common/types';
 import { TaggedPhoto } from 'domains';
 import axios from 'axios';
@@ -18,7 +17,6 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
-
 const Slider: React.FC<ISlider> = (props) => {
     const { item } = props;
     const navigate = useNavigate();
@@ -60,25 +58,6 @@ const Slider: React.FC<ISlider> = (props) => {
             setCurrentSlide(TOTAL_SLIDES);
         } else {
             setCurrentSlide(currentSlide - 1);
-        }
-    };
-
-    const onFollowing = async (followingName: string) => {
-        if (!TOKEN) {
-            navigate('/login');
-        }
-        const followData = { followingName: followingName };
-        const saveFollowDto = JSON.stringify(followData);
-        console.log(saveFollowDto);
-        try {
-            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
-        } catch (e) {
-            console.log(e);
         }
     };
 
@@ -161,7 +140,15 @@ const Slider: React.FC<ISlider> = (props) => {
         const fetchData3 = async () => {
             setLoading(true);
             try {
-                const response = await callApi.getDetailList(Number(item.id), 'picture');
+                const response = await axios.get(
+                    `${BASEURL}/api/picture/${item.id}/detail
+                `,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
                 setDetails(response.data.value);
             } catch (e) {
                 console.log(e);
@@ -170,6 +157,50 @@ const Slider: React.FC<ISlider> = (props) => {
         };
         fetchData3();
     }, []);
+
+    const onFollowing = async (followingName: string) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+        console.log(saveFollowDto);
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            setDetails((prev: any) => {
+                return { ...prev, myFollow: true };
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onUnFollowing = async (followingName: string) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+        console.log(saveFollowDto);
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            setDetails((prev: any) => {
+                return { ...prev, myFollow: false };
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     useEffect(() => {
         slideRef.current.style.transition = 'all 0.5s ease-in-out';
@@ -239,9 +270,9 @@ const Slider: React.FC<ISlider> = (props) => {
                             }}
                         >
                             <div>
-                                <div style={{ marginBottom: 20 }}>
+                                <StyledClassification>
                                     {convertKor(details?.classification ? details.classification : 'FLOWER')}
-                                </div>
+                                </StyledClassification>
                                 <ItemList
                                     width="100%"
                                     imgHeight="100%"
@@ -251,6 +282,7 @@ const Slider: React.FC<ISlider> = (props) => {
                                     items={details?.pictureContentDtoList ? details?.pictureContentDtoList : data}
                                     RenderComponent={TaggedPhoto}
                                 />
+                                <StyledViewCount>조회 {details?.viewCount} 명</StyledViewCount>
                                 <StyledUserInfoBlock>
                                     <StyledProfileBlock>
                                         <StyledWriterBlock>
@@ -269,15 +301,31 @@ const Slider: React.FC<ISlider> = (props) => {
                                         </StyledWriterBlock>
                                     </StyledProfileBlock>
                                     <StyledFollowButtonBlock>
-                                        <StyledFollowButton>
-                                            <StyledFollowText
-                                                onClick={() =>
-                                                    onFollowing(details?.accountNickName ? details.accountNickName : '')
-                                                }
-                                            >
-                                                팔로우
-                                            </StyledFollowText>
-                                        </StyledFollowButton>
+                                        {details?.myFollow ? (
+                                            <StyledFollowButton>
+                                                <StyledFollowText
+                                                    onClick={() =>
+                                                        onUnFollowing(
+                                                            details?.accountNickName ? details.accountNickName : '',
+                                                        )
+                                                    }
+                                                >
+                                                    팔로잉
+                                                </StyledFollowText>
+                                            </StyledFollowButton>
+                                        ) : (
+                                            <StyledFollowButton>
+                                                <StyledFollowText
+                                                    onClick={() =>
+                                                        onFollowing(
+                                                            details?.accountNickName ? details.accountNickName : '',
+                                                        )
+                                                    }
+                                                >
+                                                    팔로우
+                                                </StyledFollowText>
+                                            </StyledFollowButton>
+                                        )}
                                     </StyledFollowButtonBlock>
                                 </StyledUserInfoBlock>
                             </div>
@@ -345,6 +393,28 @@ const Container = styled.div`
     }
 `;
 
+const StyledClassification = styled.div`
+    font-size: 16px;
+    font-weight: 400;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.86;
+    letter-spacing: normal;
+    color: #888;
+    margin: 0px 0px 0px 17.2px;
+`;
+
+const StyledViewCount = styled.div`
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.86;
+    letter-spacing: normal;
+    color: #888;
+    margin: 0px 0px 0px 17.2px;
+`;
+
 const StyledBtnText = styled.div`
     display: flex;
     justify-content: center;
@@ -408,6 +478,10 @@ const SliderContainer = styled.div<{ pageNum: number }>`
 
 const customStyles = {
     overlay: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         backgroundColor: 'rgba(0,0,0,0.5)',
     },
     content: {
@@ -483,7 +557,7 @@ const StyledUserInfoBlock = styled.div`
     height: 120px;
     display: flex;
     align-items: center;
-    margin: 50px 0px 20px;
+    margin: 20px 0px 20px;
     padding: 20px 16px;
     background-color: #f5f5f5;
 `;

@@ -84,7 +84,7 @@ const Profile: React.FC = () => {
                 <StyledStatBlock>
                     <StyledScrapBlock>
                         <StyledScrapButton src="/btnBlankBookmark.png" />
-                        <StyledScrapText>스크랩</StyledScrapText>
+                        <StyledScrapText>스크랩북</StyledScrapText>
                         <StyledScrapCount>{accountDto?.scrapCount}</StyledScrapCount>
                     </StyledScrapBlock>
                     <StyledLikeBlock>

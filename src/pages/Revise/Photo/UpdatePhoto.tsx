@@ -18,7 +18,7 @@ const option1 = [
     {
         id: 1,
         name: '분류',
-        list: ['입보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
+        list: ['잎보기식물', '꽃보기식물', '열매보기식물', '선인장&다육식물'],
     },
 ];
 
@@ -28,7 +28,7 @@ const Picture: React.FC = () => {
     const [fadeAnim, setFadeAnim] = useState<any>();
     const { state } = useLocation();
     const [details, setDetails] = useState<pictureDtoParams[]>([]);
-    const [getOption1, setGetOption1] = useState('');
+
     const [loading, setLoading] = useState(false);
     const [saveDto, setSaveDto] = useState<
         {
@@ -52,6 +52,8 @@ const Picture: React.FC = () => {
         fetchData();
     }, []);
 
+    const [getOption1, setGetOption1] = useState('');
+
     function convertEng(place: string) {
         if (place === '원룸' || place === 'ONE_ROOM') {
             return 'ONE_ROOM';
@@ -69,6 +71,18 @@ const Picture: React.FC = () => {
             return 'STORE';
         } else if (place === '야외' || place === 'OUTDOOR') {
             return 'OUTDOOR';
+        }
+    }
+
+    function convertEng2(classification: string) {
+        if (classification === '잎보기식물') {
+            return 'LEAF';
+        } else if (classification === '꽃보기식물') {
+            return 'FLOWER';
+        } else if (classification === '열매보기식물') {
+            return 'FRUIT';
+        } else if (classification === '선인장,다육식물') {
+            return 'SUCCULENT';
         }
     }
 
@@ -105,6 +119,7 @@ const Picture: React.FC = () => {
     };
 
     interface Uploader {
+        classification: any;
         pictureSaveDtoList: {
             explain: string;
             homePlace?: string;
@@ -113,6 +128,11 @@ const Picture: React.FC = () => {
     }
 
     const onSave = async () => {
+        console.log(getOption1);
+        if (getOption1 === '분류') {
+            alert('분류를 입력해주세요!');
+            return;
+        }
         const formData = new FormData();
 
         for (let i = 0; i < details.length; i++) {
@@ -124,6 +144,7 @@ const Picture: React.FC = () => {
         }
 
         const test: Uploader = {
+            classification: convertEng2(getOption1),
             pictureSaveDtoList: saveDto,
         };
 
@@ -173,7 +194,7 @@ const Picture: React.FC = () => {
             <StyledContentContainer>
                 <StyledPictureContainer>
                     <StyledPictureHeader>
-                        <CustomSelector optionData={option1} setGetOption={setGetOption1} />
+                        <CustomSelector optionData={option1} setGetOption={setGetOption1} value={getOption1} />
                     </StyledPictureHeader>
                     {details.map((item, index) => {
                         return (

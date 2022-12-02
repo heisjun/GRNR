@@ -153,6 +153,7 @@ export type IPhotoDetailsParams = {
     }[];
     myLike: boolean;
     myScrap: boolean;
+    myFollow: boolean;
     accountNickName?: string;
     classification: string;
     scrapCount: number;

@@ -8,7 +8,6 @@ import { SubTabBar, MypageTabBar, Footer, Profile } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
 import { WritingDropdown, MypageDropdown } from 'common/components';
 import { Login } from 'pages';
-import UserpageTabBar from 'domains/UserpageTabBar';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
@@ -82,7 +81,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
             loc.pathname === '/upload' ||
             loc.pathname === '/upload/photo' ||
             loc.pathname === '/upload/video' ||
-            loc.pathname === '/community/photo/edit'
+            loc.pathname === '/community/photo/edit' ||
+            loc.pathname === '/community/following'
         )
             return (
                 <StyledContainer>
@@ -159,18 +159,8 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         </StyledHeaderBarContainer>
                         <StyledSubTabBarBlock>
                             {crntPath === 'mypage' ? (
-                                /*   <MypageTabBar
-                                    scrollDownToggle={scrollDownToggle}
-                                    setScrollDownToggle={setScrollDownToggle}
-                                    setSubTabVisible={setSubTabVisible}
-                                /> */
                                 <></>
                             ) : crntPath === 'userpage' ? (
-                                /*    <UserpageTabBar
-                                    scrollDownToggle={scrollDownToggle}
-                                    setScrollDownToggle={setScrollDownToggle}
-                                    setSubTabVisible={setSubTabVisible}
-                                /> */
                                 <></>
                             ) : (
                                 <SubTabBar
@@ -305,11 +295,10 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     ))}
                                 </StyledMenuItemsContainer>
                                 <StyledButtonsCotainer>
-                                    <StyledSearchButton />
                                     <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                                         <StyledLoginButton>로그인</StyledLoginButton>
                                     </Link>
-                                    <StyledBoundary>|</StyledBoundary>
+                                    <StyledBoundary />
                                     <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                                         <StyledRegisterButton>회원가입</StyledRegisterButton>
                                     </Link>
@@ -375,55 +364,32 @@ const StyledSearchBar = styled.img`
 const StyledSubTabBarBlock = styled.div`
     position: fixed;
     width: 100%;
-    top: 50px;
+    top: 80px;
     left: 0px;
     z-index: 1;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        top: 80px;
-    }
 `;
 
 const StyledLoginButton = styled.div`
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: 500;
     color: #272727;
     cursor: pointer;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 13px;
-    }
 `;
 
 const StyledBoundary = styled.div`
-    font-size: 12px;
-    color: #272727;
-    margin-right: 5px;
-    margin-left: 5px;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 13px;
-    }
+    width: 1px;
+    height: 18px;
+    background-color: #eaeaea;
+    margin-right: 10px;
+    margin-left: 10px;
 `;
 
 const StyledRegisterButton = styled.div`
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: 500;
     color: #272727;
     cursor: pointer;
     margin-right: 10px;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        font-size: 13px;
-    }
-`;
-
-const StyledSearchButton = styled.div`
-    width: 25px;
-    height: 25px;
-    border-radius: 25px;
-    background-color: silver;
-    cursor: pointer;
-    margin-right: 10px;
-    @media screen and (min-width: ${boundaryWidth}px) {
-        width: 30px;
-        height: 30px;
-    }
-    display: none;
 `;
 
 const StyledButtonsCotainer = styled.div`
@@ -444,9 +410,6 @@ const StyledTitleBlock = styled.div`
 const StyledMenuItemsContainer = styled.div`
     flex: 1;
     display: flex;
-    @media screen and (max-width: ${950}px) {
-        display: none;
-    }
 `;
 
 const StyledMenuItemText = styled.div<{ color: string }>`
@@ -460,7 +423,7 @@ const StyledMenuItemText = styled.div<{ color: string }>`
 
 const StyledMenuItemBlock = styled.h2`
     margin-left: 50px;
-    @media screen and (max-width: ${boundaryWidth}px) {
+    @media screen and (max-width: ${720}px) {
         display: none;
     }
 `;
@@ -510,16 +473,14 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
 const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 50px;
-
+    width: 1920px;
+    height: 80px;
+    background-color: white;
     @media screen and (max-width: ${maxWidth}px) {
-        height: 80px;
-        padding-left: 20%;
-        padding-right: 20%;
+        padding-left: 10%;
+        padding-right: 10%;
     }
     @media screen and (min-width: ${maxWidth}px) {
-        height: 80px;
         margin-left: 390px;
         margin-right: 390px;
     }
