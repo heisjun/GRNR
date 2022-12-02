@@ -145,40 +145,6 @@ const PhotoDetails: React.FC = () => {
         navigate('/community/photo/edit', { state: params.id });
     };
 
-    const onPhotoLike = async () => {
-        try {
-            await axios.post(
-                `${BASEURL}/api/picture/${params.id}/like`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                },
-            );
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    const onPhotoScrap = async () => {
-        try {
-            await axios.post(
-                `${BASEURL}/api/picture/${params.id}/scrap`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                },
-            );
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
     const onFollowing = async (followingName: string) => {
         if (!TOKEN) {
             navigate('/login');
@@ -242,7 +208,7 @@ const PhotoDetails: React.FC = () => {
                         {myAccountId === String(details?.accountId) && (
                             <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
                         )}
-                        {myAccountId === String(details?.accountId) && (
+                        {myAccountId !== String(details?.accountId) && (
                             <StyledReportText onClick={onEdit}>수정</StyledReportText>
                         )}
                         {myAccountId !== String(details?.accountId) && (

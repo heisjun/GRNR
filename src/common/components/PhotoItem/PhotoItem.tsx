@@ -181,41 +181,52 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                 <StyledFooterBlock>
                     <StyledButtonsBlock>
                         {!item.myLike ? (
-                            <StyledIcon
-                                src="/btnBlankHeart.png"
+                            <StyledButtonContent
                                 onClick={() => {
                                     onPhotoLike();
                                 }}
-                            />
+                            >
+                                <StyledIcon src="/btnBlankHeart.png" />
+                                <StyledText>{item.likeCount}</StyledText>
+                            </StyledButtonContent>
                         ) : (
-                            <StyledIcon
-                                src="/btnHeart.png"
+                            <StyledButtonContent
                                 onClick={() => {
                                     onPhotoUnLike();
                                 }}
-                                style={{ color: 'red' }}
-                            />
+                            >
+                                <StyledIcon src="/btnHeart.png" style={{ color: 'red' }} />
+                                <StyledText>{item.likeCount}</StyledText>
+                            </StyledButtonContent>
                         )}
-                        <StyledText>{item.likeCount}</StyledText>
-                        <StyledIcon src="/btnComment.png" />
-                        <StyledText>{item.commentCount}</StyledText>
+
+                        <StyledButtonContent>
+                            <StyledIcon src="/btnComment.png" />
+                            <StyledText>{item.commentCount}</StyledText>
+                        </StyledButtonContent>
+
                         {!item.myScrap ? (
-                            <StyledIcon
-                                src="/btnBlankBookmark.png"
-                                onClick={() => {
-                                    onPhotoScrap();
-                                }}
-                            />
+                            <StyledButtonContent>
+                                <StyledIcon
+                                    src="/btnBlankBookmark.png"
+                                    onClick={() => {
+                                        onPhotoScrap();
+                                    }}
+                                />
+                                <StyledText>{item.scrapCount}</StyledText>
+                            </StyledButtonContent>
                         ) : (
-                            <StyledIcon
-                                src="/btnBookmark.png"
-                                onClick={() => {
-                                    onPhotoUnScrap();
-                                }}
-                                style={{ color: '#0d6637' }}
-                            />
+                            <StyledButtonContent>
+                                <StyledIcon
+                                    src="/btnBookmark.png"
+                                    onClick={() => {
+                                        onPhotoUnScrap();
+                                    }}
+                                    style={{ color: '#0d6637' }}
+                                />
+                                <StyledText>{item.scrapCount}</StyledText>
+                            </StyledButtonContent>
                         )}
-                        <StyledText>{item.scrapCount}</StyledText>
                     </StyledButtonsBlock>
                 </StyledFooterBlock>
             </StyledPhotoItemContainer>
@@ -226,6 +237,14 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
 const StyledIcon = styled.img`
     width: 20px;
     height: 20px;
+    margin-right: 12px;
+    cursor: pointer;
+`;
+
+const StyledButtonContent = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
 `;
 
@@ -242,6 +261,7 @@ const StyledHoverBackgrouond = styled.div`
     background-color: rgb(0, 0, 0, 0.45);
     position: absolute;
     width: 100%;
+    height: 366px;
     z-index: 1;
 `;
 

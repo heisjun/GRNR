@@ -139,48 +139,50 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                 </StyledBlockHeader>
                 <Slider item={data} />
                 <StyledBlockFooter>
-                    <StyledFooterItem>
-                        {!data.myLike ? (
-                            <StyledIcon
-                                src="/btnBlankHeart.png"
-                                onClick={() => {
-                                    onPhotoLike();
-                                }}
-                            />
-                        ) : (
-                            <StyledIcon
-                                src="/btnHeart.png"
-                                onClick={() => {
-                                    onPhotoUnLike();
-                                }}
-                                style={{ color: 'red' }}
-                            />
-                        )}
-                        <div>{data.likeCount}</div>
-                    </StyledFooterItem>
+                    {!data.myLike ? (
+                        <StyledFooterItem
+                            onClick={() => {
+                                onPhotoLike();
+                            }}
+                        >
+                            <StyledIcon src="/btnBlankHeart.png" />
+                            <div>{data.likeCount}</div>
+                        </StyledFooterItem>
+                    ) : (
+                        <StyledFooterItem
+                            onClick={() => {
+                                onPhotoUnLike();
+                            }}
+                        >
+                            <StyledIcon src="/btnHeart.png" style={{ color: 'red' }} />
+                            <div>{data.likeCount}</div>
+                        </StyledFooterItem>
+                    )}
+
                     <StyledFooterCenterItem>
                         <StyledIcon src="/btnComment.png" />
                         <div>{data.commentCount}</div>
                     </StyledFooterCenterItem>
-                    <StyledFooterItem>
-                        {!data.myScrap ? (
-                            <StyledIcon
-                                src="/btnBlankBookmark.png"
-                                onClick={() => {
-                                    onPhotoScrap();
-                                }}
-                            />
-                        ) : (
-                            <StyledIcon
-                                src="/btnBookmark.png"
-                                onClick={() => {
-                                    onPhotoUnScrap();
-                                }}
-                                style={{ color: '#0d6637' }}
-                            />
-                        )}
-                        <div>{data.scrapCount}</div>
-                    </StyledFooterItem>
+
+                    {!data.myScrap ? (
+                        <StyledFooterItem
+                            onClick={() => {
+                                onPhotoScrap();
+                            }}
+                        >
+                            <StyledIcon src="/btnBlankBookmark.png" />
+                            <div>{data.scrapCount}</div>
+                        </StyledFooterItem>
+                    ) : (
+                        <StyledFooterItem
+                            onClick={() => {
+                                onPhotoUnScrap();
+                            }}
+                        >
+                            <StyledIcon src="/btnBookmark.png" style={{ color: '#0d6637' }} />
+                            <div>{data.scrapCount}</div>
+                        </StyledFooterItem>
+                    )}
                 </StyledBlockFooter>
             </StyledFeedsBlock>
         </StyledFollowingFeeds>
