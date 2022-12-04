@@ -206,24 +206,21 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                         </StyledButtonContent>
 
                         {!item.myScrap ? (
-                            <StyledButtonContent>
-                                <StyledIcon
-                                    src="/btnBlankBookmark.png"
-                                    onClick={() => {
-                                        onPhotoScrap();
-                                    }}
-                                />
+                            <StyledButtonContent
+                                onClick={() => {
+                                    onPhotoScrap();
+                                }}
+                            >
+                                <StyledIcon src="/btnBlankBookmark.png" />
                                 <StyledText>{item.scrapCount}</StyledText>
                             </StyledButtonContent>
                         ) : (
-                            <StyledButtonContent>
-                                <StyledIcon
-                                    src="/btnBookmark.png"
-                                    onClick={() => {
-                                        onPhotoUnScrap();
-                                    }}
-                                    style={{ color: '#0d6637' }}
-                                />
+                            <StyledButtonContent
+                                onClick={() => {
+                                    onPhotoUnScrap();
+                                }}
+                            >
+                                <StyledIcon src="/btnBookmark.png" style={{ color: '#0d6637' }} />
                                 <StyledText>{item.scrapCount}</StyledText>
                             </StyledButtonContent>
                         )}

@@ -461,7 +461,7 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     background-color: white;
     border-bottom: solid 1px;
     border-color: silver;
-    @media screen and (max-width: ${minWidth}px) {
+    @media screen and (max-width: ${1900}px) {
         justify-content: start;
     }
     @media screen and (max-width: ${boundaryWidth}px) {
@@ -476,11 +476,11 @@ const StyledHeaderBar = styled.div`
     width: 1920px;
     height: 80px;
     background-color: white;
-    @media screen and (max-width: ${maxWidth}px) {
+    @media screen and (max-width: ${1900}px) {
         padding-left: 10%;
         padding-right: 10%;
     }
-    @media screen and (min-width: ${maxWidth}px) {
+    @media screen and (min-width: ${1900}px) {
         margin-left: 390px;
         margin-right: 390px;
     }
