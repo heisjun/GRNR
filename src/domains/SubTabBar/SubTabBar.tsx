@@ -108,7 +108,7 @@ const StyledSubTabBarBlock = styled.div<{ justifyContent: string }>`
         margin-left: 5%;
         margin-right: 5%;
     }
-    @media screen and (min-width: ${maxWidth}px) {
+    @media screen and (min-width: ${1900}px) {
         margin-left: 390px;
         margin-right: 390px;
     }
