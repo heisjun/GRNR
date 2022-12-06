@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect, SetStateAction, useCallback, useRef } from 'react';
 import { AgreeBox } from 'domains';
-import KeywordBox from 'common/components/KeywordBox';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { default as callApi } from 'common/api';
 import { getDebouncedFunc } from 'common/funcs';
@@ -22,7 +21,6 @@ const Register: React.FC = () => {
     const [serviceAgree, setServiceAgree] = useState<boolean>(false);
     const [privateAgree, setPrivateAgree] = useState<boolean>(false);
     const [adAgree, setAdAgree] = useState<boolean>(false);
-    const [loading, setLoading] = useState(false);
     const [disabledToggle, setDisabledToggle] = useState<boolean>(true);
     const [addressData, setAddressData] = useState<[]>([]);
     const [error, setError] = useState<string>('');

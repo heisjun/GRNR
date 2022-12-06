@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { IPhotoItemParams } from 'common/types';
@@ -243,6 +243,8 @@ const StyledButtonContent = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    width: 122px;
+    height: 54px;
 `;
 
 const StyledBorderLine = styled.div`

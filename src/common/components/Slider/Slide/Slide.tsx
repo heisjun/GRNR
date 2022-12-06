@@ -5,12 +5,12 @@ import { ISlide } from './Slide.type';
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const Slide: React.FC<ISlide> = (props) => {
-    const { data, index } = props;
+    const { data, index, viewCount } = props;
     return (
         <div>
             <StyledImg src={data.pictureUrlList[index]}></StyledImg>
             <StyledSpace />
-            <StyledViews>{`조회 ${data.time} 회`}</StyledViews>
+            <StyledViews>{`조회 ${viewCount} 회`}</StyledViews>
             <StyledTextArea>
                 <StyledText>{data.textList[index]}</StyledText>
             </StyledTextArea>

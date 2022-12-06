@@ -2,10 +2,6 @@ import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IMyfeedItemParams } from 'common/types';
-import { Avatar } from 'common/components';
-
-const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
-const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const MyfeedItem: React.FC<IMyfeedItemParams> = (props) => {
     const { width, height, paddingBottom, item } = props;

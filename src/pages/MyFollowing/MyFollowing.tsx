@@ -15,6 +15,7 @@ const MyFollowing: React.FC = () => {
         profileUrl: string;
         nickName: string;
         selfInfo: null;
+        myFollow: boolean;
     }
     const [following, setFollowing] = useState<Ifollowing[]>([]);
 
@@ -36,20 +37,48 @@ const MyFollowing: React.FC = () => {
         };
         fetchData();
     }, []);
+
+    const onFollowing = async (followingName: string) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+        console.log(saveFollowDto);
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            setFollowing(following.map((it) => (it.nickName === followingName ? { ...it, myFollow: true } : it)));
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onUnFollowing = async (followingName: string) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+        console.log(saveFollowDto);
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            setFollowing(following.map((it) => (it.nickName === followingName ? { ...it, myFollow: false } : it)));
+        } catch (e) {
+            console.log(e);
+        }
+    };
     return (
         <StyledMyphotoContainer>
-            {/*  <StyledProfileContainer>
-                <Profile />
-                <div>
-                    <StyledFeedNav onClick={() => navigate('/mypage')}>나의피드</StyledFeedNav>
-                    <StyledFeedNav onClick={() => navigate('/mypage/profile/photo')}>사진</StyledFeedNav>
-                    <StyledFeedNav>매거진</StyledFeedNav>
-                    <StyledFeedNav>Q&A</StyledFeedNav>
-                    <StyledFeedNav>스크랩북</StyledFeedNav>
-                    <StyledFeedNav>좋아요</StyledFeedNav>
-                    <StyledFeedNav>설정</StyledFeedNav>
-                </div>
-            </StyledProfileContainer> */}
             <StyledContextContainer>
                 <StyledContexTitle>팔로잉</StyledContexTitle>
                 {following.map((item, index) => {
@@ -67,9 +96,15 @@ const MyFollowing: React.FC = () => {
                                 <StyledUserNickname>{item.nickName}</StyledUserNickname>
                                 <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
                             </div>
-                            <StyledFollowingBtn>
-                                <StyledBtnText>팔로잉</StyledBtnText>
-                            </StyledFollowingBtn>
+                            {item.myFollow ? (
+                                <StyledFollowingBtn onClick={() => onUnFollowing(item.nickName)}>
+                                    <StyledBtnText>팔로잉</StyledBtnText>
+                                </StyledFollowingBtn>
+                            ) : (
+                                <StyledFollowBtn onClick={() => onFollowing(item.nickName)}>
+                                    <StyledFollowBtnText>팔로우</StyledFollowBtnText>
+                                </StyledFollowBtn>
+                            )}
                         </StyledFollowingContainer>
                     );
                 })}
@@ -98,28 +133,19 @@ const StyledContexTitle = styled.div`
     margin-bottom: 30px;
 `;
 
-const StyledFeedNav = styled.div<{ nav?: boolean }>`
+const StyledFollowingBtn = styled.div`
     box-sizing: border-box;
-    width: 280px;
-    height: 60px;
-    padding: 18px 0px 18px 14px;
-    font-size: 16px;
-    font-weight: 500;
-    color: ${({ nav }) => (nav ? '#0d6637;' : '#272727')};
-    background-color: ${({ nav }) => (nav ? '#e7f5ee;' : 'white')};
+    width: 72px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: #0d6637;
     cursor: pointer;
 `;
 
-const StyledProfileContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 280px;
-    height: 1000px;
-    background-color: white;
-    margin-right: 64px;
-`;
-
-const StyledFollowingBtn = styled.div`
+const StyledFollowBtn = styled.div`
     box-sizing: border-box;
     width: 72px;
     height: 30px;
@@ -129,9 +155,20 @@ const StyledFollowingBtn = styled.div`
     border-radius: 15px;
     border: solid 1px #0d6637;
     background-color: #fff;
+    cursor: pointer;
 `;
 
 const StyledBtnText = styled.div`
+    font-size: 13px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: white;
+`;
+
+const StyledFollowBtnText = styled.div`
     font-size: 13px;
     font-weight: 500;
     font-stretch: normal;

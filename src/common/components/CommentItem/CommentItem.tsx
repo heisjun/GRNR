@@ -18,6 +18,8 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const [recomment, setRecomment] = useState('');
     const [isActive, setIsActive] = useState([false]);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
+    console.log('1', commentsList);
+    console.log('2', testComments);
 
     function onOpenBtn(index: number) {
         if (!TOKEN) {
@@ -67,6 +69,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
+            setTestComments(testComments.filter((it) => it.commentId !== commentId));
         } catch (e) {
             console.log(e);
         }

@@ -1,12 +1,11 @@
 import { Avatar } from 'common/components';
 import Slider from 'common/components/Slider';
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { IFollowingItem } from './FollowingItem.type';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BsThreeDots } from 'react-icons/bs';
-
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
@@ -14,6 +13,11 @@ const TOKEN = sessionStorage.getItem('accesstoken');
 
 const FollowingItem: React.FC<IFollowingItem> = (props) => {
     const { data, setFunc, items } = props;
+    const childRef = useRef<any>();
+
+    // AppSubChanged 컴포넌트의 increaseCount 함수 호출
+
+    const [modal, setModal] = useState(false);
     const navigate = useNavigate();
 
     const onPhotoLike = async () => {
@@ -132,12 +136,15 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                         </div>
                     </StyledHeaderItem>
                     <StyledHeaderItem2>
-                        <BsThreeDots style={{ fontSize: 25, cursor: 'pointer' }} />
-                        {/*  <StyledClickText color="lightgray">신고</StyledClickText>
-                        <StyledClickText color="gray">팔로우</StyledClickText> */}
+                        <BsThreeDots style={{ fontSize: 25, cursor: 'pointer' }} onClick={() => setModal(!modal)} />
+                        {modal && (
+                            <StyledOnClickBlock>
+                                <StyledClickText color="gray">신고하기</StyledClickText>
+                            </StyledOnClickBlock>
+                        )}
                     </StyledHeaderItem2>
                 </StyledBlockHeader>
-                <Slider item={data} />
+                <Slider item={data} ref={childRef} />
                 <StyledBlockFooter>
                     {!data.myLike ? (
                         <StyledFooterItem
@@ -159,7 +166,11 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                         </StyledFooterItem>
                     )}
 
-                    <StyledFooterCenterItem>
+                    <StyledFooterCenterItem
+                        onClick={() => {
+                            childRef.current.showAlert();
+                        }}
+                    >
                         <StyledIcon src="/btnComment.png" />
                         <div>{data.commentCount}</div>
                     </StyledFooterCenterItem>
@@ -188,6 +199,16 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         </StyledFollowingFeeds>
     );
 };
+
+const StyledOnClickBlock = styled.div`
+    position: absolute;
+    width: 80px;
+    background-color: white;
+    top: 60px;
+    border: 1px solid silver;
+    z-index: 10;
+    cursor: pointer;
+`;
 
 const StyledFollowingFeeds = styled.div`
     position: relative;
@@ -238,9 +259,13 @@ const StyledNickname = styled.div`
 
 const StyledClickText = styled.div<{ color: string }>`
     color: ${(props) => props.color};
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
-    margin-left: 10px;
+    padding: 10px 0px 10px 10px;
+    :hover {
+        background-color: silver;
+        color: white;
+    }
 `;
 
 const StyledTime = styled.div`

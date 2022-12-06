@@ -35,7 +35,6 @@ const Myfeed: React.FC = () => {
                     },
                 });
                 setPicData(myfeedData.data.value.myPictureDtoList);
-                console.log(myfeedData.data.value.myPictureDtoList);
                 setMagazineData(myfeedData.data.value.myMagazineDtoList);
             } catch (e) {
                 console.log(e);
@@ -46,20 +45,6 @@ const Myfeed: React.FC = () => {
 
     return (
         <StyledScrapBookContainer>
-            {/*   <StyledProfileContainer>
-                <Profile />
-                <div>
-                    <StyledFeedNav nav={true} onClick={() => navigate('/mypage')}>
-                        나의피드
-                    </StyledFeedNav>
-                    <StyledFeedNav onClick={() => navigate('/mypage/profile/photo')}>사진</StyledFeedNav>
-                    <StyledFeedNav>매거진</StyledFeedNav>
-                    <StyledFeedNav>Q&A</StyledFeedNav>
-                    <StyledFeedNav>스크랩북</StyledFeedNav>
-                    <StyledFeedNav>좋아요</StyledFeedNav>
-                    <StyledFeedNav>설정</StyledFeedNav>
-                </div>
-            </StyledProfileContainer> */}
             <StyledContextContainer>
                 <StyledContexTitle>나의피드</StyledContexTitle>
                 <StyledDetailsBlock>
@@ -87,7 +72,7 @@ const Myfeed: React.FC = () => {
                     <StyledDetailTitle>
                         매거진 <span>12</span>
                     </StyledDetailTitle>
-                    <Link to="./magazine" style={{ textDecoration: 'none' }}>
+                    <Link to="/mypage/profile/magazine" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>
@@ -107,7 +92,7 @@ const Myfeed: React.FC = () => {
                     <StyledDetailTitle>
                         Q&A <span>11</span>
                     </StyledDetailTitle>
-                    <Link to="./dictionary" style={{ textDecoration: 'none' }}>
+                    <Link to="/mypage/profile/question" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>
@@ -173,15 +158,6 @@ const StyledDetailView = styled.div`
         height: 16px;
         object-fit: contain;
     }
-`;
-
-const StyledProfileContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 280px;
-    height: 1000px;
-    background-color: white;
-    margin-right: 64px;
 `;
 
 const StyledContextContainer = styled.div`
