@@ -13,10 +13,9 @@ const Scrapbook: React.FC = () => {
     interface IpicData {
         pictureId: number;
         pictureUrl: string;
-        myLike: boolean;
-        myScrap: boolean;
         likeCount: number;
         scrapCount: number;
+        viewCount: number;
         commentCount: number;
     }
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
@@ -36,9 +35,9 @@ const Scrapbook: React.FC = () => {
                         },
                     },
                 );
-                setPicData(myfeedData.data.value.myPictureDtoList);
-                console.log(myfeedData.data.value.myPictureDtoList);
-                setMagazineData(myfeedData.data.value.myMagazineDtoList);
+                setPicData(myfeedData.data.value.scrapPictureDtoList);
+                console.log(myfeedData.data.value.scrapPictureDtoList);
+                setMagazineData(myfeedData.data.value.scrapMagazineDtoList);
             } catch (e) {
                 console.log(e);
             }
