@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import FollowingItem from 'common/components/FollowingItem';
 import { FadeIn, FadeOut } from 'common/keyframes';
 import axios from 'axios';
 import { IFollowingsParams } from 'common/types';
-import { useRecoilValue } from 'recoil';
-import { UserInfo } from 'recoil/auth';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { headerItems, subTabBarItems } from 'navigations/data';
 import { MypageDropdown, WritingDropdown } from 'common/components';
 import { SubTabBar } from 'domains';
 
-const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
+
 const Following: React.FC = () => {
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
     const [followings, setFollowings] = useState<IFollowingsParams[]>([]);
     const [loading, setLoading] = useState(false);
-
     const [scrollDownToggle, setScrollDownToggle] = useState<boolean>(false);
     const [fadeAnim, setFadeAnim] = useState<any>();
     const [subTabVisible, setSubTabVisible] = useState<boolean>(true);
@@ -29,11 +26,6 @@ const Following: React.FC = () => {
     const [crntPage, setCrntPage] = useState<number>(0);
     const [crntPath, setCrntPath] = useState<string>('');
     const [isActive, setIsActive] = useState(false);
-
-    const { isLogin } = useRecoilValue(UserInfo);
-
-    const loc = useLocation();
-    const nav = useNavigate();
 
     useEffect(() => {
         if (!TOKEN) {
@@ -245,11 +237,11 @@ const StyledHeaderBar = styled.div`
     width: 1920px;
     height: 80px;
     background-color: white;
-    @media screen and (max-width: ${maxWidth}px) {
+    @media screen and (max-width: ${1900}px) {
         padding-left: 10%;
         padding-right: 10%;
     }
-    @media screen and (min-width: ${maxWidth}px) {
+    @media screen and (min-width: ${1900}px) {
         margin-left: 390px;
         margin-right: 390px;
     }

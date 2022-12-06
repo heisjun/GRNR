@@ -27,7 +27,6 @@ import {
     QuestionDetails,
     UpdateQuestion,
     QuestionQuery,
-    NotFound,
     MyFollowing,
     UpdatePhoto,
     MyFollower,
@@ -36,6 +35,7 @@ import {
     RegisterProcess,
     UserFeed,
     UserPhoto,
+    MyMagazine,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -78,7 +78,7 @@ const Navigation: React.FC = () => {
                     <Route path="/mypage/profile/following" element={<MyFollowing />} />
                     <Route path="/mypage/profile/follower" element={<MyFollower />} />
                     <Route path="/mypage/profile/photo" element={<Myphoto />} />
-                    <Route path="/mypage/profile/magazine" element={null} />
+                    <Route path="/mypage/profile/magazine" element={<MyMagazine />} />
                     <Route path="/mypage/profile/question" element={<MyAnswer />} />
                     <Route path="/mypage/profile/scrapbook" element={<ScrapBook />} />
                     <Route path="/mypage/profile/scrapbook/photo" element={<ScrapPhoto />} />

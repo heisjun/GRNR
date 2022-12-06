@@ -18,6 +18,7 @@ export { default as ScrapPhoto } from './ScrapPhoto';
 export { default as ScrapMagazine } from './ScrapMagazine';
 export { default as ScrapDictionary } from './ScrapDictionary';
 export { default as Myphoto } from './Myphoto';
+export { default as MyMagazine } from './MyMagazine';
 export { default as Myplans } from './Myplans';
 export { default as Myplants } from './Myplants';
 export { default as DictionaryDetails } from './DictionaryDetails';

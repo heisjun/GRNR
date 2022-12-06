@@ -169,7 +169,7 @@ const StyledDropdownBtn = styled.img`
 
 const StyledDropdownContent = styled.div`
     position: absolute;
-    top: 110%;
+    top: 130%;
     right: -200%;
     background: #fff;
     border: 1px solid lightgrey;

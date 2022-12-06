@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import Slide from './Slide/Slide';
 import styled from 'styled-components';
 import Indicator from './Indicator';
@@ -17,8 +17,9 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
-const Slider: React.FC<ISlider> = (props) => {
+export const Slider = forwardRef((props: ISlider, ref: any) => {
     const { item } = props;
+
     const navigate = useNavigate();
     const TOTAL_SLIDES = item.pictureUrlList.length;
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -32,7 +33,11 @@ const Slider: React.FC<ISlider> = (props) => {
     const [comment, setComment] = useState<ItestComments[]>([]);
     const dropdownListRef = useRef<any>(null);
 
-    const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+    useImperativeHandle(ref, () => ({
+        showAlert() {
+            setIsOpenModal(true);
+        },
+    }));
 
     useEffect(() => {
         function handleClickOutside(e: MouseEvent): void {
@@ -374,14 +379,14 @@ const Slider: React.FC<ISlider> = (props) => {
                             onMouseLeave={() => setHideBtn(true)}
                             style={{ width: '100%' }}
                         >
-                            <Slide data={item} index={index} />
+                            <Slide data={item} index={index} viewCount={details?.viewCount} />
                         </div>
                     );
                 })}
             </SliderContainer>
         </Container>
     );
-};
+});
 
 const Container = styled.div`
     height: 735px;

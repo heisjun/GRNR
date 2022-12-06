@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Avatar } from 'common/components';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -104,10 +104,24 @@ const Profile: React.FC = () => {
                 >
                     사진
                 </StyledFeedNav>
-                <StyledFeedNav>매거진</StyledFeedNav>
-                <StyledFeedNav>Q&A</StyledFeedNav>
-                <StyledFeedNav>스크랩북</StyledFeedNav>
-                <StyledFeedNav>좋아요</StyledFeedNav>
+                <StyledFeedNav
+                    nav={location.pathname === '/mypage/profile/magazine' ? true : false}
+                    onClick={() => navigate('/mypage/profile/magazine')}
+                >
+                    매거진
+                </StyledFeedNav>
+                <StyledFeedNav
+                    nav={location.pathname === '/mypage/profile/question' ? true : false}
+                    onClick={() => navigate('/mypage/profile/question')}
+                >
+                    Q&A
+                </StyledFeedNav>
+                <StyledFeedNav
+                    nav={location.pathname === '/mypage/profile/scrapbook' ? true : false}
+                    onClick={() => navigate('/mypage/profile/scrapbook')}
+                >
+                    스크랩북
+                </StyledFeedNav>
                 <StyledFeedNav>설정</StyledFeedNav>
             </div>
         </div>

@@ -12,4 +12,5 @@ export type ISlide = {
         time: number;
     };
     index: number;
+    viewCount: any;
 };

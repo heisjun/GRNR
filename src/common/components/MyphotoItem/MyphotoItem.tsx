@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { IMyphotoItem } from './MyphotoItem.type';
 
@@ -9,30 +10,32 @@ const MyphotoItem: React.FC<IMyphotoItem> = (props) => {
 
     return (
         <StyledMagazineItemContainer width={width} height={height} paddingBottom={paddingBottom}>
-            <StyledImageBlock
-                onMouseEnter={() => {
-                    setImgAnim(ImageScaleUp);
-                }}
-                onMouseLeave={() => {
-                    setImgAnim(ImageScaleDown);
-                }}
-            >
-                <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
-            </StyledImageBlock>
-            <StyledStatsBlock>
-                <StyledStatBlock>
-                    <StyledLikeButton src={'/btnBlankHeart.png'} />
-                    <StyledCountText>{item.likeCount}</StyledCountText>
-                </StyledStatBlock>
-                <StyledStatBlock>
-                    <StyledLikeButton src={'/btnComment.png'} />
-                    <StyledCountText>{item.commentCount}</StyledCountText>
-                </StyledStatBlock>
-                <StyledStatBlock>
-                    <StyledLikeButton src={'/btnBlankBookmark.png'} />
-                    <StyledCountText>{item.scrapCount}</StyledCountText>
-                </StyledStatBlock>
-            </StyledStatsBlock>
+            <Link to={`/community/photo/details/${item.pictureId}`} style={{ textDecoration: 'none' }}>
+                <StyledImageBlock
+                    onMouseEnter={() => {
+                        setImgAnim(ImageScaleUp);
+                    }}
+                    onMouseLeave={() => {
+                        setImgAnim(ImageScaleDown);
+                    }}
+                >
+                    <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                </StyledImageBlock>
+                <StyledStatsBlock>
+                    <StyledStatBlock>
+                        <StyledLikeButton src={'/btnBlankHeart.png'} />
+                        <StyledCountText>{item.likeCount}</StyledCountText>
+                    </StyledStatBlock>
+                    <StyledStatBlock>
+                        <StyledLikeButton src={'/btnComment.png'} />
+                        <StyledCountText>{item.commentCount}</StyledCountText>
+                    </StyledStatBlock>
+                    <StyledStatBlock>
+                        <StyledLikeButton src={'/btnBlankBookmark.png'} />
+                        <StyledCountText>{item.scrapCount}</StyledCountText>
+                    </StyledStatBlock>
+                </StyledStatsBlock>
+            </Link>
         </StyledMagazineItemContainer>
     );
 };

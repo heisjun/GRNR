@@ -1,10 +1,19 @@
 import styled from 'styled-components';
+import { ItemList, MyphotoItem } from 'common/components';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const MyAnswer: React.FC = () => {
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = sessionStorage.getItem('accesstoken');
+
+const MyMagazine: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         <StyledScrapBookContainer>
             <StyledContextContainer>
-                <StyledContexTitle>Q&A</StyledContexTitle>
+                <StyledContexTitle>매거진</StyledContexTitle>
 
                 <div>서비스 준비중입니다</div>
             </StyledContextContainer>
@@ -33,4 +42,4 @@ const StyledScrapBookContainer = styled.div`
     justify-content: center;
 `;
 
-export default MyAnswer;
+export default MyMagazine;
