@@ -18,8 +18,6 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const [recomment, setRecomment] = useState('');
     const [isActive, setIsActive] = useState([false]);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
-    console.log('1', commentsList);
-    console.log('2', testComments);
 
     function onOpenBtn(index: number) {
         if (!TOKEN) {
@@ -70,6 +68,9 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 },
             });
             setTestComments(testComments.filter((it) => it.commentId !== commentId));
+            setCommentsList((prevState: any) => {
+                return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity - 1 : 0 };
+            });
         } catch (e) {
             console.log(e);
         }
@@ -197,19 +198,44 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 },
             });
 
-            const commentChildDtoList = [
-                {
-                    parentId: commentId,
-                    commentId: null,
-                    myLike: false,
-                    content: content,
-                    report: false,
-                    accountNicName: sessionStorage.getItem('nickName'),
-                    accountProfileUrl: sessionStorage.getItem('profileUrl'),
-                    likeCount: 0,
-                    commentNicNameList: null,
-                },
-            ];
+            let commentIndex = 0;
+
+            testComments.map((it, index) => (it.commentId === commentId ? (commentIndex = index) : it));
+            console.log(commentIndex);
+
+            interface IcommentChildDtoList {
+                parentId: number;
+                commentId: number;
+                myLike: boolean;
+                content: string;
+                report: boolean;
+                accountNicName: string;
+                accountProfileUrl: string;
+                likeCount: number;
+                /*   commentNicNameList: {
+                    commentId: number;
+                    nicNameTags: string;
+                }[]; */
+                commentNicNameList: null;
+            }
+
+            const commentChildDtoList: IcommentChildDtoList[] = testComments[commentIndex].commentChildDtoList;
+
+            const newComment = {
+                parentId: commentId,
+                commentId: commentId,
+                myLike: false,
+                content: content,
+                report: false,
+                accountNicName: String(sessionStorage.getItem('nickName')),
+                accountProfileUrl: String(sessionStorage.getItem('profileUrl')),
+                likeCount: 0,
+                commentNicNameList: null,
+            };
+
+            commentChildDtoList.push(newComment);
+
+            console.log('테스트:', commentChildDtoList);
 
             setTestComments(
                 testComments.map((it) =>

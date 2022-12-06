@@ -208,7 +208,7 @@ const PhotoDetails: React.FC = () => {
                         {myAccountId === String(details?.accountId) && (
                             <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
                         )}
-                        {myAccountId !== String(details?.accountId) && (
+                        {myAccountId === String(details?.accountId) && (
                             <StyledReportText onClick={onEdit}>수정</StyledReportText>
                         )}
                         {myAccountId !== String(details?.accountId) && (

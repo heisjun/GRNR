@@ -66,10 +66,11 @@ export type ItestComments = {
         accountNicName: string;
         accountProfileUrl: string;
         likeCount: number;
-        commentNicNameList: {
+        /*   commentNicNameList: {
             commentId: number;
             nicNameTags: string;
-        }[];
+        }[]; */
+        commentNicNameList: null;
     }[];
 };
 
