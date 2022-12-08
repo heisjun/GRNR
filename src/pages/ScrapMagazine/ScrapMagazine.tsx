@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Profile } from 'domains';
 import { useState } from 'react';
 import { ItemList, MagazineItem } from 'common/components';
 
@@ -12,17 +11,16 @@ const ScrapMagazine: React.FC = () => {
     );
     const [magazineVerticalGap, setMagazineVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
 
-    const data = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+    const data = null;
+
     return (
         <StyledScrapBookContainer>
-            <StyledProfileContainer>
-                <StyledProfileBlock>
-                    <Profile />
-                </StyledProfileBlock>
-            </StyledProfileContainer>
             <StyledContextContainer>
-                <StyledContextBlock>
-                    <StyledContextTitle>매거진</StyledContextTitle>
+                <StyledContexTitle>스크랩북</StyledContexTitle>
+                <StyledDetailsBlock>
+                    <StyledDetailTitle>매거진</StyledDetailTitle>
+                </StyledDetailsBlock>
+                {data ? (
                     <ItemList
                         width="100%"
                         imgHeight="75%"
@@ -32,45 +30,51 @@ const ScrapMagazine: React.FC = () => {
                         items={data}
                         RenderComponent={MagazineItem}
                     />
-                </StyledContextBlock>
+                ) : (
+                    <div>게시글이 존재하지 않습니다</div>
+                )}
             </StyledContextContainer>
         </StyledScrapBookContainer>
     );
 };
 
-const StyledProfileBlock = styled.div`
-    position: relative;
-    width: 90%;
-    padding-bottom: 150%;
-`;
-
-const StyledProfileContainer = styled.div`
-    width: 25%;
-`;
-
 const StyledContextContainer = styled.div`
-    width: 75%;
-    height: 5000px;
+    width: 796px;
 `;
 
-const StyledContextBlock = styled.div`
-    position: relative;
-    width: 90%;
-    padding-left: 10%;
+const StyledContexTitle = styled.div`
+    font-family: NotoSansKR;
+    font-size: 30px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #272727;
+    margin-bottom: 30px;
 `;
 
 const StyledScrapBookContainer = styled.div`
-    margin-top: 30px;
-    width: 100%;
     display: flex;
+    justify-content: center;
 `;
 
-const StyledContextTitle = styled.div`
-    color: gray;
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 5px;
-    margin-bottom: 15px;
+const StyledDetailsBlock = styled.div`
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    justify-content: space-between;
+`;
+
+const StyledDetailTitle = styled.div`
+    font-family: NotoSansKR;
+    font-size: 18px;
+    font-weight: bold;
+    color: #272727;
+    span {
+        color: #0d6637;
+    }
 `;
 
 export default ScrapMagazine;

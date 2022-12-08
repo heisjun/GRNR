@@ -369,6 +369,13 @@ export type IpicData = {
     commentCount: number;
 };
 
+export type IDicData = {
+    dictionaryId: number;
+    pictureUrl: string;
+    korName: string;
+    engName: string;
+};
+
 export type IMyfeedItemParams = {
     width: string;
     height?: string;

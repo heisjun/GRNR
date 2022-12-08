@@ -19,6 +19,8 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const [isActive, setIsActive] = useState([false]);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
 
+    console.log('testComments', testComments);
+
     function onOpenBtn(index: number) {
         if (!TOKEN) {
             navigate('/login');
@@ -76,6 +78,34 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         }
     };
 
+    const onDeleteReComment = async (commentId: number, parentId: number) => {
+        try {
+            await axios.delete(`${BASEURL}/api/${category}/comment/${commentId}/delete`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+
+            let ParentcommentIndex = 0;
+
+            testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
+            const newCommentChildDtoList = testComments[ParentcommentIndex].commentChildDtoList.filter(
+                (it) => it.commentId !== commentId,
+            );
+            setTestComments(
+                testComments.map((it) =>
+                    it.commentId === parentId ? { ...it, commentChildDtoList: newCommentChildDtoList } : it,
+                ),
+            );
+            setCommentsList((prevState: any) => {
+                return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity - 1 : 0 };
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     const onCommentLike = async (commentId: number, likeCount: number) => {
         if (!TOKEN) {
             navigate('/login');
@@ -94,6 +124,70 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             setTestComments(
                 testComments.map((it) =>
                     it.commentId === commentId ? { ...it, myLike: true, likeCount: likeCount + 1 } : it,
+                ),
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onReCommentLike = async (commentId: number, likeCount: number, parentId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        try {
+            await axios.post(
+                `${BASEURL}/api/${category}/comment/${commentId}/like`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            let ParentcommentIndex = 0;
+
+            testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
+            const newCommentChildDtoList = testComments[ParentcommentIndex].commentChildDtoList.map((it) =>
+                it.commentId === commentId ? { ...it, myLike: true, likeCount: likeCount + 1 } : it,
+            );
+
+            setTestComments(
+                testComments.map((it) =>
+                    it.commentId === parentId ? { ...it, commentChildDtoList: newCommentChildDtoList } : it,
+                ),
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onReCommentUnLike = async (commentId: number, likeCount: number, parentId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        try {
+            await axios.post(
+                `${BASEURL}/api/${category}/comment/${commentId}/like`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            let ParentcommentIndex = 0;
+
+            testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
+            const newCommentChildDtoList = testComments[ParentcommentIndex].commentChildDtoList.map((it) =>
+                it.commentId === commentId ? { ...it, myLike: false, likeCount: likeCount - 1 } : it,
+            );
+
+            setTestComments(
+                testComments.map((it) =>
+                    it.commentId === parentId ? { ...it, commentChildDtoList: newCommentChildDtoList } : it,
                 ),
             );
         } catch (e) {
@@ -201,7 +295,6 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             let commentIndex = 0;
 
             testComments.map((it, index) => (it.commentId === commentId ? (commentIndex = index) : it));
-            console.log(commentIndex);
 
             interface IcommentChildDtoList {
                 parentId: number;
@@ -235,13 +328,14 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
 
             commentChildDtoList.push(newComment);
 
-            console.log('테스트:', commentChildDtoList);
-
             setTestComments(
                 testComments.map((it) =>
                     it.commentId === commentId ? { ...it, commentChildDtoList: commentChildDtoList } : it,
                 ),
             );
+            setCommentsList((prevState: any) => {
+                return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity + 1 : 0 };
+            });
         } catch (e) {
             console.log(e);
         }
@@ -443,7 +537,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                     <StyledCommentNickname>{item.accountNicName}</StyledCommentNickname>
                                     <StyledCommentContent>{item.content}</StyledCommentContent>
                                 </StyledCommentItem>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', paddingRight: 16 }}>
                                     {item.myLike ? (
                                         <FaHeart
                                             style={{
@@ -478,7 +572,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                         신고
                                     </StyledcommentSubItem>
                                 )}
-                                {item.accountNicName === sessionStorage.getItem('nickName') && (
+                                {item.accountNicName !== sessionStorage.getItem('nickName') && (
                                     <StyledcommentSubItem onClick={() => onDeleteComment(item.commentId)}>
                                         삭제
                                     </StyledcommentSubItem>
@@ -503,14 +597,43 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                     </StyledCommentNickname>
                                                     <StyledCommentContent>{recomment.content}</StyledCommentContent>
                                                 </StyledCommentItem>
-                                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <FaRegHeart
-                                                        style={{
-                                                            cursor: 'pointer',
-                                                            fontSize: 15,
-                                                        }}
-                                                        onClick={() => onCommentLike(item.commentId, item.likeCount)}
-                                                    />
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        paddingRight: 16,
+                                                    }}
+                                                >
+                                                    {recomment.myLike ? (
+                                                        <FaHeart
+                                                            style={{
+                                                                cursor: 'pointer',
+                                                                fontSize: 15,
+                                                                color: 'red',
+                                                            }}
+                                                            onClick={() =>
+                                                                onReCommentUnLike(
+                                                                    recomment.commentId,
+                                                                    recomment.likeCount,
+                                                                    recomment.parentId,
+                                                                )
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <FaRegHeart
+                                                            style={{
+                                                                cursor: 'pointer',
+                                                                fontSize: 15,
+                                                            }}
+                                                            onClick={() =>
+                                                                onReCommentLike(
+                                                                    recomment.commentId,
+                                                                    recomment.likeCount,
+                                                                    recomment.parentId,
+                                                                )
+                                                            }
+                                                        />
+                                                    )}
                                                 </div>
                                             </div>
                                             <StyledcommentSubItemContainer>
@@ -527,9 +650,11 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                         신고
                                                     </StyledcommentSubItem>
                                                 )}
-                                                {recomment.accountNicName === sessionStorage.getItem('nickName') && (
+                                                {recomment.accountNicName !== sessionStorage.getItem('nickName') && (
                                                     <StyledcommentSubItem
-                                                        onClick={() => onDeleteComment(recomment.commentId)}
+                                                        onClick={() =>
+                                                            onDeleteReComment(recomment.commentId, recomment.parentId)
+                                                        }
                                                     >
                                                         삭제
                                                     </StyledcommentSubItem>
@@ -640,7 +765,7 @@ const StyledCommentBlock = styled.div`
 const StyledCommentItem = styled.div`
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
 `;
 
 const StyledCommentNickname = styled.div`

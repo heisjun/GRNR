@@ -42,8 +42,6 @@ const Photo: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [photos, setPhotos] = useState<IPhotosParams[]>([]);
-    const [loading, setLoading] = useState(false);
-
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 1);
     const [photoHorizontalGap, setPhotoHorizontalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 0);
     const [photoVerticalGap, setPhotoVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);

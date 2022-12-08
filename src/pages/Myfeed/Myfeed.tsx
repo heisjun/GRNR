@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { ItemList, TodaysPhoto, MyfeedItem } from 'common/components';
-import { Profile } from 'domains';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -10,7 +9,6 @@ const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
 
 const Myfeed: React.FC = () => {
-    const navigate = useNavigate();
     interface IpicData {
         pictureId: number;
         pictureUrl: string;
@@ -66,11 +64,10 @@ const Myfeed: React.FC = () => {
                     items={picData}
                     RenderComponent={MyfeedItem}
                 />
-
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        매거진 <span>12</span>
+                        매거진 <span>0</span>
                     </StyledDetailTitle>
                     <Link to="/mypage/profile/magazine" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
@@ -90,7 +87,7 @@ const Myfeed: React.FC = () => {
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        Q&A <span>11</span>
+                        Q&A <span>0</span>
                     </StyledDetailTitle>
                     <Link to="/mypage/profile/question" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
@@ -98,7 +95,7 @@ const Myfeed: React.FC = () => {
                         </StyledDetailView>
                     </Link>
                 </StyledDetailsBlock>
-                <StyledDetailTitle>나의질문</StyledDetailTitle>
+
                 {/* <QuestionItem data={questions} /> */}
             </StyledContextContainer>
         </StyledScrapBookContainer>

@@ -82,7 +82,7 @@ const Profile: React.FC = () => {
                 <StyledEditButton>프로필수정</StyledEditButton>
                 <StyledBorderLine />
                 <StyledStatBlock>
-                    <StyledScrapBlock>
+                    <StyledScrapBlock onClick={() => navigate('/mypage/profile/scrapbook')}>
                         <StyledScrapButton src="/btnBlankBookmark.png" />
                         <StyledScrapText>스크랩북</StyledScrapText>
                         <StyledScrapCount>{accountDto?.scrapCount}</StyledScrapCount>
@@ -94,7 +94,7 @@ const Profile: React.FC = () => {
                     </StyledLikeBlock>
                 </StyledStatBlock>
             </StyledProfileContainer>
-            <div>
+            <div style={{ marginBottom: 100 }}>
                 <StyledFeedNav nav={location.pathname === '/mypage' ? true : false} onClick={() => navigate('/mypage')}>
                     나의피드
                 </StyledFeedNav>
@@ -117,7 +117,14 @@ const Profile: React.FC = () => {
                     Q&A
                 </StyledFeedNav>
                 <StyledFeedNav
-                    nav={location.pathname === '/mypage/profile/scrapbook' ? true : false}
+                    nav={
+                        location.pathname === '/mypage/profile/scrapbook/' ||
+                        location.pathname === '/mypage/profile/scrapbook/photo' ||
+                        location.pathname === '/mypage/profile/scrapbook/dictionary' ||
+                        location.pathname === '/mypage/profile/scrapbook/magazine'
+                            ? true
+                            : false
+                    }
                     onClick={() => navigate('/mypage/profile/scrapbook')}
                 >
                     스크랩북
@@ -195,6 +202,7 @@ const StyledScrapBlock = styled.div`
     flex-direction: column;
     align-items: center;
     border-right: 1px solid #ececec;
+    cursor: pointer;
 `;
 
 const StyledStatBlock = styled.div`
@@ -228,6 +236,8 @@ const StyledEditButton = styled.div`
 
 const StyledFollowText = styled.div`
     margin-top: 11px;
+    margin-right: 8px;
+    margin-left: 8px;
     font-family: NotoSansKR;
     font-size: 13px;
     color: #787878;
