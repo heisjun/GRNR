@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Avatar } from 'common/components';
-import { Profile } from 'domains';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';

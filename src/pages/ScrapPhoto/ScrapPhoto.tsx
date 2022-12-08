@@ -1,74 +1,104 @@
 import styled from 'styled-components';
-import { Profile } from 'domains';
-import { useState } from 'react';
-import { ItemList, ScrapPhotoItem } from 'common/components';
+import { ItemList, MyphotoItem } from 'common/components';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = sessionStorage.getItem('accesstoken');
+const Myphoto: React.FC = () => {
+    interface IpicData {
+        pictureId: number;
+        pictureUrl: string;
+        likeCount: number;
+        scrapCount: number;
+        viewCount: number;
+        commentCount: number;
+    }
 
-const ScrapPhoto: React.FC = () => {
-    const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 1);
-    const [photoHorizontalGap, setPhotoHorizontalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 0);
-    const [photoVerticalGap, setPhotoVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 4);
+    const [picData, setPicData] = useState<IpicData[]>([]);
 
-    const data = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const myfeedData = await axios.get(
+                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/scraps`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setPicData(myfeedData.data.value.scrapPictureDtoList);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <StyledScrapBookContainer>
-            <StyledProfileContainer>
-                <StyledProfileBlock>
-                    <Profile />
-                </StyledProfileBlock>
-            </StyledProfileContainer>
             <StyledContextContainer>
-                <StyledContextBlock>
-                    <StyledContextTitle>사진</StyledContextTitle>
+                <StyledContexTitle>스크랩북</StyledContexTitle>
+                <StyledDetailsBlock>
+                    <StyledDetailTitle>
+                        사진 <span>{picData.length}</span>
+                    </StyledDetailTitle>
+                </StyledDetailsBlock>
+                {picData ? (
                     <ItemList
                         width="100%"
-                        imgHeight="130%"
-                        cols={photoCols}
-                        horizontalGap={photoHorizontalGap}
-                        verticalGap={photoVerticalGap}
-                        items={data}
-                        RenderComponent={ScrapPhotoItem}
+                        imgHeight="115%"
+                        cols={4}
+                        horizontalGap={2}
+                        verticalGap={2}
+                        items={picData}
+                        RenderComponent={MyphotoItem}
                     />
-                </StyledContextBlock>
+                ) : (
+                    <div>게시글이 존재하지 않습니다</div>
+                )}
             </StyledContextContainer>
         </StyledScrapBookContainer>
     );
 };
 
-const StyledProfileBlock = styled.div`
-    position: relative;
-    width: 90%;
-    padding-bottom: 150%;
-`;
-
-const StyledProfileContainer = styled.div`
-    width: 25%;
-`;
-
 const StyledContextContainer = styled.div`
-    width: 75%;
-    height: 5000px;
+    width: 796px;
 `;
 
-const StyledContextBlock = styled.div`
-    position: relative;
-    width: 90%;
-    padding-left: 10%;
+const StyledContexTitle = styled.div`
+    font-family: NotoSansKR;
+    font-size: 30px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #272727;
+    margin-bottom: 30px;
 `;
 
 const StyledScrapBookContainer = styled.div`
-    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+`;
+
+const StyledDetailsBlock = styled.div`
     width: 100%;
     display: flex;
-`;
-
-const StyledContextTitle = styled.div`
-    color: gray;
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 5px;
     margin-bottom: 20px;
+    margin-top: 40px;
+    justify-content: space-between;
 `;
 
-export default ScrapPhoto;
+const StyledDetailTitle = styled.div`
+    font-family: NotoSansKR;
+    font-size: 18px;
+    font-weight: bold;
+    color: #272727;
+    span {
+        color: #0d6637;
+    }
+`;
+export default Myphoto;

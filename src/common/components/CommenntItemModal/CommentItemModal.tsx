@@ -67,6 +67,38 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
+            setTestComments(testComments.filter((it) => it.commentId !== commentId));
+            setCommentsList((prevState: any) => {
+                return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity - 1 : 0 };
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onDeleteReComment = async (commentId: number, parentId: number) => {
+        try {
+            await axios.delete(`${BASEURL}/api/${category}/comment/${commentId}/delete`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+
+            let ParentcommentIndex = 0;
+
+            testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
+            const newCommentChildDtoList = testComments[ParentcommentIndex].commentChildDtoList.filter(
+                (it) => it.commentId !== commentId,
+            );
+            setTestComments(
+                testComments.map((it) =>
+                    it.commentId === parentId ? { ...it, commentChildDtoList: newCommentChildDtoList } : it,
+                ),
+            );
+            setCommentsList((prevState: any) => {
+                return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity - 1 : 0 };
+            });
         } catch (e) {
             console.log(e);
         }
@@ -90,6 +122,70 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             setTestComments(
                 testComments.map((it) =>
                     it.commentId === commentId ? { ...it, myLike: true, likeCount: likeCount + 1 } : it,
+                ),
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onReCommentLike = async (commentId: number, likeCount: number, parentId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        try {
+            await axios.post(
+                `${BASEURL}/api/${category}/comment/${commentId}/like`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            let ParentcommentIndex = 0;
+
+            testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
+            const newCommentChildDtoList = testComments[ParentcommentIndex].commentChildDtoList.map((it) =>
+                it.commentId === commentId ? { ...it, myLike: true, likeCount: likeCount + 1 } : it,
+            );
+
+            setTestComments(
+                testComments.map((it) =>
+                    it.commentId === parentId ? { ...it, commentChildDtoList: newCommentChildDtoList } : it,
+                ),
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onReCommentUnLike = async (commentId: number, likeCount: number, parentId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        try {
+            await axios.post(
+                `${BASEURL}/api/${category}/comment/${commentId}/like`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            let ParentcommentIndex = 0;
+
+            testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
+            const newCommentChildDtoList = testComments[ParentcommentIndex].commentChildDtoList.map((it) =>
+                it.commentId === commentId ? { ...it, myLike: false, likeCount: likeCount - 1 } : it,
+            );
+
+            setTestComments(
+                testComments.map((it) =>
+                    it.commentId === parentId ? { ...it, commentChildDtoList: newCommentChildDtoList } : it,
                 ),
             );
         } catch (e) {
@@ -194,25 +290,52 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 },
             });
 
-            const commentChildDtoList = [
-                {
-                    parentId: commentId,
-                    commentId: null,
-                    myLike: false,
-                    content: content,
-                    report: false,
-                    accountNicName: sessionStorage.getItem('nickName'),
-                    accountProfileUrl: sessionStorage.getItem('profileUrl'),
-                    likeCount: 0,
-                    commentNicNameList: null,
-                },
-            ];
+            let commentIndex = 0;
+
+            testComments.map((it, index) => (it.commentId === commentId ? (commentIndex = index) : it));
+
+            interface IcommentChildDtoList {
+                parentId: number;
+                commentId: number;
+                myLike: boolean;
+                content: string;
+                report: boolean;
+                accountNicName: string;
+                accountProfileUrl: string;
+                likeCount: number;
+                /*   commentNicNameList: {
+                    commentId: number;
+                    nicNameTags: string;
+                }[]; */
+                commentNicNameList: null;
+            }
+
+            const commentChildDtoList: IcommentChildDtoList[] = testComments[commentIndex].commentChildDtoList;
+
+            const newComment = {
+                parentId: commentId,
+                commentId: commentId,
+                myLike: false,
+                content: content,
+                report: false,
+                accountNicName: String(sessionStorage.getItem('nickName')),
+                accountProfileUrl: String(sessionStorage.getItem('profileUrl')),
+                likeCount: 0,
+                commentNicNameList: null,
+            };
+
+            commentChildDtoList.push(newComment);
+
+            console.log('테스트:', commentChildDtoList);
 
             setTestComments(
                 testComments.map((it) =>
                     it.commentId === commentId ? { ...it, commentChildDtoList: commentChildDtoList } : it,
                 ),
             );
+            setCommentsList((prevState: any) => {
+                return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity + 1 : 0 };
+            });
         } catch (e) {
             console.log(e);
         }
@@ -413,16 +536,42 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                     </StyledCommentNickname>
                                                     <StyledCommentContent>{recomment.content}</StyledCommentContent>
                                                 </StyledCommentItem>
-                                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <FaRegHeart
-                                                        style={{
-                                                            cursor: 'pointer',
-                                                            fontSize: 15,
-                                                        }}
-                                                        onClick={() =>
-                                                            onCommentLike(recomment.commentId, recomment.likeCount)
-                                                        }
-                                                    />
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                    }}
+                                                >
+                                                    {recomment.myLike ? (
+                                                        <FaHeart
+                                                            style={{
+                                                                cursor: 'pointer',
+                                                                fontSize: 15,
+                                                                color: 'red',
+                                                            }}
+                                                            onClick={() =>
+                                                                onReCommentUnLike(
+                                                                    recomment.commentId,
+                                                                    recomment.likeCount,
+                                                                    recomment.parentId,
+                                                                )
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <FaRegHeart
+                                                            style={{
+                                                                cursor: 'pointer',
+                                                                fontSize: 15,
+                                                            }}
+                                                            onClick={() =>
+                                                                onReCommentLike(
+                                                                    recomment.commentId,
+                                                                    recomment.likeCount,
+                                                                    recomment.parentId,
+                                                                )
+                                                            }
+                                                        />
+                                                    )}
                                                 </div>
                                             </div>
                                             <StyledcommentSubItemContainer>
@@ -618,7 +767,7 @@ const StyledCommentBlock = styled.div`
 const StyledCommentItem = styled.div`
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
 `;
 
 const StyledCommentNickname = styled.div`

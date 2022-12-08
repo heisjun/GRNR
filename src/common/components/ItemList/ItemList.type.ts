@@ -10,6 +10,7 @@ import {
     IMagazineDetailsItem,
     IpicData,
     IPopularPic,
+    IDicData,
 } from 'common/types';
 import React from 'react';
 
@@ -49,6 +50,7 @@ export type IItemList = {
         | IPhotosParams[]
         | IPhotoDetailsItems
         | IPopularPic[]
+        | IDicData[]
         | IpicData[];
     RenderComponent: React.FC<any>;
 };

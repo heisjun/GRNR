@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Avatar, ItemList } from 'common/components';
-import { getDebouncedFunc } from 'common/funcs';
 import { useParams, useNavigate } from 'react-router-dom';
 import { default as callApi } from 'common/api';
 import { ICommentsParams, IPhotoDetailsParams, ItestComments } from 'common/types';
@@ -16,7 +15,6 @@ const TOKEN = sessionStorage.getItem('accesstoken');
 
 const PhotoDetails: React.FC = () => {
     const navigate = useNavigate();
-    const sideBarRef = useRef<any>(null);
     const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
     const [commentsList, setCommentsList] = useState<ICommentsParams>();

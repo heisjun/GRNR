@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 import { ItemList, TodaysPhoto, MyfeedItem } from 'common/components';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import ScrapDictionaryItem from 'common/components/ScrapDictionaryItem';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
 
 const Scrapbook: React.FC = () => {
-    const navigate = useNavigate();
     interface IpicData {
         pictureId: number;
         pictureUrl: string;
@@ -18,11 +18,22 @@ const Scrapbook: React.FC = () => {
         viewCount: number;
         commentCount: number;
     }
+
+    interface IdicData {
+        dictionaryId: number;
+        pictureUrl: string;
+        korName: string;
+        engName: string;
+    }
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
     const [photoGap, setPhotoGap] = useState(window.innerWidth > Number(boundaryWidth) ? 0 : 4);
+    const [dicCols, setDicCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
+    const [dicGap, setDicGap] = useState(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
+    const [dicVerticalGap, setDicVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 0 : 4);
 
     const [picData, setPicData] = useState<IpicData[]>([]);
     const [magazineData, setMagazineData] = useState([]);
+    const [dicData, setDicData] = useState<IdicData[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,8 +47,8 @@ const Scrapbook: React.FC = () => {
                     },
                 );
                 setPicData(myfeedData.data.value.scrapPictureDtoList);
-                console.log(myfeedData.data.value.scrapPictureDtoList);
                 setMagazineData(myfeedData.data.value.scrapMagazineDtoList);
+                setDicData(myfeedData.data.value.scrapDictionaryDtoList);
             } catch (e) {
                 console.log(e);
             }
@@ -53,7 +64,7 @@ const Scrapbook: React.FC = () => {
                     <StyledDetailTitle>
                         사진 <span>{picData.length}</span>
                     </StyledDetailTitle>
-                    <Link to="/mypage/profile/photo" style={{ textDecoration: 'none' }}>
+                    <Link to="/mypage/profile/scrapbook/photo" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>
@@ -65,16 +76,16 @@ const Scrapbook: React.FC = () => {
                     cols={photoCols}
                     horizontalGap={photoGap}
                     verticalGap={photoGap}
-                    items={picData}
+                    items={picData.slice(0, 4)}
                     RenderComponent={MyfeedItem}
                 />
 
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        매거진 <span>12</span>
+                        매거진 <span>0</span>
                     </StyledDetailTitle>
-                    <Link to="/mypage/profile/magazine" style={{ textDecoration: 'none' }}>
+                    <Link to="/mypage/profile/scrapbook/magazine" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>
@@ -92,14 +103,23 @@ const Scrapbook: React.FC = () => {
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        식물사전 <span>11</span>
+                        식물사전 <span>{dicData.length}</span>
                     </StyledDetailTitle>
-                    <Link to="/mypage/profile/question" style={{ textDecoration: 'none' }}>
+                    <Link to="/mypage/profile/scrapbook/dictionary" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>
                     </Link>
                 </StyledDetailsBlock>
+                <ItemList
+                    width="100%"
+                    imgHeight="70%"
+                    cols={dicCols}
+                    horizontalGap={dicGap}
+                    verticalGap={dicVerticalGap}
+                    items={dicData.slice(0, 3)}
+                    RenderComponent={ScrapDictionaryItem}
+                />
             </StyledContextContainer>
         </StyledScrapBookContainer>
     );
@@ -146,15 +166,6 @@ const StyledDetailView = styled.div`
         height: 16px;
         object-fit: contain;
     }
-`;
-
-const StyledProfileContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 280px;
-    height: 1000px;
-    background-color: white;
-    margin-right: 64px;
 `;
 
 const StyledContextContainer = styled.div`
