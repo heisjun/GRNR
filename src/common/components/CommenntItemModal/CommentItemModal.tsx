@@ -590,7 +590,9 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                 )}
                                                 {recomment.accountNicName === sessionStorage.getItem('nickName') && (
                                                     <StyledcommentSubItem
-                                                        onClick={() => onDeleteComment(recomment.commentId)}
+                                                        onClick={() =>
+                                                            onDeleteReComment(recomment.commentId, recomment.parentId)
+                                                        }
                                                     >
                                                         삭제
                                                     </StyledcommentSubItem>

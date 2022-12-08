@@ -572,7 +572,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                         신고
                                     </StyledcommentSubItem>
                                 )}
-                                {item.accountNicName !== sessionStorage.getItem('nickName') && (
+                                {item.accountNicName === sessionStorage.getItem('nickName') && (
                                     <StyledcommentSubItem onClick={() => onDeleteComment(item.commentId)}>
                                         삭제
                                     </StyledcommentSubItem>
@@ -650,7 +650,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                         신고
                                                     </StyledcommentSubItem>
                                                 )}
-                                                {recomment.accountNicName !== sessionStorage.getItem('nickName') && (
+                                                {recomment.accountNicName === sessionStorage.getItem('nickName') && (
                                                     <StyledcommentSubItem
                                                         onClick={() =>
                                                             onDeleteReComment(recomment.commentId, recomment.parentId)
