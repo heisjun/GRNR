@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { Avatar } from 'common/components';
-import { Profile } from 'domains';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { followercountState } from 'recoil/count';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
@@ -18,6 +19,7 @@ const MyFollowing: React.FC = () => {
         myFollow: boolean;
     }
     const [following, setFollowing] = useState<Ifollowing[]>([]);
+    const [followerCount, setFollowerCount] = useRecoilState(followercountState);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -53,6 +55,7 @@ const MyFollowing: React.FC = () => {
                 },
             });
             setFollowing(following.map((it) => (it.nickName === followingName ? { ...it, myFollow: true } : it)));
+            setFollowerCount(followerCount + 1);
         } catch (e) {
             console.log(e);
         }
@@ -73,6 +76,7 @@ const MyFollowing: React.FC = () => {
                 },
             });
             setFollowing(following.map((it) => (it.nickName === followingName ? { ...it, myFollow: false } : it)));
+            setFollowerCount(followerCount - 1);
         } catch (e) {
             console.log(e);
         }

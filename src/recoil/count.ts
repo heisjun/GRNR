@@ -1,7 +1,11 @@
 import { atom } from 'recoil';
-import uuid from 'react-uuid';
 
-export const likecountState = atom({
-    key: `likecountState${uuid()}`,
+export const followingcountState = atom({
+    key: `followingState`,
+    default: 0,
+});
+
+export const followercountState = atom({
+    key: `followerState`,
     default: 0,
 });
