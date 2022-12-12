@@ -3,6 +3,8 @@ import { Avatar } from 'common/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { followercountState, followingcountState } from 'recoil/count';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
@@ -27,6 +29,8 @@ const Profile: React.FC = () => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState<Iprofile>();
     const [accountDto, setAccountDto] = useState<IaccountDto>();
+    const [followingCount, setFollowingCount] = useRecoilState(followingcountState);
+    const [followerCount, setFollowerCount] = useRecoilState(followercountState);
 
     const location = useLocation();
 
@@ -56,6 +60,8 @@ const Profile: React.FC = () => {
                 });
 
                 setAccountDto(myfeedData.data.value.accountDto);
+                setFollowingCount(myfeedData.data.value.accountDto.followingCount);
+                setFollowerCount(myfeedData.data.value.accountDto.followerCount);
             } catch (e) {
                 console.log(e);
             }
@@ -73,10 +79,10 @@ const Profile: React.FC = () => {
                 <StyledIntroText>{profile?.selfInfo ? profile?.selfInfo : '소개글을 작성하세요'}</StyledIntroText>
                 <div style={{ display: 'flex' }}>
                     <StyledFollowText onClick={() => navigate(`/mypage/profile/follower`)}>
-                        팔로워 <span>{accountDto?.followingCount}</span>
+                        팔로워 <span>{followingCount}</span>
                     </StyledFollowText>
                     <StyledFollowText onClick={() => navigate(`/mypage/profile/following`)}>
-                        팔로잉 <span>{accountDto?.followerCount}</span>
+                        팔로잉 <span>{followerCount}</span>
                     </StyledFollowText>
                 </div>
                 <StyledEditButton>프로필수정</StyledEditButton>

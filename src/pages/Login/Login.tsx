@@ -30,6 +30,7 @@ const Login: React.FC = () => {
                     <p>에 가입해보세요</p>
                 </StyledBasicText>
                 <StyledLoginImg src="/kakao_login.png" onClick={handleLogin} />
+                <StyledLoginImg src="/naver_login.png" />
                 <StyledButton onClick={onTalkButton}>
                     <StyledLoginText>로컬로그인</StyledLoginText>
                 </StyledButton>
