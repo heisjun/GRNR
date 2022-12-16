@@ -162,6 +162,11 @@ const PhotoDetails: React.FC = () => {
         }
     };
 
+    const onGoUserPage = () => {
+        sessionStorage.setItem('userId', String(details?.accountId));
+        navigate(`/userpage/${details?.accountId}`);
+    };
+
     const data = [
         {
             pictureId: 2,
@@ -228,7 +233,7 @@ const PhotoDetails: React.FC = () => {
                     <StyledUserInfoBlock>
                         <StyledProfileBlock>
                             <StyledWriterBlock>
-                                <StyeldAvatarBlock>
+                                <StyeldAvatarBlock onClick={onGoUserPage}>
                                     <Avatar
                                         width="100%"
                                         paddingBottom="100%"
@@ -236,6 +241,7 @@ const PhotoDetails: React.FC = () => {
                                         picUrl={details?.accountProfileUrl}
                                     />
                                 </StyeldAvatarBlock>
+
                                 <div>
                                     <StyledWriterNickname>{details?.accountNickName}</StyledWriterNickname>
                                     <StyledWriterText>{details?.accountNickName}</StyledWriterText>
@@ -313,6 +319,7 @@ const StyledFollowButtonBlock = styled.div`
     align-items: center;
     border-radius: 15px;
     background-color: #0d6637;
+    cursor: pointer;
     span {
         font-family: NotoSansKR;
         font-size: 13px;
@@ -332,6 +339,7 @@ const StyledBorderLine = styled.div`
 
 const StyeldAvatarBlock = styled.div`
     width: 80px;
+    cursor: pointer;
 `;
 
 const StyledWriterText = styled.div`

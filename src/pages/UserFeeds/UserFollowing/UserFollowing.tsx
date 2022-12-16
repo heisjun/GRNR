@@ -9,7 +9,7 @@ import { followercountState } from 'recoil/count';
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
 
-const MyFollower: React.FC = () => {
+const UserFollowing: React.FC = () => {
     const navigate = useNavigate();
     interface Ifollowing {
         accountId: number;
@@ -25,7 +25,7 @@ const MyFollower: React.FC = () => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/follower`,
+                    `${BASEURL}/api/account/${sessionStorage.getItem('userId')}/following`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
@@ -55,7 +55,6 @@ const MyFollower: React.FC = () => {
                 },
             });
             setFollowing(following.map((it) => (it.nickName === followingName ? { ...it, myFollow: true } : it)));
-            setFollowerCount(followerCount + 1);
         } catch (e) {
             console.log(e);
         }
@@ -76,7 +75,6 @@ const MyFollower: React.FC = () => {
                 },
             });
             setFollowing(following.map((it) => (it.nickName === followingName ? { ...it, myFollow: false } : it)));
-            setFollowerCount(followerCount - 1);
         } catch (e) {
             console.log(e);
         }
@@ -84,7 +82,7 @@ const MyFollower: React.FC = () => {
     return (
         <StyledMyphotoContainer>
             <StyledContextContainer>
-                <StyledContexTitle>팔로워</StyledContexTitle>
+                <StyledContexTitle>팔로잉</StyledContexTitle>
                 {following.map((item, index) => {
                     return (
                         <StyledFollowingContainer key={index}>
@@ -208,4 +206,5 @@ const StyledMyphotoContainer = styled.div`
     display: flex;
     justify-content: center;
 `;
-export default MyFollower;
+
+export default UserFollowing;

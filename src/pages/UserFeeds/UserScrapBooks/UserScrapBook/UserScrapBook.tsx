@@ -1,52 +1,54 @@
 import styled from 'styled-components';
 import { ItemList, TodaysPhoto, MyfeedItem } from 'common/components';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import ScrapDictionaryItem from 'common/components/ScrapDictionaryItem';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
 
-const UserFeed: React.FC = () => {
+const UserScrapbook: React.FC = () => {
     interface IpicData {
         pictureId: number;
         pictureUrl: string;
-        myLike: boolean;
-        myScrap: boolean;
         likeCount: number;
         scrapCount: number;
+        viewCount: number;
         commentCount: number;
     }
 
-    interface IUserData {
-        accountId: number;
-        followerCount: number;
-        followingCount: number;
-        likeCount: number;
-        nickName: string;
-        profileUrl: string;
-        scrapCount: number;
+    interface IdicData {
+        dictionaryId: number;
+        pictureUrl: string;
+        korName: string;
+        engName: string;
     }
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
     const [photoGap, setPhotoGap] = useState(window.innerWidth > Number(boundaryWidth) ? 0 : 4);
+    const [dicCols, setDicCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
+    const [dicGap, setDicGap] = useState(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
+    const [dicVerticalGap, setDicVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 0 : 4);
 
     const [picData, setPicData] = useState<IpicData[]>([]);
     const [magazineData, setMagazineData] = useState([]);
-    const [User, setUser] = useState<IUserData>();
-    const params = useParams();
+    const [dicData, setDicData] = useState<IdicData[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/${params.id}`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
+                const myfeedData = await axios.get(
+                    `${BASEURL}/api/account/${sessionStorage.getItem('userId')}/scraps`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
                     },
-                });
-                setUser(myfeedData.data.value.accountDto);
-                setPicData(myfeedData.data.value.myPictureDtoList);
-                setMagazineData(myfeedData.data.value.myMagazineDtoList);
+                );
+                setPicData(myfeedData.data.value.scrapPictureDtoList);
+                setMagazineData(myfeedData.data.value.scrapMagazineDtoList);
+                setDicData(myfeedData.data.value.scrapDictionaryDtoList);
             } catch (e) {
                 console.log(e);
             }
@@ -57,13 +59,15 @@ const UserFeed: React.FC = () => {
     return (
         <StyledScrapBookContainer>
             <StyledContextContainer>
-                <StyledContexTitle>{`${User?.nickName}님의 피드`}</StyledContexTitle>
+                <StyledContexTitle>스크랩북</StyledContexTitle>
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
                         사진 <span>{picData.length}</span>
                     </StyledDetailTitle>
-
-                    <Link to={`/userpage/photo/${User?.accountId}`} style={{ textDecoration: 'none' }}>
+                    <Link
+                        to={`/userpage/scrapbook/photo/${sessionStorage.getItem('userId')}`}
+                        style={{ textDecoration: 'none' }}
+                    >
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>
@@ -75,15 +79,19 @@ const UserFeed: React.FC = () => {
                     cols={photoCols}
                     horizontalGap={photoGap}
                     verticalGap={photoGap}
-                    items={picData}
+                    items={picData.slice(0, 4)}
                     RenderComponent={MyfeedItem}
                 />
+
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
                         매거진 <span>0</span>
                     </StyledDetailTitle>
-                    <Link to="/mypage/profile/magazine" style={{ textDecoration: 'none' }}>
+                    <Link
+                        to={`/userpage/scrapbook/magazine/${sessionStorage.getItem('userId')}`}
+                        style={{ textDecoration: 'none' }}
+                    >
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>
@@ -101,32 +109,30 @@ const UserFeed: React.FC = () => {
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        Q&A <span>0</span>
+                        식물사전 <span>{dicData.length}</span>
                     </StyledDetailTitle>
-                    <Link to="/mypage/profile/question" style={{ textDecoration: 'none' }}>
+                    <Link
+                        to={`/userpage/scrapbook/dictionary/${sessionStorage.getItem('userId')}`}
+                        style={{ textDecoration: 'none' }}
+                    >
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>
                     </Link>
                 </StyledDetailsBlock>
-
-                {/* <QuestionItem data={questions} /> */}
+                <ItemList
+                    width="100%"
+                    imgHeight="70%"
+                    cols={dicCols}
+                    horizontalGap={dicGap}
+                    verticalGap={dicVerticalGap}
+                    items={dicData.slice(0, 3)}
+                    RenderComponent={ScrapDictionaryItem}
+                />
             </StyledContextContainer>
         </StyledScrapBookContainer>
     );
 };
-
-const StyledFeedNav = styled.div<{ nav?: boolean }>`
-    box-sizing: border-box;
-    width: 280px;
-    height: 60px;
-    padding: 18px 0px 18px 14px;
-    font-size: 16px;
-    font-weight: 500;
-    color: ${({ nav }) => (nav ? '#0d6637;' : '#272727')};
-    background-color: ${({ nav }) => (nav ? '#e7f5ee;' : 'white')};
-    cursor: pointer;
-`;
 
 const StyledBorderLine = styled.div`
     width: 100%;
@@ -191,4 +197,4 @@ const StyledScrapBookContainer = styled.div`
     justify-content: center;
 `;
 
-export default UserFeed;
+export default UserScrapbook;

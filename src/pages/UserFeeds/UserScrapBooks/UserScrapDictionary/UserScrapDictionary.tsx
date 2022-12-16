@@ -9,7 +9,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
-const ScrapDictionary: React.FC = () => {
+const UserScrapDictionary: React.FC = () => {
     interface IdicData {
         dictionaryId: number;
         pictureUrl: string;
@@ -27,7 +27,7 @@ const ScrapDictionary: React.FC = () => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/scraps`,
+                    `${BASEURL}/api/account/${sessionStorage.getItem('userId')}/scraps`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
@@ -108,4 +108,4 @@ const StyledDetailTitle = styled.div`
         color: #0d6637;
     }
 `;
-export default ScrapDictionary;
+export default UserScrapDictionary;

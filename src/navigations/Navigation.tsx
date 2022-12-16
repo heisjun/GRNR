@@ -36,6 +36,13 @@ import {
     UserFeed,
     UserPhoto,
     MyMagazine,
+    MyProfileEdit,
+    UserFollowing,
+    UserFollower,
+    UserScrapBook,
+    UserScrapPhoto,
+    UserScrapDictionary,
+    UserScrapMagazine,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -74,6 +81,7 @@ const Navigation: React.FC = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/mypage" element={<Myfeed />} />
                     <Route path="/mypage/profile" element={<Myfeed />} />
+                    <Route path="/mypage/profile/edit" element={<MyProfileEdit />} />
                     <Route path="/mypage/profile/myfeed" element={<Myfeed />} />
                     <Route path="/mypage/profile/following" element={<MyFollowing />} />
                     <Route path="/mypage/profile/follower" element={<MyFollower />} />
@@ -90,9 +98,16 @@ const Navigation: React.FC = () => {
                     <Route path="/mypage/mygarden/plants" element={<Myplants />} />
                     <Route path="/mypage/setting" element={null} />
                     <Route path="/mypage/setting/setting1" element={null} />
-                    <Route path="/userpage" element={<Login />} />
                     <Route path="/userpage/:id" element={<UserFeed />} />
                     <Route path="/userpage/photo/:id" element={<UserPhoto />} />
+                    <Route path="/userpage/following/:id" element={<UserFollowing />} />
+                    <Route path="/userpage/follower/:id" element={<UserFollower />} />
+                    <Route path="/userpage/magazine" element={<MyMagazine />} />
+                    <Route path="/userpage/question" element={<MyAnswer />} />
+                    <Route path="/userpage/scrapbook/:id" element={<UserScrapBook />} />
+                    <Route path="/userpage/scrapbook/photo/:id" element={<UserScrapPhoto />} />
+                    <Route path="/userpage/scrapbook/magazine/:id" element={<UserScrapMagazine />} />
+                    <Route path="/userpage/scrapbook/dictionary/:id" element={<UserScrapDictionary />} />
                 </Routes>
             </HeaderBar>
         </Router>

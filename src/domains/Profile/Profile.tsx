@@ -8,7 +8,6 @@ import { followercountState, followingcountState } from 'recoil/count';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
-
 const Profile: React.FC = () => {
     interface Iprofile {
         accountId: number;
@@ -58,7 +57,7 @@ const Profile: React.FC = () => {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-
+                console.log(myfeedData.data.value.accountDto);
                 setAccountDto(myfeedData.data.value.accountDto);
                 setFollowingCount(myfeedData.data.value.accountDto.followingCount);
                 setFollowerCount(myfeedData.data.value.accountDto.followerCount);
@@ -85,7 +84,7 @@ const Profile: React.FC = () => {
                         팔로잉 <span>{followerCount}</span>
                     </StyledFollowText>
                 </div>
-                <StyledEditButton>프로필수정</StyledEditButton>
+                <StyledEditButton onClick={() => navigate(`/mypage/profile/edit`)}>프로필수정</StyledEditButton>
                 <StyledBorderLine />
                 <StyledStatBlock>
                     <StyledScrapBlock onClick={() => navigate('/mypage/profile/scrapbook')}>
@@ -225,7 +224,6 @@ const StyledBorderLine = styled.div`
 
 const StyledEditButton = styled.div`
     margin-top: 26px;
-    width: 102px;
     height: 34px;
     box-sizing: border-box;
     padding: 7px 17px;
@@ -238,6 +236,7 @@ const StyledEditButton = styled.div`
     font-size: 14px;
     font-weight: 500;
     color: #444;
+    cursor: pointer;
 `;
 
 const StyledFollowText = styled.div`
