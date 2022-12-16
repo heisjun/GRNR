@@ -8,6 +8,7 @@ import { SubTabBar, MypageTabBar, Footer, Profile } from 'domains';
 import { headerItems, subTabBarItems } from 'navigations/data';
 import { WritingDropdown, MypageDropdown } from 'common/components';
 import { Login } from 'pages';
+import UserProfile from 'domains/UserProfile';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
@@ -189,7 +190,18 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                 <div>{children}</div>
                             </div>
                         ) : crntPath === 'userpage' ? (
-                            <StyledContentBlock>{children}</StyledContentBlock>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    width: '100%',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <div style={{ marginRight: 64 }}>
+                                    <UserProfile />
+                                </div>
+                                <div>{children}</div>
+                            </div>
                         ) : (
                             <StyledContentBlock>{children}</StyledContentBlock>
                         )}

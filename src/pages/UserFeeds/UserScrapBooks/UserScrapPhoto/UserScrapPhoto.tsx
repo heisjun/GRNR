@@ -1,41 +1,34 @@
 import styled from 'styled-components';
-import { ItemList } from 'common/components';
+import { ItemList, MyphotoItem } from 'common/components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import ScrapDictionaryItem from 'common/components/ScrapDictionaryItem';
-
-const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
-const ScrapDictionary: React.FC = () => {
-    interface IdicData {
-        dictionaryId: number;
+const UserScrapPhoto: React.FC = () => {
+    interface IpicData {
+        pictureId: number;
         pictureUrl: string;
-        korName: string;
-        engName: string;
+        likeCount: number;
+        scrapCount: number;
+        viewCount: number;
+        commentCount: number;
     }
 
-    const navigate = useNavigate();
-    const [dicData, setDicData] = useState<IdicData[]>([]);
-    const [dicCols, setDicCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
-    const [dicGap, setDicGap] = useState(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
-    const [dicVerticalGap, setDicVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 40 : 4);
+    const [picData, setPicData] = useState<IpicData[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/scraps`,
+                    `${BASEURL}/api/account/${sessionStorage.getItem('userId')}/scraps`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
                     },
                 );
-
-                setDicData(myfeedData.data.value.scrapDictionaryDtoList);
+                setPicData(myfeedData.data.value.scrapPictureDtoList);
             } catch (e) {
                 console.log(e);
             }
@@ -49,18 +42,18 @@ const ScrapDictionary: React.FC = () => {
                 <StyledContexTitle>스크랩북</StyledContexTitle>
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        식물사전 <span>{dicData.length}</span>
+                        사진 <span>{picData.length}</span>
                     </StyledDetailTitle>
                 </StyledDetailsBlock>
-                {dicData ? (
+                {picData ? (
                     <ItemList
                         width="100%"
-                        imgHeight="70%"
-                        cols={dicCols}
-                        horizontalGap={dicGap}
-                        verticalGap={dicVerticalGap}
-                        items={dicData}
-                        RenderComponent={ScrapDictionaryItem}
+                        imgHeight="115%"
+                        cols={4}
+                        horizontalGap={2}
+                        verticalGap={2}
+                        items={picData}
+                        RenderComponent={MyphotoItem}
                     />
                 ) : (
                     <div>게시글이 존재하지 않습니다</div>
@@ -108,4 +101,4 @@ const StyledDetailTitle = styled.div`
         color: #0d6637;
     }
 `;
-export default ScrapDictionary;
+export default UserScrapPhoto;

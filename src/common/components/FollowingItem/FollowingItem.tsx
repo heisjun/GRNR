@@ -15,8 +15,6 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
     const { data, setFunc, items } = props;
     const childRef = useRef<any>();
 
-    // AppSubChanged 컴포넌트의 increaseCount 함수 호출
-
     const [modal, setModal] = useState(false);
     const navigate = useNavigate();
 
@@ -124,12 +122,24 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         }
     };
 
+    const onGoUserPage = () => {
+        sessionStorage.setItem('userId', String(data.id));
+        navigate(`/userpage/${data.id}`);
+    };
+
     return (
         <StyledFollowingFeeds>
             <StyledFeedsBlock>
                 <StyledBlockHeader>
                     <StyledHeaderItem>
-                        <Avatar width="9%" paddingBottom="9%" borderRadius="100%" picUrl={data.accountProfileUrl} />
+                        <StyledAvatarBlock>
+                            <Avatar
+                                width="100%"
+                                paddingBottom="100%"
+                                borderRadius="100%"
+                                picUrl={data.accountProfileUrl}
+                            />
+                        </StyledAvatarBlock>
                         <div>
                             <StyledNickname> {data.accountNickName}</StyledNickname>
                             <StyledTime> {data.createTime}</StyledTime>
@@ -199,6 +209,11 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         </StyledFollowingFeeds>
     );
 };
+
+const StyledAvatarBlock = styled.div`
+    width: 46px;
+    height: 46px;
+`;
 
 const StyledOnClickBlock = styled.div`
     position: absolute;

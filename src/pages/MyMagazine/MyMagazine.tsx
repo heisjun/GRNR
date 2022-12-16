@@ -1,7 +1,4 @@
 import styled from 'styled-components';
-import { ItemList, MyphotoItem } from 'common/components';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';

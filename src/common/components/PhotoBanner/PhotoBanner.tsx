@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Avatar from '../Avatar';
 
@@ -9,12 +10,13 @@ const PhotoBanner = () => {
     interface IPopularPic {
         accountNickName: string;
         accountProfileUrl: string;
+        pictureId: number;
         firstContent: {
             explain: string;
             pictureUrl: string;
         };
     }
-
+    const navigate = useNavigate();
     const [popular1, setPopular1] = useState<IPopularPic[]>();
 
     useEffect(() => {
@@ -22,6 +24,7 @@ const PhotoBanner = () => {
             try {
                 const response = await axios.get(`${BASEURL}/api/picture/search?order=인기순`);
                 setPopular1(response.data.value.content);
+                console.log(response.data.value.content);
             } catch (e) {
                 console.log(e);
             }
@@ -41,7 +44,9 @@ const PhotoBanner = () => {
                         marginRight: 20,
                         backgroundImage: `url(${popular1 ? popular1[0].firstContent.pictureUrl : ''})`,
                         backgroundSize: 'cover',
+                        cursor: 'pointer',
                     }}
+                    onClick={() => navigate(`./details/${popular1 ? popular1[0].pictureId : ''}`)}
                 >
                     <StyledFirstBlock>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -74,7 +79,9 @@ const PhotoBanner = () => {
                             backgroundColor: 'gray',
                             backgroundImage: `url(${popular1 ? popular1[1].firstContent.pictureUrl : ''})`,
                             backgroundSize: 'cover',
+                            cursor: 'pointer',
                         }}
+                        onClick={() => navigate(`./details/${popular1 ? popular1[1].pictureId : ''}`)}
                     >
                         <StyledSecondBlock>
                             <StyledSecondContent>
@@ -89,7 +96,9 @@ const PhotoBanner = () => {
                             backgroundColor: 'gray',
                             backgroundImage: `url(${popular1 ? popular1[2].firstContent.pictureUrl : ''})`,
                             backgroundSize: 'cover',
+                            cursor: 'pointer',
                         }}
+                        onClick={() => navigate(`./details/${popular1 ? popular1[2].pictureId : ''}`)}
                     >
                         {' '}
                         <StyledSecondBlock>
