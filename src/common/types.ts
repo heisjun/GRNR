@@ -27,6 +27,7 @@ export type ICommentsParams = {
         report: boolean;
         parentId: null;
         likeCount: number;
+        accountId: number;
         accountNicName: string;
         accountProfileUrl: string;
         commentChildDtoList: {
@@ -36,6 +37,7 @@ export type ICommentsParams = {
             content: string;
             report: boolean;
             accountNicName: string;
+            accountId: number;
             accountProfileUrl: string;
             likeCount: number;
             commentNicNameList: {
@@ -56,6 +58,7 @@ export type ItestComments = {
     parentId: null;
     likeCount: number;
     accountNicName: string;
+    accountId: number;
     accountProfileUrl: string;
     commentChildDtoList: {
         parentId: number;
@@ -64,6 +67,7 @@ export type ItestComments = {
         content: string;
         report: boolean;
         accountNicName: string;
+        accountId: number;
         accountProfileUrl: string;
         likeCount: number;
         /*   commentNicNameList: {
@@ -125,6 +129,7 @@ export type IDictionaryDetailsParams = {
 
 export type IFollowingsParams = {
     id: number;
+    accountId: number;
     accountNickName: string;
     accountProfileUrl: string;
     pictureUrlList: [];

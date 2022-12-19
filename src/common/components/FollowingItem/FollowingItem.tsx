@@ -122,9 +122,13 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         }
     };
 
-    const onGoUserPage = () => {
-        sessionStorage.setItem('userId', String(data.id));
-        navigate(`/userpage/${data.id}`);
+    const onGoUserPage = (accountId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            sessionStorage.setItem('userId', String(accountId));
+            navigate(`/userpage/${accountId}`);
+        }
     };
 
     return (
@@ -132,7 +136,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
             <StyledFeedsBlock>
                 <StyledBlockHeader>
                     <StyledHeaderItem>
-                        <StyledAvatarBlock>
+                        <StyledAvatarBlock onClick={() => onGoUserPage(data.accountId)}>
                             <Avatar
                                 width="100%"
                                 paddingBottom="100%"
@@ -213,6 +217,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
 const StyledAvatarBlock = styled.div`
     width: 46px;
     height: 46px;
+    cursor: pointer;
 `;
 
 const StyledOnClickBlock = styled.div`

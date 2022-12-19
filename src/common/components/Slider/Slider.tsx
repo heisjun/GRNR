@@ -207,6 +207,11 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
         }
     };
 
+    const onGoUserPage = () => {
+        sessionStorage.setItem('userId', String(details?.accountId));
+        navigate(`/userpage/${details?.accountId}`);
+    };
+
     useEffect(() => {
         slideRef.current.style.transition = 'all 0.5s ease-in-out';
         slideRef.current.style.transform = `translateX(-${Slidetransform}%)`;
@@ -291,7 +296,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
                                 <StyledUserInfoBlock>
                                     <StyledProfileBlock>
                                         <StyledWriterBlock>
-                                            <StyeldAvatarBlock>
+                                            <StyeldAvatarBlock onClick={onGoUserPage}>
                                                 <Avatar
                                                     width="100%"
                                                     paddingBottom="100%"
