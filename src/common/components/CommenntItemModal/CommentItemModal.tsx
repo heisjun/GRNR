@@ -457,6 +457,15 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         }
     };
 
+    const onGoUserPage = (accountId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            sessionStorage.setItem('userId', String(accountId));
+            navigate(`/userpage/${accountId}`);
+        }
+    };
+
     return (
         <StyledCommentListContainer>
             {testComments &&
@@ -464,7 +473,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     return (
                         <StyledCommentListContainer key={index}>
                             <StyledCommentBlock>
-                                <StyledAvatarBlock>
+                                <StyledAvatarBlock onClick={() => onGoUserPage(item.accountId)}>
                                     <Avatar
                                         width="100%"
                                         paddingBottom="100%"
@@ -522,7 +531,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                     return (
                                         <div style={{ paddingLeft: 46 }} key={idx}>
                                             <div style={{ display: 'flex', width: '100%' }}>
-                                                <StyledAvatarBlock>
+                                                <StyledAvatarBlock onClick={() => onGoUserPage(recomment.accountId)}>
                                                     <Avatar
                                                         width="100%"
                                                         paddingBottom="100%"

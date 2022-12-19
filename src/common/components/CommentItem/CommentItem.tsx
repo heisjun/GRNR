@@ -20,6 +20,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const [details, setDetails] = useState<IPhotoDetailsParams>();
 
     console.log('testComments', testComments);
+    console.log('commentsList', commentsList);
 
     function onOpenBtn(index: number) {
         if (!TOKEN) {
@@ -457,6 +458,19 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         }
     };
 
+    const onGoUserPage = (accountId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            sessionStorage.setItem('userId', String(accountId));
+            {
+                accountId === Number(sessionStorage.getItem('accountId'))
+                    ? navigate('/mypage')
+                    : navigate(`/userpage/${accountId}`);
+            }
+        }
+    };
+
     return (
         <StyledCommentListContainer>
             <StyledCommentInfoBlock>
@@ -525,7 +539,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     return (
                         <StyledCommentListContainer key={index}>
                             <StyledCommentBlock>
-                                <StyledAvatarBlock>
+                                <StyledAvatarBlock onClick={() => onGoUserPage(item.accountId)}>
                                     <Avatar
                                         width="100%"
                                         paddingBottom="100%"
@@ -583,7 +597,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                     return (
                                         <div style={{ paddingLeft: 46 }} key={idx}>
                                             <div style={{ display: 'flex', width: '100%' }}>
-                                                <StyledAvatarBlock>
+                                                <StyledAvatarBlock onClick={() => onGoUserPage(recomment.accountId)}>
                                                     <Avatar
                                                         width="100%"
                                                         paddingBottom="100%"
@@ -784,6 +798,7 @@ const StyledAvatarBlock = styled.div`
     width: 36px;
     display: flex;
     align-items: flex-start;
+    cursor: pointer;
 `;
 
 const StyledcommentSubItemContainer = styled.div`
