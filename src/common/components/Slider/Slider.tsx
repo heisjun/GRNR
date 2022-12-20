@@ -209,7 +209,11 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
 
     const onGoUserPage = () => {
         sessionStorage.setItem('userId', String(details?.accountId));
-        navigate(`/userpage/${details?.accountId}`);
+        {
+            details?.accountId === Number(sessionStorage.getItem('accountId'))
+                ? navigate('/mypage')
+                : navigate(`/userpage/${details?.accountId}`);
+        }
     };
 
     useEffect(() => {

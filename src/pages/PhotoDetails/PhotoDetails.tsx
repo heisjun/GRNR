@@ -164,7 +164,11 @@ const PhotoDetails: React.FC = () => {
 
     const onGoUserPage = () => {
         sessionStorage.setItem('userId', String(details?.accountId));
-        navigate(`/userpage/${details?.accountId}`);
+        {
+            details?.accountId === Number(sessionStorage.getItem('accountId'))
+                ? navigate('/mypage')
+                : navigate(`/userpage/${details?.accountId}`);
+        }
     };
 
     const data = [
@@ -244,7 +248,7 @@ const PhotoDetails: React.FC = () => {
 
                                 <div>
                                     <StyledWriterNickname>{details?.accountNickName}</StyledWriterNickname>
-                                    <StyledWriterText>{details?.accountNickName}</StyledWriterText>
+                                    <StyledWriterText>{details?.selfInfo}</StyledWriterText>
                                 </div>
                             </StyledWriterBlock>
                         </StyledProfileBlock>

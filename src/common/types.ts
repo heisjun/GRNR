@@ -166,6 +166,7 @@ export type IPhotoDetailsParams = {
     likeCount: number;
     viewCount: number;
     accountId: number;
+    selfInfo: string;
     accountProfileUrl: string;
 };
 

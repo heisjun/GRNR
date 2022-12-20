@@ -127,7 +127,11 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
             navigate('/login');
         } else {
             sessionStorage.setItem('userId', String(accountId));
-            navigate(`/userpage/${accountId}`);
+            {
+                accountId === Number(sessionStorage.getItem('accountId'))
+                    ? navigate('/mypage')
+                    : navigate(`/userpage/${accountId}`);
+            }
         }
     };
 
