@@ -18,6 +18,7 @@ const UserProfile: React.FC = () => {
         scrapCount: number;
         likeCount: number;
         profileUrl: string;
+        selfInfo: string;
     }
     const navigate = useNavigate();
     const [accountDto, setAccountDto] = useState<IaccountDto>();

@@ -22,7 +22,7 @@ const MyProfileEdit: React.FC = () => {
     const [check, setCheck] = useState();
     const [profile, setProfile] = useState<Iprofile>();
     const [imageUrl, setImageUrl] = useState<any>(null);
-    const [imgfile, setImgFile] = useState<any>(null);
+    const [imgfile, setImgFile] = useState<File | null>(null);
     const imgRef = useRef<any>(null);
 
     useEffect(() => {
@@ -38,6 +38,8 @@ const MyProfileEdit: React.FC = () => {
                     ...inputs,
                     nickname: profileData.data.value.nickName,
                     introduction: profileData.data.value.selfInfo,
+                    email: profileData.data.value.email.split('@')[0],
+                    domain: profileData.data.value.email.split('@')[1],
                 });
             } catch (e) {
                 console.log(e);
@@ -50,8 +52,9 @@ const MyProfileEdit: React.FC = () => {
         nickname: '',
         introduction: '',
         email: '',
+        domain: '',
     });
-    const { nickname, introduction, email } = inputs;
+    const { nickname, introduction, email, domain } = inputs;
 
     const CheckNickname = async () => {
         try {
@@ -68,11 +71,11 @@ const MyProfileEdit: React.FC = () => {
 
     const handleClick = async () => {
         CheckNickname();
+        if (!imgfile) return;
         const formData = new FormData();
         const dataToSend = {
-            selfInfo: inputs.introduction,
             nickName: inputs.nickname,
-            tos: 'yes',
+            selfInfo: inputs.introduction,
         };
         if (!dataToSend.nickName) {
             setError('닉네임을 입력하세요');
@@ -88,23 +91,19 @@ const MyProfileEdit: React.FC = () => {
         }
         const accountUpdateDto = JSON.stringify(dataToSend);
         console.log(accountUpdateDto);
+        console.log(imgfile);
 
         formData.append('accountUpdateDto', new Blob([accountUpdateDto], { type: 'application/json' }));
         formData.append('file', imgfile);
 
-        /*   const body = {
-            address: `${inputs.introduction}`,
-            nickName: inputs.nickname,
-            tos: 'yes',
-        };
-
-        const res = await axios.put(`https://www.gardenersclub.co.kr/api/api/register`, body, {
+        const res = await axios.put(`${BASEURL}/api/profile/update`, formData, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
-        if (res.status === 201) console.log(res.data); */
+        alert('수정되었습니다');
+        if (res.status === 201) console.log(res.data);
     };
 
     const handleInput = (e: { target: { name: string; value: string } }) => {
@@ -153,7 +152,7 @@ const MyProfileEdit: React.FC = () => {
                             <StyledEmailBlock>
                                 <StyledInput type="text" value={email} onChange={handleInput} error={false} readOnly />
                                 <span>@</span>
-                                <StyledInput type="text" value={email} onChange={handleInput} error={false} readOnly />
+                                <StyledInput type="text" value={domain} onChange={handleInput} error={false} readOnly />
                             </StyledEmailBlock>
                             <StyledEmailMessage>
                                 이메일을 변경하시려면 운영자에게 이메일을 보내주세요

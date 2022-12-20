@@ -462,7 +462,11 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             navigate('/login');
         } else {
             sessionStorage.setItem('userId', String(accountId));
-            navigate(`/userpage/${accountId}`);
+            {
+                accountId === Number(sessionStorage.getItem('accountId'))
+                    ? navigate('/mypage')
+                    : navigate(`/userpage/${accountId}`);
+            }
         }
     };
 
@@ -797,6 +801,7 @@ const StyledAvatarBlock = styled.div`
     width: 36px;
     display: flex;
     align-items: flex-start;
+    cursor: pointer;
 `;
 
 const StyledcommentSubItemContainer = styled.div`

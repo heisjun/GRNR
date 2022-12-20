@@ -14,7 +14,7 @@ const Profile: React.FC = () => {
         nickName: string;
         address: string;
         homePage: null;
-        selfInfo: null;
+        selfInfo: string;
         profileUrl: string;
     }
     interface IaccountDto {
@@ -123,7 +123,7 @@ const Profile: React.FC = () => {
                 </StyledFeedNav>
                 <StyledFeedNav
                     nav={
-                        location.pathname === '/mypage/profile/scrapbook/' ||
+                        location.pathname === '/mypage/profile/scrapbook' ||
                         location.pathname === '/mypage/profile/scrapbook/photo' ||
                         location.pathname === '/mypage/profile/scrapbook/dictionary' ||
                         location.pathname === '/mypage/profile/scrapbook/magazine'
