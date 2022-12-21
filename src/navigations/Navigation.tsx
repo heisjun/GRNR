@@ -43,6 +43,7 @@ import {
     UserScrapPhoto,
     UserScrapDictionary,
     UserScrapMagazine,
+    MyAlarm,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -79,6 +80,7 @@ const Navigation: React.FC = () => {
                     <Route path="/community/dictionary/details/:id" element={<DictionaryDetails />} />
                     <Route path="/register/oauth2/token/gardener" element={<RegisterProcess />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/myalarm" element={<MyAlarm />} />
                     <Route path="/mypage" element={<Myfeed />} />
                     <Route path="/mypage/profile" element={<Myfeed />} />
                     <Route path="/mypage/profile/edit" element={<MyProfileEdit />} />

@@ -326,8 +326,6 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
 
             commentChildDtoList.push(newComment);
 
-            console.log('테스트:', commentChildDtoList);
-
             setTestComments(
                 testComments.map((it) =>
                     it.commentId === commentId ? { ...it, commentChildDtoList: commentChildDtoList } : it,

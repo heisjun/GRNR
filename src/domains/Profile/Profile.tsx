@@ -8,6 +8,7 @@ import { followercountState, followingcountState } from 'recoil/count';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
+
 const Profile: React.FC = () => {
     interface Iprofile {
         accountId: number;
@@ -57,7 +58,6 @@ const Profile: React.FC = () => {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-                console.log(myfeedData.data.value.accountDto);
                 setAccountDto(myfeedData.data.value.accountDto);
                 setFollowingCount(myfeedData.data.value.accountDto.followingCount);
                 setFollowerCount(myfeedData.data.value.accountDto.followerCount);

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { UserInfo } from 'recoil/auth';
 import { IHeaderBar } from './HeaderBar.type';
 import { SubTabBar, MypageTabBar, Footer, Profile } from 'domains';
@@ -9,10 +9,15 @@ import { headerItems, subTabBarItems } from 'navigations/data';
 import { WritingDropdown, MypageDropdown } from 'common/components';
 import { Login } from 'pages';
 import UserProfile from 'domains/UserProfile';
+import axios from 'axios';
+import { AlarmcountState } from 'recoil/count';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
+
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = sessionStorage.getItem('accesstoken');
 
 const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const { children } = props;
@@ -26,6 +31,11 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [crntPage, setCrntPage] = useState<number>(0);
     const [crntPath, setCrntPath] = useState<string>('');
     const [isActive, setIsActive] = useState(false);
+    interface IAlram {
+        value: number;
+    }
+    const [alarm, setAlarm] = useState<IAlram>();
+    const [alarmCount, setAlarmCount] = useRecoilState(AlarmcountState);
 
     const { isLogin } = useRecoilValue(UserInfo);
 
@@ -74,6 +84,25 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     useEffect(() => {
         setOverPage(crntPage);
     }, [crntPage]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASEURL}/api/alarm/view/check`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+                setAlarm(response.data);
+                setAlarmCount(response.data.value);
+                console.log('알람수', response.data);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     if (isLogin === true) {
         if (
@@ -152,7 +181,12 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     {isActive && <StyledSearchBaInput />}
                                     <StyledSearchBar src={'/btnSearch.png'} onClick={() => setIsActive(!isActive)} />
 
-                                    <StyledSearchBar src={'/btnAlarm.png'} />
+                                    <StyledAlarm src={'/btnAlarm.png'} onClick={() => nav('/myalarm')} />
+                                    {alarmCount === 0 ? null : (
+                                        <StyledAlarmDot>
+                                            <span>{alarmCount}</span>
+                                        </StyledAlarmDot>
+                                    )}
                                     <MypageDropdown />
                                     <WritingDropdown />
                                 </StyledButtonsCotainer>
@@ -373,6 +407,31 @@ const StyledSearchBar = styled.img`
     padding-right: 20px;
 `;
 
+const StyledAlarm = styled.img`
+    height: 30px;
+    width: 30px;
+    padding-right: 20px;
+    position: relative;
+    cursor: pointer;
+`;
+
+const StyledAlarmDot = styled.div`
+    height: 15px;
+    width: 15px;
+    background-color: green;
+    border-radius: 100%;
+    position: absolute;
+    margin-left: 65px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+        color: white;
+        font-size: 11px;
+        font-weight: bold;
+    }
+`;
 const StyledSubTabBarBlock = styled.div`
     position: fixed;
     width: 100%;

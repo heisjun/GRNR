@@ -24,7 +24,6 @@ const PhotoBanner = () => {
             try {
                 const response = await axios.get(`${BASEURL}/api/picture/search?order=인기순`);
                 setPopular1(response.data.value.content);
-                console.log(response.data.value.content);
             } catch (e) {
                 console.log(e);
             }

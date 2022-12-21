@@ -169,7 +169,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
         }
         const followData = { followingName: followingName };
         const saveFollowDto = JSON.stringify(followData);
-        console.log(saveFollowDto);
+
         try {
             await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
                 headers: {
@@ -191,7 +191,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
         }
         const followData = { followingName: followingName };
         const saveFollowDto = JSON.stringify(followData);
-        console.log(saveFollowDto);
+
         try {
             await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
                 headers: {
