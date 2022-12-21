@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { useState, useEffect, SetStateAction, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { AgreeBox } from 'domains';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { default as callApi } from 'common/api';
 import { getDebouncedFunc } from 'common/funcs';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
@@ -231,9 +230,9 @@ const Register: React.FC = () => {
                             {addressData &&
                                 addressData.map((item: any, index: number) => {
                                     return (
-                                        <div onClick={() => onClickAddressItem(item.home)} key={index}>
+                                        <StyledAdressList onClick={() => onClickAddressItem(item.home)} key={index}>
                                             {item.home}
-                                        </div>
+                                        </StyledAdressList>
                                     );
                                 })}
                         </div>
@@ -281,6 +280,15 @@ const StyledRegisterContainer = styled.div`
     background-color: white;
     display: flex;
     flex-direction: column;
+`;
+
+const StyledAdressList = styled.div`
+    background-color: white;
+    cursor: pointer;
+    :hover {
+        background-color: silver;
+    }
+    padding: 2px 0px;
 `;
 
 const StyledRegisterBlock = styled.div`

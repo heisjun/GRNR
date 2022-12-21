@@ -3,8 +3,6 @@ import { Avatar } from 'common/components';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { followercountState } from 'recoil/count';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
@@ -19,7 +17,6 @@ const UserFollowing: React.FC = () => {
         myFollow: boolean;
     }
     const [following, setFollowing] = useState<Ifollowing[]>([]);
-    const [followerCount, setFollowerCount] = useRecoilState(followercountState);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -79,6 +76,15 @@ const UserFollowing: React.FC = () => {
             console.log(e);
         }
     };
+
+    const onGoUserPage = (accountId: number) => {
+        sessionStorage.setItem('userId', String(accountId));
+        {
+            accountId === Number(sessionStorage.getItem('accountId'))
+                ? navigate('/mypage')
+                : navigate(`/userpage/${accountId}`);
+        }
+    };
     return (
         <StyledMyphotoContainer>
             <StyledContextContainer>
@@ -86,14 +92,14 @@ const UserFollowing: React.FC = () => {
                 {following.map((item, index) => {
                     return (
                         <StyledFollowingContainer key={index}>
-                            <div style={{ width: 60, marginRight: 19 }}>
+                            <StyledAvatarBlock onClick={() => onGoUserPage(item.accountId)}>
                                 <Avatar
                                     width="100%"
                                     paddingBottom="100%"
                                     borderRadius="100%"
                                     picUrl={item.profileUrl}
                                 />
-                            </div>
+                            </StyledAvatarBlock>
                             <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
                                 <StyledUserNickname>{item.nickName}</StyledUserNickname>
                                 <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
@@ -133,6 +139,12 @@ const StyledContexTitle = styled.div`
     letter-spacing: normal;
     color: #272727;
     margin-bottom: 30px;
+`;
+
+const StyledAvatarBlock = styled.div`
+    width: 60px;
+    margin-right: 19px;
+    cursor: pointer;
 `;
 
 const StyledFollowingBtn = styled.div`

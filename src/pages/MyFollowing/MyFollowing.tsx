@@ -81,6 +81,16 @@ const MyFollowing: React.FC = () => {
             console.log(e);
         }
     };
+
+    const onGoUserPage = (accountId: number) => {
+        sessionStorage.setItem('userId', String(accountId));
+        {
+            accountId === Number(sessionStorage.getItem('accountId'))
+                ? navigate('/mypage')
+                : navigate(`/userpage/${accountId}`);
+        }
+    };
+
     return (
         <StyledMyphotoContainer>
             <StyledContextContainer>
@@ -88,14 +98,14 @@ const MyFollowing: React.FC = () => {
                 {following.map((item, index) => {
                     return (
                         <StyledFollowingContainer key={index}>
-                            <div style={{ width: 60, marginRight: 19 }}>
+                            <StyledAvatarBlock onClick={() => onGoUserPage(item.accountId)}>
                                 <Avatar
                                     width="100%"
                                     paddingBottom="100%"
                                     borderRadius="100%"
                                     picUrl={item.profileUrl}
                                 />
-                            </div>
+                            </StyledAvatarBlock>
                             <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
                                 <StyledUserNickname>{item.nickName}</StyledUserNickname>
                                 <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
@@ -125,6 +135,11 @@ const StyledFollowingContainer = styled.div`
     border-bottom: 1px solid #ececec;
 `;
 
+const StyledAvatarBlock = styled.div`
+    width: 60px;
+    margin-right: 19px;
+    cursor: pointer;
+`;
 const StyledContexTitle = styled.div`
     font-family: NotoSansKR;
     font-size: 30px;
