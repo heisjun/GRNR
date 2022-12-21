@@ -30,6 +30,7 @@ export { default as NotFound } from './NotFound';
 export { default as MyFollowing } from './MyFollowing';
 export { default as MyFollower } from './MyFollower';
 export { default as MyProfileEdit } from './MyProfileEdit';
+export { default as MyAlarm } from './MyAlarm';
 export { default as UpdatePhoto } from './Revise/Photo';
 export { default as MagazineDetails } from './MagazineDetails';
 export { default as KakaoLogin } from './KakaoLogin';

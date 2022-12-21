@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
+
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
 
@@ -70,40 +71,75 @@ const MyProfileEdit: React.FC = () => {
     };
 
     const handleClick = async () => {
-        CheckNickname();
-        if (!imgfile) return;
-        const formData = new FormData();
-        const dataToSend = {
-            nickName: inputs.nickname,
-            selfInfo: inputs.introduction,
-        };
-        if (!dataToSend.nickName) {
-            setError('닉네임을 입력하세요');
-            return;
-        } else if (nickError) {
-            setError('닉네임을 확인해주세요');
-            return;
-        } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
-            setError('이미 사용중인 닉네임입니다. 다른 닉네임으로 만들어주세요');
-            return;
+        if (!imgfile) {
+            console.log('이미지 없는버전');
+            CheckNickname();
+            const formData = new FormData();
+            const dataToSend = {
+                nickName: inputs.nickname,
+                selfInfo: inputs.introduction,
+            };
+            if (!dataToSend.nickName) {
+                setError('닉네임을 입력하세요');
+                return;
+            } else if (nickError) {
+                setError('닉네임을 확인해주세요');
+                return;
+            } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
+                setError('이미 사용중인 닉네임입니다. 다른 닉네임으로 만들어주세요');
+                return;
+            } else {
+                setError('');
+            }
+            const accountUpdateDto = JSON.stringify(dataToSend);
+            console.log(accountUpdateDto);
+            formData.append('accountUpdateDto', new Blob([accountUpdateDto], { type: 'application/json' }));
+
+            const res = await axios.put(`${BASEURL}/api/profile/update`, formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            alert('수정되었습니다');
+            window.location.replace('/mypage/profile/edit');
+            if (res.status === 201) console.log(res.data);
         } else {
-            setError('');
+            console.log('이미지 있는 버전');
+            CheckNickname();
+            const formData = new FormData();
+            const dataToSend = {
+                nickName: inputs.nickname,
+                selfInfo: inputs.introduction,
+            };
+            if (!dataToSend.nickName) {
+                setError('닉네임을 입력하세요');
+                return;
+            } else if (nickError) {
+                setError('닉네임을 확인해주세요');
+                return;
+            } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
+                setError('이미 사용중인 닉네임입니다. 다른 닉네임으로 만들어주세요');
+                return;
+            } else {
+                setError('');
+            }
+            const accountUpdateDto = JSON.stringify(dataToSend);
+            console.log(accountUpdateDto);
+            console.log(imgfile);
+            formData.append('accountUpdateDto', new Blob([accountUpdateDto], { type: 'application/json' }));
+            formData.append('file', imgfile);
+
+            const res = await axios.put(`${BASEURL}/api/profile/update`, formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            alert('수정되었습니다');
+            window.location.replace('/mypage/profile/edit');
+            if (res.status === 201) console.log(res.data);
         }
-        const accountUpdateDto = JSON.stringify(dataToSend);
-        console.log(accountUpdateDto);
-        console.log(imgfile);
-
-        formData.append('accountUpdateDto', new Blob([accountUpdateDto], { type: 'application/json' }));
-        formData.append('file', imgfile);
-
-        const res = await axios.put(`${BASEURL}/api/profile/update`, formData, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${TOKEN}`,
-            },
-        });
-        alert('수정되었습니다');
-        if (res.status === 201) console.log(res.data);
     };
 
     const handleInput = (e: { target: { name: string; value: string } }) => {

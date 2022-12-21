@@ -19,9 +19,6 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const [isActive, setIsActive] = useState([false]);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
 
-    console.log('testComments', testComments);
-    console.log('commentsList', commentsList);
-
     function onOpenBtn(index: number) {
         if (!TOKEN) {
             navigate('/login');

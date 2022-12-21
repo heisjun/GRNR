@@ -53,7 +53,7 @@ const UserProfile: React.FC = () => {
                     <Avatar width="100%" paddingBottom="100%" borderRadius="100%" picUrl={accountDto?.profileUrl} />
                 </StyledAvatarBlock>
                 <StyledNameText>{accountDto?.nickName}</StyledNameText>
-                <StyledIntroText>{'소개글을 작성하세요'}</StyledIntroText>
+                <StyledIntroText>{accountDto?.selfInfo}</StyledIntroText>
                 <div style={{ display: 'flex' }}>
                     <StyledFollowText onClick={() => navigate(`/userpage/follower/${accountDto?.accountId}`)}>
                         팔로워 <span>{followingCount}</span>
