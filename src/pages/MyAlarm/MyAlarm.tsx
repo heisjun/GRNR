@@ -22,6 +22,7 @@ const MyAlarm: React.FC = () => {
         alarmCheck: false;
         alarmId: number;
         postPic: string;
+        accountPic: string;
     }
     const [alarm, setAlarm] = useState<IAlram[]>([]);
     const [alarmCount, setAlarmCount] = useRecoilState(AlarmcountState);
@@ -86,7 +87,7 @@ const MyAlarm: React.FC = () => {
                         check={item.alarmCheck}
                     >
                         <div style={{ width: 60, marginRight: 19 }}>
-                            <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
+                            <Avatar width="100%" paddingBottom="100%" borderRadius="100%" picUrl={item.accountPic} />
                         </div>
                         <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
                             <StyledUserNickname>{item.alarmContent}</StyledUserNickname>
