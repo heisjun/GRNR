@@ -4,10 +4,12 @@ import FollowingItem from 'common/components/FollowingItem';
 import { FadeIn, FadeOut } from 'common/keyframes';
 import axios from 'axios';
 import { IFollowingsParams } from 'common/types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { headerItems, subTabBarItems } from 'navigations/data';
 import { MypageDropdown, WritingDropdown } from 'common/components';
 import { SubTabBar } from 'domains';
+import { useRecoilState } from 'recoil';
+import { AlarmcountState } from 'recoil/count';
 
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -26,6 +28,12 @@ const Following: React.FC = () => {
     const [crntPage, setCrntPage] = useState<number>(0);
     const [crntPath, setCrntPath] = useState<string>('');
     const [isActive, setIsActive] = useState(false);
+    interface IAlram {
+        value: number;
+    }
+    const [alarm, setAlarm] = useState<IAlram>();
+    const [alarmCount, setAlarmCount] = useRecoilState(AlarmcountState);
+    const nav = useNavigate();
 
     useEffect(() => {
         if (!TOKEN) {
@@ -48,6 +56,25 @@ const Following: React.FC = () => {
             };
             fetchData();
         }
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASEURL}/api/alarm/view/check`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+                setAlarm(response.data);
+                setAlarmCount(response.data.value);
+                console.log('알람수', response.data);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -115,7 +142,12 @@ const Following: React.FC = () => {
                             {isActive && <StyledSearchBaInput />}
                             <StyledSearchBar src={'/btnSearch.png'} onClick={() => setIsActive(!isActive)} />
 
-                            <StyledSearchBar src={'/btnAlarm.png'} />
+                            <StyledAlarm src={'/btnAlarm.png'} onClick={() => nav('/myalarm')} />
+                            {alarmCount === 0 ? null : (
+                                <StyledAlarmDot>
+                                    <span>{alarmCount}</span>
+                                </StyledAlarmDot>
+                            )}
                             <MypageDropdown />
                             <WritingDropdown />
                         </StyledButtonsCotainer>
@@ -152,6 +184,32 @@ const StyledFollowingContainer = styled.div<{ pageAnim: any }>`
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
     background-color: #f5f5f5;
+`;
+
+const StyledAlarm = styled.img`
+    height: 30px;
+    width: 30px;
+    padding-right: 20px;
+    position: relative;
+    cursor: pointer;
+`;
+
+const StyledAlarmDot = styled.div`
+    height: 15px;
+    width: 15px;
+    background-color: green;
+    border-radius: 100%;
+    position: absolute;
+    margin-left: 65px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+        color: white;
+        font-size: 11px;
+        font-weight: bold;
+    }
 `;
 
 const StyledLogoImg = styled.img`
