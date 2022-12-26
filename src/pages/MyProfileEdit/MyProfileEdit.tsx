@@ -66,7 +66,7 @@ const MyProfileEdit: React.FC = () => {
             });
             setCheck(response.data.value);
         } catch (e) {
-            console.log(e);
+            alert('사용할 수 없는 닉네임 입니다');
         }
     };
 

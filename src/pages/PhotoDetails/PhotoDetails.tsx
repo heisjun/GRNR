@@ -207,7 +207,7 @@ const PhotoDetails: React.FC = () => {
         <StyledPhotoDetailsContainer>
             <div style={{ width: 720, margin: 'auto' }}>
                 <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
-                    <ReportModal setOpenModal={setOpenModal} reportId={params.id} />
+                    <ReportModal setOpenModal={setOpenModal} reportId={params.id} type={'photo'} />
                 </Modal>
                 <StyledDetailsBlock>
                     <StyledTopTextBlock>
@@ -378,14 +378,14 @@ const StyledUserInfoBlock = styled.div`
 `;
 
 const customStyles = {
-    overlay: {
+    /*  overlay: {
         backgroundColor: 'rgba(0,0,0,0.5)',
-    },
+    }, */
     content: {
         left: '0',
         margin: 'auto',
-        width: '300px',
-        height: '400px',
+        width: '250px',
+        height: '350px',
         padding: '0',
         overflow: 'hidden',
     },

@@ -7,6 +7,8 @@ import { ICommentItem } from './CommentItem.type';
 import { default as callApi } from 'common/api';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { IPhotoDetailsParams } from 'common/types';
+import Modal from 'react-modal';
+import ReportModal from 'common/components/ReportModal';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
@@ -16,16 +18,21 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const { commentsList, setCommentsList, pictureId, category, testComments, setTestComments } = props;
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
+    const [tagNickName, setTagNickName] = useState('');
     const [isActive, setIsActive] = useState([false]);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
+    const [openModal, setOpenModal] = useState(false);
+    const [reportId, setReportId] = useState<number>();
 
-    function onOpenBtn(index: number) {
+    function onOpenBtn(index: number, tagNickName: string) {
         if (!TOKEN) {
             navigate('/login');
         }
-        const newIsActive = [...isActive];
+        const newIsActive = [false];
         newIsActive[index] = true;
         setIsActive(newIsActive);
+        setTagNickName(tagNickName);
+        setRecomment('@' + tagNickName + ' ');
     }
 
     function onCloseBtn(index: number) {
@@ -339,7 +346,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         }
     };
 
-    const onCommentReport = async (commentId: number) => {
+    /*  const onCommentReport = async (commentId: number) => {
         if (!TOKEN) {
             navigate('/login');
         }
@@ -356,7 +363,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         );
 
         if (res.status === 201) console.log(res.data);
-    };
+    }; */
 
     const onPhotoLike = async () => {
         if (!TOKEN) {
@@ -470,6 +477,14 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
 
     return (
         <StyledCommentListContainer>
+            <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
+                <ReportModal
+                    setOpenModal={setOpenModal}
+                    reportId={String(reportId)}
+                    category={category}
+                    type={'comment'}
+                />
+            </Modal>
             <StyledCommentInfoBlock>
                 <div style={{ display: 'flex' }}>
                     <div
@@ -574,12 +589,17 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                 {isActive[index] ? (
                                     <StyledcommentSubItem onClick={() => onCloseBtn(index)}>닫기</StyledcommentSubItem>
                                 ) : (
-                                    <StyledcommentSubItem onClick={() => onOpenBtn(index)}>
+                                    <StyledcommentSubItem onClick={() => onOpenBtn(index, item.accountNicName)}>
                                         답글달기
                                     </StyledcommentSubItem>
                                 )}
                                 {item.accountNicName !== sessionStorage.getItem('nickName') && (
-                                    <StyledcommentSubItem onClick={() => onCommentReport(item.commentId)}>
+                                    <StyledcommentSubItem
+                                        onClick={() => {
+                                            setReportId(item.commentId);
+                                            setOpenModal(!openModal);
+                                        }}
+                                    >
                                         신고
                                     </StyledcommentSubItem>
                                 )}
@@ -651,12 +671,17 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                 <StyledcommentSubItem>
                                                     좋아요 {recomment.likeCount} 개
                                                 </StyledcommentSubItem>
-                                                <StyledcommentSubItem onClick={() => onOpenBtn(index)}>
+                                                <StyledcommentSubItem
+                                                    onClick={() => onOpenBtn(index, recomment.accountNicName)}
+                                                >
                                                     답글달기
                                                 </StyledcommentSubItem>
                                                 {recomment.accountNicName !== sessionStorage.getItem('nickName') && (
                                                     <StyledcommentSubItem
-                                                        onClick={() => onCommentReport(recomment.commentId)}
+                                                        onClick={() => {
+                                                            setReportId(recomment.commentId);
+                                                            setOpenModal(!openModal);
+                                                        }}
                                                     >
                                                         신고
                                                     </StyledcommentSubItem>
@@ -679,8 +704,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                     style={{
                                         display: 'flex',
                                         marginBottom: 10,
-                                        marginLeft: 36,
-                                        justifyContent: 'space-between',
+                                        marginLeft: 46,
                                     }}
                                 >
                                     <StyledAvatarBlock>
@@ -692,7 +716,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                         />
                                     </StyledAvatarBlock>
 
-                                    <input
+                                    {/* <input
                                         type="text"
                                         value={recomment}
                                         style={{
@@ -722,7 +746,26 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                         }}
                                     >
                                         입력
-                                    </button>
+                                    </button> */}
+                                    <StyledRecommentInputContainer>
+                                        <StyledRecommentInputBox
+                                            type="text"
+                                            value={recomment}
+                                            placeholder="댓글을 입력해주세요"
+                                            onChange={(e) => {
+                                                setRecomment(e.target.value);
+                                            }}
+                                        />
+                                        <StyledInputBtn
+                                            onClick={() => {
+                                                onReCommentSave(item.commentId, recomment);
+                                                onCloseBtn(index);
+                                                setRecomment('');
+                                            }}
+                                        >
+                                            게시
+                                        </StyledInputBtn>
+                                    </StyledRecommentInputContainer>
                                 </div>
                             )}
                         </StyledCommentListContainer>
@@ -746,9 +789,25 @@ const StyledInputContainer = styled.div`
     margin-bottom: 15px;
 `;
 
+const StyledRecommentInputContainer = styled.div`
+    margin-left: 10px;
+    position: relative;
+`;
+
 const StyledInputBox = styled.input`
     box-sizing: border-box;
     width: 720px;
+    height: 50px;
+    font-size: 15px;
+    padding-left: 10px;
+    background-color: #fafafa;
+    border: 1px solid #b9b9b9;
+    color: #b9b9b9;
+`;
+
+const StyledRecommentInputBox = styled.input`
+    box-sizing: border-box;
+    width: 630px;
     height: 50px;
     font-size: 15px;
     padding-left: 10px;
@@ -818,4 +877,18 @@ const StyledInfoIcon = styled.img`
     margin-right: 6px;
     cursor: pointer;
 `;
+
+const customStyles = {
+    /*  overlay: {
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    }, */
+    content: {
+        left: '0',
+        margin: 'auto',
+        width: '250px',
+        height: '350px',
+        padding: '0',
+        overflow: 'hidden',
+    },
+};
 export default CommentItemModal;

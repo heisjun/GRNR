@@ -17,6 +17,7 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
+
 export const Slider = forwardRef((props: ISlider, ref: any) => {
     const { item } = props;
 
@@ -39,7 +40,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
         },
     }));
 
-    useEffect(() => {
+    /* useEffect(() => {
         function handleClickOutside(e: MouseEvent): void {
             if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
                 setIsOpenModal(false);
@@ -49,7 +50,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [dropdownListRef]);
+    }, [dropdownListRef]); */
 
     const NextSlide = () => {
         if (currentSlide >= TOTAL_SLIDES) {

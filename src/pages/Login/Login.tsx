@@ -10,9 +10,14 @@ const Login: React.FC = () => {
 
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
     const KAKAO_AUTH_URL = `https://www.gardenersclub.co.kr/api/oauth2/authorization/kakao?redirect_uri=${REDIRECT_URI_AFTER_LOGIN}`;
+    const NAVER_AUTH_URL = `https://www.gardenersclub.co.kr/api/login/oauth2/code/naver?redirect_uri=${REDIRECT_URI_AFTER_LOGIN}`;
 
     const handleLogin = () => {
         window.location.href = KAKAO_AUTH_URL;
+    };
+
+    const handleNaverLogin = () => {
+        window.location.href = NAVER_AUTH_URL;
     };
 
     const onTalkButton = () => {
@@ -30,7 +35,7 @@ const Login: React.FC = () => {
                     <p>에 가입해보세요</p>
                 </StyledBasicText>
                 <StyledLoginImg src="/kakao_login.png" onClick={handleLogin} />
-                <StyledLoginImg src="/naver_login.png" />
+                <StyledLoginImg src="/naver_login.png" onClick={handleNaverLogin} />
                 <StyledButton onClick={onTalkButton}>
                     <StyledLoginText>로컬로그인</StyledLoginText>
                 </StyledButton>

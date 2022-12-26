@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IReportModal } from './ReportModal.type';
 
@@ -7,29 +8,50 @@ const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
 
 const ReportModal: React.FC<IReportModal> = (props) => {
-    const { setOpenModal, reportId } = props;
+    const { setOpenModal, reportId, category, type } = props;
+    const navigate = useNavigate();
     const [filterValue, setFilterValue] = useState({ report: '' });
     const handleChange = (e: { target: { name: string; value: string } }) => {
         const { name, value } = e.target;
         setFilterValue({ report: value });
-        console.log(filterValue.report);
     };
 
-    const onPhotoReport = async (pictureId: number) => {
-        const res = await axios.put(
-            `${BASEURL}/api/picture/${pictureId}/report?report=${filterValue.report}
+    const onClickReport = async (reportId: number) => {
+        if (type === 'photo') {
+            console.log('사진신고중');
+            const res = await axios.put(
+                `${BASEURL}/api/picture/${reportId}/report?report=${filterValue.report}
         `,
-            {},
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${TOKEN}`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
                 },
-            },
-        );
-
-        if (res.status === 201) console.log(res.data);
+            );
+            setOpenModal(false);
+            window.location.replace('/community/photo');
+            if (res.status === 201) console.log(res.data);
+        } else if (type === 'comment') {
+            console.log('댓글신고중');
+            const res = await axios.put(
+                `${BASEURL}/api/${category}/comment/${reportId}/report?report=신고된 댓글입니다
+            `,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            setOpenModal(false);
+            window.location.replace('./');
+            if (res.status === 201) console.log(res.data);
+        }
     };
+
     return (
         <StyledReportContainer>
             <StyledReportTitle>신고 사유를 선택하세요</StyledReportTitle>
@@ -60,7 +82,7 @@ const ReportModal: React.FC<IReportModal> = (props) => {
                 </StyledReasonItem>
             </StyledReasonContainer>
             <StyledButtonContainer>
-                <StyledReportButton onClick={() => onPhotoReport(Number(reportId))}>신고하기</StyledReportButton>
+                <StyledReportButton onClick={() => onClickReport(Number(reportId))}>신고하기</StyledReportButton>
                 <StyledReportButton onClick={() => setOpenModal(false)}>닫기</StyledReportButton>
             </StyledButtonContainer>
         </StyledReportContainer>
@@ -77,38 +99,39 @@ const StyledReportContainer = styled.div`
 
 const StyledReportTitle = styled.div`
     font-size: 30;
-    padding-bottom: 20;
+    margin-bottom: 25px;
     font-weight: bold;
-    height: 10%;
 `;
 
 const StyledReasonContainer = styled.div`
     display: flex;
     flex-direction: column;
-    height: 60%;
 `;
 
 const StyledReasonItem = styled.div`
     font-size: 15px;
     padding-bottom: 10px;
     font-weight: 300;
+    input {
+        cursor: pointer;
+    }
 `;
 
 const StyledButtonContainer = styled.div`
     display: flex;
     flex-direction: column;
-    height: 30%;
-    width: 100%;
+    margin-top: 10px;
+    width: 200px;
 `;
 
 const StyledReportButton = styled.button`
     padding: 5px;
     margin-top: 10px;
-    font-size: 20px;
+    font-size: 15px;
     border: none;
-    border-radius: 5px;
+    cursor: pointer;
     :hover {
-        background-color: gray;
+        background-color: #0d6637;
         color: white;
     }
 `;

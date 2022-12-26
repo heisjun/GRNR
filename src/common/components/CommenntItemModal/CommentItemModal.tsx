@@ -7,6 +7,8 @@ import { ICommentItem } from './CommentItemModal.type';
 import { default as callApi } from 'common/api';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { IPhotoDetailsParams } from 'common/types';
+import Modal from 'react-modal';
+import ReportModal from 'common/components/ReportModal';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
@@ -18,6 +20,8 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const [recomment, setRecomment] = useState('');
     const [isActive, setIsActive] = useState([false]);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
+    const [openModal, setOpenModal] = useState(false);
+    const [reportId, setReportId] = useState<number>();
 
     function onOpenBtn(index: number) {
         if (!TOKEN) {
@@ -470,6 +474,14 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
 
     return (
         <StyledCommentListContainer>
+            <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
+                <ReportModal
+                    setOpenModal={setOpenModal}
+                    reportId={String(reportId)}
+                    category={category}
+                    type={'comment'}
+                />
+            </Modal>
             {testComments &&
                 testComments.map((item, index) => {
                     return (
@@ -518,7 +530,12 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                     </StyledcommentSubItem>
                                 )}
                                 {item.accountNicName !== sessionStorage.getItem('nickName') && (
-                                    <StyledcommentSubItem onClick={() => onCommentReport(item.commentId)}>
+                                    <StyledcommentSubItem
+                                        onClick={() => {
+                                            setReportId(item.commentId);
+                                            setOpenModal(!openModal);
+                                        }}
+                                    >
                                         신고
                                     </StyledcommentSubItem>
                                 )}
@@ -594,7 +611,10 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                 </StyledcommentSubItem>
                                                 {recomment.accountNicName !== sessionStorage.getItem('nickName') && (
                                                     <StyledcommentSubItem
-                                                        onClick={() => onCommentReport(recomment.commentId)}
+                                                        onClick={() => {
+                                                            setReportId(recomment.commentId);
+                                                            setOpenModal(!openModal);
+                                                        }}
                                                     >
                                                         신고
                                                     </StyledcommentSubItem>
@@ -822,4 +842,18 @@ const StyledInfoIcon = styled.img`
     margin-right: 6px;
     cursor: pointer;
 `;
+
+const customStyles = {
+    /*  overlay: {
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    }, */
+    content: {
+        left: '0',
+        margin: 'auto',
+        width: '250px',
+        height: '350px',
+        padding: '0',
+        overflow: 'hidden',
+    },
+};
 export default CommentItemModal;
