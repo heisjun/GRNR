@@ -44,6 +44,8 @@ import {
     UserScrapDictionary,
     UserScrapMagazine,
     MyAlarm,
+    UserQuestion,
+    UserMagazine,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -102,6 +104,8 @@ const Navigation: React.FC = () => {
                     <Route path="/mypage/setting/setting1" element={null} />
                     <Route path="/userpage/:id" element={<UserFeed />} />
                     <Route path="/userpage/photo/:id" element={<UserPhoto />} />
+                    <Route path="/userpage/question/:id" element={<UserQuestion />} />
+                    <Route path="/userpage/magazine/:id" element={<UserMagazine />} />
                     <Route path="/userpage/following/:id" element={<UserFollowing />} />
                     <Route path="/userpage/follower/:id" element={<UserFollower />} />
                     <Route path="/userpage/magazine" element={<MyMagazine />} />

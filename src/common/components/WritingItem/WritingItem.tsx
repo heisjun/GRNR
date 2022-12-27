@@ -79,7 +79,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                     <StyledPreviewTitle>{type}</StyledPreviewTitle>
                     {type === 'PHOTO' ? (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <StyledPreviewText>*최대 ~~장까지 업로드 가능합니다.</StyledPreviewText>
+                            <StyledPreviewText>*최대 10장까지 업로드 가능합니다.</StyledPreviewText>
                             <StyledPreviewBtn onClick={onClickFileBtn}>
                                 <span>사진 업로드 하기</span>
                             </StyledPreviewBtn>

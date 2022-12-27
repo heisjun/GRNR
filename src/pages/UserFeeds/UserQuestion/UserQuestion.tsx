@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
 
-const Userphoto: React.FC = () => {
+const UserQuestion: React.FC = () => {
     const navigate = useNavigate();
     const [picData, setPicData] = useState([]);
 
@@ -32,20 +32,8 @@ const Userphoto: React.FC = () => {
     return (
         <StyledScrapBookContainer>
             <StyledContextContainer>
-                <StyledContexTitle>사진</StyledContexTitle>
-                {picData.length !== 0 ? (
-                    <ItemList
-                        width="100%"
-                        imgHeight="115%"
-                        cols={4}
-                        horizontalGap={2}
-                        verticalGap={2}
-                        items={picData}
-                        RenderComponent={MyphotoItem}
-                    />
-                ) : (
-                    <div>게시글이 존재하지 않습니다</div>
-                )}
+                <StyledContexTitle>Q&A</StyledContexTitle>
+                <div>게시글이 존재하지 않습니다</div>
             </StyledContextContainer>
         </StyledScrapBookContainer>
     );
@@ -72,4 +60,4 @@ const StyledScrapBookContainer = styled.div`
     justify-content: center;
 `;
 
-export default Userphoto;
+export default UserQuestion;

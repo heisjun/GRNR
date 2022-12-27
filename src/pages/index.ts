@@ -37,6 +37,8 @@ export { default as KakaoLogin } from './KakaoLogin';
 export { default as RegisterProcess } from './RegisterProcess';
 export { default as UserFeed } from './UserFeeds/UserFeed';
 export { default as UserPhoto } from './UserFeeds/UserPhoto';
+export { default as UserQuestion } from './UserFeeds/UserQuestion';
+export { default as UserMagazine } from './UserFeeds/UserMagazine';
 export { default as UserFollowing } from './UserFeeds/UserFollowing';
 export { default as UserFollower } from './UserFeeds/UserFollower';
 export { default as UserScrapBook } from './UserFeeds/UserScrapBooks/UserScrapBook';
