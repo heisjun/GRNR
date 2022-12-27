@@ -1,11 +1,14 @@
 import { Avatar } from 'common/components';
 import Slider from 'common/components/Slider';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { IFollowingItem } from './FollowingItem.type';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BsThreeDots } from 'react-icons/bs';
+import Modal from 'react-modal';
+import ReportModal from 'common/components/ReportModal';
+
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
@@ -16,7 +19,10 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
     const childRef = useRef<any>();
 
     const [modal, setModal] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
+    const dropdownListRef = useRef<any>(null);
+    const reportListRef = useRef<any>(null);
 
     const onPhotoLike = async () => {
         if (!TOKEN) {
@@ -135,8 +141,35 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         }
     };
 
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
+                setModal(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownListRef]);
+
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (reportListRef.current && !reportListRef.current.contains(e.target as Node)) {
+                setModal(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [reportListRef]);
+
     return (
         <StyledFollowingFeeds>
+            <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
+                <ReportModal setOpenModal={setOpenModal} reportId={String(data.id)} type={'photo'} />
+            </Modal>
             <StyledFeedsBlock>
                 <StyledBlockHeader>
                     <StyledHeaderItem>
@@ -156,8 +189,10 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                     <StyledHeaderItem2>
                         <BsThreeDots style={{ fontSize: 25, cursor: 'pointer' }} onClick={() => setModal(!modal)} />
                         {modal && (
-                            <StyledOnClickBlock>
-                                <StyledClickText color="gray">신고하기</StyledClickText>
+                            <StyledOnClickBlock ref={dropdownListRef}>
+                                <StyledClickText color="gray" onClick={() => setOpenModal(!openModal)}>
+                                    신고하기
+                                </StyledClickText>
                             </StyledOnClickBlock>
                         )}
                     </StyledHeaderItem2>
@@ -344,5 +379,19 @@ const StyledIcon = styled.img`
     height: 30px;
     margin-right: 10px;
 `;
+
+const customStyles = {
+    /*  overlay: {
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    }, */
+    content: {
+        left: '0',
+        margin: 'auto',
+        width: '250px',
+        height: '350px',
+        padding: '0',
+        overflow: 'hidden',
+    },
+};
 
 export default FollowingItem;

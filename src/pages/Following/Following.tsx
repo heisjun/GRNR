@@ -68,7 +68,6 @@ const Following: React.FC = () => {
                 });
                 setAlarm(response.data);
                 setAlarmCount(response.data.value);
-                console.log('알람수', response.data);
             } catch (e) {
                 console.log(e);
             }

@@ -77,14 +77,14 @@ const UserProfile: React.FC = () => {
                     사진
                 </StyledFeedNav>
                 <StyledFeedNav
-                    nav={location.pathname === '/userpage/magazine' ? true : false}
-                    onClick={() => navigate('/userpage/magazine')}
+                    nav={location.pathname === `/userpage/magazine/${accountDto?.accountId}` ? true : false}
+                    onClick={() => navigate(`/userpage/magazine/${accountDto?.accountId}`)}
                 >
                     매거진
                 </StyledFeedNav>
                 <StyledFeedNav
-                    nav={location.pathname === '/userpage/question' ? true : false}
-                    onClick={() => navigate('/userpage/question')}
+                    nav={location.pathname === `/userpage/question/${accountDto?.accountId}` ? true : false}
+                    onClick={() => navigate(`/userpage/question/${accountDto?.accountId}`)}
                 >
                     Q&A
                 </StyledFeedNav>

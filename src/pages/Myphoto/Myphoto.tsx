@@ -33,7 +33,7 @@ const Myphoto: React.FC = () => {
         <StyledScrapBookContainer>
             <StyledContextContainer>
                 <StyledContexTitle>사진</StyledContexTitle>
-                {picData ? (
+                {picData.length !== 0 ? (
                     <ItemList
                         width="100%"
                         imgHeight="115%"

@@ -83,7 +83,7 @@ const UserFeed: React.FC = () => {
                     <StyledDetailTitle>
                         매거진 <span>0</span>
                     </StyledDetailTitle>
-                    <Link to="/mypage/profile/magazine" style={{ textDecoration: 'none' }}>
+                    <Link to={`/userpage/magazine/${User?.accountId}`} style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>
@@ -103,7 +103,7 @@ const UserFeed: React.FC = () => {
                     <StyledDetailTitle>
                         Q&A <span>0</span>
                     </StyledDetailTitle>
-                    <Link to="/mypage/profile/question" style={{ textDecoration: 'none' }}>
+                    <Link to={`/userpage/question/${User?.accountId}`} style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
                             전체보기 <img src="/btnArrowGray.png" />
                         </StyledDetailView>

@@ -26,14 +26,25 @@ const PhotoDetails: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await callApi.getDetailList(Number(params.id), 'picture');
-                setDetails(response.data.value);
-            } catch (e) {
-                console.log(e);
+            if (!TOKEN) {
+                try {
+                    const response = await callApi.getDetailList(Number(params.id), 'picture');
+                    setDetails(response.data.value);
+                } catch (e) {
+                    console.log(e);
+                }
+            } else {
+                try {
+                    const response = await axios.get(`${BASEURL}/api/picture/${Number(params.id)}/detail`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    });
+                    setDetails(response.data.value);
+                } catch (e) {
+                    console.log(e);
+                }
             }
-            setLoading(false);
         };
         fetchData();
     }, []);
@@ -157,6 +168,31 @@ const PhotoDetails: React.FC = () => {
                     Authorization: `Bearer ${TOKEN}`,
                 },
             });
+            setDetails((prev: any) => {
+                return { ...prev, myFollow: true };
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onUnFollowing = async (followingName: string) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            setDetails((prev: any) => {
+                return { ...prev, myFollow: false };
+            });
         } catch (e) {
             console.log(e);
         }
@@ -252,11 +288,25 @@ const PhotoDetails: React.FC = () => {
                                 </div>
                             </StyledWriterBlock>
                         </StyledProfileBlock>
-                        <StyledFollowButtonBlock>
-                            <span onClick={() => onFollowing(details?.accountNickName ? details.accountNickName : '')}>
-                                팔로우
-                            </span>
-                        </StyledFollowButtonBlock>
+                        {details?.myFollow ? (
+                            <StyledFollowingButtonBlock>
+                                <span
+                                    onClick={() =>
+                                        onUnFollowing(details?.accountNickName ? details.accountNickName : '')
+                                    }
+                                >
+                                    팔로잉
+                                </span>
+                            </StyledFollowingButtonBlock>
+                        ) : (
+                            <StyledFollowButtonBlock>
+                                <span
+                                    onClick={() => onFollowing(details?.accountNickName ? details.accountNickName : '')}
+                                >
+                                    팔로우
+                                </span>
+                            </StyledFollowButtonBlock>
+                        )}
                     </StyledUserInfoBlock>
                     <StyledBorderLine />
                     <CommentItem
@@ -314,6 +364,30 @@ const StyledPhotoDetailsContainer = styled.div`
 `;
 
 const StyledFollowButtonBlock = styled.div`
+    box-sizing: border-box;
+    width: 72px;
+    height: 30px;
+    margin: 28px 0 22px 357px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    border: 1px solid #0d6637;
+    background-color: white;
+    cursor: pointer;
+    span {
+        font-family: NotoSansKR;
+        font-size: 13px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #0d6637;
+    }
+`;
+
+const StyledFollowingButtonBlock = styled.div`
     box-sizing: border-box;
     width: 72px;
     height: 30px;

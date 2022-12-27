@@ -23,6 +23,7 @@ const option1 = [
 const Picture: React.FC = () => {
     const navigate = useNavigate();
     const [getOption1, setGetOption1] = useState('');
+    const [showBtn, setShowBtn] = useState<boolean>(true);
     const [getOption2, setGetOption2] = useState('');
     const [imgFiles, setImgFiles] = useState<{ imgfile: any }[]>([]);
     const [saveDto, setSaveDto] = useState<
@@ -71,11 +72,21 @@ const Picture: React.FC = () => {
     ]);
 
     const onAddWritingItem = () => {
+        console.log(getContent.length);
+
         setGetContent([
             ...getContent,
             { loc: '', hashtag: [], details: '', imgFile: null, realImg: null, realhashtag: [] },
         ]);
     };
+
+    useEffect(() => {
+        if (getContent.length === 10) {
+            setShowBtn(false);
+        } else {
+            setShowBtn(true);
+        }
+    }, [getContent.length]);
 
     const onRemoveWritingItem = useCallback(
         (i: number) => {
@@ -198,7 +209,7 @@ const Picture: React.FC = () => {
                                 </div>
                             );
                         })}
-                    <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>
+                    {showBtn && <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>}
                 </StyledPictureContainer>
             </StyledContentContainer>
         </StyledContainer>
