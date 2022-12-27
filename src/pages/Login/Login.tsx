@@ -10,7 +10,7 @@ const Login: React.FC = () => {
 
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
     const KAKAO_AUTH_URL = `https://www.gardenersclub.co.kr/api/oauth2/authorization/kakao?redirect_uri=${REDIRECT_URI_AFTER_LOGIN}`;
-    const NAVER_AUTH_URL = `https://www.gardenersclub.co.kr/api/oauth2/authorization/naver?redirect_uri=${REDIRECT_URI_AFTER_LOGIN}`;
+    const NAVER_AUTH_URL = `https://www.gardenersclub.co.kr/api/login/oauth2/code/naver`;
 
     const handleLogin = () => {
         window.location.href = KAKAO_AUTH_URL;
