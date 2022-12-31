@@ -114,6 +114,7 @@ const StyledReasonItem = styled.div`
     font-weight: 300;
     input {
         cursor: pointer;
+        accent-color: green;
     }
 `;
 

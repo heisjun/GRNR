@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Avatar, ItemList } from 'common/components';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -23,6 +23,20 @@ const PhotoDetails: React.FC = () => {
     const [comment, setComment] = useState<ItestComments[]>([]);
 
     const params = useParams();
+
+    const reportListRef = useRef<any>(null);
+
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (reportListRef.current && !reportListRef.current.contains(e.target as Node)) {
+                setOpenModal(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [reportListRef]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -199,11 +213,15 @@ const PhotoDetails: React.FC = () => {
     };
 
     const onGoUserPage = () => {
-        sessionStorage.setItem('userId', String(details?.accountId));
-        {
-            details?.accountId === Number(sessionStorage.getItem('accountId'))
-                ? navigate('/mypage')
-                : navigate(`/userpage/${details?.accountId}`);
+        if (!TOKEN) {
+            window.location.replace('/login');
+        } else {
+            sessionStorage.setItem('userId', String(details?.accountId));
+            {
+                details?.accountId === Number(sessionStorage.getItem('accountId'))
+                    ? navigate('/mypage')
+                    : navigate(`/userpage/${details?.accountId}`);
+            }
         }
     };
 
@@ -243,7 +261,9 @@ const PhotoDetails: React.FC = () => {
         <StyledPhotoDetailsContainer>
             <div style={{ width: 720, margin: 'auto' }}>
                 <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
-                    <ReportModal setOpenModal={setOpenModal} reportId={params.id} type={'photo'} />
+                    <div ref={reportListRef}>
+                        <ReportModal setOpenModal={setOpenModal} reportId={params.id} type={'photo'} />
+                    </div>
                 </Modal>
                 <StyledDetailsBlock>
                     <StyledTopTextBlock>
@@ -251,7 +271,7 @@ const PhotoDetails: React.FC = () => {
                         {myAccountId === String(details?.accountId) && (
                             <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
                         )}
-                        {myAccountId === String(details?.accountId) && (
+                        {myAccountId !== String(details?.accountId) && (
                             <StyledReportText onClick={onEdit}>수정</StyledReportText>
                         )}
                         {myAccountId !== String(details?.accountId) && (

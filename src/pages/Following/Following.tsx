@@ -170,9 +170,15 @@ const Following: React.FC = () => {
                 </StyledSubTabBarBlock>
             </StyledTabsContainer>
             <StyledFollowingContainer pageAnim={pageAnim}>
-                {followings.map((i, index) => {
-                    return <FollowingItem key={index} data={i} setFunc={setFollowings} items={followings} />;
-                })}
+                {followings.length === 0 ? (
+                    <StyledFollowingInfo>팔로잉한 유저가 없습니다</StyledFollowingInfo>
+                ) : (
+                    <>
+                        {followings.map((i, index) => {
+                            return <FollowingItem key={index} data={i} setFunc={setFollowings} items={followings} />;
+                        })}
+                    </>
+                )}
             </StyledFollowingContainer>
         </>
     );
@@ -183,6 +189,15 @@ const StyledFollowingContainer = styled.div<{ pageAnim: any }>`
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
     background-color: #f5f5f5;
+    height: 500px;
+`;
+
+const StyledFollowingInfo = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    padding-bottom: 15px;
+    font-size: 20px;
 `;
 
 const StyledAlarm = styled.img`

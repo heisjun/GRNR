@@ -361,8 +361,8 @@ const StyledHeaderBar = styled.div`
     padding: 0px 20px 0px 20px;
     @media screen and (max-width: ${maxWidth}px) {
         height: 80px;
-        padding-left: 20%;
-        padding-right: 20%;
+        padding-left: 10%;
+        padding-right: 10%;
     }
     @media screen and (min-width: ${maxWidth}px) {
         height: 80px;

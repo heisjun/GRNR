@@ -52,10 +52,11 @@ const MyAlarm: React.FC = () => {
         fetchData();
     }, []);
 
-    const onCheckAlarm = async (alarmId: number, alarmCheck: boolean) => {
+    const onCheckAlarm = async (alarmId: number, alarmCheck: boolean, userId: string) => {
         if (alarmCheck) {
             console.log('이미 읽은거');
         } else {
+            sessionStorage.setItem('userId', userId);
             const res = await axios.put(
                 `${BASEURL}/api/alarm/view/one/checkClick/${alarmId}
         `,
@@ -81,7 +82,7 @@ const MyAlarm: React.FC = () => {
                     <StyledAlarmBlock
                         key={index}
                         onClick={() => {
-                            onCheckAlarm(item.alarmId, item.alarmCheck);
+                            onCheckAlarm(item.alarmId, item.alarmCheck, item.alarmLink.split('/userpage/')[1]);
                             navigate(`/${item.alarmLink.split('kr/')[1]}`);
                         }}
                         check={item.alarmCheck}

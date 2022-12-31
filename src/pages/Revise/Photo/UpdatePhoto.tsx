@@ -24,7 +24,7 @@ const option1 = [
 
 const Picture: React.FC = () => {
     const navigate = useNavigate();
-    const [textValue, setTextValue] = useState('');
+    const [showBtn, setShowBtn] = useState<boolean>(true);
     const [fadeAnim, setFadeAnim] = useState<any>();
     const { state } = useLocation();
     const [details, setDetails] = useState<pictureDtoParams[]>([]);
@@ -51,6 +51,14 @@ const Picture: React.FC = () => {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        if (details.length === 10) {
+            setShowBtn(false);
+        } else {
+            setShowBtn(true);
+        }
+    }, [details.length]);
 
     const [getOption1, setGetOption1] = useState('');
 
@@ -211,7 +219,7 @@ const Picture: React.FC = () => {
                         );
                     })}
 
-                    <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>
+                    {showBtn && <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>}
                 </StyledPictureContainer>
             </StyledContentContainer>
         </StyledContainer>
@@ -305,13 +313,13 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
 const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 1920px;
     height: 50px;
     padding: 0px 20px 0px 20px;
     @media screen and (max-width: ${maxWidth}px) {
         height: 80px;
-        padding-left: 20%;
-        padding-right: 20%;
+        padding-left: 10%;
+        padding-right: 10%;
     }
     @media screen and (min-width: ${maxWidth}px) {
         height: 80px;
