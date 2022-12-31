@@ -53,10 +53,12 @@ const MyAlarm: React.FC = () => {
     }, []);
 
     const onCheckAlarm = async (alarmId: number, alarmCheck: boolean, userId: string) => {
+        {
+            userId ? sessionStorage.setItem('userId', userId) : console.log('프로필아님');
+        }
         if (alarmCheck) {
             console.log('이미 읽은거');
         } else {
-            sessionStorage.setItem('userId', userId);
             const res = await axios.put(
                 `${BASEURL}/api/alarm/view/one/checkClick/${alarmId}
         `,

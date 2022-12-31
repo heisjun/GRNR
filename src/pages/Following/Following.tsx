@@ -189,7 +189,6 @@ const StyledFollowingContainer = styled.div<{ pageAnim: any }>`
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
     background-color: #f5f5f5;
-    height: 500px;
 `;
 
 const StyledFollowingInfo = styled.div`
@@ -198,6 +197,7 @@ const StyledFollowingInfo = styled.div`
     margin-top: 30px;
     padding-bottom: 15px;
     font-size: 20px;
+    height: 500px;
 `;
 
 const StyledAlarm = styled.img`
