@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
 import styled from 'styled-components';
@@ -23,6 +23,19 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const [details, setDetails] = useState<IPhotoDetailsParams>();
     const [openModal, setOpenModal] = useState(false);
     const [reportId, setReportId] = useState<number>();
+    const reportListRef = useRef<any>(null);
+
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (reportListRef.current && !reportListRef.current.contains(e.target as Node)) {
+                setOpenModal(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [reportListRef]);
 
     function onOpenBtn(index: number, tagNickName: string) {
         if (!TOKEN) {
@@ -478,13 +491,16 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     return (
         <StyledCommentListContainer>
             <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
-                <ReportModal
-                    setOpenModal={setOpenModal}
-                    reportId={String(reportId)}
-                    category={category}
-                    type={'comment'}
-                />
+                <div ref={reportListRef}>
+                    <ReportModal
+                        setOpenModal={setOpenModal}
+                        reportId={String(reportId)}
+                        category={category}
+                        type={'comment'}
+                    />
+                </div>
             </Modal>
+
             <StyledCommentInfoBlock>
                 <div style={{ display: 'flex' }}>
                     <div
