@@ -22,7 +22,6 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
     const dropdownListRef = useRef<any>(null);
-    const reportListRef = useRef<any>(null);
 
     const onPhotoLike = async () => {
         if (!TOKEN) {
@@ -153,23 +152,12 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         };
     }, [dropdownListRef]);
 
-    useEffect(() => {
-        function handleClickOutside(e: MouseEvent): void {
-            if (reportListRef.current && !reportListRef.current.contains(e.target as Node)) {
-                setModal(false);
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [reportListRef]);
-
     return (
         <StyledFollowingFeeds>
             <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
                 <ReportModal setOpenModal={setOpenModal} reportId={String(data.id)} type={'photo'} />
             </Modal>
+
             <StyledFeedsBlock>
                 <StyledBlockHeader>
                     <StyledHeaderItem>
@@ -182,7 +170,9 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                             />
                         </StyledAvatarBlock>
                         <div>
-                            <StyledNickname> {data.accountNickName}</StyledNickname>
+                            <StyledNickname onClick={() => onGoUserPage(data.accountId)}>
+                                {data.accountNickName}
+                            </StyledNickname>
                             <StyledTime> {data.createTime}</StyledTime>
                         </div>
                     </StyledHeaderItem>
@@ -314,6 +304,7 @@ const StyledNickname = styled.div`
     line-height: normal;
     letter-spacing: normal;
     color: #272727;
+    cursor: pointer;
 `;
 
 const StyledClickText = styled.div<{ color: string }>`

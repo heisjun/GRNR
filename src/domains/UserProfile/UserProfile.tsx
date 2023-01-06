@@ -24,6 +24,7 @@ const UserProfile: React.FC = () => {
     const [accountDto, setAccountDto] = useState<IaccountDto>();
     const [followingCount, setFollowingCount] = useRecoilState(followingcountState);
     const [followerCount, setFollowerCount] = useRecoilState(followercountState);
+    const [myFollow, setMyFollow] = useState<boolean>(); //팔로잉 수정해야함
 
     const location = useLocation();
 
@@ -46,6 +47,46 @@ const UserProfile: React.FC = () => {
         fetchData();
     }, []);
 
+    const onFollowing = async (followingName: string) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+        console.log(saveFollowDto);
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            setMyFollow(true);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onUnFollowing = async (followingName: string) => {
+        if (!TOKEN) {
+            navigate('/login');
+        }
+        const followData = { followingName: followingName };
+        const saveFollowDto = JSON.stringify(followData);
+
+        try {
+            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            setMyFollow(false);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return (
         <div>
             <StyledProfileContainer>
@@ -62,6 +103,17 @@ const UserProfile: React.FC = () => {
                         팔로잉 <span>{followerCount}</span>
                     </StyledFollowText>
                 </div>
+                {myFollow ? (
+                    <StyledFollowingButtonBlock>
+                        <span onClick={() => onUnFollowing(accountDto?.nickName ? accountDto.nickName : '')}>
+                            팔로잉
+                        </span>
+                    </StyledFollowingButtonBlock>
+                ) : (
+                    <StyledFollowButtonBlock>
+                        <span onClick={() => onFollowing(accountDto?.nickName ? accountDto.nickName : '')}>팔로우</span>
+                    </StyledFollowButtonBlock>
+                )}
             </StyledProfileContainer>
             <div style={{ marginBottom: 100 }}>
                 <StyledFeedNav
@@ -105,6 +157,53 @@ const UserProfile: React.FC = () => {
         </div>
     );
 };
+
+const StyledFollowButtonBlock = styled.div`
+    margin-top: 26px;
+    height: 34px;
+    box-sizing: border-box;
+    padding: 7px 17px;
+    border-radius: 17px;
+    background-color: #fff;
+    border: 1px solid #0d6637;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    span {
+        font-family: NotoSansKR;
+        font-size: 13px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #0d6637;
+    }
+`;
+
+const StyledFollowingButtonBlock = styled.div`
+    margin-top: 26px;
+    height: 34px;
+    box-sizing: border-box;
+    padding: 7px 17px;
+    border-radius: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0d6637;
+    cursor: pointer;
+    span {
+        font-family: NotoSansKR;
+        font-size: 13px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #fff;
+    }
+`;
 
 const StyledFeedNav = styled.div<{ nav?: boolean }>`
     box-sizing: border-box;
@@ -157,7 +256,7 @@ const StyledAvatarBlock = styled.div`
 const StyledProfileContainer = styled.div`
     box-sizing: border-box;
     width: 280px;
-    height: 320px;
+    height: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;

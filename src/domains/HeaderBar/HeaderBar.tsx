@@ -176,7 +176,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                     ))}
                                 </StyledMenuItemsContainer>
                                 <StyledButtonsCotainer>
-                                    {isActive && <StyledSearchBaInput />}
+                                    {/* {isActive && <StyledSearchBaInput />} */}
                                     <StyledSearchBar src={'/btnSearch.png'} onClick={() => setIsActive(!isActive)} />
 
                                     <StyledAlarm src={'/btnAlarm.png'} onClick={() => nav('/myalarm')} />

@@ -40,7 +40,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
         },
     }));
 
-    /* useEffect(() => {
+    useEffect(() => {
         function handleClickOutside(e: MouseEvent): void {
             if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
                 setIsOpenModal(false);
@@ -50,7 +50,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [dropdownListRef]); */
+    }, [dropdownListRef]);
 
     const NextSlide = () => {
         if (currentSlide >= TOTAL_SLIDES) {
@@ -310,8 +310,10 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
                                                 />
                                             </StyeldAvatarBlock>
                                             <div>
-                                                <StyledWriterText>{details?.accountNickName}</StyledWriterText>
-                                                <StyledWriterintro>취향을 담은 가드너스클럽장</StyledWriterintro>
+                                                <StyledWriterText onClick={onGoUserPage}>
+                                                    {details?.accountNickName}
+                                                </StyledWriterText>
+                                                <StyledWriterintro>{details?.selfInfo}</StyledWriterintro>
                                             </div>
                                         </StyledWriterBlock>
                                     </StyledProfileBlock>
@@ -374,6 +376,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
                                 testComments={comment}
                                 setTestComments={setComment}
                                 category="picture"
+                                ref={dropdownListRef}
                             />
                         </div>
                     </div>

@@ -213,7 +213,7 @@ const PhotoDetails: React.FC = () => {
     };
 
     const onGoUserPage = () => {
-        if (!TOKEN) {
+        if (TOKEN) {
             window.location.replace('/login');
         } else {
             sessionStorage.setItem('userId', String(details?.accountId));
@@ -271,7 +271,7 @@ const PhotoDetails: React.FC = () => {
                         {myAccountId === String(details?.accountId) && (
                             <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
                         )}
-                        {myAccountId !== String(details?.accountId) && (
+                        {myAccountId === String(details?.accountId) && (
                             <StyledReportText onClick={onEdit}>수정</StyledReportText>
                         )}
                         {myAccountId !== String(details?.accountId) && (
@@ -303,13 +303,17 @@ const PhotoDetails: React.FC = () => {
                                 </StyeldAvatarBlock>
 
                                 <div>
-                                    <StyledWriterNickname>{details?.accountNickName}</StyledWriterNickname>
+                                    <StyledWriterNickname onClick={onGoUserPage}>
+                                        {details?.accountNickName}
+                                    </StyledWriterNickname>
                                     <StyledWriterText>{details?.selfInfo}</StyledWriterText>
                                 </div>
                             </StyledWriterBlock>
                         </StyledProfileBlock>
                         {details?.myFollow ? (
-                            <StyledFollowingButtonBlock>
+                            <StyledFollowingButtonBlock
+                                onShow={myAccountId === String(details?.accountId) ? true : false}
+                            >
                                 <span
                                     onClick={() =>
                                         onUnFollowing(details?.accountNickName ? details.accountNickName : '')
@@ -319,7 +323,7 @@ const PhotoDetails: React.FC = () => {
                                 </span>
                             </StyledFollowingButtonBlock>
                         ) : (
-                            <StyledFollowButtonBlock>
+                            <StyledFollowButtonBlock onShow={myAccountId === String(details?.accountId) ? true : false}>
                                 <span
                                     onClick={() => onFollowing(details?.accountNickName ? details.accountNickName : '')}
                                 >
@@ -353,6 +357,7 @@ const StyledWriterNickname = styled.div`
     line-height: 1.63;
     letter-spacing: normal;
     color: #272727;
+    cursor: pointer;
 `;
 const StyledViewCountText = styled.div`
     flex: 1;
@@ -383,12 +388,12 @@ const StyledPhotoDetailsContainer = styled.div`
     flex-direction: column;
 `;
 
-const StyledFollowButtonBlock = styled.div`
+const StyledFollowButtonBlock = styled.div<{ onShow: boolean }>`
     box-sizing: border-box;
     width: 72px;
     height: 30px;
     margin: 28px 0 22px 357px;
-    display: flex;
+    display: ${({ onShow }) => (onShow ? 'none' : 'flex')};
     justify-content: center;
     align-items: center;
     border-radius: 15px;
@@ -407,12 +412,12 @@ const StyledFollowButtonBlock = styled.div`
     }
 `;
 
-const StyledFollowingButtonBlock = styled.div`
+const StyledFollowingButtonBlock = styled.div<{ onShow: boolean }>`
     box-sizing: border-box;
     width: 72px;
     height: 30px;
     margin: 28px 0 22px 357px;
-    display: flex;
+    display: ${({ onShow }) => (onShow ? 'none' : 'flex')};
     justify-content: center;
     align-items: center;
     border-radius: 15px;

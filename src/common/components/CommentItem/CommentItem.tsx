@@ -576,7 +576,9 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                     />
                                 </StyledAvatarBlock>
                                 <StyledCommentItem>
-                                    <StyledCommentNickname>{item.accountNicName}</StyledCommentNickname>
+                                    <StyledCommentNickname onClick={() => onGoUserPage(item.accountId)}>
+                                        {item.accountNicName}
+                                    </StyledCommentNickname>
                                     <StyledCommentContent>{item.content}</StyledCommentContent>
                                 </StyledCommentItem>
                                 <div style={{ display: 'flex', alignItems: 'center', paddingRight: 16 }}>
@@ -639,7 +641,9 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                     />
                                                 </StyledAvatarBlock>
                                                 <StyledCommentItem>
-                                                    <StyledCommentNickname>
+                                                    <StyledCommentNickname
+                                                        onClick={() => onGoUserPage(recomment.accountId)}
+                                                    >
                                                         {recomment.accountNicName}
                                                     </StyledCommentNickname>
                                                     <StyledCommentContent>{recomment.content}</StyledCommentContent>
@@ -858,6 +862,7 @@ const StyledCommentNickname = styled.div`
     font-weight: bold;
     font-size: 15px;
     padding: 0px 0px 0px 10px;
+    cursor: pointer;
 `;
 
 const StyledCommentContent = styled.div`
