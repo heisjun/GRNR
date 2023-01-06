@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { IPhotoItemParams } from 'common/types';
+import { IPhotoDetailsParams, IPhotoItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 import axios from 'axios';
+import Modal from 'react-modal';
+import PhotoItemModal from '../PhotoItemModal';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
@@ -12,6 +14,20 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const navigate = useNavigate();
     const { width, height, paddingBottom, item, setFunc, items } = props;
     const [hover, setHover] = useState<boolean>(false);
+    const [isOpenModal, setIsOpenModal] = useState(false);
+    const dropdownListRef = useRef<any>(null);
+
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
+                setIsOpenModal(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownListRef]);
 
     const onPhotoLike = async () => {
         if (!TOKEN) {
@@ -121,34 +137,18 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
         }
     };
 
-    const onFollowing = async (followingName: string) => {
-        if (!TOKEN) {
-            navigate('/login');
-        } else {
-            const followData = { followingName: followingName };
-            const saveFollowDto = JSON.stringify(followData);
-            console.log(saveFollowDto);
-            try {
-                await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                });
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    };
-
-    const onGoUser = () => {
-        sessionStorage.setItem('userId', String(item?.accountId));
-        navigate(`/userpage/${item.accountId}`);
-    };
-
     return (
         <>
             <StyledPhotoItemContainer width={width} height={height} paddingBottom={paddingBottom}>
+                <Modal isOpen={isOpenModal} ariaHideApp={false} style={customStyles}>
+                    <div ref={dropdownListRef}>
+                        <PhotoItemModal
+                            setIsOpenModal={setIsOpenModal}
+                            pictureId={item.pictureId ? item.pictureId : 1}
+                            ref={dropdownListRef}
+                        />
+                    </div>
+                </Modal>
                 <StyledPhotoBlock
                     onMouseEnter={() => {
                         setHover(true);
@@ -158,9 +158,9 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                     }}
                 >
                     {hover && (
-                        <StyledHoverBackgrouond onClick={() => navigate(`./details/${item.pictureId}`)}>
+                        <StyledHoverBackgrouond onClick={() => setIsOpenModal(true)}>
                             <StyledProfileBlock>
-                                <StyledAvatarBlock onClick={onGoUser}>
+                                <StyledAvatarBlock>
                                     <Avatar
                                         width="100%"
                                         paddingBottom="100%"
@@ -231,6 +231,26 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     );
 };
 
+const customStyles = {
+    overlay: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    content: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        marginTop: '100px',
+        width: '1140px',
+        height: '750px',
+        padding: '0',
+        overflow: 'hidden',
+        borderRadius: '0px',
+    },
+};
+
 const StyledIcon = styled.img`
     width: 20px;
     height: 20px;
@@ -270,6 +290,7 @@ const StyledProfileBlock = styled.div`
     margin-top: 55%;
     align-items: center;
 `;
+
 const StyledAvatarBlock = styled.div`
     width: 40px;
     position: relative;

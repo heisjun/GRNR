@@ -11,8 +11,8 @@ const ReportModal: React.FC<IReportModal> = (props) => {
     const { setOpenModal, reportId, category, type } = props;
     const navigate = useNavigate();
     const [filterValue, setFilterValue] = useState({ report: '' });
-    const handleChange = (e: { target: { name: string; value: string } }) => {
-        const { name, value } = e.target;
+    const handleChange = (e: { target: { value: string } }) => {
+        const { value } = e.target;
         setFilterValue({ report: value });
     };
 
@@ -57,28 +57,40 @@ const ReportModal: React.FC<IReportModal> = (props) => {
             <StyledReportTitle>신고 사유를 선택하세요</StyledReportTitle>
             <StyledReasonContainer>
                 <StyledReasonItem>
-                    <input value="주제와 맞지 않음" name="report" type="radio" onChange={handleChange} />
-                    주제와 맞지 않음
+                    <label>
+                        <input value="주제와 맞지 않음" name="report" type="radio" onChange={handleChange} />
+                        주제와 맞지 않음
+                    </label>
                 </StyledReasonItem>
                 <StyledReasonItem>
-                    <input value="정보가 부정확함" name="report" type="radio" onChange={handleChange} />
-                    정보가 부정확함
+                    <label>
+                        <input value="정보가 부정확함" name="report" type="radio" onChange={handleChange} />
+                        정보가 부정확함
+                    </label>
                 </StyledReasonItem>
                 <StyledReasonItem>
-                    <input value="지나친 광고성 게시물" name="report" type="radio" onChange={handleChange} />
-                    지나친 광고성 게시물
+                    <label>
+                        <input value="지나친 광고성 게시물" name="report" type="radio" onChange={handleChange} />
+                        지나친 광고성 게시물
+                    </label>
                 </StyledReasonItem>
                 <StyledReasonItem>
-                    <input value="욕설/비방이 심함" name="report" type="radio" onChange={handleChange} />
-                    욕설/비방이 심함
+                    <label>
+                        <input value="욕설/비방이 심함" name="report" type="radio" onChange={handleChange} />
+                        욕설/비방이 심함
+                    </label>
                 </StyledReasonItem>
                 <StyledReasonItem>
-                    <input value="외설적인 게시물" name="report" type="radio" onChange={handleChange} />
-                    외설적인 게시물
+                    <label>
+                        <input value="외설적인 게시물" name="report" type="radio" onChange={handleChange} />
+                        외설적인 게시물
+                    </label>
                 </StyledReasonItem>
                 <StyledReasonItem>
-                    <input value="기타" name="report" type="radio" onChange={handleChange} />
-                    기타
+                    <label>
+                        <input value="기타" name="report" type="radio" onChange={handleChange} />
+                        기타
+                    </label>
                 </StyledReasonItem>
             </StyledReasonContainer>
             <StyledButtonContainer>

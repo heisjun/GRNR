@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
 import styled from 'styled-components';
@@ -13,7 +13,7 @@ import ReportModal from 'common/components/ReportModal';
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = sessionStorage.getItem('accesstoken');
 
-const CommentItemModal: React.FC<ICommentItem> = (props) => {
+const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
     const navigate = useNavigate();
     const { commentsList, setCommentsList, pictureId, category, testComments, setTestComments } = props;
     const [comment, setComment] = useState('');
@@ -475,12 +475,14 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
     return (
         <StyledCommentListContainer>
             <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
-                <ReportModal
-                    setOpenModal={setOpenModal}
-                    reportId={String(reportId)}
-                    category={category}
-                    type={'comment'}
-                />
+                <div ref={ref}>
+                    <ReportModal
+                        setOpenModal={setOpenModal}
+                        reportId={String(reportId)}
+                        category={category}
+                        type={'comment'}
+                    />
+                </div>
             </Modal>
             {testComments &&
                 testComments.map((item, index) => {
@@ -496,7 +498,9 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                     />
                                 </StyledAvatarBlock>
                                 <StyledCommentItem>
-                                    <StyledCommentNickname>{item.accountNicName}</StyledCommentNickname>
+                                    <StyledCommentNickname onClick={() => onGoUserPage(item.accountId)}>
+                                        {item.accountNicName}
+                                    </StyledCommentNickname>
                                     <StyledCommentContent>{item.content}</StyledCommentContent>
                                 </StyledCommentItem>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -559,7 +563,9 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                     />
                                                 </StyledAvatarBlock>
                                                 <StyledCommentItem>
-                                                    <StyledCommentNickname>
+                                                    <StyledCommentNickname
+                                                        onClick={() => onGoUserPage(recomment.accountId)}
+                                                    >
                                                         {recomment.accountNicName}
                                                     </StyledCommentNickname>
                                                     <StyledCommentContent>{recomment.content}</StyledCommentContent>
@@ -749,7 +755,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             </StyledInputContainer>
         </StyledCommentListContainer>
     );
-};
+});
 
 const StyledCommentListContainer = styled.div``;
 
@@ -807,6 +813,7 @@ const StyledCommentNickname = styled.div`
     font-weight: bold;
     font-size: 15px;
     padding: 5px 0px 5px 10px;
+    cursor: pointer;
 `;
 
 const StyledCommentContent = styled.div`
