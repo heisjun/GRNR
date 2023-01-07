@@ -39,43 +39,18 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
     const [comment, setComment] = useState<ItestComments[]>([]);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
 
-    const fetchData = useCallback(async () => {
-        if (!TOKEN) {
-            try {
-                const CommentData = await axios.get(
-                    `${BASEURL}/api/picture/${pictureId}/comment/view
-                `,
-                );
-                setCommentsList(CommentData.data.value.content[0]);
-            } catch (e) {
-                console.log(e);
-            }
-        } else {
-            try {
-                const CommentData = await axios.get(
-                    `${BASEURL}/api/picture/${pictureId}/comment/view
-                `,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
-                setCommentsList(CommentData.data.value.content[0]);
-            } catch (e) {
-                console.log(e);
-            }
-        }
+    useEffect(() => {
+        fetchData();
     }, [commentsList]);
 
-    const fetchData2 = useCallback(async () => {
+    const fetchData = async () => {
         if (!TOKEN) {
             try {
                 const CommentData = await axios.get(
                     `${BASEURL}/api/picture/${pictureId}/comment/view
                 `,
                 );
-                setComment(CommentData.data.value.content[0].commentDtoList);
+                setCommentsList(CommentData.data.value.content[0]);
             } catch (e) {
                 console.log(e);
             }
@@ -90,14 +65,43 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                         },
                     },
                 );
-                setComment(CommentData.data.value.content[0].commentDtoList);
+                setCommentsList(CommentData.data.value.content[0]);
             } catch (e) {
                 console.log(e);
             }
         }
-    }, [comment]);
+    };
 
-    const fetchData3 = useCallback(async () => {
+    const fetchData2 = async () => {
+        if (!TOKEN) {
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/picture/${pictureId}/comment/view
+                `,
+                );
+                setComment(CommentData.data.value.content[0].commentDtoList);
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            try {
+                const CommentData = await axios.get(
+                    `${BASEURL}/api/picture/${pictureId}/comment/view
+                `,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                setComment(CommentData.data.value.content[0].commentDtoList);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    const fetchData3 = async () => {
         if (!TOKEN) {
             try {
                 const response = await axios.get(
@@ -124,13 +128,19 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                 console.log(e);
             }
         }
-    }, [details]);
+    };
 
     useEffect(() => {
         fetchData();
+    }, [commentsList]);
+
+    useEffect(() => {
         fetchData2();
+    }, [comment]);
+
+    useEffect(() => {
         fetchData3();
-    }, []);
+    }, [details]);
 
     const onFollowing = async (followingName: string) => {
         if (!TOKEN) {
