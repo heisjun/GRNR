@@ -66,7 +66,7 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                 console.log(e);
             }
         }
-    }, []);
+    }, [commentsList]);
 
     const fetchData2 = useCallback(async () => {
         if (!TOKEN) {
@@ -95,7 +95,7 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                 console.log(e);
             }
         }
-    }, []);
+    }, [comment]);
 
     const fetchData3 = useCallback(async () => {
         if (!TOKEN) {
@@ -124,19 +124,13 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                 console.log(e);
             }
         }
-    }, []);
+    }, [details]);
 
     useEffect(() => {
         fetchData();
-    }, [commentsList]);
-
-    useEffect(() => {
         fetchData2();
-    }, [comment]);
-
-    useEffect(() => {
         fetchData3();
-    }, [details]);
+    }, []);
 
     const onFollowing = async (followingName: string) => {
         if (!TOKEN) {
