@@ -174,7 +174,6 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                             <StyledDetailsText>{item.firstContent.explain}</StyledDetailsText>
                         </StyledHoverBackgrouond>
                     )}
-
                     <StyledImg src={item.firstContent.pictureUrl} width="100%" height="100%" />
                 </StyledPhotoBlock>
 
@@ -200,7 +199,7 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                             </StyledButtonContent>
                         )}
 
-                        <StyledButtonContent>
+                        <StyledButtonContent onClick={() => setIsOpenModal(true)}>
                             <StyledIcon src="/btnComment.png" />
                             <StyledText>{item.commentCount}</StyledText>
                         </StyledButtonContent>
