@@ -687,10 +687,9 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                         }
                         setComment(e.target.value);
                     }}
+                    onKeyPress={onCommentEnter}
                 />
-                <StyledInputBtn onClick={onCommentSave} onKeyDown={(e) => onCommentEnter(e)}>
-                    게시
-                </StyledInputBtn>
+                <StyledInputBtn onClick={onCommentSave}>게시</StyledInputBtn>
             </StyledInputContainer>
         </StyledCommentListContainer>
     );
