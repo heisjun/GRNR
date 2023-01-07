@@ -187,6 +187,28 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
         }
     };
 
+    const onCommentEnter = async (e: any) => {
+        if (e.key === 'Enter') {
+            if (!comment) {
+                alert('댓글을 입력해 주세요!');
+                return;
+            }
+            const body = {
+                commentId: null,
+                content: comment,
+                nickNameTag: [
+                    {
+                        nickName: null,
+                    },
+                ],
+            };
+            await api.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            fetchData3 && fetchData3();
+        }
+    };
+
     const onCommentSave = async () => {
         if (!comment) {
             alert('댓글을 입력해 주세요!');
@@ -666,7 +688,9 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                         setComment(e.target.value);
                     }}
                 />
-                <StyledInputBtn onClick={onCommentSave}>게시</StyledInputBtn>
+                <StyledInputBtn onClick={onCommentSave} onKeyDown={onCommentEnter}>
+                    게시
+                </StyledInputBtn>
             </StyledInputContainer>
         </StyledCommentListContainer>
     );
