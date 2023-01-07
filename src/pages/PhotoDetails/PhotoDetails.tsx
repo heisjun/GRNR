@@ -11,7 +11,7 @@ import ReportModal from 'common/components/ReportModal';
 import PhotoDetailsItem from 'common/components/PhotoDetailsItem';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const PhotoDetails: React.FC = () => {
     const navigate = useNavigate();
@@ -19,7 +19,7 @@ const PhotoDetails: React.FC = () => {
     const [details, setDetails] = useState<IPhotoDetailsParams>();
     const [commentsList, setCommentsList] = useState<ICommentsParams>();
     const [openModal, setOpenModal] = useState(false);
-    const myAccountId = sessionStorage.getItem('accountId');
+    const myAccountId = localStorage.getItem('accountId');
     const [comment, setComment] = useState<ItestComments[]>([]);
 
     const params = useParams();
@@ -216,9 +216,9 @@ const PhotoDetails: React.FC = () => {
         if (TOKEN) {
             window.location.replace('/login');
         } else {
-            sessionStorage.setItem('userId', String(details?.accountId));
+            localStorage.setItem('userId', String(details?.accountId));
             {
-                details?.accountId === Number(sessionStorage.getItem('accountId'))
+                details?.accountId === Number(localStorage.getItem('accountId'))
                     ? navigate('/mypage')
                     : navigate(`/userpage/${details?.accountId}`);
             }

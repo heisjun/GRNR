@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Myfeed: React.FC = () => {
     interface IpicData {
@@ -27,7 +27,7 @@ const Myfeed: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/${sessionStorage.getItem('accountId')}`, {
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('accountId')}`, {
                     headers: {
                         Authorization: `Bearer ${TOKEN}`,
                     },

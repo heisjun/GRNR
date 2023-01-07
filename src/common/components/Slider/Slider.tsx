@@ -16,7 +16,7 @@ import Avatar from '../Avatar';
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 export const Slider = forwardRef((props: ISlider, ref: any) => {
     const { item } = props;
@@ -209,9 +209,9 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
     };
 
     const onGoUserPage = () => {
-        sessionStorage.setItem('userId', String(details?.accountId));
+        localStorage.setItem('userId', String(details?.accountId));
         {
-            details?.accountId === Number(sessionStorage.getItem('accountId'))
+            details?.accountId === Number(localStorage.getItem('accountId'))
                 ? navigate('/mypage')
                 : navigate(`/userpage/${details?.accountId}`);
         }

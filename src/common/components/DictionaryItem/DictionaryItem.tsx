@@ -4,11 +4,12 @@ import { IDictionaryItem } from 'common/types';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 import axios from 'axios';
+import { api } from 'common/api';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
     const navigate = useNavigate();
@@ -21,16 +22,7 @@ const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
             navigate('/login');
         } else {
             try {
-                await axios.post(
-                    `${BASEURL}/api/images/${item.plantDicId}/scrap`,
-                    {},
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
+                await api.post(`${BASEURL}/api/images/${item.plantDicId}/scrap`);
 
                 setFunc(
                     items.map((it) => (it.plantDicId === item.plantDicId ? { ...it, myScrap: !item.myScrap } : it)),

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Myphoto: React.FC = () => {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Myphoto: React.FC = () => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/pictures`,
+                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/pictures`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,

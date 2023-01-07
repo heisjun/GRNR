@@ -15,7 +15,7 @@ import { AlarmcountState } from 'recoil/count';
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const { children } = props;

@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { followercountState } from 'recoil/count';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const MyFollowing: React.FC = () => {
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const MyFollowing: React.FC = () => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/following`,
+                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/following`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
@@ -83,9 +83,9 @@ const MyFollowing: React.FC = () => {
     };
 
     const onGoUserPage = (accountId: number) => {
-        sessionStorage.setItem('userId', String(accountId));
+        localStorage.setItem('userId', String(accountId));
         {
-            accountId === Number(sessionStorage.getItem('accountId'))
+            accountId === Number(localStorage.getItem('accountId'))
                 ? navigate('/mypage')
                 : navigate(`/userpage/${accountId}`);
         }

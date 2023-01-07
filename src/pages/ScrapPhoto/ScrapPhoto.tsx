@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 const Myphoto: React.FC = () => {
     interface IpicData {
         pictureId: number;
@@ -21,7 +21,7 @@ const Myphoto: React.FC = () => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/scraps`,
+                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/scraps`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,

@@ -10,7 +10,7 @@ import axios from 'axios';
 import CommentItem from 'common/components/CommentItem';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const MagazineDetails: React.FC = () => {
     const navigate = useNavigate();

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const UserFollowing: React.FC = () => {
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const UserFollowing: React.FC = () => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('userId')}/following`,
+                    `${BASEURL}/api/account/${localStorage.getItem('userId')}/following`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
@@ -78,9 +78,9 @@ const UserFollowing: React.FC = () => {
     };
 
     const onGoUserPage = (accountId: number) => {
-        sessionStorage.setItem('userId', String(accountId));
+        localStorage.setItem('userId', String(accountId));
         {
-            accountId === Number(sessionStorage.getItem('accountId'))
+            accountId === Number(localStorage.getItem('accountId'))
                 ? navigate('/mypage')
                 : navigate(`/userpage/${accountId}`);
         }

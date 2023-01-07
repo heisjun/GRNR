@@ -7,7 +7,7 @@ import ScrapDictionaryItem from 'common/components/ScrapDictionaryItem';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Scrapbook: React.FC = () => {
     interface IpicData {
@@ -39,7 +39,7 @@ const Scrapbook: React.FC = () => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('accountId')}/scraps`,
+                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/scraps`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,

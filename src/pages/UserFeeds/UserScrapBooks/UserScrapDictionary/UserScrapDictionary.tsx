@@ -8,7 +8,7 @@ import ScrapDictionaryItem from 'common/components/ScrapDictionaryItem';
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 const UserScrapDictionary: React.FC = () => {
     interface IdicData {
         dictionaryId: number;
@@ -26,14 +26,11 @@ const UserScrapDictionary: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('userId')}/scraps`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('userId')}/scraps`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
                     },
-                );
+                });
 
                 setDicData(myfeedData.data.value.scrapDictionaryDtoList);
             } catch (e) {

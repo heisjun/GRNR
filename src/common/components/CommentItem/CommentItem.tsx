@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
 import styled from 'styled-components';
 import { ICommentItem } from './CommentItem.type';
-import { default as callApi } from 'common/api';
+import { api, default as callApi } from 'common/api';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { IPhotoDetailsParams } from 'common/types';
 import Modal from 'react-modal';
 import ReportModal from 'common/components/ReportModal';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const navigate = useNavigate();
@@ -65,7 +65,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 }
             } else {
                 try {
-                    const response = await axios.get(`${BASEURL}/api/picture/${pictureId}/detail`, {
+                    const response = await api.get(`${BASEURL}/api/picture/${pictureId}/detail`, {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
@@ -81,12 +81,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
 
     const onDeleteComment = async (commentId: number) => {
         try {
-            await axios.delete(`${BASEURL}/api/${category}/comment/${commentId}/delete`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
+            await api.delete(`${BASEURL}/api/${category}/comment/${commentId}/delete`);
             setTestComments(testComments.filter((it) => it.commentId !== commentId));
             setCommentsList((prevState: any) => {
                 return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity - 1 : 0 };
@@ -98,12 +93,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
 
     const onDeleteReComment = async (commentId: number, parentId: number) => {
         try {
-            await axios.delete(`${BASEURL}/api/${category}/comment/${commentId}/delete`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
+            await api.delete(`${BASEURL}/api/${category}/comment/${commentId}/delete`);
 
             let ParentcommentIndex = 0;
 
@@ -129,16 +119,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             navigate('/login');
         }
         try {
-            await axios.post(
-                `${BASEURL}/api/${category}/comment/${commentId}/like`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                },
-            );
+            await api.post(`${BASEURL}/api/${category}/comment/${commentId}/like`);
             setTestComments(
                 testComments.map((it) =>
                     it.commentId === commentId ? { ...it, myLike: true, likeCount: likeCount + 1 } : it,
@@ -154,16 +135,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             navigate('/login');
         }
         try {
-            await axios.post(
-                `${BASEURL}/api/${category}/comment/${commentId}/like`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                },
-            );
+            await api.post(`${BASEURL}/api/${category}/comment/${commentId}/like`);
             let ParentcommentIndex = 0;
 
             testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
@@ -186,16 +158,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             navigate('/login');
         }
         try {
-            await axios.post(
-                `${BASEURL}/api/${category}/comment/${commentId}/like`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                },
-            );
+            await api.post(`${BASEURL}/api/${category}/comment/${commentId}/like`);
             let ParentcommentIndex = 0;
 
             testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
@@ -218,16 +181,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             navigate('/login');
         }
         try {
-            await axios.post(
-                `${BASEURL}/api/${category}/comment/${commentId}/like`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                },
-            );
+            await api.post(`${BASEURL}/api/${category}/comment/${commentId}/like`);
             setTestComments(
                 testComments.map((it) =>
                     it.commentId === commentId ? { ...it, myLike: false, likeCount: likeCount - 1 } : it,
@@ -253,12 +207,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     },
                 ],
             };
-            await axios.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
+            await api.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body);
             const newComment = {
                 inquiryId: pictureId,
                 commentId: null,
@@ -273,8 +222,8 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 report: false,
                 parentId: null,
                 likeCount: 0,
-                accountNicName: sessionStorage.getItem('nickName'),
-                accountProfileUrl: sessionStorage.getItem('profileUrl'),
+                accountNicName: localStorage.getItem('nickName'),
+                accountProfileUrl: localStorage.getItem('profileUrl'),
                 commentChildDtoList: null,
             };
             setTestComments([...testComments, newComment]);
@@ -303,12 +252,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                     },
                 ],
             };
-            await axios.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
+            await api.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body);
 
             let commentIndex = 0;
 
@@ -338,8 +282,8 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 myLike: false,
                 content: content,
                 report: false,
-                accountNicName: String(sessionStorage.getItem('nickName')),
-                accountProfileUrl: String(sessionStorage.getItem('profileUrl')),
+                accountNicName: String(localStorage.getItem('nickName')),
+                accountProfileUrl: String(localStorage.getItem('profileUrl')),
                 likeCount: 0,
                 commentNicNameList: null,
             };
@@ -383,16 +327,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             navigate('/login');
         } else {
             try {
-                await axios.post(
-                    `${BASEURL}/api/picture/${pictureId}/like`,
-                    {},
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
+                await api.post(`${BASEURL}/api/picture/${pictureId}/like`);
 
                 setDetails((prevState: any) => {
                     return { ...prevState, myLike: true, likeCount: details ? details.likeCount + 1 : 0 };
@@ -408,16 +343,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             navigate('/login');
         } else {
             try {
-                await axios.post(
-                    `${BASEURL}/api/picture/${pictureId}/like`,
-                    {},
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
+                await api.post(`${BASEURL}/api/picture/${pictureId}/like`);
                 setDetails((prevState: any) => {
                     return { ...prevState, myLike: false, likeCount: details ? details.likeCount - 1 : 0 };
                 });
@@ -432,16 +358,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             navigate('/login');
         } else {
             try {
-                await axios.post(
-                    `${BASEURL}/api/picture/${pictureId}/scrap`,
-                    {},
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
+                await api.post(`${BASEURL}/api/picture/${pictureId}/scrap`);
                 setDetails((prevState: any) => {
                     return { ...prevState, myScrap: true, scrapCount: details ? details.scrapCount + 1 : 0 };
                 });
@@ -456,16 +373,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
             navigate('/login');
         } else {
             try {
-                await axios.post(
-                    `${BASEURL}/api/picture/${pictureId}/scrap`,
-                    {},
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
+                await api.post(`${BASEURL}/api/picture/${pictureId}/scrap`);
                 setDetails((prevState: any) => {
                     return { ...prevState, myScrap: false, scrapCount: details ? details.scrapCount - 1 : 0 };
                 });
@@ -479,9 +387,9 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         if (!TOKEN) {
             navigate('/login');
         } else {
-            sessionStorage.setItem('userId', String(accountId));
+            localStorage.setItem('userId', String(accountId));
             {
-                accountId === Number(sessionStorage.getItem('accountId'))
+                accountId === Number(localStorage.getItem('accountId'))
                     ? navigate('/mypage')
                     : navigate(`/userpage/${accountId}`);
             }
@@ -611,7 +519,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                         답글달기
                                     </StyledcommentSubItem>
                                 )}
-                                {item.accountNicName !== sessionStorage.getItem('nickName') && (
+                                {item.accountNicName !== localStorage.getItem('nickName') && (
                                     <StyledcommentSubItem
                                         onClick={() => {
                                             setReportId(item.commentId);
@@ -621,7 +529,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                         신고
                                     </StyledcommentSubItem>
                                 )}
-                                {item.accountNicName === sessionStorage.getItem('nickName') && (
+                                {item.accountNicName === localStorage.getItem('nickName') && (
                                     <StyledcommentSubItem onClick={() => onDeleteComment(item.commentId)}>
                                         삭제
                                     </StyledcommentSubItem>
@@ -696,7 +604,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                 >
                                                     답글달기
                                                 </StyledcommentSubItem>
-                                                {recomment.accountNicName !== sessionStorage.getItem('nickName') && (
+                                                {recomment.accountNicName !== localStorage.getItem('nickName') && (
                                                     <StyledcommentSubItem
                                                         onClick={() => {
                                                             setReportId(recomment.commentId);
@@ -706,7 +614,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                         신고
                                                     </StyledcommentSubItem>
                                                 )}
-                                                {recomment.accountNicName === sessionStorage.getItem('nickName') && (
+                                                {recomment.accountNicName === localStorage.getItem('nickName') && (
                                                     <StyledcommentSubItem
                                                         onClick={() =>
                                                             onDeleteReComment(recomment.commentId, recomment.parentId)
@@ -732,7 +640,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                             width="100%"
                                             paddingBottom="100%"
                                             borderRadius="100%"
-                                            picUrl={sessionStorage.getItem('profileUrl')}
+                                            picUrl={localStorage.getItem('profileUrl')}
                                         />
                                     </StyledAvatarBlock>
 

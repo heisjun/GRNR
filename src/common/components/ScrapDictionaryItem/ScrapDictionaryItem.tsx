@@ -8,7 +8,7 @@ import axios from 'axios';
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 interface IScrapDictionary {
     width: string;
