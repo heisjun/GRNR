@@ -28,7 +28,7 @@ export default {
 };
 
 const onRequest = (config: any): AxiosRequestConfig => {
-    config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')?.replaceAll('"', '')}`;
+    config.headers['Authorization'] = `Bearer ${localStorage.getItem('accesstoken')?.replaceAll('"', '')}`;
     return config;
 };
 
