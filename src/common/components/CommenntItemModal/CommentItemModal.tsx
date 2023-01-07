@@ -688,7 +688,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                         setComment(e.target.value);
                     }}
                 />
-                <StyledInputBtn onClick={onCommentSave} onKeyDown={onCommentEnter}>
+                <StyledInputBtn onClick={onCommentSave} onKeyDown={(e) => onCommentEnter(e)}>
                     게시
                 </StyledInputBtn>
             </StyledInputContainer>
