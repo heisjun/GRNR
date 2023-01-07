@@ -206,6 +206,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
             fetchData && fetchData();
             fetchData2 && fetchData2();
             fetchData3 && fetchData3();
+            setComment('');
         }
     };
 
