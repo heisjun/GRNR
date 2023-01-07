@@ -39,10 +39,6 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
     const [comment, setComment] = useState<ItestComments[]>([]);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
 
-    useEffect(() => {
-        fetchData();
-    }, [commentsList]);
-
     const fetchData = async () => {
         if (!TOKEN) {
             try {
@@ -132,15 +128,9 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
 
     useEffect(() => {
         fetchData();
-    }, [commentsList]);
-
-    useEffect(() => {
         fetchData2();
-    }, [comment]);
-
-    useEffect(() => {
         fetchData3();
-    }, [details]);
+    }, []);
 
     const onFollowing = async (followingName: string) => {
         if (!TOKEN) {
@@ -307,6 +297,9 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                             setTestComments={setComment}
                             category="picture"
                             ref={ref}
+                            fetchData={fetchData}
+                            fetchData2={fetchData2}
+                            fetchData3={fetchData3}
                         />
                     </div>
                 </div>
