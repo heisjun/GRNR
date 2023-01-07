@@ -39,6 +39,10 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
     const [comment, setComment] = useState<ItestComments[]>([]);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
 
+    useEffect(() => {
+        fetchData();
+    }, [commentsList]);
+
     const fetchData = useCallback(async () => {
         if (!TOKEN) {
             try {
