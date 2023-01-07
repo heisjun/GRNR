@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
+import { api } from 'common/api';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const MypageDropdown: React.FC = () => {
     interface Iprofile {
@@ -47,9 +48,9 @@ const MypageDropdown: React.FC = () => {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-                sessionStorage.setItem('accountId', profileData.data.value.accountId);
-                sessionStorage.setItem('nickName', profileData.data.value.nickName);
-                sessionStorage.setItem('profileUrl', profileData.data.value.profileUrl);
+                localStorage.setItem('accountId', profileData.data.value.accountId);
+                localStorage.setItem('nickName', profileData.data.value.nickName);
+                localStorage.setItem('profileUrl', profileData.data.value.profileUrl);
             } catch (e) {
                 console.log(e);
             }
@@ -59,12 +60,8 @@ const MypageDropdown: React.FC = () => {
 
     const logout = async () => {
         try {
-            const data = await axios.get(`${BASEURL}/api/logout`, {
-                headers: {
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
-            sessionStorage.clear();
+            await api.get(`${BASEURL}/api/logout`);
+            localStorage.clear();
             setLoginStatus({ ...loginStatus, isLogin: false });
             window.location.replace('/');
         } catch (e) {

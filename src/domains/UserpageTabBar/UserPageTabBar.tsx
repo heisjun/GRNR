@@ -13,7 +13,7 @@ const UserpageTabBar: React.FC<IUserpageTabBar> = (props) => {
     const [crntPage, setCrntPage] = useState<number>(0);
     const [crntPath, setCrntPath] = useState<string>('');
     const navigate = useNavigate();
-    const accountId = sessionStorage.getItem('userId');
+    const accountId = localStorage.getItem('userId');
 
     const loc = useLocation();
     useEffect(() => {

@@ -15,7 +15,7 @@ const minWidth = process.env.REACT_APP_MIN_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Following: React.FC = () => {
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);

@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { followercountState, followingcountState } from 'recoil/count';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const Profile: React.FC = () => {
     interface Iprofile {
@@ -53,7 +53,7 @@ const Profile: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/${sessionStorage.getItem('accountId')}`, {
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('accountId')}`, {
                     headers: {
                         Authorization: `Bearer ${TOKEN}`,
                     },

@@ -10,7 +10,7 @@ import { AlarmcountState } from 'recoil/count';
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const MyAlarm: React.FC = () => {
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
@@ -54,7 +54,7 @@ const MyAlarm: React.FC = () => {
 
     const onCheckAlarm = async (alarmId: number, alarmCheck: boolean, userId: string) => {
         {
-            userId ? sessionStorage.setItem('userId', userId) : console.log('프로필아님');
+            userId ? localStorage.setItem('userId', userId) : console.log('프로필아님');
         }
         if (alarmCheck) {
             console.log('이미 읽은거');

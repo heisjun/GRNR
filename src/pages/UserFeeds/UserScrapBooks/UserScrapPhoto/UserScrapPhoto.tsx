@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 const UserScrapPhoto: React.FC = () => {
     interface IpicData {
         pictureId: number;
@@ -20,14 +20,11 @@ const UserScrapPhoto: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('userId')}/scraps`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('userId')}/scraps`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
                     },
-                );
+                });
                 setPicData(myfeedData.data.value.scrapPictureDtoList);
             } catch (e) {
                 console.log(e);

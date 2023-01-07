@@ -21,9 +21,9 @@ const KakaoLogin = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                sessionStorage.setItem('accountId', profileData.data.value.accountId);
-                sessionStorage.setItem('nickName', profileData.data.value.nickName);
-                sessionStorage.setItem('profileUrl', profileData.data.value.profileUrl);
+                localStorage.setItem('accountId', profileData.data.value.accountId);
+                localStorage.setItem('nickName', profileData.data.value.nickName);
+                localStorage.setItem('profileUrl', profileData.data.value.profileUrl);
             } catch (e) {
                 console.log(e);
             }
@@ -34,8 +34,8 @@ const KakaoLogin = () => {
     useEffect(() => {
         const getToken = async () => {
             try {
-                sessionStorage.setItem('accesstoken', accessToken);
-                sessionStorage.setItem('refreshtoken', refreshToken);
+                localStorage.setItem('accesstoken', accessToken);
+                localStorage.setItem('refreshtoken', refreshToken);
                 setLoginStatus({ ...loginStatus, isLogin: true });
                 window.location.replace('/');
             } catch (e) {

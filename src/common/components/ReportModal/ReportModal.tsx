@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { IReportModal } from './ReportModal.type';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const ReportModal: React.FC<IReportModal> = (props) => {
     const { setOpenModal, reportId, category, type } = props;

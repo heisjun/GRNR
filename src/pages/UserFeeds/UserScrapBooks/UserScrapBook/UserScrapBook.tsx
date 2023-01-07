@@ -7,7 +7,7 @@ import ScrapDictionaryItem from 'common/components/ScrapDictionaryItem';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const UserScrapbook: React.FC = () => {
     interface IpicData {
@@ -38,14 +38,11 @@ const UserScrapbook: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${sessionStorage.getItem('userId')}/scraps`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('userId')}/scraps`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
                     },
-                );
+                });
                 setPicData(myfeedData.data.value.scrapPictureDtoList);
                 setMagazineData(myfeedData.data.value.scrapMagazineDtoList);
                 setDicData(myfeedData.data.value.scrapDictionaryDtoList);
@@ -65,7 +62,7 @@ const UserScrapbook: React.FC = () => {
                         사진 <span>{picData.length}</span>
                     </StyledDetailTitle>
                     <Link
-                        to={`/userpage/scrapbook/photo/${sessionStorage.getItem('userId')}`}
+                        to={`/userpage/scrapbook/photo/${localStorage.getItem('userId')}`}
                         style={{ textDecoration: 'none' }}
                     >
                         <StyledDetailView>
@@ -89,7 +86,7 @@ const UserScrapbook: React.FC = () => {
                         매거진 <span>0</span>
                     </StyledDetailTitle>
                     <Link
-                        to={`/userpage/scrapbook/magazine/${sessionStorage.getItem('userId')}`}
+                        to={`/userpage/scrapbook/magazine/${localStorage.getItem('userId')}`}
                         style={{ textDecoration: 'none' }}
                     >
                         <StyledDetailView>
@@ -112,7 +109,7 @@ const UserScrapbook: React.FC = () => {
                         식물사전 <span>{dicData.length}</span>
                     </StyledDetailTitle>
                     <Link
-                        to={`/userpage/scrapbook/dictionary/${sessionStorage.getItem('userId')}`}
+                        to={`/userpage/scrapbook/dictionary/${localStorage.getItem('userId')}`}
                         style={{ textDecoration: 'none' }}
                     >
                         <StyledDetailView>

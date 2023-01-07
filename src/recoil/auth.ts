@@ -7,7 +7,7 @@ type IUserInfo = {
 
 const { persistAtom } = recoilPersist({
     key: 'sessionLogin',
-    storage: sessionStorage,
+    storage: localStorage,
 });
 
 export const UserInfo = atom<IUserInfo>({

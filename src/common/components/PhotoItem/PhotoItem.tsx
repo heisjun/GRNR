@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import PhotoItemModal from '../PhotoItemModal';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
     const navigate = useNavigate();

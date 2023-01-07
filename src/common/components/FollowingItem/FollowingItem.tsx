@@ -12,7 +12,7 @@ import ReportModal from 'common/components/ReportModal';
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = sessionStorage.getItem('accesstoken');
+const TOKEN = localStorage.getItem('accesstoken');
 
 const FollowingItem: React.FC<IFollowingItem> = (props) => {
     const { data, setFunc, items } = props;
@@ -131,9 +131,9 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         if (!TOKEN) {
             navigate('/login');
         } else {
-            sessionStorage.setItem('userId', String(accountId));
+            localStorage.setItem('userId', String(accountId));
             {
-                accountId === Number(sessionStorage.getItem('accountId'))
+                accountId === Number(localStorage.getItem('accountId'))
                     ? navigate('/mypage')
                     : navigate(`/userpage/${accountId}`);
             }
