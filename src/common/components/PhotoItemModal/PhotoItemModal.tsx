@@ -128,9 +128,15 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
 
     useEffect(() => {
         fetchData();
+    }, [commentsList]);
+
+    useEffect(() => {
         fetchData2();
-        fetchData3();
     }, [comment]);
+
+    useEffect(() => {
+        fetchData3();
+    }, [details]);
 
     const onFollowing = async (followingName: string) => {
         if (!TOKEN) {
