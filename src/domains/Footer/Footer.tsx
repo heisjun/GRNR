@@ -31,6 +31,7 @@ const Footer: React.FC = () => {
 
 const StyledFooterContainer = styled.div`
     height: 260px;
+    min-width: 1140px;
     background-color: #494949;
     padding-top: 60px;
     padding-left: 20%;

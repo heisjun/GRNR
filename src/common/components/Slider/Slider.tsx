@@ -209,6 +209,10 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
     };
 
     const onGoUserPage = () => {
+        if (!TOKEN) {
+            navigate('/login');
+            return;
+        }
         localStorage.setItem('userId', String(details?.accountId));
         {
             details?.accountId === Number(localStorage.getItem('accountId'))
@@ -317,7 +321,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
                                             </div>
                                         </StyledWriterBlock>
                                     </StyledProfileBlock>
-                                    <StyledFollowButtonBlock>
+                                    {/* <StyledFollowButtonBlock>
                                         {details?.myFollow ? (
                                             <StyledFollowButton>
                                                 <StyledFollowText
@@ -343,7 +347,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
                                                 </StyledFollowText>
                                             </StyledFollowButton>
                                         )}
-                                    </StyledFollowButtonBlock>
+                                    </StyledFollowButtonBlock> */}
                                 </StyledUserInfoBlock>
                             </div>
                         </div>

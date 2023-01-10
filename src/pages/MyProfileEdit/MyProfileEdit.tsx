@@ -72,7 +72,6 @@ const MyProfileEdit: React.FC = () => {
 
     const handleClick = async () => {
         if (!imgfile) {
-            console.log('이미지 없는버전');
             CheckNickname();
             const formData = new FormData();
             const dataToSend = {
@@ -105,7 +104,6 @@ const MyProfileEdit: React.FC = () => {
             window.location.replace('/mypage/profile/edit');
             if (res.status === 201) console.log(res.data);
         } else {
-            console.log('이미지 있는 버전');
             CheckNickname();
             const formData = new FormData();
             const dataToSend = {
@@ -170,7 +168,10 @@ const MyProfileEdit: React.FC = () => {
         const regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
         const regExp2 = /[~!@#$%^&*()+|<>?:{}]/;
         if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {
-            setUserInfo('닉네임을 확인해 주세요');
+            setUserInfo('닉네임은 영어, 숫자, 밑줄, 점으로 구성됩니다');
+            setNickError(true);
+        } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
+            setUserInfo('다른 유저가 사용하는 닉네임입니다.');
             setNickError(true);
         } else {
             setUserInfo('');

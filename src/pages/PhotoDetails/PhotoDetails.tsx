@@ -213,7 +213,7 @@ const PhotoDetails: React.FC = () => {
     };
 
     const onGoUserPage = () => {
-        if (TOKEN) {
+        if (!TOKEN) {
             window.location.replace('/login');
         } else {
             localStorage.setItem('userId', String(details?.accountId));

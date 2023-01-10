@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { IUploadPicData } from 'common/types';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
@@ -22,6 +22,7 @@ const option1 = [
 
 const Video: React.FC = () => {
     const [getOption1, setGetOption1] = useState('');
+    const navigate = useNavigate();
     const [getOption2, setGetOption2] = useState('');
     const [imgFiles, setImgFiles] = useState<{ imgfile: any }[]>([]);
     const [saveDto, setSaveDto] = useState<
@@ -53,6 +54,18 @@ const Video: React.FC = () => {
         }
     }
 
+    function convertEng2(classification: string) {
+        if (classification === '잎보기식물') {
+            return 'LEAF';
+        } else if (classification === '꽃보기식물') {
+            return 'FLOWER';
+        } else if (classification === '열매보기식물') {
+            return 'FRUIT';
+        } else if (classification === '선인장,다육식물') {
+            return 'SUCCULENT';
+        }
+    }
+
     const [getContent, setGetContent] = useState<IUploadPicData[]>([
         { loc: '', hashtag: [], details: '', imgFile: null, realImg: null, realhashtag: [] },
     ]);
@@ -72,6 +85,8 @@ const Video: React.FC = () => {
     );
 
     interface Uploader {
+        classification: any;
+        video: any;
         pictureSaveDtoList: {
             explain: string;
             homePlace?: string;
@@ -80,17 +95,31 @@ const Video: React.FC = () => {
     }
 
     const onSave = async () => {
+        console.log(getOption1);
+        if (getOption1 === '분류') {
+            alert('분류를 입력해주세요!');
+            return;
+        }
         const formData = new FormData();
 
         for (let i = 0; i < getContent.length; i++) {
-            saveDto.push({
-                explain: getContent[i].details,
-                homePlace: convertEng(getContent[i].loc),
-                tagDtoList: getContent[i].realhashtag,
-            });
+            if (getContent[i].loc === '공간') {
+                console.log(getContent[i].loc);
+                alert('공간을 입력해 주세요');
+                return;
+            } else {
+                saveDto.push({
+                    explain: getContent[i].details,
+                    homePlace: convertEng(getContent[i].loc),
+                    tagDtoList: getContent[i].realhashtag,
+                });
+            }
         }
+        console.log('공간까지 ok');
 
         const test: Uploader = {
+            classification: convertEng2(getOption1),
+            video: 'TRUE',
             pictureSaveDtoList: saveDto,
         };
 
@@ -103,18 +132,18 @@ const Video: React.FC = () => {
                 console.log('데이터없음');
                 return;
             }
-
+            console.log('이미지파일', getContent[i].realImg);
             formData.append('file', getContent[i].realImg);
-            console.log(getContent[i].realImg);
         }
 
+        console.log('사진까지 ok');
         const res = await axios.post(`${BASEURL}/api/picture/save`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
-
+        navigate('/community/photo');
         if (res.status === 201) console.log(res.data);
     };
 

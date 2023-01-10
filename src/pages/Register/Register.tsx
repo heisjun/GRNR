@@ -107,10 +107,14 @@ const Register: React.FC = () => {
 
     //비밀번호 유효성 검사
     const checkPassword = (e: any) => {
+        CheckNickname();
         const regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
         const regExp2 = /[~!@#$%^&*()+|<>?:{}]/;
         if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {
-            setUserInfo('닉네임을 확인해 주세요');
+            setUserInfo('닉네임은 영어, 숫자, 밑줄, 점으로 구성됩니다');
+            setNickError(true);
+        } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
+            setUserInfo('다른 유저가 사용하는 닉네임입니다.');
             setNickError(true);
         } else {
             setUserInfo('');
@@ -344,6 +348,7 @@ const StyledButton = styled.button`
     font-weight: 500;
     border: none;
     padding: 14px;
+    cursor: pointer;
     :hover {
         background-color: #0d6637;
         color: white;

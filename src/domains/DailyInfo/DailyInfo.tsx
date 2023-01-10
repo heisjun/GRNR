@@ -18,69 +18,6 @@ const DailyInfo: React.FC = () => {
     );
 };
 
-const ImageScaleUp = keyframes`
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.1);
-    }
-`;
-
-const ImageScaleDown = keyframes`
-    0% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
-`;
-
-const StyledTipTitleText = styled.div`
-    font-size: 30px;
-    font-weight: bold;
-    color: grey;
-    margin-bottom: 1%;
-`;
-
-const StyledTipWriterText = styled.div`
-    font-size: 12px;
-    font-weight: 500;
-    color: grey;
-`;
-
-const StyledImg = styled.img<{ imgAnim: any }>`
-    cursor: pointer;
-    object-fit: cover;
-    animation: ${({ imgAnim }) => imgAnim} 0.2s;
-    animation-fill-mode: forwards;
-`;
-
-const StyledTipImgBlock = styled.div`
-    position: absolute;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-`;
-
-const StyledTipSummaryBlock = styled.div`
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    left: 5%;
-    top: 70%;
-`;
-
-const StyledTipBlock = styled.div`
-    position: relative;
-    width: 74%;
-    padding-bottom: 40%;
-    margin-right: 1.5%;
-    border: solid 1px;
-    border-color: silver;
-    cursor: pointer;
-`;
-
 const StyledDailyPlantBlock = styled.div`
     width: 100%;
 `;

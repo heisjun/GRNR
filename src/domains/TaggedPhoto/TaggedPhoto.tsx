@@ -20,7 +20,11 @@ const TaggedPhoto: React.FC<ITaggedPhoto> = (props) => {
                         setImgAnim(ImageScaleDown);
                     }}
                 >
-                    <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                    {item.video ? (
+                        <StyledVideo src={item.pictureUrl} width="100%" height="100%" controls />
+                    ) : (
+                        <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                    )}
                 </StyledImageBlock>
             </StyledImageContainer>
             <StyledDetailsText>{item.explain}</StyledDetailsText>
@@ -76,6 +80,10 @@ const StyledImg = styled.img<{ imgAnim: any }>`
     cursor: pointer;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
+`;
+
+const StyledVideo = styled.video`
+    cursor: pointer;
 `;
 
 const StyledImageBlock = styled.div`
