@@ -174,7 +174,11 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                             <StyledDetailsText>{item.firstContent.explain}</StyledDetailsText>
                         </StyledHoverBackgrouond>
                     )}
-                    <StyledImg src={item.firstContent.pictureUrl} width="100%" height="100%" />
+                    {item.firstContent.video ? (
+                        <StyledVideo src={item.firstContent.pictureUrl} width="100%" height="100%" />
+                    ) : (
+                        <StyledImg src={item.firstContent.pictureUrl} width="100%" height="100%" />
+                    )}
                 </StyledPhotoBlock>
 
                 <StyledFooterBlock>
@@ -335,6 +339,10 @@ const StyledButtonsBlock = styled.div`
 `;
 
 const StyledImg = styled.img`
+    object-fit: cover;
+`;
+
+const StyledVideo = styled.video`
     object-fit: cover;
 `;
 

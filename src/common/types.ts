@@ -152,6 +152,7 @@ export type IPhotoDetailsParams = {
         pictureUrl: string;
         explain: string;
         homePlace: string;
+        video: boolean;
         tagList: {
             pictureContentId: number;
             tagName: string;
@@ -194,6 +195,7 @@ export type IPhotosParams = {
         homePlace: string;
         pictureId: number;
         pictureUrl: string;
+        video: boolean;
         tagList: {
             pictureContentId: number;
             tagName: string;
@@ -230,6 +232,7 @@ export type ITaggedPhoto = {
         pictureUrl: string;
         explain: string;
         homePlace: string;
+        video: boolean;
         tagList: {
             pictureContentId: number;
             tagName: string;

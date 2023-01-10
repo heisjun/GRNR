@@ -83,6 +83,10 @@ const MyFollowing: React.FC = () => {
     };
 
     const onGoUserPage = (accountId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+            return;
+        }
         localStorage.setItem('userId', String(accountId));
         {
             accountId === Number(localStorage.getItem('accountId'))

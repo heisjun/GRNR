@@ -12,6 +12,7 @@ const minWidth = process.env.REACT_APP_MIN_WIDTH;
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
+
 const option1 = [
     {
         id: 1,
@@ -142,7 +143,7 @@ const Picture: React.FC = () => {
                 console.log('데이터없음');
                 return;
             }
-
+            console.log('이미지파일', getContent[i].realImg);
             formData.append('file', getContent[i].realImg);
         }
 

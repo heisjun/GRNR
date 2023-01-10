@@ -82,11 +82,19 @@ const StyledAllLabel = styled.label`
     display: flex;
     padding: 15px;
     background-color: #f2f2f2;
+    input {
+        cursor: pointer;
+        accent-color: green;
+    }
 `;
 
 const StyledLabel = styled.label`
     display: flex;
     padding-left: 15px;
+    input {
+        cursor: pointer;
+        accent-color: green;
+    }
 `;
 
 const StyledAllText = styled.div`

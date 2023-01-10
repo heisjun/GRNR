@@ -42,16 +42,20 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
 
     const onChangeVideo = (e: any) => {
         const reader = new FileReader();
+        const file = imgRef.current.files[0];
+
         reader.onload = () => {
             setImageUrl(reader.result);
         };
         if (imgRef.current.files[0]) {
-            reader.readAsDataURL(imgRef.current.files[0]);
+            reader.readAsDataURL(file);
         }
 
         const preview = e.target.files[0];
         const url = URL.createObjectURL(preview);
         setImageUrl(url);
+
+        setImgFile(file);
     };
 
     useEffect(() => {

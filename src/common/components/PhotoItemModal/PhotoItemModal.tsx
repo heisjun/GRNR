@@ -19,6 +19,7 @@ const data = [
         pictureUrl: '사진글2_사진4.jpg',
         explain: '두번째 사진글의 사진4입니다.',
         homePlace: 'LIVING_ROOM',
+        video: false,
         tagList: [
             {
                 pictureContentId: 4,
@@ -177,6 +178,10 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
     };
 
     const onGoUserPage = () => {
+        if (!TOKEN) {
+            navigate('/login');
+            return;
+        }
         localStorage.setItem('userId', String(details?.accountId));
         {
             details?.accountId === Number(localStorage.getItem('accountId'))
