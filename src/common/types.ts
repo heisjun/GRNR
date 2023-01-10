@@ -129,6 +129,7 @@ export type IDictionaryDetailsParams = {
 
 export type IFollowingsParams = {
     id: number;
+    video: boolean;
     accountId: number;
     accountNickName: string;
     accountProfileUrl: string;

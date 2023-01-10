@@ -3,6 +3,7 @@ import { IFollowingsParams } from 'common/types';
 export type IFollowingItem = {
     data: {
         id: number;
+        video: boolean;
         accountId: number;
         accountNickName: string;
         accountProfileUrl: string;
