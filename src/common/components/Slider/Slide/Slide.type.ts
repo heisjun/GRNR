@@ -1,6 +1,7 @@
 export type ISlide = {
     data: {
         id: number;
+        video: boolean;
         accountNickName: string;
         pictureUrlList: [];
         category: string;

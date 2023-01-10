@@ -8,7 +8,12 @@ const Slide: React.FC<ISlide> = (props) => {
     const { data, index, viewCount } = props;
     return (
         <div>
-            <StyledImg src={data.pictureUrlList[index]}></StyledImg>
+            {data.video ? (
+                <StyledVideo src={data.pictureUrlList[index]}></StyledVideo>
+            ) : (
+                <StyledImg src={data.pictureUrlList[index]}></StyledImg>
+            )}
+
             <StyledSpace />
             <StyledViews>{`조회 ${viewCount} 회`}</StyledViews>
             <StyledTextArea>
@@ -19,6 +24,14 @@ const Slide: React.FC<ISlide> = (props) => {
 };
 
 const StyledImg = styled.img`
+    width: 100%;
+    height: 600px;
+    @media screen and (min-width: ${maxWidth}px) {
+        height: 600px;
+    }
+`;
+
+const StyledVideo = styled.video`
     width: 100%;
     height: 600px;
     @media screen and (min-width: ${maxWidth}px) {

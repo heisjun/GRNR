@@ -198,7 +198,7 @@ const Video: React.FC = () => {
                                 </div>
                             );
                         })}
-                    <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn>
+                    {/*  <StyledAddBtn onClick={onAddWritingItem}>추가하기</StyledAddBtn> */}
                 </StyledPictureContainer>
             </StyledContentContainer>
         </StyledContainer>
