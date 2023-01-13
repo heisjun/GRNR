@@ -46,6 +46,7 @@ import {
     MyAlarm,
     UserQuestion,
     UserMagazine,
+    UpdateVideo,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
 
@@ -60,6 +61,7 @@ const Navigation: React.FC = () => {
                     <Route path="/upload/video" element={<WritingVideo />} />
                     <Route path="/community/question/new" element={<WritingQuestion />} />
                     <Route path="/community/photo/edit" element={<UpdatePhoto />} />
+                    <Route path="/community/video/edit" element={<UpdateVideo />} />
                     <Route path="/" element={<Popular />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/login/oauth2/token/gardener" element={<KakaoLogin />} />

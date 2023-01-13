@@ -73,7 +73,7 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
                         </div>
                     ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <StyledPreviewText>*~GB 미만, —초 ~ 길이의 —영상을 권장합니다.</StyledPreviewText>
+                            <StyledPreviewText>*5GB 미만, 3초 ~60초 길이의 세로영상을 권장합니다.</StyledPreviewText>
                             <StyledPreviewBtn onClick={onClickFileBtn}>
                                 <span>동영상 업로드 하기</span>
                             </StyledPreviewBtn>
@@ -105,7 +105,13 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
     return (
         <StyledPictureBody>
             <StyledImgBlock>
-                {!getImg ? <Preview /> : <StyledImg src={getImg}></StyledImg>}
+                {!getImg ? (
+                    <Preview />
+                ) : type === 'PHOTO' ? (
+                    <StyledImg src={getImg}></StyledImg>
+                ) : (
+                    <StyledVideo src={getImg}></StyledVideo>
+                )}
                 {type === 'PHOTO' ? (
                     <input
                         type="file"
