@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
