@@ -244,7 +244,9 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                                         </div>
                                     </StyledWriterBlock>
                                 </StyledContentProfileBlock>
-                                <StyledFollowButtonBlock>
+                                <StyledFollowButtonBlock
+                                    show={localStorage.getItem('nickName') === details?.accountNickName}
+                                >
                                     {details?.myFollow ? (
                                         <StyledFollowButton>
                                             <StyledFollowText
@@ -355,8 +357,9 @@ const StyledFollowButton = styled.div`
     }
 `;
 
-const StyledFollowButtonBlock = styled.div`
+const StyledFollowButtonBlock = styled.div<{ show: boolean }>`
     width: 18%;
+    display: ${({ show }) => (show ? 'none' : 'flex')};
 `;
 
 const StyeldAvatarBlock = styled.div`

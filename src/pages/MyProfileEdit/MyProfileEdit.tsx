@@ -165,6 +165,7 @@ const MyProfileEdit: React.FC = () => {
     };
 
     const checkPassword = (e: any) => {
+        CheckNickname();
         const regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
         const regExp2 = /[~!@#$%^&*()+|<>?:{}]/;
         if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {

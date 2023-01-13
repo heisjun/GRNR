@@ -17,6 +17,7 @@ const UserFeed: React.FC = () => {
         likeCount: number;
         scrapCount: number;
         commentCount: number;
+        video: boolean;
     }
 
     interface IUserData {
