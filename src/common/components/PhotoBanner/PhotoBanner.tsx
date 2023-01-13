@@ -1,52 +1,29 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Avatar from '../Avatar';
+import { IPhotoBanner } from './PhotoBanner.type';
 
-const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
+    const { data } = props;
 
-const PhotoBanner = () => {
-    interface IPopularPic {
-        accountNickName: string;
-        accountProfileUrl: string;
-        pictureId: number;
-        firstContent: {
-            explain: string;
-            pictureUrl: string;
-        };
-    }
     const navigate = useNavigate();
-    const [popular1, setPopular1] = useState<IPopularPic[]>();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${BASEURL}/api/picture/search?order=인기순`);
-                setPopular1(response.data.value.content);
-            } catch (e) {
-                console.log(e);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     return (
         <div>
-            <div style={{ width: '100%', height: 500, display: 'flex' }}>
-                <div
-                    style={{
-                        width: 764,
-                        height: 500,
-                        backgroundColor: 'gray',
-                        marginRight: 20,
-                        backgroundImage: `url(${popular1 ? popular1[0].firstContent.pictureUrl : ''})`,
-                        backgroundSize: 'cover',
-                        cursor: 'pointer',
-                    }}
-                    onClick={() => navigate(`./details/${popular1 ? popular1[0].pictureId : ''}`)}
-                >
+            {data && (
+                <div style={{ width: '100%', height: 500, display: 'flex' }}>
+                    {data[0].firstContent.video ? (
+                        <StyledVideo1
+                            src={data[0].firstContent.pictureUrl}
+                            onClick={() => navigate(`./details/${data[0].pictureId}`)}
+                        />
+                    ) : (
+                        <StyledImg1
+                            src={data[0].firstContent.pictureUrl}
+                            onClick={() => navigate(`./details/${data[0].pictureId}`)}
+                        />
+                    )}
                     <StyledFirstBlock>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <StyledAvatarBlock>
@@ -54,60 +31,43 @@ const PhotoBanner = () => {
                                     width="100%"
                                     borderRadius="100%"
                                     height="100%"
-                                    picUrl={popular1 ? popular1[0].accountProfileUrl : ''}
+                                    picUrl={data[0].firstContent.pictureUrl}
                                 />
                             </StyledAvatarBlock>
-                            <StyledNickname>{popular1 ? popular1[0].accountNickName : ''}</StyledNickname>
+                            <StyledNickname>{data[0].accountNickName}</StyledNickname>
                         </div>
 
-                        <StyledContent>{popular1 ? popular1[0].firstContent.explain : ''}</StyledContent>
+                        <StyledContent>{data[0].firstContent.explain}</StyledContent>
                     </StyledFirstBlock>
-                </div>
-                <div
-                    style={{
-                        width: 356,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                >
+
                     <div
                         style={{
-                            width: '100%',
-                            height: 240,
-                            backgroundColor: 'gray',
-                            backgroundImage: `url(${popular1 ? popular1[1].firstContent.pictureUrl : ''})`,
-                            backgroundSize: 'cover',
-                            cursor: 'pointer',
+                            width: 356,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
                         }}
-                        onClick={() => navigate(`./details/${popular1 ? popular1[1].pictureId : ''}`)}
                     >
-                        <StyledSecondBlock>
-                            <StyledSecondContent>
-                                {popular1 ? popular1[1].firstContent.explain : ''}
-                            </StyledSecondContent>
+                        {data[1].firstContent.video ? (
+                            <StyledVideo2 src={data[1].firstContent.pictureUrl} />
+                        ) : (
+                            <StyledImg2 src={data[1].firstContent.pictureUrl} />
+                        )}
+                        <StyledSecondBlock onClick={() => navigate(`./details/${data[1].pictureId}`)}>
+                            <StyledSecondContent>{data[1].firstContent.explain}</StyledSecondContent>
                         </StyledSecondBlock>
-                    </div>
-                    <div
-                        style={{
-                            width: '100%',
-                            height: 240,
-                            backgroundColor: 'gray',
-                            backgroundImage: `url(${popular1 ? popular1[2].firstContent.pictureUrl : ''})`,
-                            backgroundSize: 'cover',
-                            cursor: 'pointer',
-                        }}
-                        onClick={() => navigate(`./details/${popular1 ? popular1[2].pictureId : ''}`)}
-                    >
-                        {' '}
-                        <StyledSecondBlock>
-                            <StyledSecondContent>
-                                {popular1 ? popular1[2].firstContent.explain : ''}
-                            </StyledSecondContent>
-                        </StyledSecondBlock>
+
+                        {data[2].firstContent.video ? (
+                            <StyledVideo3 src={data[2].firstContent.pictureUrl} />
+                        ) : (
+                            <StyledImg3 src={data[1].firstContent.pictureUrl} />
+                        )}
+                        <StyledThirdBlock onClick={() => navigate(`./details/${data[2].pictureId}`)}>
+                            <StyledSecondContent>{data[2].firstContent.explain}</StyledSecondContent>
+                        </StyledThirdBlock>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
@@ -119,12 +79,79 @@ const StyledFirstBlock = styled.div`
     background-color: white;
     padding: 30px 0 0 20px;
     box-sizing: border-box;
+    position: absolute;
+    cursor: pointer;
+    z-index: 1;
+`;
+
+const StyledVideo1 = styled.video`
+    width: 764px;
+    height: 500px;
+    background-color: gray;
+    margin-right: 20px;
+    object-fit: cover;
+    cursor: pointer;
+    position: relative;
+`;
+
+const StyledImg1 = styled.img`
+    width: 764px;
+    height: 500px;
+    background-color: gray;
+    margin-right: 20px;
+    object-fit: cover;
+    cursor: pointer;
+    position: relative;
+`;
+const StyledVideo2 = styled.video`
+    width: '100%';
+    height: 240px;
+    object-fit: cover;
+    position: relative;
+    z-index: 0;
+`;
+
+const StyledImg2 = styled.img`
+    width: '100%';
+    height: 240px;
+    object-fit: cover;
+    position: relative;
+    z-index: 0;
+`;
+
+const StyledVideo3 = styled.video`
+    width: '100%';
+    height: 240px;
+    object-fit: cover;
+    position: relative;
+    z-index: 0;
+`;
+
+const StyledImg3 = styled.img`
+    width: '100%';
+    height: 240px;
+    object-fit: cover;
+    position: relative;
+    z-index: 0;
 `;
 
 const StyledSecondBlock = styled.div`
+    position: absolute;
     width: 356px;
     height: 240px;
     background-color: rgb(0, 0, 0, 0.45);
+    cursor: pointer;
+    z-index: 10;
+`;
+
+const StyledThirdBlock = styled.div`
+    position: absolute;
+    top: 430px;
+    width: 356px;
+    height: 240px;
+    background-color: rgb(0, 0, 0, 0.45);
+    cursor: pointer;
+    z-index: 10;
 `;
 
 const StyledAvatarBlock = styled.div`

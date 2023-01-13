@@ -116,6 +116,21 @@ const Photo: React.FC = () => {
         navigate(`/community/photo/${realQuery}`);
     }, [filterValue.homePlace, filterValue.sort, filterValue.classification]);
 
+    const [popular1, setPopular1] = useState();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASEURL}/api/picture/search?order=인기순`);
+                setPopular1(response.data.value.content);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     useEffect(() => {
         setPageAnim(FadeIn);
         return () => {
@@ -126,7 +141,7 @@ const Photo: React.FC = () => {
     return (
         <StyledPhotoContainer pageAnim={pageAnim}>
             <div style={{ width: 1140, margin: 'auto' }}>
-                <PhotoBanner />
+                <PhotoBanner data={popular1} />
                 <StyledBorderLine />
                 <StyledPhotoHeader>
                     <Filters_Test setGetFilter={setSelectedOrder} data={PhotoFilter_Order} />

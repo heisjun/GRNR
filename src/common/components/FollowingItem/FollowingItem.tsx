@@ -23,6 +23,54 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
     const navigate = useNavigate();
     const dropdownListRef = useRef<any>(null);
 
+    const useConfirm = (message: string, onConfirm: any, onCancel: any) => {
+        if (!onConfirm || typeof onConfirm !== 'function') {
+            return;
+        }
+        if (onCancel && typeof onCancel !== 'function') {
+            return;
+        }
+
+        const confirmAction = () => {
+            if (window.confirm(message)) {
+                onConfirm();
+            } else {
+                onCancel();
+            }
+        };
+
+        return confirmAction;
+    };
+
+    const onDeletePost = async () => {
+        try {
+            await axios.delete(
+                `${BASEURL}/api/picture/${data.id}/delete
+            `,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            navigate(-1);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const cancelConfirm = () => console.log('취소했습니다.');
+    const confirmDelete = useConfirm('삭제하시겠습니까?', onDeletePost, cancelConfirm);
+
+    const onEdit = () => {
+        {
+            data.video
+                ? navigate('/community/video/edit', { state: data.id })
+                : navigate('/community/photo/edit', { state: data.id });
+        }
+    };
+
     const onPhotoLike = async () => {
         if (!TOKEN) {
             navigate('/login');
@@ -180,9 +228,20 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                         <BsThreeDots style={{ fontSize: 25, cursor: 'pointer' }} onClick={() => setModal(!modal)} />
                         {modal && (
                             <StyledOnClickBlock ref={dropdownListRef}>
-                                <StyledClickText color="gray" onClick={() => setOpenModal(!openModal)}>
-                                    신고하기
-                                </StyledClickText>
+                                {data.accountNickName === '__junhyuck' ? (
+                                    <>
+                                        <StyledClickText color="red" onClick={confirmDelete}>
+                                            삭제하기
+                                        </StyledClickText>
+                                        <StyledClickText color="gray" onClick={onEdit}>
+                                            수정하기
+                                        </StyledClickText>
+                                    </>
+                                ) : (
+                                    <StyledClickText color="gray" onClick={() => setOpenModal(!openModal)}>
+                                        신고하기
+                                    </StyledClickText>
+                                )}
                             </StyledOnClickBlock>
                         )}
                     </StyledHeaderItem2>

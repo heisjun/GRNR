@@ -109,6 +109,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
             loc.pathname === '/upload/photo' ||
             loc.pathname === '/upload/video' ||
             loc.pathname === '/community/photo/edit' ||
+            loc.pathname === '/community/video/edit' ||
             loc.pathname === '/community/following'
         )
             return (
