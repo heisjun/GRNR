@@ -19,7 +19,11 @@ const MyfeedItem: React.FC<IMyfeedItemParams> = (props) => {
                         setImgAnim(ImageScaleDown);
                     }}
                 >
-                    <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                    {item.video ? (
+                        <StyledVideo src={item.pictureUrl} width="100%" height="100%" />
+                    ) : (
+                        <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                    )}
                 </StyledImgBlock>
                 <StyledStatsBlock>
                     <StyledStatBlock>
@@ -91,6 +95,11 @@ const StyledImg = styled.img<{ imgAnim: any }>`
     object-fit: cover;
     animation: ${({ imgAnim }) => imgAnim} 0.2s;
     animation-fill-mode: forwards;
+`;
+
+const StyledVideo = styled.video`
+    cursor: pointer;
+    object-fit: cover;
 `;
 
 const StyledImgBlock = styled.div`

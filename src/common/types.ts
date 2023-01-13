@@ -327,6 +327,7 @@ export type IMyphotoParams = {
     commentCount: number;
     scrapCount: number;
     viewCount: number;
+    video: boolean;
 };
 
 export type IItemParams = {
@@ -377,6 +378,7 @@ export type IpicData = {
     likeCount: number;
     scrapCount: number;
     commentCount: number;
+    video: boolean;
 };
 
 export type IDicData = {

@@ -17,6 +17,7 @@ const Myfeed: React.FC = () => {
         likeCount: number;
         scrapCount: number;
         commentCount: number;
+        video: boolean;
     }
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 4 : 2);
     const [photoGap, setPhotoGap] = useState(window.innerWidth > Number(boundaryWidth) ? 0 : 4);
@@ -61,7 +62,7 @@ const Myfeed: React.FC = () => {
                     cols={photoCols}
                     horizontalGap={photoGap}
                     verticalGap={photoGap}
-                    items={picData}
+                    items={picData.slice(0, 4)}
                     RenderComponent={MyfeedItem}
                 />
                 <StyledBorderLine />

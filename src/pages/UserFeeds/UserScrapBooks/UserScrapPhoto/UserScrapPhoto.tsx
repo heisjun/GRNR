@@ -13,6 +13,7 @@ const UserScrapPhoto: React.FC = () => {
         scrapCount: number;
         viewCount: number;
         commentCount: number;
+        video: boolean;
     }
 
     const [picData, setPicData] = useState<IpicData[]>([]);
