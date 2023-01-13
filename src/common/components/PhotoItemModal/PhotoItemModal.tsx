@@ -105,6 +105,7 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                     `${BASEURL}/api/picture/${pictureId}/detail
                 `,
                 );
+
                 setDetails(response.data.value);
             } catch (e) {
                 console.log(e);
