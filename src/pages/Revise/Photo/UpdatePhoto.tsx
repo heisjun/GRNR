@@ -190,7 +190,7 @@ const Picture: React.FC = () => {
                     <StyledHeaderBar>
                         <StyledTitleBlock>
                             <Link to="/" style={{ textDecoration: 'none' }}>
-                                <StyledLogoImg src="/Gardener.png" />
+                                <StyledLogoImg src="/gardenersLogo.png" />
                             </Link>
                         </StyledTitleBlock>
                         <StyledUploadButton>

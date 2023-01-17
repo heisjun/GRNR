@@ -470,7 +470,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                         답글달기
                                     </StyledcommentSubItem>
                                 )}
-                                {item.accountNicName !== localStorage.getItem('nickName') && (
+                                {TOKEN && item.accountNicName !== localStorage.getItem('nickName') && (
                                     <StyledcommentSubItem
                                         onClick={() => {
                                             setReportId(item.commentId);
@@ -552,16 +552,17 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                                 <StyledcommentSubItem onClick={() => onOpenBtn(index)}>
                                                     답글달기
                                                 </StyledcommentSubItem>
-                                                {recomment.accountNicName !== localStorage.getItem('nickName') && (
-                                                    <StyledcommentSubItem
-                                                        onClick={() => {
-                                                            setReportId(recomment.commentId);
-                                                            setOpenModal(!openModal);
-                                                        }}
-                                                    >
-                                                        신고
-                                                    </StyledcommentSubItem>
-                                                )}
+                                                {TOKEN &&
+                                                    recomment.accountNicName !== localStorage.getItem('nickName') && (
+                                                        <StyledcommentSubItem
+                                                            onClick={() => {
+                                                                setReportId(recomment.commentId);
+                                                                setOpenModal(!openModal);
+                                                            }}
+                                                        >
+                                                            신고
+                                                        </StyledcommentSubItem>
+                                                    )}
                                                 {recomment.accountNicName === localStorage.getItem('nickName') && (
                                                     <StyledcommentSubItem
                                                         onClick={() =>

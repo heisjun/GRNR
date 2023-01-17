@@ -9,7 +9,7 @@ import { headerItems, subTabBarItems } from 'navigations/data';
 import { WritingDropdown, MypageDropdown } from 'common/components';
 import { Login } from 'pages';
 import UserProfile from 'domains/UserProfile';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { AlarmcountState } from 'recoil/count';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -29,6 +29,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [crntPage, setCrntPage] = useState<number>(0);
     const [crntPath, setCrntPath] = useState<string>('');
     const [isActive, setIsActive] = useState(false);
+    const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
     interface IAlram {
         value: number;
     }
@@ -83,6 +84,26 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
         setOverPage(crntPage);
     }, [crntPage]);
 
+    const getRefreshToken = async () => {
+        try {
+            const response = await axios.get(`${BASEURL}/api/login/token/renew`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('refreshtoken')}`,
+                },
+            });
+            console.log(response.data.data);
+            if (!response.data.data) {
+                localStorage.clear();
+                setLoginStatus({ ...loginStatus, isLogin: false });
+                nav('/login');
+            } else {
+                localStorage.setItem('accesstoken', response.data.data);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -93,8 +114,13 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                 });
                 setAlarm(response.data);
                 setAlarmCount(response.data.value);
-            } catch (e) {
-                console.log(e);
+            } catch (err: any) {
+                if (err.response.request.status === 401) {
+                    console.log('401에러다');
+                    getRefreshToken();
+                } else {
+                    console.log('그냥에러다');
+                }
             }
         };
 

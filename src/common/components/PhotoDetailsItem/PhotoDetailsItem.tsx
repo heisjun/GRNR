@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { ITaggedPhoto } from 'common/types';
 
@@ -11,7 +10,11 @@ const PhotoDetailsItem: React.FC<ITaggedPhoto> = (props) => {
         <StyledTaggedPhotoContainer>
             <StyledImageContainer width={width} height={height} paddingBottom={paddingBottom}>
                 <StyledImageBlock>
-                    <StyledImg src={item.pictureUrl} width="100%" height="100%" />
+                    {item.video ? (
+                        <StyledVideo src={item.pictureUrl} width="100%" height="100%" controls />
+                    ) : (
+                        <StyledImg src={item.pictureUrl} width="100%" height="100%" />
+                    )}
                 </StyledImageBlock>
             </StyledImageContainer>
             <StyledDetailsText>{item.explain}</StyledDetailsText>
@@ -49,7 +52,9 @@ const StyledTagText = styled.div`
 const StyledImg = styled.img`
     cursor: pointer;
 `;
-
+const StyledVideo = styled.video`
+    cursor: pointer;
+`;
 const StyledImageBlock = styled.div`
     width: 100%;
     height: 100%;
@@ -68,6 +73,8 @@ const StyledImageContainer = styled.div<{ width: string; height?: string; paddin
     }
 `;
 
-const StyledTaggedPhotoContainer = styled.div``;
+const StyledTaggedPhotoContainer = styled.div`
+    margin-bottom: 100px;
+`;
 
 export default PhotoDetailsItem;
