@@ -12,27 +12,6 @@ import { IPhotoItemModal } from './PhotoItemModal.type';
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
-const data = [
-    {
-        pictureId: 2,
-        contentId: 4,
-        pictureUrl: '사진글2_사진4.jpg',
-        explain: '두번째 사진글의 사진4입니다.',
-        homePlace: 'LIVING_ROOM',
-        video: false,
-        tagList: [
-            {
-                pictureContentId: 4,
-                tagName: '사진4 태그1',
-            },
-            {
-                pictureContentId: 4,
-                tagName: '사진4 태그2',
-            },
-        ],
-    },
-];
-
 const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
     const { setIsOpenModal, pictureId } = props;
     const navigate = useNavigate();
@@ -212,68 +191,72 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                             maxHeight: 750,
                         }}
                     >
-                        <div>
-                            <StyledClassification>
-                                {convertKor(details?.classification ? details.classification : 'FLOWER')}
-                            </StyledClassification>
-                            <ItemList
-                                width="100%"
-                                imgHeight="100%"
-                                cols={1}
-                                horizontalGap={0}
-                                verticalGap={0}
-                                items={details?.pictureContentDtoList ? details?.pictureContentDtoList : data}
-                                RenderComponent={TaggedPhoto}
-                            />
-                            <StyledViewCount>조회 {details?.viewCount} 명</StyledViewCount>
-                            <StyledUserInfoBlock>
-                                <StyledContentProfileBlock>
-                                    <StyledWriterBlock>
-                                        <StyeldAvatarBlock onClick={onGoUserPage}>
-                                            <Avatar
-                                                width="100%"
-                                                paddingBottom="100%"
-                                                borderRadius="100%"
-                                                picUrl={details?.accountProfileUrl}
-                                            />
-                                        </StyeldAvatarBlock>
-                                        <div>
-                                            <StyledWriterText onClick={onGoUserPage}>
-                                                {details?.accountNickName}
-                                            </StyledWriterText>
-                                            <StyledWriterintro>{details?.selfInfo}</StyledWriterintro>
-                                        </div>
-                                    </StyledWriterBlock>
-                                </StyledContentProfileBlock>
-                                <StyledFollowButtonBlock
-                                    show={localStorage.getItem('nickName') === details?.accountNickName}
-                                >
-                                    {details?.myFollow ? (
-                                        <StyledFollowButton>
-                                            <StyledFollowText
-                                                onClick={() =>
-                                                    onUnFollowing(
-                                                        details?.accountNickName ? details.accountNickName : '',
-                                                    )
-                                                }
-                                            >
-                                                팔로잉
-                                            </StyledFollowText>
-                                        </StyledFollowButton>
-                                    ) : (
-                                        <StyledFollowButton>
-                                            <StyledFollowText
-                                                onClick={() =>
-                                                    onFollowing(details?.accountNickName ? details.accountNickName : '')
-                                                }
-                                            >
-                                                팔로우
-                                            </StyledFollowText>
-                                        </StyledFollowButton>
-                                    )}
-                                </StyledFollowButtonBlock>
-                            </StyledUserInfoBlock>
-                        </div>
+                        {details && (
+                            <div>
+                                <StyledClassification>{convertKor(details?.classification)}</StyledClassification>
+
+                                <ItemList
+                                    width="100%"
+                                    imgHeight="100%"
+                                    cols={1}
+                                    horizontalGap={0}
+                                    verticalGap={0}
+                                    items={details?.pictureContentDtoList}
+                                    RenderComponent={TaggedPhoto}
+                                />
+
+                                <StyledViewCount>조회 {details?.viewCount} 명</StyledViewCount>
+                                <StyledUserInfoBlock>
+                                    <StyledContentProfileBlock>
+                                        <StyledWriterBlock>
+                                            <StyeldAvatarBlock onClick={onGoUserPage}>
+                                                <Avatar
+                                                    width="100%"
+                                                    paddingBottom="100%"
+                                                    borderRadius="100%"
+                                                    picUrl={details?.accountProfileUrl}
+                                                />
+                                            </StyeldAvatarBlock>
+                                            <div>
+                                                <StyledWriterText onClick={onGoUserPage}>
+                                                    {details?.accountNickName}
+                                                </StyledWriterText>
+                                                <StyledWriterintro>{details?.selfInfo}</StyledWriterintro>
+                                            </div>
+                                        </StyledWriterBlock>
+                                    </StyledContentProfileBlock>
+                                    <StyledFollowButtonBlock
+                                        show={localStorage.getItem('nickName') === details?.accountNickName}
+                                    >
+                                        {details?.myFollow ? (
+                                            <StyledFollowButton>
+                                                <StyledFollowText
+                                                    onClick={() =>
+                                                        onUnFollowing(
+                                                            details?.accountNickName ? details.accountNickName : '',
+                                                        )
+                                                    }
+                                                >
+                                                    팔로잉
+                                                </StyledFollowText>
+                                            </StyledFollowButton>
+                                        ) : (
+                                            <StyledFollowButton>
+                                                <StyledFollowText
+                                                    onClick={() =>
+                                                        onFollowing(
+                                                            details?.accountNickName ? details.accountNickName : '',
+                                                        )
+                                                    }
+                                                >
+                                                    팔로우
+                                                </StyledFollowText>
+                                            </StyledFollowButton>
+                                        )}
+                                    </StyledFollowButtonBlock>
+                                </StyledUserInfoBlock>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div style={{ width: 432, backgroundColor: 'white' }}>

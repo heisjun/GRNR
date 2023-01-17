@@ -205,7 +205,7 @@ export type IPhotosParams = {
     myLike: boolean;
     myScrap: boolean;
     likeCount: number;
-    pictureId?: number;
+    pictureId: number;
     scrapCount: number;
     viewCount?: number;
     time: number;
