@@ -228,7 +228,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                         <BsThreeDots style={{ fontSize: 25, cursor: 'pointer' }} onClick={() => setModal(!modal)} />
                         {modal && (
                             <StyledOnClickBlock ref={dropdownListRef}>
-                                {data.accountNickName === '__junhyuck' ? (
+                                {data.accountNickName === localStorage.getItem('nickName') ? (
                                     <>
                                         <StyledClickText color="red" onClick={confirmDelete}>
                                             삭제하기

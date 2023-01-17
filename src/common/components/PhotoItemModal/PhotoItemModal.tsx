@@ -348,6 +348,7 @@ const StyledFollowButtonBlock = styled.div<{ show: boolean }>`
 
 const StyeldAvatarBlock = styled.div`
     width: 10%;
+    cursor: pointer;
 `;
 
 const StyledWriterText = styled.div`
@@ -357,6 +358,7 @@ const StyledWriterText = styled.div`
     line-height: 1.63;
     letter-spacing: normal;
     color: #272727;
+    cursor: pointer;
 `;
 
 const StyledWriterintro = styled.div`

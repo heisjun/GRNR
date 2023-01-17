@@ -165,7 +165,11 @@ const PhotoDetails: React.FC = () => {
     const confirmDelete = useConfirm('삭제하시겠습니까?', onDeletePost, cancelConfirm);
 
     const onEdit = () => {
-        navigate('/community/photo/edit', { state: params.id });
+        {
+            details?.pictureContentDtoList[0].video
+                ? navigate('/community/video/edit', { state: params.id })
+                : navigate('/community/photo/edit', { state: params.id });
+        }
     };
 
     const onFollowing = async (followingName: string) => {
@@ -271,7 +275,7 @@ const PhotoDetails: React.FC = () => {
                         {myAccountId === String(details?.accountId) && (
                             <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
                         )}
-                        {myAccountId === String(details?.accountId) && (
+                        {myAccountId !== String(details?.accountId) && (
                             <StyledReportText onClick={onEdit}>수정</StyledReportText>
                         )}
                         {myAccountId !== String(details?.accountId) && (
@@ -281,16 +285,19 @@ const PhotoDetails: React.FC = () => {
                     <div style={{ marginTop: 20, marginBottom: 20 }}>
                         {convertKor(details?.classification ? details.classification : 'FLOWER')}
                     </div>
-                    <ItemList
-                        width="100%"
-                        imgHeight="100%"
-                        cols={1}
-                        horizontalGap={0}
-                        verticalGap={0}
-                        items={details?.pictureContentDtoList ? details?.pictureContentDtoList : data}
-                        RenderComponent={PhotoDetailsItem}
-                    />
-                    <StyledUserInfoBlock>
+                    {details && (
+                        <ItemList
+                            width="100%"
+                            imgHeight="100%"
+                            cols={1}
+                            horizontalGap={0}
+                            verticalGap={0}
+                            items={details?.pictureContentDtoList}
+                            RenderComponent={PhotoDetailsItem}
+                        />
+                    )}
+
+                    {/*  <StyledUserInfoBlock>
                         <StyledProfileBlock>
                             <StyledWriterBlock>
                                 <StyeldAvatarBlock onClick={onGoUserPage}>
@@ -340,7 +347,7 @@ const PhotoDetails: React.FC = () => {
                         setTestComments={setComment}
                         category="picture"
                         setCommentsList={setCommentsList}
-                    />
+                    /> */}
                 </StyledDetailsBlock>
             </div>
         </StyledPhotoDetailsContainer>

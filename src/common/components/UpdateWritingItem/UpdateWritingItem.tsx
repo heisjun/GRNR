@@ -63,21 +63,34 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
         return (
             <StyledPreviewContainer>
                 <StyledPreviewBlock>
-                    <StyledPreviewTitle>{type}</StyledPreviewTitle>
                     {type === 'PHOTO' ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <StyledPreviewText>*최대 10장까지 업로드 가능합니다.</StyledPreviewText>
-                            <StyledPreviewBtn onClick={onClickFileBtn}>
-                                <span>사진 업로드 하기</span>
-                            </StyledPreviewBtn>
-                        </div>
+                        <>
+                            <StyledTypeIcon>
+                                <img src={'/photoIcon.png'} />
+                            </StyledTypeIcon>
+                            <StyledPreviewTitle>{type}</StyledPreviewTitle>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <StyledPreviewText>*최대 10장까지 업로드 가능합니다.</StyledPreviewText>
+                                <StyledPreviewBtn onClick={onClickFileBtn}>
+                                    <span>사진 업로드 하기</span>
+                                </StyledPreviewBtn>
+                            </div>
+                        </>
                     ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <StyledPreviewText>*5GB 미만, 3초 ~60초 길이의 세로영상을 권장합니다.</StyledPreviewText>
-                            <StyledPreviewBtn onClick={onClickFileBtn}>
-                                <span>동영상 업로드 하기</span>
-                            </StyledPreviewBtn>
-                        </div>
+                        <>
+                            <StyledTypeIcon>
+                                <img src={'/photoIcon.png'} />
+                            </StyledTypeIcon>
+                            <StyledPreviewTitle>{type}</StyledPreviewTitle>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <StyledPreviewText>
+                                    *5GB 미만, 3초 ~60초 길이의 세로영상을 권장합니다.
+                                </StyledPreviewText>
+                                <StyledPreviewBtn onClick={onClickFileBtn}>
+                                    <span>동영상 업로드 하기</span>
+                                </StyledPreviewBtn>
+                            </div>
+                        </>
                     )}
                 </StyledPreviewBlock>
             </StyledPreviewContainer>
@@ -176,6 +189,20 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
         </StyledPictureBody>
     );
 };
+
+const StyledTypeIcon = styled.div`
+    width: 90px;
+    height: 90px;
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        width: 37.5px;
+    }
+`;
 
 const StyledBorder = styled.div`
     height: 1px;

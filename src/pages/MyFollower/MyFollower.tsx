@@ -111,7 +111,9 @@ const MyFollower: React.FC = () => {
                                 />
                             </StyledAvatarBlock>
                             <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
-                                <StyledUserNickname>{item.nickName}</StyledUserNickname>
+                                <StyledUserNickname onClick={() => onGoUserPage(item.accountId)}>
+                                    {item.nickName}
+                                </StyledUserNickname>
                                 <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
                             </div>
                             {item.myFollow ? (
@@ -207,6 +209,7 @@ const StyledUserNickname = styled.div`
     font-weight: bold;
     color: #272727;
     margin-bottom: 4px;
+    cursor: pointer;
 `;
 
 const StyledUserInfo = styled.div`

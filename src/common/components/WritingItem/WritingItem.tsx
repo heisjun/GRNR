@@ -80,21 +80,34 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
         return (
             <StyledPreviewContainer>
                 <StyledPreviewBlock>
-                    <StyledPreviewTitle>{type}</StyledPreviewTitle>
                     {type === 'PHOTO' ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <StyledPreviewText>*최대 10장까지 업로드 가능합니다.</StyledPreviewText>
-                            <StyledPreviewBtn onClick={onClickFileBtn}>
-                                <span>사진 업로드 하기</span>
-                            </StyledPreviewBtn>
-                        </div>
+                        <>
+                            <StyledTypeIcon>
+                                <img src={'/photoIcon.png'} />
+                            </StyledTypeIcon>
+                            <StyledPreviewTitle>{type}</StyledPreviewTitle>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <StyledPreviewText>*최대 10장까지 업로드 가능합니다.</StyledPreviewText>
+                                <StyledPreviewBtn onClick={onClickFileBtn}>
+                                    <span>사진 업로드 하기</span>
+                                </StyledPreviewBtn>
+                            </div>
+                        </>
                     ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <StyledPreviewText>*5GB 미만, 3초 ~60초 길이의 세로영상을 권장합니다.</StyledPreviewText>
-                            <StyledPreviewBtn onClick={onClickFileBtn}>
-                                <span>동영상 업로드 하기</span>
-                            </StyledPreviewBtn>
-                        </div>
+                        <>
+                            <StyledTypeIcon>
+                                <img src={'/videoIcon.png'} />
+                            </StyledTypeIcon>
+                            <StyledPreviewTitle>{type}</StyledPreviewTitle>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <StyledPreviewText>
+                                    *5GB 미만, 3초 ~60초 길이의 세로영상을 권장합니다.
+                                </StyledPreviewText>
+                                <StyledPreviewBtn onClick={onClickFileBtn}>
+                                    <span>동영상 업로드 하기</span>
+                                </StyledPreviewBtn>
+                            </div>
+                        </>
                     )}
                 </StyledPreviewBlock>
             </StyledPreviewContainer>
@@ -109,7 +122,9 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
         <StyledPictureBody>
             <StyledImgBlock>
                 {getContent[index].imgFile && (
-                    <StyledDeletePictureBtn onClick={() => setImageUrl(null)}>삭제</StyledDeletePictureBtn>
+                    <StyledDeletePictureBtn onClick={() => setImageUrl(null)}>
+                        <img src={'/deleteIcon.png'} />
+                    </StyledDeletePictureBtn>
                 )}
                 {getContent[index].imgFile && (
                     <StyledModifyPictureBtn
@@ -117,7 +132,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                             onClickFileBtn(e);
                         }}
                     >
-                        수정
+                        <img src={'/reviseIcon.png'} />
                     </StyledModifyPictureBtn>
                 )}
                 {type === 'PHOTO' ? (
@@ -149,7 +164,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                         style={{ display: 'none' }}
                     />
                 )}
-                {imageUrl && <StyledDeletePictureBtn onClick={() => setImageUrl(null)}>삭제</StyledDeletePictureBtn>}
+                {/*  {imageUrl && <StyledDeletePictureBtn onClick={() => setImageUrl(null)}>삭제</StyledDeletePictureBtn>} */}
             </StyledImgBlock>
             <StyledContentBlock>
                 <StyledFlexBlock>
@@ -178,6 +193,20 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
     );
 };
 
+const StyledTypeIcon = styled.div`
+    width: 90px;
+    height: 90px;
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        width: 37.5px;
+    }
+`;
+
 const StyledBorder = styled.div`
     height: 1px;
     background-color: #ececec;
@@ -191,16 +220,28 @@ const StyledInputContainer = styled.div`
 
 const StyledDeletePictureBtn = styled.button`
     position: absolute;
-    top: 85%;
+    top: 88%;
     left: 3%;
     z-index: 1;
+    border: none;
+    background: none;
+    cursor: pointer;
+    img {
+        width: 28px;
+    }
 `;
 
 const StyledModifyPictureBtn = styled.button`
     position: absolute;
-    top: 85%;
-    left: 15%;
+    top: 88%;
+    left: 10%;
     z-index: 1;
+    border: none;
+    background: none;
+    cursor: pointer;
+    img {
+        width: 28px;
+    }
 `;
 
 const StyledDeleteItemBtn = styled.button`
