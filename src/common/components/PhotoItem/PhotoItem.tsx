@@ -144,7 +144,7 @@ const PhotoItem: React.FC<IPhotoItemParams> = (props) => {
                     <div ref={dropdownListRef}>
                         <PhotoItemModal
                             setIsOpenModal={setIsOpenModal}
-                            pictureId={item.pictureId ? item.pictureId : 1}
+                            pictureId={item.pictureId}
                             ref={dropdownListRef}
                         />
                     </div>

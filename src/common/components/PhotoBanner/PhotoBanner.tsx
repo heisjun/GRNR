@@ -1,27 +1,57 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Avatar from '../Avatar';
 import { IPhotoBanner } from './PhotoBanner.type';
+import Modal from 'react-modal';
+import PhotoItemModal from '../PhotoItemModal';
 
 const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
     const { data } = props;
+    const [isOpenModal, setIsOpenModal] = useState(false);
+    const [pictureId, setPictureId] = useState(0);
+    const dropdownListRef = useRef<any>(null);
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
+                setIsOpenModal(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownListRef]);
+
     return (
         <div>
+            {data && (
+                <Modal isOpen={isOpenModal} ariaHideApp={false} style={customStyles}>
+                    <div ref={dropdownListRef}>
+                        <PhotoItemModal setIsOpenModal={setIsOpenModal} pictureId={pictureId} ref={dropdownListRef} />
+                    </div>
+                </Modal>
+            )}
             {data && (
                 <div style={{ width: '100%', height: 500, display: 'flex' }}>
                     {data[0].firstContent.video ? (
                         <StyledVideo1
                             src={data[0].firstContent.pictureUrl}
-                            onClick={() => navigate(`./details/${data[0].pictureId}`)}
+                            onClick={() => {
+                                setIsOpenModal(true);
+                                setPictureId(data[0].pictureId);
+                            }}
                         />
                     ) : (
                         <StyledImg1
                             src={data[0].firstContent.pictureUrl}
-                            onClick={() => navigate(`./details/${data[0].pictureId}`)}
+                            onClick={() => {
+                                setIsOpenModal(true);
+                                setPictureId(data[0].pictureId);
+                            }}
                         />
                     )}
                     <StyledFirstBlock>
@@ -53,16 +83,26 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                         ) : (
                             <StyledImg2 src={data[1].firstContent.pictureUrl} />
                         )}
-                        <StyledSecondBlock onClick={() => navigate(`./details/${data[1].pictureId}`)}>
+                        <StyledSecondBlock
+                            onClick={() => {
+                                setIsOpenModal(true);
+                                setPictureId(data[1].pictureId);
+                            }}
+                        >
                             <StyledSecondContent>{data[1].firstContent.explain}</StyledSecondContent>
                         </StyledSecondBlock>
 
                         {data[2].firstContent.video ? (
                             <StyledVideo3 src={data[2].firstContent.pictureUrl} />
                         ) : (
-                            <StyledImg3 src={data[1].firstContent.pictureUrl} />
+                            <StyledImg3 src={data[2].firstContent.pictureUrl} />
                         )}
-                        <StyledThirdBlock onClick={() => navigate(`./details/${data[2].pictureId}`)}>
+                        <StyledThirdBlock
+                            onClick={() => {
+                                setIsOpenModal(true);
+                                setPictureId(data[2].pictureId);
+                            }}
+                        >
                             <StyledSecondContent>{data[2].firstContent.explain}</StyledSecondContent>
                         </StyledThirdBlock>
                     </div>
@@ -70,6 +110,26 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
             )}
         </div>
     );
+};
+
+const customStyles = {
+    overlay: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    content: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        marginTop: '100px',
+        width: '1140px',
+        height: '750px',
+        padding: '0',
+        overflow: 'hidden',
+        borderRadius: '0px',
+    },
 };
 
 const StyledFirstBlock = styled.div`
