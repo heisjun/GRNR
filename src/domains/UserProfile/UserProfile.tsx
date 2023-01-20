@@ -45,7 +45,7 @@ const UserProfile: React.FC = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [localStorage.getItem('userId')]);
 
     const onFollowing = async (followingName: string) => {
         if (!TOKEN) {

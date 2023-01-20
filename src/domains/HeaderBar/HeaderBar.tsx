@@ -95,9 +95,10 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
             if (!response.data.data) {
                 localStorage.clear();
                 setLoginStatus({ ...loginStatus, isLogin: false });
-                nav('/login');
+                window.location.replace('/login');
             } else {
                 localStorage.setItem('accesstoken', response.data.data);
+                window.location.replace('/');
             }
         } catch (e) {
             console.log(e);
@@ -106,6 +107,9 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!TOKEN) {
+                return;
+            }
             try {
                 const response = await axios.get(`${BASEURL}/api/alarm/view/check`, {
                     headers: {

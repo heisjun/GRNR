@@ -28,12 +28,46 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
     const [videoUrl, setVideoUrl] = useState<any>(null);
     const [imgfile, setImgFile] = useState<File | null>(null);
     const imgRef = useRef<any>(null);
+    const ALLOW_PHOTO_EXTENSION = 'jpg,jpeg,png,webp';
+    const ALLOW_VIDEO_EXTENSION = 'mp4,mov';
+
+    const photoExtensionValid = ({ name }: { name: string }): boolean => {
+        const extension = removeFileName(name);
+
+        if (!(ALLOW_PHOTO_EXTENSION.indexOf(extension) > -1) || extension === '') {
+            return false;
+        }
+        return true;
+    };
+
+    const videoExtensionValid = ({ name }: { name: string }): boolean => {
+        const extension = removeFileName(name);
+
+        if (!(ALLOW_VIDEO_EXTENSION.indexOf(extension) > -1) || extension === '') {
+            return false;
+        }
+        return true;
+    };
+
+    const removeFileName = (originalFileName: string): string => {
+        const lastIndex = originalFileName.lastIndexOf('.');
+        if (lastIndex < 0) {
+            return '';
+        }
+        return originalFileName.substring(lastIndex + 1).toLowerCase();
+    };
 
     const onChangeImage = () => {
         const reader = new FileReader();
-        const file = imgRef.current.files[0];
+        let file = imgRef.current.files[0];
 
-        reader.readAsDataURL(file);
+        if (!photoExtensionValid(file)) {
+            file = '';
+            alert(`사진 파일만 업로드할 수 있습니다`);
+            return;
+        }
+
+        if (file) reader.readAsDataURL(file);
         reader.onloadend = () => {
             setImageUrl(reader.result);
         };
@@ -42,7 +76,13 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
 
     const onChangeVideo = (e: any) => {
         const reader = new FileReader();
-        const file = imgRef.current.files[0];
+        let file = imgRef.current.files[0];
+
+        if (!videoExtensionValid(file)) {
+            file = '';
+            alert(`동영상 파일만 업로드할 수 있습니다`);
+            return;
+        }
 
         reader.onload = () => {
             setImageUrl(reader.result);

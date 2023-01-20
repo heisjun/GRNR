@@ -150,7 +150,7 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
                             setGetImg(null);
                         }}
                     >
-                        삭제
+                        <img src={'/deleteIcon.png'} />
                     </StyledDeletePictureBtn>
                 )}
                 {getImg && (
@@ -159,7 +159,7 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
                             onClickFileBtn(e);
                         }}
                     >
-                        수정
+                        <img src={'/reviseIcon.png'} />
                     </StyledModifyPictureBtn>
                 )}
             </StyledImgBlock>
@@ -217,16 +217,28 @@ const StyledInputContainer = styled.div`
 
 const StyledDeletePictureBtn = styled.button`
     position: absolute;
-    top: 85%;
+    top: 88%;
     left: 3%;
     z-index: 1;
+    border: none;
+    background: none;
+    cursor: pointer;
+    img {
+        width: 28px;
+    }
 `;
 
 const StyledModifyPictureBtn = styled.button`
     position: absolute;
-    top: 85%;
-    left: 15%;
+    top: 88%;
+    left: 10%;
     z-index: 1;
+    border: none;
+    background: none;
+    cursor: pointer;
+    img {
+        width: 28px;
+    }
 `;
 
 const StyledDeleteItemBtn = styled.button`

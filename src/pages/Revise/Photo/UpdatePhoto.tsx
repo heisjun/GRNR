@@ -313,13 +313,13 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
 const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
-    width: 1920px;
+    width: 100%;
     height: 50px;
     padding: 0px 20px 0px 20px;
     @media screen and (max-width: ${maxWidth}px) {
         height: 80px;
-        padding-left: 10%;
-        padding-right: 10%;
+        padding-left: 20%;
+        padding-right: 20%;
     }
     @media screen and (min-width: ${maxWidth}px) {
         height: 80px;

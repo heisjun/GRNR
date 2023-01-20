@@ -38,6 +38,14 @@ const PhotoFilter_Classification = [
     },
 ];
 
+const PhotoFilter_Video = [
+    {
+        id: 4,
+        name: '동영상',
+        list: ['동영상', '사진'],
+    },
+];
+
 const Photo: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -49,11 +57,13 @@ const Photo: React.FC = () => {
     const [selectedPlace, setSelectedPlace] = useState('');
     const [selectedOrder, setSelectedOrder] = useState('');
     const [selectedClassification, setSelectedClassification] = useState('');
+    const [selectedVideo, setSelectedVideo] = useState('');
 
     const [filterValue, setFilterValue] = useState({
         sort: '',
         homePlace: '',
         classification: '',
+        video: '',
     });
     const handleFilterValue = (value: string, name: string) => {
         setFilterValue((prev) => {
@@ -73,11 +83,16 @@ const Photo: React.FC = () => {
         handleFilterValue(selectedClassification, 'classification');
     }, [selectedClassification]);
 
+    useEffect(() => {
+        handleFilterValue(selectedVideo, 'video');
+    }, [selectedVideo]);
+
     const onReset = () => {
         setFilterValue({
             sort: '',
             homePlace: '',
             classification: '',
+            video: '',
         });
     };
 
@@ -109,12 +124,13 @@ const Photo: React.FC = () => {
     useEffect(() => {
         const queryString = `?${filterValue.sort ? `order=${filterValue.sort}` : ''} & 
     ${filterValue.homePlace ? `homePlace=${filterValue.homePlace}` : ''}& 
-    ${filterValue.classification ? `classification=${filterValue.classification}` : ''}`;
+    ${filterValue.classification ? `classification=${filterValue.classification}` : ''} & 
+    ${filterValue.video ? `video=${filterValue.video}` : ''}`;
 
         const realQuery = queryString.replace(/\s+/g, '');
 
         navigate(`/community/photo/${realQuery}`);
-    }, [filterValue.homePlace, filterValue.sort, filterValue.classification]);
+    }, [filterValue.homePlace, filterValue.sort, filterValue.classification, filterValue.video]);
 
     const [popular1, setPopular1] = useState();
 
@@ -147,6 +163,7 @@ const Photo: React.FC = () => {
                     <Filters_Test setGetFilter={setSelectedOrder} data={PhotoFilter_Order} />
                     <Filters_Test setGetFilter={setSelectedPlace} data={PhotoFilter_Place} />
                     <Filters_Test setGetFilter={setSelectedClassification} data={PhotoFilter_Classification} />
+                    <Filters_Test setGetFilter={setSelectedVideo} data={PhotoFilter_Video} />
                 </StyledPhotoHeader>
 
                 <div style={{ display: 'flex', paddingBottom: 20 }}>
@@ -177,6 +194,14 @@ const Photo: React.FC = () => {
                                     onClick={() => handleFilterValue('', 'classification')}
                                     style={{ paddingLeft: 3 }}
                                 />
+                            </div>
+                        </StyledSelected>
+                    )}
+                    {filterValue.video && (
+                        <StyledSelected>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {filterValue.video}
+                                <FaTimes onClick={() => handleFilterValue('', 'video')} style={{ paddingLeft: 3 }} />
                             </div>
                         </StyledSelected>
                     )}

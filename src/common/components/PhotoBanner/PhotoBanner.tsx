@@ -61,7 +61,7 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                                     width="100%"
                                     borderRadius="100%"
                                     height="100%"
-                                    picUrl={data[0].firstContent.pictureUrl}
+                                    picUrl={data[0].accountProfileUrl}
                                 />
                             </StyledAvatarBlock>
                             <StyledNickname>{data[0].accountNickName}</StyledNickname>
