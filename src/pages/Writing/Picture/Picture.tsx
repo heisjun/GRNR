@@ -25,7 +25,6 @@ const Picture: React.FC = () => {
     const navigate = useNavigate();
     const [getOption1, setGetOption1] = useState('');
     const [showBtn, setShowBtn] = useState<boolean>(true);
-    const [getOption2, setGetOption2] = useState('');
     const [imgFiles, setImgFiles] = useState<{ imgfile: any }[]>([]);
     const [saveDto, setSaveDto] = useState<
         {
@@ -73,8 +72,6 @@ const Picture: React.FC = () => {
     ]);
 
     const onAddWritingItem = () => {
-        console.log(getContent.length);
-
         setGetContent([
             ...getContent,
             { loc: '', hashtag: [], details: '', imgFile: null, realImg: null, realhashtag: [] },
@@ -106,7 +103,6 @@ const Picture: React.FC = () => {
     }
 
     const onSave = async () => {
-        console.log(getOption1);
         if (getOption1 === '분류') {
             alert('분류를 입력해주세요!');
             return;
@@ -115,7 +111,6 @@ const Picture: React.FC = () => {
 
         for (let i = 0; i < getContent.length; i++) {
             if (getContent[i].loc === '공간') {
-                console.log(getContent[i].loc);
                 alert('공간을 입력해 주세요');
                 return;
             } else {
@@ -127,27 +122,20 @@ const Picture: React.FC = () => {
             }
         }
 
-        console.log('공간까지 ok');
-
         const test: Uploader = {
             classification: convertEng2(getOption1),
             pictureSaveDtoList: saveDto,
         };
 
         const uploaderString = JSON.stringify(test);
-        console.log(uploaderString);
         formData.append('saveList', new Blob([uploaderString], { type: 'application/json' }));
 
         for (let i = 0; i < getContent.length; i++) {
             if (!getContent[i].realImg) {
-                console.log('데이터없음');
                 return;
             }
-            console.log('이미지파일', getContent[i].realImg);
             formData.append('file', getContent[i].realImg);
         }
-
-        console.log('사진까지 ok');
 
         const res = await axios.post(`${BASEURL}/api/picture/save`, formData, {
             headers: {
@@ -362,8 +350,8 @@ const StyledHeaderBar = styled.div`
     padding: 0px 20px 0px 20px;
     @media screen and (max-width: ${maxWidth}px) {
         height: 80px;
-        padding-left: 10%;
-        padding-right: 10%;
+        padding-left: 20%;
+        padding-right: 20%;
     }
     @media screen and (min-width: ${maxWidth}px) {
         height: 80px;

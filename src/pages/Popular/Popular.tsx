@@ -28,6 +28,8 @@ const Popular: React.FC = () => {
         { imgSrc: '/popular/9.jpg' },
     ];
 
+    const questionData = [{}, {}, {}, {}, {}, {}];
+
     useEffect(() => {
         setPageAnim(FadeIn);
         return () => {
@@ -72,7 +74,15 @@ const Popular: React.FC = () => {
                         더보기 <StyledArrowIcon src="/btnArrowGray.png" />
                     </StyledMoreText>
                 </StyledDetailsBlock>
-                <TodaysQuestion />
+                <ItemList
+                    width="100%"
+                    imgHeight="100%"
+                    cols={3}
+                    horizontalGap={2}
+                    verticalGap={photoVerticalGap}
+                    items={questionData}
+                    RenderComponent={TodaysQuestion}
+                />
             </StyledBottomContainer>
         </StyledPopularContainer>
     );
@@ -126,5 +136,6 @@ const StyledPopularContainer = styled.div<{ pageAnim: any }>`
 const StyledBottomContainer = styled.div`
     max-width: 1140px;
     margin-top: 100px;
+    margin-bottom: 100px;
 `;
 export default Popular;
