@@ -110,7 +110,7 @@ const UserFollowing: React.FC = () => {
                                 </StyledUserNickname>
                                 <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
                             </div>
-                            {item.myFollow ? (
+                            {item.accountId === Number(localStorage.getItem('accountId')) ? null : item.myFollow ? (
                                 <StyledFollowingBtn onClick={() => onUnFollowing(item.nickName)}>
                                     <StyledBtnText>팔로잉</StyledBtnText>
                                 </StyledFollowingBtn>

@@ -111,7 +111,7 @@ const UserFollower: React.FC = () => {
                                 </StyledUserNickname>
                                 <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
                             </div>
-                            {item.myFollow ? (
+                            {item.accountId === Number(localStorage.getItem('accountId')) ? null : item.myFollow ? (
                                 <StyledFollowingBtn onClick={() => onUnFollowing(item.nickName)}>
                                     <StyledBtnText>팔로잉</StyledBtnText>
                                 </StyledFollowingBtn>
@@ -120,6 +120,15 @@ const UserFollower: React.FC = () => {
                                     <StyledFollowBtnText>팔로우</StyledFollowBtnText>
                                 </StyledFollowBtn>
                             )}
+                            {/*  {item.myFollow ? (
+                                <StyledFollowingBtn onClick={() => onUnFollowing(item.nickName)}>
+                                    <StyledBtnText>팔로잉</StyledBtnText>
+                                </StyledFollowingBtn>
+                            ) : (
+                                <StyledFollowBtn onClick={() => onFollowing(item.nickName)}>
+                                    <StyledFollowBtnText>팔로우</StyledFollowBtnText>
+                                </StyledFollowBtn>
+                            )} */}
                         </StyledFollowingContainer>
                     );
                 })}
