@@ -15,7 +15,6 @@ const TOKEN = localStorage.getItem('accesstoken');
 
 const PhotoDetails: React.FC = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState<IPhotoDetailsParams>();
     const [commentsList, setCommentsList] = useState<ICommentsParams>();
     const [openModal, setOpenModal] = useState(false);
@@ -275,7 +274,7 @@ const PhotoDetails: React.FC = () => {
                         {myAccountId === String(details?.accountId) && (
                             <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
                         )}
-                        {myAccountId !== String(details?.accountId) && (
+                        {myAccountId === String(details?.accountId) && (
                             <StyledReportText onClick={onEdit}>수정</StyledReportText>
                         )}
                         {myAccountId !== String(details?.accountId) && (

@@ -25,7 +25,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
     const [getTag, setGetTag] = useState<string[]>([]);
     const [realgetTag, setRealgetTag] = useState<{ tagName: string }[]>([]);
     const [imageUrl, setImageUrl] = useState<any>(null);
-    const [videoUrl, setVideoUrl] = useState<any>(null);
+    //const [videoUrl, setVideoUrl] = useState<any>(null);
     const [imgfile, setImgFile] = useState<File | null>(null);
     const imgRef = useRef<any>(null);
     const ALLOW_PHOTO_EXTENSION = 'jpg,jpeg,png,webp';
@@ -141,7 +141,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                             <StyledPreviewTitle>{type}</StyledPreviewTitle>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <StyledPreviewText>
-                                    *5GB 미만, 3초 ~60초 길이의 세로영상을 권장합니다.
+                                    *1GB 미만, 3초 ~60초 길이의 세로영상을 권장합니다.
                                 </StyledPreviewText>
                                 <StyledPreviewBtn onClick={onClickFileBtn}>
                                     <span>동영상 업로드 하기</span>
@@ -175,16 +175,23 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                         <img src={'/reviseIcon.png'} />
                     </StyledModifyPictureBtn>
                 )}
+
                 {type === 'PHOTO' ? (
                     !getContent[index].imgFile ? (
                         <Preview />
                     ) : (
-                        <StyledImg src={getContent[index].imgFile}></StyledImg>
+                        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                            <StyledImg src={getContent[index].imgFile} />
+                            <StyledImgBtm test={getContent[index].imgFile} />
+                        </div>
                     )
                 ) : !getContent[index].imgFile ? (
                     <Preview />
                 ) : (
-                    <StyledVideo src={getContent[index].imgFile}></StyledVideo>
+                    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                        <StyledVideo src={getContent[index].imgFile}></StyledVideo>
+                        <StyledImgBtm test={getContent[index].imgFile} />
+                    </div>
                 )}
 
                 {type === 'PHOTO' ? (
@@ -258,6 +265,15 @@ const StyledInputContainer = styled.div`
     padding: 16px 30px 0px 30px;
 `;
 
+const StyledBtnZone = styled.div`
+    position: absolute;
+    display: flex;
+    width: 100%;
+    top: 88%;
+    z-index: 2;
+    background: linear-gradient(white, black);
+`;
+
 const StyledDeletePictureBtn = styled.button`
     position: absolute;
     top: 88%;
@@ -316,6 +332,16 @@ const StyledImgBlock = styled.div`
 const StyledImg = styled.img`
     width: 100%;
     height: 100%;
+    position: relative;
+`;
+const StyledImgBtm = styled.div<{ test: string }>`
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(20, 20, 20, 0) 85%, rgba(20, 20, 20, 0.5) 90%, rgba(20, 20, 20, 1) 100%),
+        url(test);
+    background-size: cover;
 `;
 
 const StyledVideo = styled.video`

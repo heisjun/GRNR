@@ -160,6 +160,7 @@ const UserProfile: React.FC = () => {
 
 const StyledFollowButtonBlock = styled.div`
     margin-top: 26px;
+    margin-bottom: 26px;
     height: 34px;
     box-sizing: border-box;
     padding: 7px 17px;

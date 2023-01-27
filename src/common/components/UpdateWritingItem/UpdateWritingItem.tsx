@@ -79,12 +79,12 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
                     ) : (
                         <>
                             <StyledTypeIcon>
-                                <img src={'/photoIcon.png'} />
+                                <img src={'/videoIcon.png'} />
                             </StyledTypeIcon>
                             <StyledPreviewTitle>{type}</StyledPreviewTitle>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <StyledPreviewText>
-                                    *5GB 미만, 3초 ~60초 길이의 세로영상을 권장합니다.
+                                    *1GB 미만, 3초 ~60초 길이의 세로영상을 권장합니다.
                                 </StyledPreviewText>
                                 <StyledPreviewBtn onClick={onClickFileBtn}>
                                     <span>동영상 업로드 하기</span>
