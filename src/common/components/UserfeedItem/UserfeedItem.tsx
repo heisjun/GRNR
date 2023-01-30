@@ -31,36 +31,38 @@ const UserfeedItem: React.FC<IMyfeedItemParams> = (props) => {
                     <PhotoItemModal setIsOpenModal={setIsOpenModal} pictureId={item.pictureId} ref={dropdownListRef} />
                 </div>
             </Modal>
-            <Link to={`/community/photo/details/${item.pictureId}`} style={{ textDecoration: 'none' }}>
-                <StyledImgBlock
-                    onMouseEnter={() => {
-                        setImgAnim(ImageScaleUp);
-                    }}
-                    onMouseLeave={() => {
-                        setImgAnim(ImageScaleDown);
-                    }}
-                >
-                    {item.video ? (
-                        <StyledVideo src={item.pictureUrl} width="100%" height="100%" />
-                    ) : (
-                        <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
-                    )}
-                </StyledImgBlock>
-                <StyledStatsBlock>
-                    <StyledStatBlock>
-                        <StyledLikeButton src={'/btnBlankHeart.png'} />
-                        <StyledCountText>{item.likeCount}</StyledCountText>
-                    </StyledStatBlock>
-                    <StyledStatBlock>
-                        <StyledLikeButton src={'/btnComment.png'} />
-                        <StyledCountText>{item.commentCount}</StyledCountText>
-                    </StyledStatBlock>
-                    <StyledStatBlock>
-                        <StyledLikeButton src={'/btnBlankBookmark.png'} />
-                        <StyledCountText>{item.scrapCount}</StyledCountText>
-                    </StyledStatBlock>
-                </StyledStatsBlock>
-            </Link>
+
+            <StyledImgBlock
+                onMouseEnter={() => {
+                    setImgAnim(ImageScaleUp);
+                }}
+                onMouseLeave={() => {
+                    setImgAnim(ImageScaleDown);
+                }}
+                onClick={() => {
+                    setIsOpenModal(true);
+                }}
+            >
+                {item.video ? (
+                    <StyledVideo src={item.pictureUrl} width="100%" height="100%" />
+                ) : (
+                    <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                )}
+            </StyledImgBlock>
+            <StyledStatsBlock>
+                <StyledStatBlock>
+                    <StyledLikeButton src={'/btnBlankHeart.png'} />
+                    <StyledCountText>{item.likeCount}</StyledCountText>
+                </StyledStatBlock>
+                <StyledStatBlock>
+                    <StyledLikeButton src={'/btnComment.png'} />
+                    <StyledCountText>{item.commentCount}</StyledCountText>
+                </StyledStatBlock>
+                <StyledStatBlock>
+                    <StyledLikeButton src={'/btnBlankBookmark.png'} />
+                    <StyledCountText>{item.scrapCount}</StyledCountText>
+                </StyledStatBlock>
+            </StyledStatsBlock>
         </StyledTodaysPhotoContainer>
     );
 };

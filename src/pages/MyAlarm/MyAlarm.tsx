@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { FadeIn, FadeOut } from 'common/keyframes';
 import axios from 'axios';
@@ -6,6 +6,8 @@ import { Avatar } from 'common/components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { AlarmcountState } from 'recoil/count';
+import Modal from 'react-modal';
+import PhotoItemModal from 'common/components/PhotoItemModal';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -27,6 +29,20 @@ const MyAlarm: React.FC = () => {
     }
     const [alarm, setAlarm] = useState<IAlram[]>([]);
     const [alarmCount, setAlarmCount] = useRecoilState(AlarmcountState);
+    const [isOpenModal, setIsOpenModal] = useState(false);
+    const dropdownListRef = useRef<any>(null);
+
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
+                setIsOpenModal(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownListRef]);
 
     useEffect(() => {
         setPageAnim(FadeIn);
@@ -79,10 +95,74 @@ const MyAlarm: React.FC = () => {
 
     return (
         <StyledAlarmContainer pageAnim={pageAnim}>
+            {/* <Modal isOpen={isOpenModal} ariaHideApp={false} style={customStyles}>
+                <div ref={dropdownListRef}>
+                    <PhotoItemModal setIsOpenModal={setIsOpenModal} pictureId={item.pictureId} ref={dropdownListRef} />
+                </div>
+            </Modal> */}
             <div style={{ width: 1140, margin: 'auto' }}>
                 <StyledMagazineHeader>내소식</StyledMagazineHeader>
                 {alarm.map((item, index) => (
-                    <StyledAlarmBlock
+                    <>
+                        {item.video === null ? (
+                            <StyledAlarmBlock
+                                key={index}
+                                onClick={() => {
+                                    onCheckAlarm(item.alarmId, item.alarmCheck, item.alarmLink.split('/userpage/')[1]);
+                                    navigate(`/${item.alarmLink.split('kr/')[1]}`);
+                                }}
+                                check={item.alarmCheck}
+                            >
+                                <div style={{ width: 60, marginRight: 19 }}>
+                                    <Avatar
+                                        width="100%"
+                                        paddingBottom="100%"
+                                        borderRadius="100%"
+                                        picUrl={item.accountPic}
+                                    />
+                                </div>
+                                <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
+                                    <StyledUserNickname>{item.alarmContent}</StyledUserNickname>
+                                    <StyledUserInfo>{item.alarmTime}</StyledUserInfo>
+                                </div>
+                                <div>
+                                    <StyledThumbnail src={item.postPic} />
+                                </div>
+                            </StyledAlarmBlock>
+                        ) : (
+                            <StyledAlarmBlock
+                                key={index}
+                                onClick={() => {
+                                    onCheckAlarm(item.alarmId, item.alarmCheck, item.alarmLink.split('/userpage/')[1]);
+                                    navigate(`/${item.alarmLink.split('kr/')[1]}`);
+                                }}
+                                check={item.alarmCheck}
+                            >
+                                <div style={{ width: 60, marginRight: 19 }}>
+                                    <Avatar
+                                        width="100%"
+                                        paddingBottom="100%"
+                                        borderRadius="100%"
+                                        picUrl={item.accountPic}
+                                    />
+                                </div>
+                                <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
+                                    <StyledUserNickname>{item.alarmContent}</StyledUserNickname>
+                                    <StyledUserInfo>{item.alarmTime}</StyledUserInfo>
+                                </div>
+                                <div>
+                                    {item.video ? (
+                                        <StyledThumbnailVideo src={item.postPic} />
+                                    ) : (
+                                        <StyledThumbnail src={item.postPic} />
+                                    )}
+                                    <StyledThumbnail src={item.postPic} />
+                                </div>
+                            </StyledAlarmBlock>
+                        )}
+                    </>
+
+                    /*  <StyledAlarmBlock
                         key={index}
                         onClick={() => {
                             onCheckAlarm(item.alarmId, item.alarmCheck, item.alarmLink.split('/userpage/')[1]);
@@ -104,11 +184,31 @@ const MyAlarm: React.FC = () => {
                                 <StyledThumbnail src={item.postPic} />
                             )}
                         </div>
-                    </StyledAlarmBlock>
+                    </StyledAlarmBlock> */
                 ))}
             </div>
         </StyledAlarmContainer>
     );
+};
+
+const customStyles = {
+    overlay: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    content: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        marginTop: '100px',
+        width: '1140px',
+        height: '750px',
+        padding: '0',
+        overflow: 'hidden',
+        borderRadius: '0px',
+    },
 };
 
 const StyledThumbnail = styled.img`
