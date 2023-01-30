@@ -3,6 +3,7 @@ import { ItemList, TodaysPhoto, MyfeedItem } from 'common/components';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import UserfeedItem from 'common/components/UserfeedItem';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
@@ -77,7 +78,7 @@ const UserFeed: React.FC = () => {
                     horizontalGap={photoGap}
                     verticalGap={photoGap}
                     items={picData}
-                    RenderComponent={MyfeedItem}
+                    RenderComponent={UserfeedItem}
                 />
                 <StyledBorderLine />
                 <StyledDetailsBlock>
