@@ -5,9 +5,11 @@ import { DailyInfo } from 'domains';
 import { FadeIn, FadeOut } from 'common/keyframes';
 import TodaysQuestion from 'common/components/TodaysQuestion';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { IPopularPic } from 'common/types';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
-const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
 
 const Popular: React.FC = () => {
     const navigate = useNavigate();
@@ -16,17 +18,20 @@ const Popular: React.FC = () => {
     const [photoVerticalGap, setPhotoVerticalGap] = useState(20);
 
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
+    const [popular1, setPopular1] = useState<IPopularPic[]>([]);
 
-    const picData = [
-        { imgSrc: '/popular/2.jpg' },
-        { imgSrc: '/popular/3.jpg' },
-        { imgSrc: '/popular/4.jpg' },
-        { imgSrc: '/popular/5.jpg' },
-        { imgSrc: '/popular/6.jpg' },
-        { imgSrc: '/popular/7.jpg' },
-        { imgSrc: '/popular/8.jpg' },
-        { imgSrc: '/popular/9.jpg' },
-    ];
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASEURL}/api/picture/search?order=인기순`);
+                setPopular1(response.data.value.content);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const questionData = [{}, {}, {}, {}, {}, {}];
 
@@ -55,7 +60,7 @@ const Popular: React.FC = () => {
                     cols={photoCols}
                     horizontalGap={photoGap}
                     verticalGap={photoVerticalGap}
-                    items={picData}
+                    items={popular1}
                     RenderComponent={TodaysPhoto}
                 />
 
@@ -119,10 +124,6 @@ const StyledDetailsBlock = styled.div`
 
 const StyledBorderLine = styled.div`
     height: 120px;
-`;
-
-const StyledBorderPlace = styled.div`
-    margin: 30px 0px 30px 0px;
 `;
 
 const StyledPopularContainer = styled.div<{ pageAnim: any }>`

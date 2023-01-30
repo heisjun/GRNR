@@ -51,6 +51,7 @@ export type IItemList = {
         | IPhotoDetailsItems
         | IPopularPic[]
         | IDicData[]
-        | IpicData[];
+        | IpicData[]
+        | IPopularPic[];
     RenderComponent: React.FC<any>;
 };

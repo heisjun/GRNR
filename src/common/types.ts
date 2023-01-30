@@ -396,7 +396,14 @@ export type IMyfeedItemParams = {
 };
 
 export type IPopularPic = {
-    imgSrc: string;
+    accountNickName: string;
+    accountProfileUrl: string;
+    pictureId: number;
+    firstContent: {
+        explain: string;
+        pictureUrl: string;
+        video: boolean;
+    };
 };
 
 export type ITodaysPhotoParams = {

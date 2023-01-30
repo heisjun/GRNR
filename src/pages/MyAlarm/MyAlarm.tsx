@@ -22,6 +22,7 @@ const MyAlarm: React.FC = () => {
         alarmCheck: false;
         alarmId: number;
         postPic: string;
+        video: boolean;
         accountPic: string;
     }
     const [alarm, setAlarm] = useState<IAlram[]>([]);
@@ -97,7 +98,11 @@ const MyAlarm: React.FC = () => {
                             <StyledUserInfo>{item.alarmTime}</StyledUserInfo>
                         </div>
                         <div>
-                            <StyledThumbnail src={item.postPic} />
+                            {item.video ? (
+                                <StyledThumbnailVideo src={item.postPic} />
+                            ) : (
+                                <StyledThumbnail src={item.postPic} />
+                            )}
                         </div>
                     </StyledAlarmBlock>
                 ))}
@@ -107,6 +112,12 @@ const MyAlarm: React.FC = () => {
 };
 
 const StyledThumbnail = styled.img`
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+`;
+
+const StyledThumbnailVideo = styled.video`
     width: 100px;
     height: 100px;
     object-fit: cover;

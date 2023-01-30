@@ -14,7 +14,7 @@ const TodaysPhoto: React.FC<ITodaysPhotoParams> = (props) => {
 
     return (
         <StyledTodaysPhotoContainer width={width} height={height} paddingBottom={paddingBottom}>
-            <Link to="community/photo/details" style={{ textDecoration: 'none' }}>
+            <Link to={`/community/photo/details/${item.pictureId}`} style={{ textDecoration: 'none' }}>
                 <StyledImgBlock
                     onMouseEnter={() => {
                         setHover(true);
@@ -27,15 +27,24 @@ const TodaysPhoto: React.FC<ITodaysPhotoParams> = (props) => {
                         <StyledHoverBackgrouond>
                             <StyledProfileBlock>
                                 <StyledAvatarBlock>
-                                    <Avatar width="100%" paddingBottom="100%" borderRadius="100%" />
+                                    <Avatar
+                                        width="100%"
+                                        paddingBottom="100%"
+                                        borderRadius="100%"
+                                        picUrl={item.accountProfileUrl}
+                                    />
                                 </StyledAvatarBlock>
-                                <StyledNicknameBlock>greenary</StyledNicknameBlock>
+                                <StyledNicknameBlock>{item.accountNickName}</StyledNicknameBlock>
                             </StyledProfileBlock>
                             <StyledBorderLine />
-                            <StyledDetailsText>인기 사진글</StyledDetailsText>
+                            <StyledDetailsText>{item.firstContent.explain}</StyledDetailsText>
                         </StyledHoverBackgrouond>
                     )}
-                    <StyledImg src={item.imgSrc} width="100%" height="100%" />
+                    {item.firstContent.video ? (
+                        <StyledVideo src={item.firstContent.pictureUrl} width="100%" height="100%" />
+                    ) : (
+                        <StyledImg src={item.firstContent.pictureUrl} width="100%" height="100%" />
+                    )}
                 </StyledImgBlock>
             </Link>
         </StyledTodaysPhotoContainer>
@@ -43,6 +52,11 @@ const TodaysPhoto: React.FC<ITodaysPhotoParams> = (props) => {
 };
 
 const StyledImg = styled.img`
+    cursor: pointer;
+    object-fit: cover;
+`;
+
+const StyledVideo = styled.video`
     cursor: pointer;
     object-fit: cover;
 `;
