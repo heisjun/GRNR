@@ -114,6 +114,9 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
         }
         try {
             await api.post(`${BASEURL}/api/${category}/comment/${commentId}/like`);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            fetchData3 && fetchData3();
             // setTestComments(
             //     testComments.map((it) =>
             //         it.commentId === commentId ? { ...it, myLike: true, likeCount: likeCount + 1 } : it,
@@ -130,6 +133,9 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
         }
         try {
             await api.post(`${BASEURL}/api/${category}/comment/${commentId}/like`);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            fetchData3 && fetchData3();
             // let ParentcommentIndex = 0;
 
             // testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
@@ -153,6 +159,9 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
         }
         try {
             await api.post(`${BASEURL}/api/${category}/comment/${commentId}/like`);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            fetchData3 && fetchData3();
             // let ParentcommentIndex = 0;
 
             // testComments.map((it, index) => (it.commentId === parentId ? (ParentcommentIndex = index) : it));
@@ -176,6 +185,9 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
         }
         try {
             await api.post(`${BASEURL}/api/${category}/comment/${commentId}/like`);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            fetchData3 && fetchData3();
             // setTestComments(
             //     testComments.map((it) =>
             //         it.commentId === commentId ? { ...it, myLike: false, likeCount: likeCount - 1 } : it,
