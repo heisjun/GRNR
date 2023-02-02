@@ -156,7 +156,6 @@ const MyAlarm: React.FC = () => {
                                     ) : (
                                         <StyledThumbnail src={item.postPic} />
                                     )}
-                                    <StyledThumbnail src={item.postPic} />
                                 </div>
                             </StyledAlarmBlock>
                         )}
