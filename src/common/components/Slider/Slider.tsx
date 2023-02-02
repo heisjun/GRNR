@@ -12,6 +12,7 @@ import CommentItemModal from '../CommenntItemModal';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
+import PhotoItemModal from '../PhotoItemModal';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
@@ -125,18 +126,6 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
         }
     }, []);
 
-    function convertKor(classification: string) {
-        if (classification === 'LEAF') {
-            return '잎보기식물';
-        } else if (classification === 'FLOWER') {
-            return '꽃보기식물';
-        } else if (classification === 'FRUIT') {
-            return '열매보기식물';
-        } else if (classification === 'SUCCULENT') {
-            return '선인장,다육식물';
-        }
-    }
-
     useEffect(() => {
         fetchData();
         fetchData2();
@@ -164,87 +153,10 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
         fetchData3();
     }, []);
 
-    const onFollowing = async (followingName: string) => {
-        if (!TOKEN) {
-            navigate('/login');
-        }
-        const followData = { followingName: followingName };
-        const saveFollowDto = JSON.stringify(followData);
-
-        try {
-            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
-            setDetails((prev: any) => {
-                return { ...prev, myFollow: true };
-            });
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    const onUnFollowing = async (followingName: string) => {
-        if (!TOKEN) {
-            navigate('/login');
-        }
-        const followData = { followingName: followingName };
-        const saveFollowDto = JSON.stringify(followData);
-
-        try {
-            await axios.post(`${BASEURL}/api/following/save`, saveFollowDto, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
-            setDetails((prev: any) => {
-                return { ...prev, myFollow: false };
-            });
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    const onGoUserPage = () => {
-        if (!TOKEN) {
-            navigate('/login');
-            return;
-        }
-        localStorage.setItem('userId', String(details?.accountId));
-        {
-            details?.accountId === Number(localStorage.getItem('accountId'))
-                ? navigate('/mypage')
-                : navigate(`/userpage/${details?.accountId}`);
-        }
-    };
-
     useEffect(() => {
         slideRef.current.style.transition = 'all 0.5s ease-in-out';
         slideRef.current.style.transform = `translateX(-${Slidetransform}%)`;
     }, [currentSlide]);
-
-    const data = [
-        {
-            pictureId: 2,
-            contentId: 4,
-            pictureUrl: '사진글2_사진4.jpg',
-            explain: '두번째 사진글의 사진4입니다.',
-            homePlace: 'LIVING_ROOM',
-            tagList: [
-                {
-                    pictureContentId: 4,
-                    tagName: '사진4 태그1',
-                },
-                {
-                    pictureContentId: 4,
-                    tagName: '사진4 태그2',
-                },
-            ],
-        },
-    ];
 
     return (
         <Container>
@@ -280,110 +192,8 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
             </StyledIndicator>
 
             <Modal isOpen={isOpenModal} ariaHideApp={false} style={customStyles}>
-                <div style={{ display: 'flex' }} ref={dropdownListRef}>
-                    <div style={{ width: 708, backgroundColor: 'white' }}>
-                        <div
-                            style={{
-                                overflow: 'auto',
-                                maxHeight: 750,
-                            }}
-                        >
-                            <div>
-                                <StyledClassification>
-                                    {convertKor(details?.classification ? details.classification : 'FLOWER')}
-                                </StyledClassification>
-                                <ItemList
-                                    width="100%"
-                                    imgHeight="100%"
-                                    cols={1}
-                                    horizontalGap={0}
-                                    verticalGap={0}
-                                    items={details?.pictureContentDtoList ? details?.pictureContentDtoList : data}
-                                    RenderComponent={TaggedPhoto}
-                                />
-                                <StyledViewCount>조회 {details?.viewCount} 명</StyledViewCount>
-                                <StyledUserInfoBlock>
-                                    <StyledProfileBlock>
-                                        <StyledWriterBlock>
-                                            <StyeldAvatarBlock onClick={onGoUserPage}>
-                                                <Avatar
-                                                    width="100%"
-                                                    paddingBottom="100%"
-                                                    borderRadius="100%"
-                                                    picUrl={details?.accountProfileUrl}
-                                                />
-                                            </StyeldAvatarBlock>
-                                            <div>
-                                                <StyledWriterText onClick={onGoUserPage}>
-                                                    {details?.accountNickName}
-                                                </StyledWriterText>
-                                                <StyledWriterintro>{details?.selfInfo}</StyledWriterintro>
-                                            </div>
-                                        </StyledWriterBlock>
-                                    </StyledProfileBlock>
-                                    {/* <StyledFollowButtonBlock>
-                                        {details?.myFollow ? (
-                                            <StyledFollowButton>
-                                                <StyledFollowText
-                                                    onClick={() =>
-                                                        onUnFollowing(
-                                                            details?.accountNickName ? details.accountNickName : '',
-                                                        )
-                                                    }
-                                                >
-                                                    팔로잉
-                                                </StyledFollowText>
-                                            </StyledFollowButton>
-                                        ) : (
-                                            <StyledFollowButton>
-                                                <StyledFollowText
-                                                    onClick={() =>
-                                                        onFollowing(
-                                                            details?.accountNickName ? details.accountNickName : '',
-                                                        )
-                                                    }
-                                                >
-                                                    팔로우
-                                                </StyledFollowText>
-                                            </StyledFollowButton>
-                                        )}
-                                    </StyledFollowButtonBlock> */}
-                                </StyledUserInfoBlock>
-                            </div>
-                        </div>
-                    </div>
-                    <div style={{ width: 432, backgroundColor: 'white' }}>
-                        <div
-                            onClick={() => setIsOpenModal(false)}
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                marginRight: 15,
-                                marginTop: 5,
-                                cursor: 'pointer',
-                            }}
-                        >
-                            닫기 X
-                        </div>
-                        <div
-                            style={{
-                                overflow: 'auto',
-                                maxHeight: 610,
-                                padding: 16,
-                                boxSizing: 'border-box',
-                            }}
-                        >
-                            <CommentItemModal
-                                commentsList={commentsList}
-                                setCommentsList={setCommentsList}
-                                pictureId={String(item.id)}
-                                testComments={comment}
-                                setTestComments={setComment}
-                                category="picture"
-                                ref={dropdownListRef}
-                            />
-                        </div>
-                    </div>
+                <div ref={dropdownListRef}>
+                    <PhotoItemModal setIsOpenModal={setIsOpenModal} pictureId={item.id} ref={dropdownListRef} />
                 </div>
             </Modal>
 
