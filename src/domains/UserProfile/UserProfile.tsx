@@ -25,7 +25,6 @@ const UserProfile: React.FC = () => {
     const [followingCount, setFollowingCount] = useRecoilState(followingcountState);
     const [followerCount, setFollowerCount] = useRecoilState(followercountState);
     const [myFollow, setMyFollow] = useState<boolean>(); //팔로잉 수정해야함
-
     const location = useLocation();
 
     useEffect(() => {
@@ -38,6 +37,7 @@ const UserProfile: React.FC = () => {
                 });
 
                 setAccountDto(myfeedData.data.value.accountDto);
+                setMyFollow(myfeedData.data.value.myFollow);
                 setFollowingCount(myfeedData.data.value.accountDto.followingCount);
                 setFollowerCount(myfeedData.data.value.accountDto.followerCount);
             } catch (e) {
