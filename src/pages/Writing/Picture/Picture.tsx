@@ -95,6 +95,7 @@ const Picture: React.FC = () => {
 
     interface Uploader {
         classification: any;
+        video: any;
         pictureSaveDtoList: {
             explain: string;
             homePlace?: string;
@@ -124,6 +125,7 @@ const Picture: React.FC = () => {
 
         const test: Uploader = {
             classification: convertEng2(getOption1),
+            video: 'FALSE',
             pictureSaveDtoList: saveDto,
         };
 

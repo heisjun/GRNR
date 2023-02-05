@@ -142,11 +142,7 @@ const Following: React.FC = () => {
                             <StyledSearchBar src={'/btnSearch.png'} onClick={() => setIsActive(!isActive)} />
 
                             <StyledAlarm src={'/btnAlarm.png'} onClick={() => nav('/myalarm')} />
-                            {alarmCount === 0 ? null : (
-                                <StyledAlarmDot>
-                                    <span>{alarmCount}</span>
-                                </StyledAlarmDot>
-                            )}
+                            {alarmCount === 0 ? null : <StyledAlarmDot></StyledAlarmDot>}
                             <MypageDropdown />
                             <WritingDropdown />
                         </StyledButtonsCotainer>

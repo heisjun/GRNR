@@ -125,9 +125,7 @@ const MyAlarm: React.FC = () => {
                                     <StyledUserNickname>{item.alarmContent}</StyledUserNickname>
                                     <StyledUserInfo>{item.alarmTime}</StyledUserInfo>
                                 </div>
-                                <div>
-                                    <StyledThumbnail src={item.postPic} />
-                                </div>
+                                <div>{item.postPic && <StyledThumbnail src={item.postPic} />}</div>
                             </StyledAlarmBlock>
                         ) : (
                             <StyledAlarmBlock
@@ -150,13 +148,7 @@ const MyAlarm: React.FC = () => {
                                     <StyledUserNickname>{item.alarmContent}</StyledUserNickname>
                                     <StyledUserInfo>{item.alarmTime}</StyledUserInfo>
                                 </div>
-                                <div>
-                                    {item.video ? (
-                                        <StyledThumbnailVideo src={item.postPic} />
-                                    ) : (
-                                        <StyledThumbnail src={item.postPic} />
-                                    )}
-                                </div>
+                                <div>{item.postPic && <StyledThumbnailVideo src={item.postPic} />}</div>
                             </StyledAlarmBlock>
                         )}
                     </>
