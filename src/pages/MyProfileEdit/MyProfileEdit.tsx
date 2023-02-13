@@ -247,8 +247,10 @@ const MyProfileEdit: React.FC = () => {
 };
 
 const StyledImg = styled.img`
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
+    border-radius: 100%;
+    border: 1px solid #dbdbdb;
     cursor: pointer;
     :hover {
         opacity: 0.5;
@@ -286,7 +288,7 @@ const StyledMyphotoContainer = styled.div`
 `;
 
 const StyledRegisterContainer = styled.div`
-    width: 420px;
+    width: 800px;
     padding-bottom: 50px;
     box-sizing: border-box;
     background-color: white;
@@ -300,7 +302,7 @@ const StyledRegisterBlock = styled.div`
 `;
 
 const StyledTitleText = styled.div`
-    font-size: 16px;
+    font-size: 18px;
     color: #545a5e;
     font-weight: bold;
     margin-bottom: 10px;
@@ -357,6 +359,7 @@ const StyledEmailMessage = styled.div`
     font-size: 15px;
     margin-bottom: 2px;
     height: 20px;
+    margin-top: 14px;
 `;
 
 export default MyProfileEdit;

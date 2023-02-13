@@ -422,7 +422,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
     };
 
     return (
-        <StyledCommentListContainer>
+        <div>
             <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
                 <div ref={ref}>
                     <ReportModal
@@ -474,13 +474,16 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                 </div>
                             </StyledCommentBlock>
                             <StyledcommentSubItemContainer>
-                                <StyledcommentSubItem> 좋아요 {item.likeCount} 개</StyledcommentSubItem>
+                                <StyledcommentSubItem>
+                                    좋아요 <span>{item.likeCount}</span> 개
+                                </StyledcommentSubItem>
+                                <StyledcommentSubItem2>|</StyledcommentSubItem2>
                                 {isActive[index] ? (
                                     <StyledcommentSubItem onClick={() => onCloseBtn(index)}>닫기</StyledcommentSubItem>
                                 ) : (
-                                    <StyledcommentSubItem onClick={() => onOpenBtn(index)}>
+                                    <StyledcommentSubItem2 onClick={() => onOpenBtn(index)}>
                                         답글달기
-                                    </StyledcommentSubItem>
+                                    </StyledcommentSubItem2>
                                 )}
                                 {TOKEN && item.accountNicName !== localStorage.getItem('nickName') && (
                                     <StyledcommentSubItem
@@ -559,11 +562,12 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                             </div>
                                             <StyledcommentSubItemContainer>
                                                 <StyledcommentSubItem>
-                                                    좋아요 {recomment.likeCount} 개
+                                                    좋아요 <span>{recomment.likeCount}</span> 개
                                                 </StyledcommentSubItem>
-                                                <StyledcommentSubItem onClick={() => onOpenBtn(index)}>
+                                                <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                                <StyledcommentSubItem2 onClick={() => onOpenBtn(index)}>
                                                     답글달기
-                                                </StyledcommentSubItem>
+                                                </StyledcommentSubItem2>
                                                 {TOKEN &&
                                                     recomment.accountNicName !== localStorage.getItem('nickName') && (
                                                         <StyledcommentSubItem
@@ -685,8 +689,6 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                     ) : (
                         <StyledInfoIcon src="/btnBlankBookmark.png" onClick={() => onPhotoScrap()} />
                     )}
-
-                    {details?.scrapCount}
                 </div>
             </StyledCommentInfoBlock>
             <StyledInputContainer>
@@ -704,11 +706,13 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                 />
                 <StyledInputBtn onClick={onCommentSave}>게시</StyledInputBtn>
             </StyledInputContainer>
-        </StyledCommentListContainer>
+        </div>
     );
 });
 
-const StyledCommentListContainer = styled.div``;
+const StyledCommentListContainer = styled.div`
+    padding-bottom: 15px;
+`;
 
 const StyledCommentInfoBlock = styled.div`
     position: absolute;
@@ -763,7 +767,7 @@ const StyledCommentItem = styled.div`
 const StyledCommentNickname = styled.div`
     font-weight: bold;
     font-size: 15px;
-    padding: 5px 0px 5px 10px;
+    padding: 0px 0px 5px 10px;
     cursor: pointer;
 `;
 
@@ -790,8 +794,19 @@ const StyledcommentSubItemContainer = styled.div`
 `;
 
 const StyledcommentSubItem = styled.div`
-    padding-right: 1vw;
     cursor: pointer;
+    span {
+        font-weight: bold;
+    }
+`;
+
+const StyledcommentSubItem2 = styled.div`
+    padding-left: 10px;
+    color: #818181;
+    cursor: pointer;
+    span {
+        font-weight: bold;
+    }
 `;
 
 const StyledInfoIcon = styled.img`

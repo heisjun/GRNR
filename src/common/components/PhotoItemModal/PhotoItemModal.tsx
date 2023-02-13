@@ -229,7 +229,7 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                                         show={localStorage.getItem('nickName') === details?.accountNickName}
                                     >
                                         {details?.myFollow ? (
-                                            <StyledFollowButton>
+                                            <StyledFollowingButton>
                                                 <StyledFollowText
                                                     onClick={() =>
                                                         onUnFollowing(
@@ -239,7 +239,7 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                                                 >
                                                     팔로잉
                                                 </StyledFollowText>
-                                            </StyledFollowButton>
+                                            </StyledFollowingButton>
                                         ) : (
                                             <StyledFollowButton>
                                                 <StyledFollowText
@@ -265,12 +265,12 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                         style={{
                             display: 'flex',
                             justifyContent: 'flex-end',
-                            marginRight: 15,
-                            marginTop: 5,
+                            marginRight: 10,
+                            marginTop: 10,
                             cursor: 'pointer',
                         }}
                     >
-                        닫기 X
+                        <img src="/btnClose.png" style={{ width: 30, height: 30 }} />
                     </div>
                     <div
                         style={{
@@ -338,6 +338,20 @@ const StyledFollowButton = styled.div`
     cursor: pointer;
     &:hover {
         background-color: silver;
+    }
+`;
+
+const StyledFollowingButton = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 72px;
+    height: 30px;
+    padding: 4px 16px 6px 17px;
+    background-color: silver;
+    cursor: pointer;
+    &:hover {
+        background-color: #0d6637;
     }
 `;
 
