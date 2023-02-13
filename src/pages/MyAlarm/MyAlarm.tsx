@@ -60,7 +60,6 @@ const MyAlarm: React.FC = () => {
                     },
                 });
                 setAlarm(response.data.value);
-                console.log(response.data.value);
             } catch (e) {
                 console.log(e);
             }
@@ -100,7 +99,7 @@ const MyAlarm: React.FC = () => {
                     <PhotoItemModal setIsOpenModal={setIsOpenModal} pictureId={item.pictureId} ref={dropdownListRef} />
                 </div>
             </Modal> */}
-            <div style={{ width: 1140, margin: 'auto' }}>
+            <div style={{ justifyContent: 'center', alignContent: 'center' }}>
                 <StyledMagazineHeader>내소식</StyledMagazineHeader>
                 {alarm.map((item, index) => (
                     <>
@@ -122,10 +121,13 @@ const MyAlarm: React.FC = () => {
                                     />
                                 </div>
                                 <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <StyledUserNickname>{item.alarmContent}</StyledUserNickname>
+                                    <StyledUserNickname>
+                                        <span>{item.alarmContent.split('님이')[0]}</span>
+                                        님이{item.alarmContent.split('님이')[1]}
+                                    </StyledUserNickname>
                                     <StyledUserInfo>{item.alarmTime}</StyledUserInfo>
                                 </div>
-                                <div style={{ height: 100 }}>
+                                <div style={{ height: 90 }}>
                                     {item.postPic && <StyledThumbnail src={item.postPic} />}
                                 </div>
                             </StyledAlarmBlock>
@@ -147,10 +149,13 @@ const MyAlarm: React.FC = () => {
                                     />
                                 </div>
                                 <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <StyledUserNickname>{item.alarmContent}</StyledUserNickname>
+                                    <StyledUserNickname>
+                                        <span>{item.alarmContent.split('님이')[0]}</span>
+                                        님이{item.alarmContent.split('님이')[1]}
+                                    </StyledUserNickname>
                                     <StyledUserInfo>{item.alarmTime}</StyledUserInfo>
                                 </div>
-                                <div style={{ height: 100 }}>
+                                <div style={{ height: 90 }}>
                                     {item.postPic && <StyledThumbnailVideo src={item.postPic} />}
                                 </div>
                             </StyledAlarmBlock>
@@ -207,15 +212,17 @@ const customStyles = {
 };
 
 const StyledThumbnail = styled.img`
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     object-fit: cover;
+    margin-right: 40px;
 `;
 
 const StyledThumbnailVideo = styled.video`
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     object-fit: cover;
+    margin-right: 40px;
 `;
 
 const StyledAlarmContainer = styled.div<{ pageAnim: any }>`
@@ -224,7 +231,8 @@ const StyledAlarmContainer = styled.div<{ pageAnim: any }>`
     align-items: center;
     animation: ${({ pageAnim }) => pageAnim} 1s;
     animation-fill-mode: forwards;
-    margin-bottom: 120px;
+    padding-bottom: 120px;
+    background-color: #f5f5f5;
 `;
 
 const StyledMagazineHeader = styled.div`
@@ -232,37 +240,48 @@ const StyledMagazineHeader = styled.div`
     font-size: 30px;
     font-weight: bold;
     color: #272727;
-    margin-top: 30px;
-    margin-bottom: 50px;
+    margin-top: 40px;
+    margin-bottom: 20px;
 `;
 
 const StyledAlarmBlock = styled.div<{ check: boolean }>`
     display: flex;
-    padding-bottom: 15px;
-    padding-top: 15px;
-    padding-left: 15px;
+    box-sizing: border-box;
+    padding-bottom: 42px;
+    padding-top: 43px;
+    padding-left: 40px;
     align-items: center;
-    border-bottom: 1px solid #ececec;
-    background-color: ${({ check }) => (check ? 'white' : '#e7f5ee;')};
+    background-color: ${({ check }) => (check ? 'white' : '#e7f5ee')};
+    border: ${({ check }) => (check ? 'solid 1px #dbdbdb' : 'solid 2px #0d6637')};
+    margin-bottom: 9px;
+    width: 720px;
+    height: 145px;
     cursor: pointer;
 `;
 
 const StyledUserNickname = styled.div`
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: normal;
     color: #272727;
     margin-bottom: 4px;
+    span {
+        color: #0d6637;
+        font-weight: bold;
+        font-style: italic;
+        margin-right: 2px;
+    }
 `;
 
 const StyledUserInfo = styled.div`
     font-family: NotoSansKR;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #424242;
+    color: #818181;
+    margin-top: 8px;
 `;
 
 export default MyAlarm;

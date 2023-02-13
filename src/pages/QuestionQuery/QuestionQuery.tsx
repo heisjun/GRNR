@@ -81,7 +81,6 @@ const QuestionQuery: React.FC = () => {
             try {
                 const response = await axios.get(`http://43.201.2.18/api/api/inquiry/detail/tag?tag=${searchKeyword}`);
                 setQuestions(response.data.value.content);
-                console.log(response.data.value.content);
             } catch (e) {
                 console.log(e);
             }
