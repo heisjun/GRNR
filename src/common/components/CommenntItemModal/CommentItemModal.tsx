@@ -486,19 +486,25 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                     </StyledcommentSubItem2>
                                 )}
                                 {TOKEN && item.accountNicName !== localStorage.getItem('nickName') && (
-                                    <StyledcommentSubItem
-                                        onClick={() => {
-                                            setReportId(item.commentId);
-                                            setOpenModal(!openModal);
-                                        }}
-                                    >
-                                        신고
-                                    </StyledcommentSubItem>
+                                    <>
+                                        <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                        <StyledcommentSubItem2
+                                            onClick={() => {
+                                                setReportId(item.commentId);
+                                                setOpenModal(!openModal);
+                                            }}
+                                        >
+                                            신고
+                                        </StyledcommentSubItem2>
+                                    </>
                                 )}
                                 {item.accountNicName === localStorage.getItem('nickName') && (
-                                    <StyledcommentSubItem onClick={() => onDeleteComment(item.commentId)}>
-                                        삭제
-                                    </StyledcommentSubItem>
+                                    <>
+                                        <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                        <StyledcommentSubItem2 onClick={() => onDeleteComment(item.commentId)}>
+                                            삭제
+                                        </StyledcommentSubItem2>
+                                    </>
                                 )}
                             </StyledcommentSubItemContainer>
                             {item.commentChildDtoList &&
@@ -570,23 +576,32 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                                 </StyledcommentSubItem2>
                                                 {TOKEN &&
                                                     recomment.accountNicName !== localStorage.getItem('nickName') && (
-                                                        <StyledcommentSubItem
-                                                            onClick={() => {
-                                                                setReportId(recomment.commentId);
-                                                                setOpenModal(!openModal);
-                                                            }}
-                                                        >
-                                                            신고
-                                                        </StyledcommentSubItem>
+                                                        <>
+                                                            <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                                            <StyledcommentSubItem2
+                                                                onClick={() => {
+                                                                    setReportId(recomment.commentId);
+                                                                    setOpenModal(!openModal);
+                                                                }}
+                                                            >
+                                                                신고
+                                                            </StyledcommentSubItem2>
+                                                        </>
                                                     )}
                                                 {recomment.accountNicName === localStorage.getItem('nickName') && (
-                                                    <StyledcommentSubItem
-                                                        onClick={() =>
-                                                            onDeleteReComment(recomment.commentId, recomment.parentId)
-                                                        }
-                                                    >
-                                                        삭제
-                                                    </StyledcommentSubItem>
+                                                    <>
+                                                        <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                                        <StyledcommentSubItem
+                                                            onClick={() =>
+                                                                onDeleteReComment(
+                                                                    recomment.commentId,
+                                                                    recomment.parentId,
+                                                                )
+                                                            }
+                                                        >
+                                                            삭제
+                                                        </StyledcommentSubItem>
+                                                    </>
                                                 )}
                                             </StyledcommentSubItemContainer>
                                         </div>
