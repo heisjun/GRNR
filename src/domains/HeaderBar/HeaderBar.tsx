@@ -110,7 +110,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (TOKEN) {
+            if (!TOKEN) {
                 return;
             }
             try {
