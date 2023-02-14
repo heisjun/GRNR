@@ -23,7 +23,8 @@ const Popular: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${BASEURL}/api/picture/search?order=인기순`);
+                const response = await axios.get(`${BASEURL}/api/picture/popular
+                `);
                 setPopular1(response.data.value.content);
             } catch (e) {
                 console.log(e);
@@ -60,7 +61,7 @@ const Popular: React.FC = () => {
                     cols={photoCols}
                     horizontalGap={photoGap}
                     verticalGap={photoVerticalGap}
-                    items={popular1}
+                    items={popular1.slice(-8)}
                     RenderComponent={TodaysPhoto}
                 />
 
