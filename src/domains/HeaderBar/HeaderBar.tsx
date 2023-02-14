@@ -95,19 +95,22 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
             if (!response.data.data) {
                 localStorage.clear();
                 setLoginStatus({ ...loginStatus, isLogin: false });
-                window.location.replace('/login');
+                nav('/login');
             } else {
                 localStorage.setItem('accesstoken', response.data.data);
                 window.location.replace('/');
             }
         } catch (e) {
+            localStorage.clear();
+            setLoginStatus({ ...loginStatus, isLogin: false });
+            nav('/login');
             console.log(e);
         }
     };
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!TOKEN) {
+            if (TOKEN) {
                 return;
             }
             try {
