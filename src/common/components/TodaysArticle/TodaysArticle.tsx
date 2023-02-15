@@ -45,7 +45,7 @@ const TodaysArticle = () => {
                 <StyledArrowStyle onClick={leftButton}>
                     <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
                 </StyledArrowStyle>
-                <em>/</em>
+                <img src="/slash.png" />
                 <StyledArrowStyle onClick={rightButton}>
                     <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
                 </StyledArrowStyle>
@@ -117,15 +117,8 @@ const StyledSlideButtonBox = styled.div`
     height: 38px;
     background-color: white;
     z-index: 100;
-    em {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        font-size: 45px;
-        font-weight: 100;
-        padding-right: 10px;
-        color: #d8d8d8;
-        transform: rotate(-18deg);
-        line-height: 150%;
+    img {
+        transform: rotate(-30deg);
     }
 `;
 

@@ -163,7 +163,7 @@ const Dictionary: React.FC = () => {
             setPageAnim(FadeOut);
         };
     }, []);
-    //커밋용
+
     useEffect(() => {
         const fetchData = async () => {
             if (!TOKEN) {

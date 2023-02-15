@@ -296,7 +296,7 @@ const PhotoDetails: React.FC = () => {
                         />
                     )}
 
-                    {/*  <StyledUserInfoBlock>
+                    <StyledUserInfoBlock>
                         <StyledProfileBlock>
                             <StyledWriterBlock>
                                 <StyeldAvatarBlock onClick={onGoUserPage}>
@@ -346,7 +346,7 @@ const PhotoDetails: React.FC = () => {
                         setTestComments={setComment}
                         category="picture"
                         setCommentsList={setCommentsList}
-                    /> */}
+                    />
                 </StyledDetailsBlock>
             </div>
         </StyledPhotoDetailsContainer>

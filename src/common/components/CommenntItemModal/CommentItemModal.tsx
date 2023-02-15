@@ -21,6 +21,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
         category,
         testComments,
         setTestComments,
+        mynickName,
         fetchData,
         fetchData2,
         fetchData3,
@@ -240,6 +241,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
             fetchData && fetchData();
             fetchData2 && fetchData2();
             fetchData3 && fetchData3();
+            setComment('');
             // const newComment = {
             //     inquiryId: pictureId,
             //     commentId: null,
@@ -264,6 +266,75 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
             // });
 
             // setComment('');
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onReCommenetEnter = async (commentId: number, content: string) => {
+        if (!content) {
+            alert('댓글을 입력해 주세요!');
+            return;
+        }
+        try {
+            const body = {
+                commentId: commentId,
+                content: content,
+                nickNameTag: [
+                    {
+                        nickName: null,
+                    },
+                ],
+            };
+            await api.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            fetchData3 && fetchData3();
+
+            // let commentIndex = 0;
+
+            // testComments.map((it, index) => (it.commentId === commentId ? (commentIndex = index) : it));
+
+            // interface IcommentChildDtoList {
+            //     parentId: number;
+            //     commentId: number;
+            //     myLike: boolean;
+            //     content: string;
+            //     report: boolean;
+            //     accountNicName: string;
+            //     accountProfileUrl: string;
+            //     likeCount: number;
+            //     /*   commentNicNameList: {
+            //         commentId: number;
+            //         nicNameTags: string;
+            //     }[]; */
+            //     commentNicNameList: null;
+            // }
+
+            // const commentChildDtoList: IcommentChildDtoList[] = testComments[commentIndex].commentChildDtoList;
+
+            // const newComment = {
+            //     parentId: commentId,
+            //     commentId: commentId,
+            //     myLike: false,
+            //     content: content,
+            //     report: false,
+            //     accountNicName: String(localStorage.getItem('nickName')),
+            //     accountProfileUrl: String(localStorage.getItem('profileUrl')),
+            //     likeCount: 0,
+            //     commentNicNameList: null,
+            // };
+
+            // commentChildDtoList.push(newComment);
+
+            // setTestComments(
+            //     testComments.map((it) =>
+            //         it.commentId === commentId ? { ...it, commentChildDtoList: commentChildDtoList } : it,
+            //     ),
+            // );
+            // setCommentsList((prevState: any) => {
+            //     return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity + 1 : 0 };
+            // });
         } catch (e) {
             console.log(e);
         }
@@ -447,9 +518,12 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                     />
                                 </StyledAvatarBlock>
                                 <StyledCommentItem>
-                                    <StyledCommentNickname onClick={() => onGoUserPage(item.accountId)}>
-                                        {item.accountNicName}
-                                    </StyledCommentNickname>
+                                    <div style={{ display: 'flex' }}>
+                                        <StyledCommentNickname onClick={() => onGoUserPage(item.accountId)}>
+                                            {item.accountNicName}
+                                        </StyledCommentNickname>
+                                        {mynickName === item.accountNicName && <StyledWritter>작성자</StyledWritter>}
+                                    </div>
                                     <StyledCommentContent>{item.content}</StyledCommentContent>
                                 </StyledCommentItem>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -473,40 +547,44 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                     )}
                                 </div>
                             </StyledCommentBlock>
-                            <StyledcommentSubItemContainer>
-                                <StyledcommentSubItem>
-                                    좋아요 <span>{item.likeCount}</span> 개
-                                </StyledcommentSubItem>
-                                <StyledcommentSubItem2>|</StyledcommentSubItem2>
-                                {isActive[index] ? (
-                                    <StyledcommentSubItem onClick={() => onCloseBtn(index)}>닫기</StyledcommentSubItem>
-                                ) : (
-                                    <StyledcommentSubItem2 onClick={() => onOpenBtn(index)}>
-                                        답글달기
-                                    </StyledcommentSubItem2>
-                                )}
-                                {TOKEN && item.accountNicName !== localStorage.getItem('nickName') && (
-                                    <>
-                                        <StyledcommentSubItem2>|</StyledcommentSubItem2>
-                                        <StyledcommentSubItem2
-                                            onClick={() => {
-                                                setReportId(item.commentId);
-                                                setOpenModal(!openModal);
-                                            }}
-                                        >
-                                            신고
+                            {mynickName !== item.accountNicName && (
+                                <StyledcommentSubItemContainer>
+                                    <StyledcommentSubItem>
+                                        좋아요 <span>{item.likeCount}</span> 개
+                                    </StyledcommentSubItem>
+                                    <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                    {isActive[index] ? (
+                                        <StyledcommentSubItem2 onClick={() => onCloseBtn(index)}>
+                                            닫기
                                         </StyledcommentSubItem2>
-                                    </>
-                                )}
-                                {item.accountNicName === localStorage.getItem('nickName') && (
-                                    <>
-                                        <StyledcommentSubItem2>|</StyledcommentSubItem2>
-                                        <StyledcommentSubItem2 onClick={() => onDeleteComment(item.commentId)}>
-                                            삭제
+                                    ) : (
+                                        <StyledcommentSubItem2 onClick={() => onOpenBtn(index)}>
+                                            답글달기
                                         </StyledcommentSubItem2>
-                                    </>
-                                )}
-                            </StyledcommentSubItemContainer>
+                                    )}
+                                    {TOKEN && item.accountNicName !== localStorage.getItem('nickName') && (
+                                        <>
+                                            <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                            <StyledcommentSubItem2
+                                                onClick={() => {
+                                                    setReportId(item.commentId);
+                                                    setOpenModal(!openModal);
+                                                }}
+                                            >
+                                                신고
+                                            </StyledcommentSubItem2>
+                                        </>
+                                    )}
+                                    {item.accountNicName === localStorage.getItem('nickName') && (
+                                        <>
+                                            <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                            <StyledcommentSubItem2 onClick={() => onDeleteComment(item.commentId)}>
+                                                삭제
+                                            </StyledcommentSubItem2>
+                                        </>
+                                    )}
+                                </StyledcommentSubItemContainer>
+                            )}
                             {item.commentChildDtoList &&
                                 item.commentChildDtoList.map((recomment, idx) => {
                                     return (
@@ -591,7 +669,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                                 {recomment.accountNicName === localStorage.getItem('nickName') && (
                                                     <>
                                                         <StyledcommentSubItem2>|</StyledcommentSubItem2>
-                                                        <StyledcommentSubItem
+                                                        <StyledcommentSubItem2
                                                             onClick={() =>
                                                                 onDeleteReComment(
                                                                     recomment.commentId,
@@ -600,7 +678,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                                             }
                                                         >
                                                             삭제
-                                                        </StyledcommentSubItem>
+                                                        </StyledcommentSubItem2>
                                                     </>
                                                 )}
                                             </StyledcommentSubItemContainer>
@@ -725,6 +803,16 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
     );
 });
 
+const StyledWritter = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: #0d6637;
+    background-color: #e7f5ee;
+    padding: 0 5px;
+    border-radius: 15px;
+`;
+
 const StyledCommentListContainer = styled.div`
     padding-bottom: 15px;
 `;
@@ -782,7 +870,8 @@ const StyledCommentItem = styled.div`
 const StyledCommentNickname = styled.div`
     font-weight: bold;
     font-size: 15px;
-    padding: 0px 0px 5px 10px;
+    padding: 0px 10px 5px 10px;
+    width: fit-content;
     cursor: pointer;
 `;
 
