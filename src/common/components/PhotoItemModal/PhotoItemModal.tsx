@@ -291,6 +291,7 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                             fetchData={fetchData}
                             fetchData2={fetchData2}
                             fetchData3={fetchData3}
+                            mynickName={details?.accountNickName}
                         />
                     </div>
                 </div>
