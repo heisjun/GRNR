@@ -7,6 +7,7 @@ import { IPhotosParams } from 'common/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import PhotoBanner from 'common/components/PhotoBanner';
+import { useInView } from 'react-intersection-observer';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
@@ -49,6 +50,8 @@ const PhotoFilter_Video = [
 const Photo: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [observerRef, observerInview] = useInView();
+    const [size, setSize] = useState<number>(9);
     const [photos, setPhotos] = useState<IPhotosParams[]>([]);
     const [photoCols, setPhotoCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 1);
     const [photoHorizontalGap, setPhotoHorizontalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 0);
@@ -96,30 +99,47 @@ const Photo: React.FC = () => {
         });
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!TOKEN) {
-                try {
-                    const response = await axios.get(`${BASEURL}/api/picture/search${location.search}`);
-                    setPhotos(response.data.value.content);
-                } catch (e) {
-                    console.log(e);
-                }
-            } else {
-                try {
-                    const response = await axios.get(`${BASEURL}/api/picture/search${location.search}`, {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    });
-                    setPhotos(response.data.value.content);
-                } catch (e) {
-                    console.log(e);
-                }
+    const fetchData = async () => {
+        if (!TOKEN) {
+            try {
+                const response = await axios.get(`${BASEURL}/api/picture/search${location.search}`, {
+                    params: {
+                        page: 0,
+                        size: size,
+                    },
+                });
+                setPhotos(response.data.value.content);
+            } catch (e) {
+                console.log(e);
             }
-        };
+        } else {
+            try {
+                const response = await axios.get(`${BASEURL}/api/picture/search${location.search}`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                    params: {
+                        page: 0,
+                        size: size,
+                    },
+                });
+                setPhotos(response.data.value.content);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    useEffect(() => {
         fetchData();
     }, [location.search]);
+
+    useEffect(() => {
+        if (observerInview) {
+            setSize((prev) => prev + 12);
+            fetchData();
+        }
+    }, [observerInview]);
 
     useEffect(() => {
         const queryString = `?${filterValue.sort ? `order=${filterValue.sort}` : ''} & 
@@ -210,16 +230,19 @@ const Photo: React.FC = () => {
                     )}
                 </div>
                 {photos ? (
-                    <ItemList
-                        width="100%"
-                        imgHeight="120%"
-                        cols={photoCols}
-                        horizontalGap={photoHorizontalGap}
-                        verticalGap={photoVerticalGap}
-                        items={photos}
-                        RenderComponent={PhotoItem}
-                        setFunc={setPhotos}
-                    />
+                    <>
+                        <ItemList
+                            width="100%"
+                            imgHeight="120%"
+                            cols={photoCols}
+                            horizontalGap={photoHorizontalGap}
+                            verticalGap={photoVerticalGap}
+                            items={photos}
+                            RenderComponent={PhotoItem}
+                            setFunc={setPhotos}
+                        />
+                        <div ref={observerRef} />
+                    </>
                 ) : (
                     <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>
                         <div style={{ fontSize: 18, fontWeight: 400 }}>찾으시는 결과가 없습니다!</div>
