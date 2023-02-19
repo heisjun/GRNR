@@ -554,7 +554,13 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                     >
                                                         {recomment.accountNicName}
                                                     </StyledCommentNickname>
-                                                    <StyledCommentContent>{recomment.content}</StyledCommentContent>
+                                                    <StyledCommentContent>
+                                                        <span onClick={() => onGoUserPage(item.accountId)}>
+                                                            {recomment.content.split(' ')[0]}
+                                                        </span>
+
+                                                        {recomment.content.replace(recomment.content.split(' ')[0], '')}
+                                                    </StyledCommentContent>
                                                 </StyledCommentItem>
                                                 <div
                                                     style={{
@@ -777,6 +783,11 @@ const StyledCommentContent = styled.div`
     font-weight: 300;
     font-size: 14px;
     padding: 0px 0px 0px 10px;
+    span {
+        color: #0d6637;
+        font-weight: bold;
+        cursor: pointer;
+    }
 `;
 
 const StyledAvatarBlock = styled.div`
