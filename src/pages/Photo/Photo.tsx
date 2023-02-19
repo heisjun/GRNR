@@ -136,7 +136,7 @@ const Photo: React.FC = () => {
 
     useEffect(() => {
         if (observerInview) {
-            setSize((prev) => prev + 12);
+            setSize((prev) => prev + 9);
             fetchData();
         }
     }, [observerInview]);
