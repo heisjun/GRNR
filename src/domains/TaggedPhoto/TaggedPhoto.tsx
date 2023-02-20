@@ -29,7 +29,7 @@ const TaggedPhoto: React.FC<ITaggedPhoto> = (props) => {
             </StyledImageContainer>
             <StyledDetailsText>{item.explain}</StyledDetailsText>
 
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', paddingLeft: 16 }}>
                 {item.tagList &&
                     item.tagList.map((i, index) => (
                         <div key={index}>
@@ -71,9 +71,9 @@ const StyledDetailsText = styled.div`
 `;
 
 const StyledTagText = styled.div`
-    margin: 0px 3px 10px 16px;
+    margin: 0px 3px 10px 0px;
     font-size: 16px;
-    color: lightblue;
+    color: #0d6637;
 `;
 
 const StyledImg = styled.img<{ imgAnim: any }>`

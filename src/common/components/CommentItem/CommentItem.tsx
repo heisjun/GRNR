@@ -15,7 +15,8 @@ const TOKEN = localStorage.getItem('accesstoken');
 
 const CommentItemModal: React.FC<ICommentItem> = (props) => {
     const navigate = useNavigate();
-    const { commentsList, setCommentsList, pictureId, category, testComments, setTestComments } = props;
+    const { commentsList, setCommentsList, pictureId, category, testComments, setTestComments, fetchData, fetchData2 } =
+        props;
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
     const [tagNickName, setTagNickName] = useState('');

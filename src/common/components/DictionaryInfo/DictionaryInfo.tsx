@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { IDictionaryInfo } from './DictionaryInfo.type';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
@@ -7,8 +7,10 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
     const { data } = props;
+    const slideRef = useRef(document.createElement('img'));
     const [slidePage, setSlidePage] = useState<number>(0);
     const [slideIdx, setSlideIdx] = useState<number>(0);
+    const Slidetransform = slidePage / 11.4;
 
     const leftButton = () => {
         if (slidePage > 0) {
@@ -24,22 +26,27 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
         }
     };
 
+    useEffect(() => {
+        slideRef.current.style.transition = 'all 0.5s ease-in-out';
+        slideRef.current.style.transform = `translateX(-${Slidetransform}%)`;
+    }, [slideIdx]);
+
     return (
-        <div>
-            <StyleBannerBoxStyle>
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+            <StyledSlideButtonBox>
+                <StyledArrowStyle onClick={leftButton}>
+                    <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                </StyledArrowStyle>
+                <img src="/slash.png" />
+                <StyledArrowStyle onClick={rightButton}>
+                    <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                </StyledArrowStyle>
+            </StyledSlideButtonBox>
+            <StyleBannerBoxStyle ref={slideRef}>
                 {data?.pictureList.map((item, idx) => (
                     <StyledMainBannerContainer key={idx} slidePage={slidePage}>
                         <StyledImageContainer>
                             <img src={item} alt="" />
-                            <StyledSlideButtonBox>
-                                <StyledArrowStyle onClick={leftButton}>
-                                    <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
-                                </StyledArrowStyle>
-                                <em>/</em>
-                                <StyledArrowStyle onClick={rightButton}>
-                                    <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
-                                </StyledArrowStyle>
-                            </StyledSlideButtonBox>
                         </StyledImageContainer>
                     </StyledMainBannerContainer>
                 ))}
@@ -230,12 +237,10 @@ const StyleBannerBoxStyle = styled.div`
     width: 1140px;
     display: flex;
     margin: 40px 0 30px 0;
-    overflow: hidden;
 `;
 
 const StyledMainBannerContainer = styled.div<IStyled>`
     position: relative;
-    right: ${({ slidePage }) => `${slidePage}px`};
     display: flex;
     height: 480px;
     background-color: #f8f8f8;
@@ -257,21 +262,15 @@ const StyledSlideButtonBox = styled.div`
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    bottom: 0;
+    bottom: 460px;
     padding: 11px 16px;
     width: 91px;
     height: 38px;
     background-color: white;
     z-index: 100;
-    em {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        font-size: 45px;
-        font-weight: 100;
-        padding-right: 10px;
-        color: #d8d8d8;
-        transform: rotate(-18deg);
-        line-height: 150%;
+    img {
+        transform: rotate(-30deg);
+        height: 90%;
     }
 `;
 
