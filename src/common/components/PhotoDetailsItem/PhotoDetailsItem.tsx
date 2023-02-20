@@ -34,19 +34,19 @@ const PhotoDetailsItem: React.FC<ITaggedPhoto> = (props) => {
 const StyledDetailsText = styled.div`
     margin: 20px 0px;
     font-family: NotoSansKR;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.63;
     letter-spacing: normal;
-    color: #424242;
+    color: #272727;
 `;
 
 const StyledTagText = styled.div`
     margin: 0px 3px 10px 0px;
-    font-size: 16px;
-    color: lightblue;
+    font-size: 14px;
+    color: #0d6637;
 `;
 
 const StyledImg = styled.img`
@@ -74,7 +74,7 @@ const StyledImageContainer = styled.div<{ width: string; height?: string; paddin
 `;
 
 const StyledTaggedPhotoContainer = styled.div`
-    margin-bottom: 100px;
+    margin-bottom: 40px;
 `;
 
 export default PhotoDetailsItem;

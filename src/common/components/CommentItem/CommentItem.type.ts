@@ -7,4 +7,6 @@ export type ICommentItem = {
     category: string;
     testComments: ItestComments[];
     setTestComments: any;
+    fetchData?: () => void;
+    fetchData2?: () => void;
 };

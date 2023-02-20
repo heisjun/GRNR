@@ -228,26 +228,6 @@ const PhotoDetails: React.FC = () => {
         }
     };
 
-    const data = [
-        {
-            pictureId: 2,
-            contentId: 4,
-            pictureUrl: '사진글2_사진4.jpg',
-            explain: '두번째 사진글의 사진4입니다.',
-            homePlace: 'LIVING_ROOM',
-            tagList: [
-                {
-                    pictureContentId: 4,
-                    tagName: '사진4 태그1',
-                },
-                {
-                    pictureContentId: 4,
-                    tagName: '사진4 태그2',
-                },
-            ],
-        },
-    ];
-
     function convertKor(classification: string) {
         if (classification === 'LEAF') {
             return '잎보기식물';
@@ -269,33 +249,6 @@ const PhotoDetails: React.FC = () => {
                     </div>
                 </Modal>
                 <StyledDetailsBlock>
-                    <StyledTopTextBlock>
-                        <StyledViewCountText>조회 {details?.viewCount}명</StyledViewCountText>
-                        {myAccountId === String(details?.accountId) && (
-                            <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
-                        )}
-                        {myAccountId === String(details?.accountId) && (
-                            <StyledReportText onClick={onEdit}>수정</StyledReportText>
-                        )}
-                        {myAccountId !== String(details?.accountId) && (
-                            <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
-                        )}
-                    </StyledTopTextBlock>
-                    <div style={{ marginTop: 20, marginBottom: 20 }}>
-                        {convertKor(details?.classification ? details.classification : 'FLOWER')}
-                    </div>
-                    {details && (
-                        <ItemList
-                            width="100%"
-                            imgHeight="100%"
-                            cols={1}
-                            horizontalGap={0}
-                            verticalGap={0}
-                            items={details?.pictureContentDtoList}
-                            RenderComponent={PhotoDetailsItem}
-                        />
-                    )}
-
                     <StyledUserInfoBlock>
                         <StyledProfileBlock>
                             <StyledWriterBlock>
@@ -338,6 +291,33 @@ const PhotoDetails: React.FC = () => {
                             </StyledFollowButtonBlock>
                         )}
                     </StyledUserInfoBlock>
+
+                    <div style={{ marginTop: 20, marginBottom: 20 }}>
+                        {convertKor(details?.classification ? details.classification : 'FLOWER')}
+                    </div>
+                    {details && (
+                        <ItemList
+                            width="100%"
+                            imgHeight="100%"
+                            cols={1}
+                            horizontalGap={0}
+                            verticalGap={0}
+                            items={details?.pictureContentDtoList}
+                            RenderComponent={PhotoDetailsItem}
+                        />
+                    )}
+                    <StyledTopTextBlock>
+                        <StyledViewCountText>조회 {details?.viewCount}명</StyledViewCountText>
+                        {myAccountId === String(details?.accountId) && (
+                            <StyledReportText onClick={confirmDelete}>삭제</StyledReportText>
+                        )}
+                        {myAccountId === String(details?.accountId) && (
+                            <StyledReportText onClick={onEdit}>수정</StyledReportText>
+                        )}
+                        {myAccountId !== String(details?.accountId) && (
+                            <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
+                        )}
+                    </StyledTopTextBlock>
                     <StyledBorderLine />
                     <CommentItem
                         commentsList={commentsList}
@@ -346,6 +326,8 @@ const PhotoDetails: React.FC = () => {
                         setTestComments={setComment}
                         category="picture"
                         setCommentsList={setCommentsList}
+                        fetchData={fetchData}
+                        fetchData2={fetchData2}
                     />
                 </StyledDetailsBlock>
             </div>
@@ -367,14 +349,15 @@ const StyledWriterNickname = styled.div`
 `;
 const StyledViewCountText = styled.div`
     flex: 1;
-    font-size: 18px;
+    font-size: 14px;
+    color: #818181;
     color: grey;
 `;
 
 const StyledReportText = styled.div`
     padding-left: 10px;
-    font-size: 15px;
-    color: silver;
+    font-size: 14px;
+    color: #818181;
     cursor: pointer;
 `;
 
@@ -388,10 +371,11 @@ const StyledDetailsBlock = styled.div`
 `;
 
 const StyledPhotoDetailsContainer = styled.div`
-    margin-top: 40px;
-    margin-bottom: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     display: flex;
     flex-direction: column;
+    background-color: #f5f5f5;
 `;
 
 const StyledFollowButtonBlock = styled.div<{ onShow: boolean }>`
@@ -404,7 +388,6 @@ const StyledFollowButtonBlock = styled.div<{ onShow: boolean }>`
     align-items: center;
     border-radius: 15px;
     border: 1px solid #0d6637;
-    background-color: white;
     cursor: pointer;
     span {
         font-family: NotoSansKR;
@@ -443,11 +426,14 @@ const StyledFollowingButtonBlock = styled.div<{ onShow: boolean }>`
 
 const StyledBorderLine = styled.div`
     width: 100%;
-    height: 45px;
+    height: 1px;
+    margin: 15px 0px;
+    background-color: #dbdbdb;
 `;
 
 const StyeldAvatarBlock = styled.div`
-    width: 80px;
+    width: 50px;
+    height: 50px;
     cursor: pointer;
 `;
 
@@ -477,8 +463,6 @@ const StyledUserInfoBlock = styled.div`
     box-sizing: border-box;
     width: 100%;
     display: flex;
-    height: 120px;
-    padding: 20px 16px;
     background-color: #f5f5f5;
 `;
 

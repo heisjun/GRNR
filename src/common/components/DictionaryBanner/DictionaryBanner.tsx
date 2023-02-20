@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { IDictionaryBanner } from './DictionaryBanner.type';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
@@ -6,9 +6,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
     const { data } = props;
+    const slideRef = useRef(document.createElement('img'));
     const navigate = useNavigate();
     const [slidePage, setSlidePage] = useState<number>(0);
     const [slideIdx, setSlideIdx] = useState<number>(0);
+    const Slidetransform = slidePage / 11.4;
 
     const leftButton = () => {
         if (slidePage > 0) {
@@ -24,6 +26,11 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
         }
     };
 
+    useEffect(() => {
+        slideRef.current.style.transition = 'all 0.5s ease-in-out';
+        slideRef.current.style.transform = `translateX(-${Slidetransform}%)`;
+    }, [slideIdx]);
+
     function truncate(text: string) {
         const replaced = text.replace(/\n/g, ' ');
         if (replaced.length <= 230) {
@@ -33,19 +40,19 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
     }
 
     return (
-        <div>
-            <StyleBannerBoxStyle>
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+            <StyledSlideButtonBox>
+                <StyledArrowStyle onClick={leftButton}>
+                    <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                </StyledArrowStyle>
+                <img src="/slash.png" />
+                <StyledArrowStyle onClick={rightButton}>
+                    <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                </StyledArrowStyle>
+            </StyledSlideButtonBox>
+            <StyleBannerBoxStyle ref={slideRef}>
                 {data.slice(0, 4).map((item, idx) => (
                     <StyledMainBannerContainer key={idx} slidePage={slidePage}>
-                        <StyledSlideButtonBox>
-                            <StyledArrowStyle onClick={leftButton}>
-                                <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
-                            </StyledArrowStyle>
-                            <img src="/slash.png" />
-                            <StyledArrowStyle onClick={rightButton}>
-                                <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
-                            </StyledArrowStyle>
-                        </StyledSlideButtonBox>
                         <StyledImageContainer onClick={() => navigate(`./details/${item.plantDicId}`)}>
                             <img src={item.plantPicUrl} alt="" />
                         </StyledImageContainer>
@@ -101,13 +108,11 @@ interface IStyled {
 const StyleBannerBoxStyle = styled.div`
     width: 1140px;
     display: flex;
-    overflow: hidden;
     margin: 40px 0 30px 0;
 `;
 
 const StyledMainBannerContainer = styled.div<IStyled>`
     position: relative;
-    right: ${({ slidePage }) => `${slidePage}px`};
     display: flex;
     height: 480px;
     background-color: #f8f8f8;
@@ -130,7 +135,7 @@ const StyledSlideButtonBox = styled.div`
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    bottom: 0;
+    bottom: 70px;
     padding: 11px 16px;
     width: 91px;
     height: 38px;
@@ -200,7 +205,6 @@ const StyledContentBox = styled.p`
 `;
 
 const StyledDotBox = styled.div`
-    margin-bottom: 40px;
     display: flex;
     overflow: hidden;
 `;
