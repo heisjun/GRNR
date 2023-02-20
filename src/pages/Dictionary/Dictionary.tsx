@@ -8,6 +8,7 @@ import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DictionaryBanner from 'common/components/DictionaryBanner';
+import { useInView } from 'react-intersection-observer';
 
 const Dictionary_classification = [
     {
@@ -72,6 +73,8 @@ const TOKEN = localStorage.getItem('accesstoken');
 const Dictionary: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [observerRef, observerInview] = useInView();
+    const [size, setSize] = useState(12);
     const [magazineCols, setMagazineCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
     const [magazineGap, setMagazineGap] = useState(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
     const [magazineVerticalGap, setMagazineVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 40 : 4);
@@ -165,27 +168,45 @@ const Dictionary: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const fetchData = async () => {
-            if (!TOKEN) {
-                try {
-                    const response = await axios.get(`${BASEURL}/api/images/search${location.search}`);
-                    setDictionaries(response.data.value.content);
-                } catch (e) {
-                    console.log(e);
-                }
-            } else {
-                try {
-                    const response = await axios.get(`${BASEURL}/api/images/search${location.search}`, {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    });
-                    setDictionaries(response.data.value.content);
-                } catch (e) {
-                    console.log(e);
-                }
+        if (observerInview) {
+            setSize((prev) => prev + 12);
+            fetchData();
+        }
+    }, [observerInview]);
+
+    const fetchData = async () => {
+        if (!TOKEN) {
+            try {
+                const response = await axios.get(`${BASEURL}/api/images/search${location.search}`, {
+                    params: {
+                        page: 0,
+                        size: size,
+                    },
+                });
+                setDictionaries(response.data.value.content);
+                console.log(response.data);
+            } catch (e) {
+                console.log(e);
             }
-        };
+        } else {
+            try {
+                const response = await axios.get(`${BASEURL}/api/images/search${location.search}`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                    params: {
+                        page: 0,
+                        size: size,
+                    },
+                });
+                setDictionaries(response.data.value.content);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
+    useEffect(() => {
         fetchData();
     }, [location.search]);
 
@@ -276,16 +297,19 @@ const Dictionary: React.FC = () => {
                 </div>
 
                 {dictionaries ? (
-                    <ItemList
-                        width="100%"
-                        imgHeight="120%"
-                        cols={magazineCols}
-                        horizontalGap={magazineGap}
-                        verticalGap={magazineVerticalGap}
-                        items={dictionaries}
-                        RenderComponent={DictionaryItem}
-                        setFunc={setDictionaries}
-                    />
+                    <>
+                        <ItemList
+                            width="100%"
+                            imgHeight="120%"
+                            cols={magazineCols}
+                            horizontalGap={magazineGap}
+                            verticalGap={magazineVerticalGap}
+                            items={dictionaries}
+                            RenderComponent={DictionaryItem}
+                            setFunc={setDictionaries}
+                        />
+                        <div ref={observerRef} />
+                    </>
                 ) : (
                     <div style={{ display: 'flex', justifyContent: 'center', height: 400, alignItems: 'center' }}>
                         <div style={{ fontSize: 18, fontWeight: 400 }}>찾으시는 결과가 없습니다!</div>

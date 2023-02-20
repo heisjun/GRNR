@@ -6,6 +6,7 @@ import { Avatar } from 'common/components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { AlarmcountState } from 'recoil/count';
+import { useInView } from 'react-intersection-observer';
 import Modal from 'react-modal';
 import PhotoItemModal from 'common/components/PhotoItemModal';
 
@@ -15,6 +16,8 @@ const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 const MyAlarm: React.FC = () => {
+    const [observerRef, observerInview] = useInView();
+    const [size, setSize] = useState<number>(12);
     const [pageAnim, setPageAnim] = useState<any>(FadeIn);
     const navigate = useNavigate();
     interface IAlram {
@@ -51,22 +54,33 @@ const MyAlarm: React.FC = () => {
         };
     }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${BASEURL}/api/alarm/view`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                });
-                setAlarm(response.data.value);
-            } catch (e) {
-                console.log(e);
-            }
-        };
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${BASEURL}/api/alarm/view`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+                params: {
+                    page: 0,
+                    size: size,
+                },
+            });
+            setAlarm(response.data.value);
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
+    useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        if (observerInview) {
+            setSize((prev) => prev + 12);
+            fetchData();
+        }
+    }, [observerInview]);
 
     const onCheckAlarm = async (alarmId: number, alarmCheck: boolean, userId: string) => {
         {
@@ -160,6 +174,8 @@ const MyAlarm: React.FC = () => {
                                 </div>
                             </StyledAlarmBlock>
                         )}
+
+                        <div ref={observerRef} />
                     </>
 
                     /*  <StyledAlarmBlock
