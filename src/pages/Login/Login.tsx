@@ -35,7 +35,7 @@ const Login: React.FC = () => {
                     <p>에 가입해보세요</p>
                 </StyledBasicText>
                 <StyledLoginImg src="/kakao_login_wide.png" onClick={handleLogin} />
-                <StyleddNaverLogin>
+                <StyleddNaverLogin onClick={handleNaverLogin}>
                     <img src="/naver_logo.png" />
                     <div>네이버로 시작하기</div>
                 </StyleddNaverLogin>
