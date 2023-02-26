@@ -42,6 +42,7 @@ const Myphoto: React.FC = () => {
                         verticalGap={2}
                         items={picData}
                         RenderComponent={MyphotoItem}
+                        setFunc={setPicData}
                     />
                 ) : (
                     <div>게시글이 존재하지 않습니다</div>

@@ -321,6 +321,8 @@ export type IDictionariesParams = {
 };
 
 export type IMyphotoParams = {
+    myScrap: boolean;
+    myLike: boolean;
     pictureId: number;
     pictureUrl: string;
     likeCount: number;
@@ -393,6 +395,8 @@ export type IMyfeedItemParams = {
     height?: string;
     paddingBottom?: string;
     item: IpicData;
+    items: IpicData[];
+    setFunc: any;
 };
 
 export type IPopularPic = {

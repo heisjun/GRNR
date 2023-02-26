@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { IPhotoDetailsParams, IPhotoItemParams } from 'common/types';
+import { IPhotoItemParams } from 'common/types';
 import { Avatar } from 'common/components';
 import axios from 'axios';
 import Modal from 'react-modal';

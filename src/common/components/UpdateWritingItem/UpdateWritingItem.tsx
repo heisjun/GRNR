@@ -9,7 +9,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const option = [
     {
         id: 1,
-        name: '공간(필수)',
+        name: '공간 (필수)',
         list: ['원룸', '거실', '침실', '주방', '발코니', '사무실', '가게', '야외'],
     },
 ];

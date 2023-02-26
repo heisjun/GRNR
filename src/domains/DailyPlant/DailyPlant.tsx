@@ -46,12 +46,12 @@ const DailyPlant: React.FC<IDailyPlant> = (props) => {
                             src={`/Main.jpg`}
                             width={`${100 / pageNum}%`}
                             height="100%"
-                            onMouseEnter={() => {
+                            /*   onMouseEnter={() => {
                                 setImgAnim(ImageScaleUp);
                             }}
                             onMouseLeave={() => {
                                 setImgAnim(ImageScaleDown);
-                            }}
+                            }} */
                             imgAnim={index === crntPage ? imgAnim : null}
                         />
                     ))}

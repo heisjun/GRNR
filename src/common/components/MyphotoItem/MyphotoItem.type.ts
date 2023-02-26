@@ -5,4 +5,6 @@ export type IMyphotoItem = {
     height?: string;
     paddingBottom?: string;
     item: IMyphotoParams;
+    items: IMyphotoParams[];
+    setFunc: any;
 };

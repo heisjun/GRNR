@@ -18,6 +18,8 @@ const UserScrapbook: React.FC = () => {
         viewCount: number;
         commentCount: number;
         video: boolean;
+        myLike: boolean;
+        myScrap: boolean;
     }
 
     interface IdicData {

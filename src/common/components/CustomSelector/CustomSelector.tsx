@@ -7,7 +7,7 @@ import { ICustomSelector } from './CustomSelector.type';
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const CustomSelector: React.FC<ICustomSelector> = (props) => {
-    const { optionData, setGetOption, value } = props;
+    const { optionData, setGetOption, value, bgColor } = props;
     function convertKor(place: string) {
         if (place === '원룸' || place === 'ONE_ROOM') {
             return '원룸';
@@ -69,7 +69,7 @@ const CustomSelector: React.FC<ICustomSelector> = (props) => {
                     const { id, list } = item;
                     return (
                         <StyledDropdown key={id}>
-                            <StyledDropdownBtn onClick={() => onOpenBtn(index)}>
+                            <StyledDropdownBtn onClick={() => onOpenBtn(index)} bgColor={bgColor}>
                                 <StyledDropdownText>{selected}</StyledDropdownText>
                                 <FaCaretDown />
                             </StyledDropdownBtn>
@@ -108,14 +108,15 @@ const StyledDropdown = styled.div`
     position: relative;
 `;
 
-const StyledDropdownBtn = styled.div`
+const StyledDropdownBtn = styled.div<{ bgColor?: 'string' }>`
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 38px;
     padding: 0px 14px;
-    background-color: #f4f4f4;
+    border: 1px solid #dbdbdb;
+    background-color: ${({ bgColor }) => (bgColor ? bgColor : '#f4f4f4')};
 `;
 
 const StyledDropdownText = styled.div`

@@ -64,6 +64,7 @@ const Myfeed: React.FC = () => {
                     verticalGap={photoGap}
                     items={picData.slice(0, 4)}
                     RenderComponent={MyfeedItem}
+                    setFunc={setPicData}
                 />
                 <StyledBorderLine />
                 <StyledDetailsBlock>

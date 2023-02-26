@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IMyfeedItemParams } from 'common/types';
 import Modal from 'react-modal';
 import PhotoItemModal from '../PhotoItemModal';
+import axios from 'axios';
+
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const UserfeedItem: React.FC<IMyfeedItemParams> = (props) => {
-    const { width, height, paddingBottom, item } = props;
+    const { width, height, paddingBottom, item, items, setFunc } = props;
     const [isOpenModal, setIsOpenModal] = useState(false);
     const dropdownListRef = useRef<any>(null);
 
@@ -23,6 +27,95 @@ const UserfeedItem: React.FC<IMyfeedItemParams> = (props) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [dropdownListRef]);
+
+    const navigate = useNavigate();
+    const onPhotoLike = async () => {
+        try {
+            await axios.post(
+                `${BASEURL}/api/picture/${item.pictureId}/like`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            setFunc(
+                items.map((it) =>
+                    it.pictureId === item.pictureId ? { ...it, myLike: true, likeCount: item.likeCount + 1 } : it,
+                ),
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onPhotoUnLike = async () => {
+        try {
+            await axios.post(
+                `${BASEURL}/api/picture/${item.pictureId}/like`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            setFunc(
+                items.map((it) =>
+                    it.pictureId === item.pictureId ? { ...it, myLike: false, likeCount: item.likeCount - 1 } : it,
+                ),
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onPhotoScrap = async () => {
+        try {
+            await axios.post(
+                `${BASEURL}/api/picture/${item.pictureId}/scrap`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            setFunc(
+                items.map((it) =>
+                    it.pictureId === item.pictureId ? { ...it, myScrap: true, scrapCount: item.scrapCount + 1 } : it,
+                ),
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const onPhotoUnScrap = async () => {
+        try {
+            await axios.post(
+                `${BASEURL}/api/picture/${item.pictureId}/scrap`,
+                {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                },
+            );
+            setFunc(
+                items.map((it) =>
+                    it.pictureId === item.pictureId ? { ...it, myScrap: false, scrapCount: item.scrapCount - 1 } : it,
+                ),
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     return (
         <StyledTodaysPhotoContainer width={width} height={height} paddingBottom={paddingBottom}>
@@ -51,16 +144,54 @@ const UserfeedItem: React.FC<IMyfeedItemParams> = (props) => {
             </StyledImgBlock>
             <StyledStatsBlock>
                 <StyledStatBlock>
-                    <StyledLikeButton src={'/btnBlankHeart.png'} />
-                    <StyledCountText>{item.likeCount}</StyledCountText>
+                    {!item.myLike ? (
+                        <StyledButtonContent
+                            onClick={() => {
+                                onPhotoLike();
+                            }}
+                        >
+                            <StyledLikeButton src="/btnBlankHeart.png" />
+                            <StyledCountText>{item.likeCount}</StyledCountText>
+                        </StyledButtonContent>
+                    ) : (
+                        <StyledButtonContent
+                            onClick={() => {
+                                onPhotoUnLike();
+                            }}
+                        >
+                            <StyledLikeButton src="/btnHeart.png" style={{ color: 'red' }} />
+                            <StyledCountText>{item.likeCount}</StyledCountText>
+                        </StyledButtonContent>
+                    )}
                 </StyledStatBlock>
-                <StyledStatBlock>
+                <StyledStatBlock
+                    onClick={() => {
+                        setIsOpenModal(true);
+                    }}
+                >
                     <StyledLikeButton src={'/btnComment.png'} />
                     <StyledCountText>{item.commentCount}</StyledCountText>
                 </StyledStatBlock>
                 <StyledStatBlock>
-                    <StyledLikeButton src={'/btnBlankBookmark.png'} />
-                    <StyledCountText>{item.scrapCount}</StyledCountText>
+                    {!item.myScrap ? (
+                        <StyledButtonContent
+                            onClick={() => {
+                                onPhotoScrap();
+                            }}
+                        >
+                            <StyledLikeButton src="/btnBlankBookmark.png" />
+                            <StyledCountText>{item.scrapCount}</StyledCountText>
+                        </StyledButtonContent>
+                    ) : (
+                        <StyledButtonContent
+                            onClick={() => {
+                                onPhotoUnScrap();
+                            }}
+                        >
+                            <StyledLikeButton src="/btnBookmark.png" style={{ color: '#0d6637' }} />
+                            <StyledCountText>{item.scrapCount}</StyledCountText>
+                        </StyledButtonContent>
+                    )}
                 </StyledStatBlock>
             </StyledStatsBlock>
         </StyledTodaysPhotoContainer>
@@ -103,6 +234,13 @@ const ImageScaleDown = keyframes`
     100% {
         transform: scale(1);
     }
+`;
+
+const StyledButtonContent = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 `;
 
 const StyledCountText = styled.div`
