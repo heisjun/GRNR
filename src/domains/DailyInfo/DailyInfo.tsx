@@ -7,8 +7,6 @@ const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
 const DailyInfo: React.FC = () => {
-    const [imgAnim, setImgAnim] = useState<any>();
-
     return (
         <StyledDailyInfoContainer>
             <StyledDailyPlantBlock>

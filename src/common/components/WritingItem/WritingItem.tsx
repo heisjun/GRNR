@@ -9,7 +9,7 @@ const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const option = [
     {
         id: 1,
-        name: '공간',
+        name: '공간 (필수)',
         list: ['원룸', '거실', '침실', '주방', '욕실', '베란다', '사무실', '가게', '야외정원'],
     },
 ];
@@ -213,7 +213,12 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
             </StyledImgBlock>
             <StyledContentBlock>
                 <StyledFlexBlock>
-                    <CustomSelector optionData={option} setGetOption={setGetOption} value={getContent[index].loc} />
+                    <CustomSelector
+                        optionData={option}
+                        setGetOption={setGetOption}
+                        value={getContent[index].loc}
+                        bgColor="white"
+                    />
                     {onRemove && (
                         <StyledDeleteItemBtn
                             onClick={() => {
@@ -261,6 +266,7 @@ const StyledInputContainer = styled.div`
     height: 352px;
     border: 1px solid #dcdcdc;
     padding: 16px 30px 0px 30px;
+    background-color: white;
 `;
 
 const StyledBtnZone = styled.div`

@@ -184,11 +184,12 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
     return (
         <div>
             <div style={{ display: 'flex' }}>
-                <div style={{ width: 708, backgroundColor: 'white' }}>
+                <StyledContentContainer>
+                    <StyledBorderLine />
                     <div
                         style={{
                             overflow: 'auto',
-                            maxHeight: 750,
+                            maxHeight: 680,
                         }}
                     >
                         {details && (
@@ -258,25 +259,18 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                             </div>
                         )}
                     </div>
-                </div>
-                <div style={{ width: 432, backgroundColor: 'white' }}>
-                    <div
-                        onClick={() => setIsOpenModal(false)}
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            marginRight: 10,
-                            marginTop: 10,
-                            cursor: 'pointer',
-                        }}
-                    >
-                        <img src="/btnClose.png" style={{ width: 30, height: 30 }} />
-                    </div>
+                </StyledContentContainer>
+                <div style={{ width: 432, backgroundColor: 'white', marginTop: 70 }}>
+                    <StyledBorderLine />
+
+                    <StyledCloseBtn src="/btnClose.png" onClick={() => setIsOpenModal(false)} />
+
                     <div
                         style={{
                             overflow: 'auto',
-                            maxHeight: 610,
-                            padding: 16,
+                            maxHeight: 540,
+                            paddingRight: 16,
+                            paddingLeft: 16,
                             boxSizing: 'border-box',
                         }}
                     >
@@ -299,6 +293,26 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
         </div>
     );
 });
+const StyledCloseBtn = styled.img`
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+`;
+
+const StyledContentContainer = styled.div`
+    width: 708px;
+    background-color: white;
+    margin-top: 70px;
+`;
+
+const StyledBorderLine = styled.div`
+    height: 1px;
+    width: 100%;
+    background-color: #ececec;
+`;
 
 const StyledClassification = styled.div`
     font-size: 16px;

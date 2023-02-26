@@ -34,22 +34,49 @@ const Login: React.FC = () => {
                     <p style={{ fontWeight: 'bold', color: '#043935' }}>가드너스 클럽</p>
                     <p>에 가입해보세요</p>
                 </StyledBasicText>
-                <StyledLoginImg src="/kakao_login.png" onClick={handleLogin} />
-                <StyledLoginImg src="/naver_login.png" onClick={handleNaverLogin} />
-                <StyledButton onClick={onTalkButton}>
+                <StyledLoginImg src="/kakao_login_wide.png" onClick={handleLogin} />
+                <StyleddNaverLogin>
+                    <img src="/naver_logo.png" />
+                    <div>네이버로 시작하기</div>
+                </StyleddNaverLogin>
+                {/*  <StyledButton onClick={onTalkButton}>
                     <StyledLoginText>로컬로그인</StyledLoginText>
-                </StyledButton>
+                </StyledButton> */}
             </StyledLoginContainer>
         </div>
     );
 };
 
 const StyledLoginImg = styled.img`
-    width: 200px;
+    width: 326px;
+    height: 48px;
     margin-top: 20px;
     cursor: pointer;
     :hover {
         opacity: 0.9;
+    }
+`;
+
+const StyleddNaverLogin = styled.div`
+    position: relative;
+    background-color: #03c75a;
+    width: 326px;
+    height: 48px;
+    margin-top: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    :hover {
+        opacity: 0.9;
+    }
+    img {
+        height: 48px;
+    }
+    div {
+        position: absolute;
+        font-size: 15px;
+        color: white;
+        top: 13px;
+        left: 114px;
     }
 `;
 

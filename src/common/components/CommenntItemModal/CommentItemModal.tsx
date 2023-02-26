@@ -522,69 +522,67 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                         <StyledCommentNickname onClick={() => onGoUserPage(item.accountId)}>
                                             {item.accountNicName}
                                         </StyledCommentNickname>
-                                        {mynickName === item.accountNicName && <StyledWritter>작성자</StyledWritter>}
                                     </div>
                                     <StyledCommentContent>{item.content}</StyledCommentContent>
                                 </StyledCommentItem>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    {item.myLike ? (
-                                        <FaHeart
-                                            style={{
-                                                cursor: 'pointer',
-                                                fontSize: 15,
-                                                color: 'red',
-                                            }}
-                                            onClick={() => onCommentUnLike(item.commentId, item.likeCount)}
-                                        />
-                                    ) : (
-                                        <FaRegHeart
-                                            style={{
-                                                cursor: 'pointer',
-                                                fontSize: 15,
-                                            }}
-                                            onClick={() => onCommentLike(item.commentId, item.likeCount)}
-                                        />
-                                    )}
-                                </div>
                             </StyledCommentBlock>
-                            {mynickName !== item.accountNicName && (
-                                <StyledcommentSubItemContainer>
-                                    <StyledcommentSubItem>
-                                        좋아요 <span>{item.likeCount}</span> 개
-                                    </StyledcommentSubItem>
-                                    <StyledcommentSubItem2>|</StyledcommentSubItem2>
-                                    {isActive[index] ? (
-                                        <StyledcommentSubItem2 onClick={() => onCloseBtn(index)}>
-                                            닫기
+                            <div style={{ position: 'absolute', right: 0, top: 40 }}>
+                                {item.myLike ? (
+                                    <FaHeart
+                                        style={{
+                                            cursor: 'pointer',
+                                            fontSize: 18,
+                                            color: 'red',
+                                        }}
+                                        onClick={() => onCommentUnLike(item.commentId, item.likeCount)}
+                                    />
+                                ) : (
+                                    <FaRegHeart
+                                        style={{
+                                            cursor: 'pointer',
+                                            fontSize: 18,
+                                        }}
+                                        onClick={() => onCommentLike(item.commentId, item.likeCount)}
+                                    />
+                                )}
+                            </div>
+                            <StyledcommentSubItemContainer>
+                                <StyledcommentSubItem>
+                                    좋아요 <span>{item.likeCount}</span> 개
+                                </StyledcommentSubItem>
+                                <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                {isActive[index] ? (
+                                    <StyledcommentSubItem2 onClick={() => onCloseBtn(index)}>
+                                        닫기
+                                    </StyledcommentSubItem2>
+                                ) : (
+                                    <StyledcommentSubItem2 onClick={() => onOpenBtn(index)}>
+                                        답글달기
+                                    </StyledcommentSubItem2>
+                                )}
+                                {TOKEN && item.accountNicName !== localStorage.getItem('nickName') && (
+                                    <>
+                                        <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                        <StyledcommentSubItem2
+                                            onClick={() => {
+                                                setReportId(item.commentId);
+                                                setOpenModal(!openModal);
+                                            }}
+                                        >
+                                            신고
                                         </StyledcommentSubItem2>
-                                    ) : (
-                                        <StyledcommentSubItem2 onClick={() => onOpenBtn(index)}>
-                                            답글달기
+                                    </>
+                                )}
+                                {item.accountNicName === localStorage.getItem('nickName') && (
+                                    <>
+                                        <StyledcommentSubItem2>|</StyledcommentSubItem2>
+                                        <StyledcommentSubItem2 onClick={() => onDeleteComment(item.commentId)}>
+                                            삭제
                                         </StyledcommentSubItem2>
-                                    )}
-                                    {TOKEN && item.accountNicName !== localStorage.getItem('nickName') && (
-                                        <>
-                                            <StyledcommentSubItem2>|</StyledcommentSubItem2>
-                                            <StyledcommentSubItem2
-                                                onClick={() => {
-                                                    setReportId(item.commentId);
-                                                    setOpenModal(!openModal);
-                                                }}
-                                            >
-                                                신고
-                                            </StyledcommentSubItem2>
-                                        </>
-                                    )}
-                                    {item.accountNicName === localStorage.getItem('nickName') && (
-                                        <>
-                                            <StyledcommentSubItem2>|</StyledcommentSubItem2>
-                                            <StyledcommentSubItem2 onClick={() => onDeleteComment(item.commentId)}>
-                                                삭제
-                                            </StyledcommentSubItem2>
-                                        </>
-                                    )}
-                                </StyledcommentSubItemContainer>
-                            )}
+                                    </>
+                                )}
+                            </StyledcommentSubItemContainer>
+
                             {item.commentChildDtoList &&
                                 item.commentChildDtoList.map((recomment, idx) => {
                                     return (
@@ -616,7 +614,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                                         <FaHeart
                                                             style={{
                                                                 cursor: 'pointer',
-                                                                fontSize: 15,
+                                                                fontSize: 18,
                                                                 color: 'red',
                                                             }}
                                                             onClick={() =>
@@ -631,7 +629,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                                         <FaRegHeart
                                                             style={{
                                                                 cursor: 'pointer',
-                                                                fontSize: 15,
+                                                                fontSize: 18,
                                                             }}
                                                             onClick={() =>
                                                                 onReCommentLike(
@@ -814,7 +812,10 @@ const StyledWritter = styled.div`
 `;
 
 const StyledCommentListContainer = styled.div`
-    padding-bottom: 15px;
+    position: relative;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ececec;
 `;
 
 const StyledCommentInfoBlock = styled.div`
@@ -882,15 +883,16 @@ const StyledCommentContent = styled.div`
 `;
 
 const StyledAvatarBlock = styled.div`
-    width: 36px;
+    width: 41px;
     display: flex;
     align-items: flex-start;
+    padding-right: 10px;
     cursor: pointer;
 `;
 
 const StyledcommentSubItemContainer = styled.div`
     display: flex;
-    padding-left: 46px;
+    padding-left: 56px;
     padding-top: 10px;
     padding-bottom: 10px;
     font-weight: 300;

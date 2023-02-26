@@ -26,7 +26,7 @@ const PhotoFilter_Order = [
 const PhotoFilter_Place = [
     {
         id: 2,
-        name: '공간',
+        name: '공간 (필수)',
         list: ['원룸', '거실', '침실', '주방', '욕실', '베란다', '사무실', '가게', '야외정원'],
     },
 ];

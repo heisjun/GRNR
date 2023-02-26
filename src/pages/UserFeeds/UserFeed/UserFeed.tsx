@@ -79,6 +79,7 @@ const UserFeed: React.FC = () => {
                     verticalGap={photoGap}
                     items={picData}
                     RenderComponent={UserfeedItem}
+                    setFunc={setPicData}
                 />
                 <StyledBorderLine />
                 <StyledDetailsBlock>

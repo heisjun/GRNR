@@ -111,7 +111,7 @@ const Picture: React.FC = () => {
         const formData = new FormData();
 
         for (let i = 0; i < getContent.length; i++) {
-            if (getContent[i].loc === '공간') {
+            if (getContent[i].loc === '공간 (필수)') {
                 alert('공간을 입력해 주세요');
                 return;
             } else {
@@ -184,7 +184,7 @@ const Picture: React.FC = () => {
             <StyledContentContainer>
                 <StyledPictureContainer>
                     <StyledPictureHeader>
-                        <CustomSelector optionData={option1} setGetOption={setGetOption1} />
+                        <CustomSelector optionData={option1} setGetOption={setGetOption1} bgColor="white" />
                     </StyledPictureHeader>
                     {getContent &&
                         getContent.map((item, i: number) => {
@@ -366,6 +366,7 @@ const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #f5f5f5;
 `;
 
 const StyledSubTabBarBlock = styled.div`

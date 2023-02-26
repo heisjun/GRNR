@@ -397,6 +397,15 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         }
     };
 
+    const onClickReport = (commentId: number) => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            setReportId(commentId);
+            setOpenModal(!openModal);
+        }
+    };
+
     return (
         <StyledCommentListContainer>
             <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
@@ -521,12 +530,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                     </StyledcommentSubItem>
                                 )}
                                 {item.accountNicName !== localStorage.getItem('nickName') && (
-                                    <StyledcommentSubItem
-                                        onClick={() => {
-                                            setReportId(item.commentId);
-                                            setOpenModal(!openModal);
-                                        }}
-                                    >
+                                    <StyledcommentSubItem onClick={() => onClickReport(item.commentId)}>
                                         신고
                                     </StyledcommentSubItem>
                                 )}

@@ -205,21 +205,16 @@ const StyledAlarm = styled.img`
 `;
 
 const StyledAlarmDot = styled.div`
-    height: 15px;
-    width: 15px;
+    height: 8.8px;
+    width: 8.8px;
     background-color: green;
     border-radius: 100%;
     position: absolute;
-    margin-left: 65px;
-    margin-bottom: 18px;
+    margin-left: 75px;
+    margin-bottom: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    span {
-        color: white;
-        font-size: 11px;
-        font-weight: bold;
-    }
 `;
 
 const StyledLogoImg = styled.img`

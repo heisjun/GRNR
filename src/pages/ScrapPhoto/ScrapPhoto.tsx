@@ -14,6 +14,8 @@ const Myphoto: React.FC = () => {
         viewCount: number;
         commentCount: number;
         video: boolean;
+        myLike: boolean;
+        myScrap: boolean;
     }
 
     const [picData, setPicData] = useState<IpicData[]>([]);

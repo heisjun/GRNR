@@ -228,6 +228,14 @@ const PhotoDetails: React.FC = () => {
         }
     };
 
+    const onClickReport = () => {
+        if (!TOKEN) {
+            navigate('/login');
+        } else {
+            setOpenModal(!openModal);
+        }
+    };
+
     function convertKor(classification: string) {
         if (classification === 'LEAF') {
             return '잎보기식물';
@@ -315,7 +323,7 @@ const PhotoDetails: React.FC = () => {
                             <StyledReportText onClick={onEdit}>수정</StyledReportText>
                         )}
                         {myAccountId !== String(details?.accountId) && (
-                            <StyledReportText onClick={() => setOpenModal(!openModal)}>신고</StyledReportText>
+                            <StyledReportText onClick={() => onClickReport()}>신고</StyledReportText>
                         )}
                     </StyledTopTextBlock>
                     <StyledBorderLine />
