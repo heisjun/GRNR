@@ -32,6 +32,7 @@ const Register: React.FC = () => {
     });
     const { nickname, detailAddress } = inputs;
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
+    const [disable, setDisable] = useState<boolean>(false);
     const dropdownListRef = useRef<any>(null);
 
     const CheckNickname = async () => {
@@ -110,7 +111,10 @@ const Register: React.FC = () => {
         CheckNickname();
         const regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
         const regExp2 = /[~!@#$%^&*()+|<>?:{}]/;
-        if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {
+        if (e.target.value.length < 2 || e.target.value.length >= 15) {
+            setUserInfo('닉네임은 2자 ~ 15자 내외입니다');
+            setNickError(true);
+        } else if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {
             setUserInfo('닉네임은 영어, 숫자, 밑줄, 점으로 구성됩니다');
             setNickError(true);
         } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
@@ -173,6 +177,16 @@ const Register: React.FC = () => {
             setAddressData([]);
         }
     }, [inputs.detailAddress]);
+
+    useEffect(() => {
+        if (!nickname || !detailAddress) {
+            console.log('공백값');
+            setDisable(true);
+        } else {
+            console.log('공백아님');
+            setDisable(false);
+        }
+    }, [nickname, detailAddress]);
 
     useEffect(() => {
         ageAgree && serviceAgree && privateAgree && adAgree ? setAllAgree(true) : setAllAgree(false);
@@ -268,7 +282,9 @@ const Register: React.FC = () => {
                 </StyledRegisterBlock>
                 <StyledRegisterBlock>
                     <StyledErrorMessage>{error}</StyledErrorMessage>
-                    <StyledButton onClick={handleClick}>가입하기</StyledButton>
+                    <StyledButton disabled={disable} onClick={handleClick}>
+                        가입하기
+                    </StyledButton>
                 </StyledRegisterBlock>
             </StyledRegisterContainer>
         </div>
@@ -349,9 +365,14 @@ const StyledButton = styled.button`
     border: none;
     padding: 14px;
     cursor: pointer;
+
     :hover {
         background-color: #0d6637;
         color: white;
+    }
+    :disabled {
+        background-color: #d8d8d8;
+        color: #969696;
     }
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 3vw;

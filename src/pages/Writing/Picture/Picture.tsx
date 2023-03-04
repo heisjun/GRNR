@@ -34,6 +34,7 @@ const Picture: React.FC = () => {
         }[]
     >([]);
     const [fadeAnim, setFadeAnim] = useState<any>();
+    const [disable, setDisable] = useState<boolean>(false);
 
     function convertEng(place: string) {
         if (place === '원룸') {
@@ -145,6 +146,7 @@ const Picture: React.FC = () => {
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
+        setDisable(true);
         navigate('/community/photo');
         if (res.status === 201) console.log(res.data);
     };
@@ -159,8 +161,8 @@ const Picture: React.FC = () => {
                                 <StyledLogoImg src="/gardenersLogo.png" />
                             </Link>
                         </StyledTitleBlock>
-                        <StyledUploadButton>
-                            <StyledUploadText onClick={onSave}>등록</StyledUploadText>
+                        <StyledUploadButton disabled={disable} onClick={onSave}>
+                            <StyledUploadText>등록</StyledUploadText>
                         </StyledUploadButton>
                     </StyledHeaderBar>
                 </StyledHeaderBarContainer>
@@ -281,7 +283,7 @@ const StyledAddBtn = styled.button`
     color: gray;
     padding: 15px;
     :hover {
-        background: lightgray;
+        background: #0d6637;
         color: white;
     }
     @media screen and (max-width: ${boundaryWidth}px) {
@@ -294,10 +296,11 @@ const StyledUploadText = styled.div`
     font-size: 15px;
 `;
 
-const StyledUploadButton = styled.div`
-    width: 55px;
-    height: 25px;
+const StyledUploadButton = styled.button`
+    width: 73px;
+    height: 43px;
     padding: 9px;
+    border: none;
     background-color: #0d6637;
     display: flex;
     justify-content: center;
@@ -307,6 +310,10 @@ const StyledUploadButton = styled.div`
     :hover {
         background-color: gray;
         color: #0d6637;
+    }
+    :disabled {
+        background-color: #d8d8d8;
+        color: #969696;
     }
 `;
 

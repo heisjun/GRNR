@@ -230,11 +230,20 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                     )}
                 </StyledFlexBlock>
                 <StyledInputContainer>
-                    <StyledInputBlock
-                        placeholder="사진에 대해 설명해주세요"
-                        value={textValue}
-                        onChange={(e) => handleSetValue(e)}
-                    />
+                    {type === 'PHOTO' ? (
+                        <StyledInputBlock
+                            placeholder="사진에 대해 설명해주세요"
+                            value={textValue}
+                            onChange={(e) => handleSetValue(e)}
+                        />
+                    ) : (
+                        <StyledInputBlock
+                            placeholder="동영상에 대해 설명해주세요"
+                            value={textValue}
+                            onChange={(e) => handleSetValue(e)}
+                        />
+                    )}
+
                     <StyledBorder />
                     <TagBox realsetGetTag={setRealgetTag} realvalue={getContent[index].realhashtag} />
                 </StyledInputContainer>

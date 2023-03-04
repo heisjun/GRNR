@@ -406,11 +406,11 @@ const StyledWriterBlock = styled.div`
 
 const StyledUserInfoBlock = styled.div`
     box-sizing: border-box;
-    width: 100%;
+
     height: 120px;
     display: flex;
     align-items: center;
-    margin: 20px 0px 20px;
+    margin: 20px 16px 20px 16px;
     padding: 20px 16px;
     background-color: #f5f5f5;
 `;
