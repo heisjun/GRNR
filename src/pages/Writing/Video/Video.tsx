@@ -23,7 +23,6 @@ const option1 = [
 const Video: React.FC = () => {
     const [getOption1, setGetOption1] = useState('');
     const navigate = useNavigate();
-    const [getOption2, setGetOption2] = useState('');
     const [imgFiles, setImgFiles] = useState<{ imgfile: any }[]>([]);
     const [saveDto, setSaveDto] = useState<
         {
@@ -33,6 +32,7 @@ const Video: React.FC = () => {
         }[]
     >([]);
     const [fadeAnim, setFadeAnim] = useState<any>();
+    const [disable, setDisable] = useState<boolean>(false);
 
     function convertEng(place: string) {
         if (place === '원룸') {
@@ -143,6 +143,7 @@ const Video: React.FC = () => {
                 Authorization: `Bearer ${TOKEN}`,
             },
         });
+        setDisable(true);
         navigate('/community/photo');
         if (res.status === 201) console.log(res.data);
     };
@@ -157,8 +158,8 @@ const Video: React.FC = () => {
                                 <StyledLogoImg src="/gardenersLogo.png" />
                             </Link>
                         </StyledTitleBlock>
-                        <StyledUploadButton>
-                            <StyledUploadText onClick={onSave}>등록</StyledUploadText>
+                        <StyledUploadButton disabled={disable} onClick={onSave}>
+                            <StyledUploadText>등록</StyledUploadText>
                         </StyledUploadButton>
                     </StyledHeaderBar>
                 </StyledHeaderBarContainer>
@@ -292,16 +293,25 @@ const StyledUploadText = styled.div`
     font-size: 15px;
 `;
 
-const StyledUploadButton = styled.div`
-    width: 55px;
-    height: 25px;
+const StyledUploadButton = styled.button`
+    width: 73px;
+    height: 43px;
     padding: 9px;
+    border: none;
     background-color: #0d6637;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     margin-left: auto;
+    :hover {
+        background-color: gray;
+        color: #0d6637;
+    }
+    :disabled {
+        background-color: #d8d8d8;
+        color: #969696;
+    }
 `;
 
 const StyledTitleBlock = styled.div`

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
-
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
 
@@ -25,6 +24,7 @@ const MyProfileEdit: React.FC = () => {
     const [imageUrl, setImageUrl] = useState<any>(null);
     const [imgfile, setImgFile] = useState<File | null>(null);
     const imgRef = useRef<any>(null);
+    const [disable, setDisable] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -168,7 +168,10 @@ const MyProfileEdit: React.FC = () => {
         CheckNickname();
         const regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
         const regExp2 = /[~!@#$%^&*()+|<>?:{}]/;
-        if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {
+        if (e.target.value.length < 2 || e.target.value.length >= 15) {
+            setUserInfo('닉네임은 2자 ~ 15자 내외입니다');
+            setNickError(true);
+        } else if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {
             setUserInfo('닉네임은 영어, 숫자, 밑줄, 점으로 구성됩니다');
             setNickError(true);
         } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
@@ -179,6 +182,14 @@ const MyProfileEdit: React.FC = () => {
             setNickError(false);
         }
     };
+
+    useEffect(() => {
+        if (!nickname) {
+            setDisable(true);
+        } else {
+            setDisable(false);
+        }
+    }, [nickname]);
     return (
         <StyledMyphotoContainer>
             <StyledContextContainer>
@@ -237,7 +248,9 @@ const MyProfileEdit: React.FC = () => {
 
                         <StyledRegisterBlock>
                             <StyledErrorMessage>{error}</StyledErrorMessage>
-                            <StyledButton onClick={handleClick}>회원정보수정</StyledButton>
+                            <StyledButton disabled={disable} onClick={handleClick}>
+                                회원정보수정
+                            </StyledButton>
                         </StyledRegisterBlock>
                     </StyledRegisterContainer>
                 </div>
@@ -338,6 +351,10 @@ const StyledButton = styled.button`
     :hover {
         background-color: #0d6637;
         color: white;
+    }
+    :disabled {
+        background-color: #d8d8d8;
+        color: #969696;
     }
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 3vw;

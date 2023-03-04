@@ -195,8 +195,8 @@ const StyledKoreanName = styled.h2`
 `;
 
 const StyledContentBox = styled.p`
-    width: 319px;
-    height: 156px;
+    /*  width: 319px;
+    height: 156px; */
     margin: 16px 0 30px;
     font-family: NotoSansKR;
     font-size: 15px;
