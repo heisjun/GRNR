@@ -71,7 +71,7 @@ const CustomSelector: React.FC<ICustomSelector> = (props) => {
                         <StyledDropdown key={id}>
                             <StyledDropdownBtn onClick={() => onOpenBtn(index)} bgColor={bgColor}>
                                 <StyledDropdownText>{selected}</StyledDropdownText>
-                                <FaCaretDown />
+                                <StyledDropdownImg src="/btnDropdownBlack.png" />
                             </StyledDropdownBtn>
                             {isActive[index] && (
                                 <StyledDropdownContent ref={dropdownListRef}>
@@ -102,6 +102,11 @@ const StyledFiltersBlock = styled.div`
     display: flex;
 `;
 
+const StyledDropdownImg = styled.img`
+    margin-left: 15px;
+    width: 10px;
+    height: 10px;
+`;
 const StyledDropdown = styled.div`
     user-select: none;
     margin-right: 10px;

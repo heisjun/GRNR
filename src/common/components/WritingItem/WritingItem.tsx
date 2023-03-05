@@ -161,7 +161,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
             <StyledImgBlock>
                 {getContent[index].imgFile && (
                     <StyledDeletePictureBtn onClick={() => setImageUrl(null)}>
-                        <img src={'/deleteIcon.png'} />
+                        <StyledIconImg src={'/deleteIcon.png'} />
                     </StyledDeletePictureBtn>
                 )}
                 {getContent[index].imgFile && (
@@ -170,7 +170,7 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                             onClickFileBtn(e);
                         }}
                     >
-                        <img src={'/reviseIcon.png'} />
+                        <StyledIconImg src={'/reviseIcon.png'} />
                     </StyledModifyPictureBtn>
                 )}
 
@@ -180,7 +180,6 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                     ) : (
                         <div style={{ width: '100%', height: '100%', position: 'relative' }}>
                             <StyledImg src={getContent[index].imgFile} />
-                            <StyledImgBtm test={getContent[index].imgFile} />
                         </div>
                     )
                 ) : !getContent[index].imgFile ? (
@@ -188,7 +187,6 @@ const WritingItem: React.FC<IWritingItem> = (props) => {
                 ) : (
                     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
                         <StyledVideo src={getContent[index].imgFile}></StyledVideo>
-                        <StyledImgBtm test={getContent[index].imgFile} />
                     </div>
                 )}
 
@@ -264,6 +262,10 @@ const StyledTypeIcon = styled.div`
     img {
         width: 37.5px;
     }
+`;
+
+const StyledIconImg = styled.img`
+    filter: drop-shadow(2px 2px 2px #000);
 `;
 
 const StyledBorder = styled.div`
@@ -346,15 +348,6 @@ const StyledImg = styled.img`
     width: 100%;
     height: 100%;
     position: relative;
-`;
-const StyledImgBtm = styled.div<{ test: string }>`
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(20, 20, 20, 0) 85%, rgba(20, 20, 20, 0.5) 90%, rgba(20, 20, 20, 1) 100%),
-        url(test);
-    background-size: cover;
 `;
 
 const StyledVideo = styled.video`
