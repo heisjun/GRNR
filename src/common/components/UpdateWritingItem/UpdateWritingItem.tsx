@@ -150,7 +150,7 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
                             setGetImg(null);
                         }}
                     >
-                        <img src={'/deleteIcon.png'} />
+                        <StyledIconImg src={'/deleteIcon.png'} />
                     </StyledDeletePictureBtn>
                 )}
                 {getImg && (
@@ -159,7 +159,7 @@ const UpdateWritingItem: React.FC<IUpdateWritingItem> = (props) => {
                             onClickFileBtn(e);
                         }}
                     >
-                        <img src={'/reviseIcon.png'} />
+                        <StyledIconImg src={'/reviseIcon.png'} />
                     </StyledModifyPictureBtn>
                 )}
             </StyledImgBlock>
@@ -202,6 +202,10 @@ const StyledTypeIcon = styled.div`
     img {
         width: 37.5px;
     }
+`;
+
+const StyledIconImg = styled.img`
+    filter: drop-shadow(2px 2px 2px #000);
 `;
 
 const StyledBorder = styled.div`
