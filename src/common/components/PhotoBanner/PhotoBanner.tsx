@@ -37,9 +37,9 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
             )}
             {data && (
                 <div style={{ width: '100%', height: 500, display: 'flex' }}>
-                    {data[0].firstContent.video ? (
+                    {data[0].video ? (
                         <StyledVideo1
-                            src={data[0].firstContent.pictureUrl}
+                            src={data[0].pictureContentUrl}
                             onClick={() => {
                                 setIsOpenModal(true);
                                 setPictureId(data[0].pictureId);
@@ -47,7 +47,7 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                         />
                     ) : (
                         <StyledImg1
-                            src={data[0].firstContent.pictureUrl}
+                            src={data[0].pictureContentUrl}
                             onClick={() => {
                                 setIsOpenModal(true);
                                 setPictureId(data[0].pictureId);
@@ -67,7 +67,7 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                             <StyledNickname>{data[0].accountNickName}</StyledNickname>
                         </div>
 
-                        <StyledContent>{data[0].firstContent.explain}</StyledContent>
+                        <StyledContent>{data[0].pictureContentExplain}</StyledContent>
                     </StyledFirstBlock>
 
                     <div
@@ -78,10 +78,10 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                             justifyContent: 'space-between',
                         }}
                     >
-                        {data[1].firstContent.video ? (
-                            <StyledVideo2 src={data[1].firstContent.pictureUrl} />
+                        {/* {data[1].video ? (
+                            <StyledVideo2 src={data[1].pictureContentUrl} />
                         ) : (
-                            <StyledImg2 src={data[1].firstContent.pictureUrl} />
+                            <StyledImg2 src={data[1].pictureContentUrl} />
                         )}
                         <StyledSecondBlock
                             onClick={() => {
@@ -89,13 +89,13 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                                 setPictureId(data[1].pictureId);
                             }}
                         >
-                            <StyledSecondContent>{data[1].firstContent.explain}</StyledSecondContent>
+                            <StyledSecondContent>{data[1].pictureContentExplain}</StyledSecondContent>
                         </StyledSecondBlock>
 
-                        {data[2].firstContent.video ? (
-                            <StyledVideo3 src={data[2].firstContent.pictureUrl} />
+                        {data[2].video ? (
+                            <StyledVideo3 src={data[2].pictureContentUrl} />
                         ) : (
-                            <StyledImg3 src={data[2].firstContent.pictureUrl} />
+                            <StyledImg3 src={data[2].pictureContentUrl} />
                         )}
                         <StyledThirdBlock
                             onClick={() => {
@@ -103,8 +103,8 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                                 setPictureId(data[2].pictureId);
                             }}
                         >
-                            <StyledSecondContent>{data[2].firstContent.explain}</StyledSecondContent>
-                        </StyledThirdBlock>
+                            <StyledSecondContent>{data[2].pictureContentExplain}</StyledSecondContent>
+                        </StyledThirdBlock> */}
                     </div>
                 </div>
             )}

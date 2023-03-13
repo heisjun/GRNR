@@ -23,7 +23,7 @@ const Popular: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${BASEURL}/api/picture/popular
+                const response = await axios.get(`${BASEURL}/api/picture/main
                 `);
                 setPopular1(response.data.value.content);
             } catch (e) {

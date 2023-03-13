@@ -165,7 +165,7 @@ const PhotoDetails: React.FC = () => {
 
     const onEdit = () => {
         {
-            details?.pictureContentDtoList[0].video
+            details?.video
                 ? navigate('/community/video/edit', { state: params.id })
                 : navigate('/community/photo/edit', { state: params.id });
         }

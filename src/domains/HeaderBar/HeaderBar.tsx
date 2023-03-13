@@ -271,7 +271,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                 </StyledContainer>
             );
     } else {
-        if (loc.pathname === '/login' || loc.pathname === '/register')
+        if (loc.pathname === '/login' || loc.pathname === '/register' || loc.pathname === '/privacy')
             return (
                 <StyledLoginContainer>
                     <StyledTabsContainer>

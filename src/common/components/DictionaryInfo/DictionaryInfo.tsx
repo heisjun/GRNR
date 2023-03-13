@@ -20,7 +20,7 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
     };
 
     const rightButton = () => {
-        if ((data?.pictureList.length ? data.pictureList.length - 1 : 0) > slideIdx) {
+        if ((data?.plantContentFeedDtoList.length ? data.plantContentFeedDtoList.length - 1 : 0) > slideIdx) {
             setSlidePage((prev) => prev + 1140);
             setSlideIdx((prev) => prev + 1);
         }
@@ -43,16 +43,16 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                 </StyledArrowStyle>
             </StyledSlideButtonBox>
             <StyleBannerBoxStyle ref={slideRef}>
-                {data?.pictureList.map((item, idx) => (
+                {data?.plantContentFeedDtoList.map((item, idx) => (
                     <StyledMainBannerContainer key={idx} slidePage={slidePage}>
                         <StyledImageContainer>
-                            <img src={item} alt="" />
+                            <img src={item.plantPicUrl} alt="" />
                         </StyledImageContainer>
                     </StyledMainBannerContainer>
                 ))}
             </StyleBannerBoxStyle>
             <StyledDotBox>
-                {data?.pictureList.map((_, idx) => (
+                {data?.plantContentFeedDtoList.map((_, idx) => (
                     <StyledDot
                         key={idx}
                         slideIdx={slideIdx}

@@ -177,7 +177,7 @@ const Dictionary: React.FC = () => {
     const fetchData = async () => {
         if (!TOKEN) {
             try {
-                const response = await axios.get(`${BASEURL}/api/images/search${location.search}`, {
+                const response = await axios.get(`${BASEURL}/api/plantDic/search${location.search}`, {
                     params: {
                         page: 0,
                         size: size,
@@ -190,7 +190,7 @@ const Dictionary: React.FC = () => {
             }
         } else {
             try {
-                const response = await axios.get(`${BASEURL}/api/images/search${location.search}`, {
+                const response = await axios.get(`${BASEURL}/api/plantDic/search${location.search}`, {
                     headers: {
                         Authorization: `Bearer ${TOKEN}`,
                     },
