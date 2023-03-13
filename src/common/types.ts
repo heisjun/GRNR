@@ -80,49 +80,26 @@ export type ItestComments = {
 
 export type IDictionaryDetailsParams = {
     plantDicId: number;
-    pictureList: string[];
+    plantContentFeedDtoList: {
+        plantDicId: number;
+        plantDicPicId: number;
+        plantPicUrl: string;
+        user_name: string;
+    }[];
     plantName: string;
     scientificName: string;
-    toxicity: string;
-    cat: boolean;
-    dog: boolean;
     classification: string;
+    classification_leaf: string;
+    classification_flower: string;
+    classification_fruit: string;
+    classification_succulent: string;
     korClass: string;
     enClass: string;
     korOrder: string;
     enOrder: string;
     korFamily: string;
     enFamily: string;
-    classification_leaf: boolean;
-    classification_flower: boolean;
-    classification_fruit: boolean;
-    classification_succulent: boolean;
-    shape_shrub: boolean;
-    shape_upright: boolean;
-    shape_creeper: boolean;
-    shape_grass: boolean;
-    shape_rosette: boolean;
-    shape_succulent: boolean;
     distribution: string;
-    winter_temp_min: string;
-    moderate_temp_min: string;
-    moderate_temp_max: string;
-    moderate_humidity_min: string;
-    moderate_humidity_max: string;
-    full_sun: string;
-    half_sun: string;
-    full_shade: string;
-    half_shade: string;
-    direct_sunlight: string;
-    inside_min: string;
-    inside_max: string;
-    difficulty: string;
-    growSpeed: string;
-    leafSize: string;
-    watering_spring: string;
-    watering_summer: string;
-    watering_autumn: string;
-    watering_winter: string;
     description_detail: string;
     flowerLanguage: string;
 };
@@ -153,12 +130,12 @@ export type IPhotoDetailsParams = {
         pictureUrl: string;
         explain: string;
         homePlace: string;
-        video: boolean;
         tagList: {
             pictureContentId: number;
             tagName: string;
         }[];
     }[];
+    video: boolean;
     myLike: boolean;
     myScrap: boolean;
     myFollow: boolean;
@@ -186,21 +163,15 @@ export type pictureDtoParams = {
 };
 
 export type IPhotosParams = {
-    accountNickName?: string;
+    /*  accountNickName?: string;
     accountProfileUrl?: string;
     accountId?: number;
     commentCount: number;
     firstContent: {
-        contentId: number;
         explain: string;
-        homePlace: string;
         pictureId: number;
         pictureUrl: string;
         video: boolean;
-        tagList: {
-            pictureContentId: number;
-            tagName: string;
-        }[];
     };
     myLike: boolean;
     myScrap: boolean;
@@ -208,7 +179,20 @@ export type IPhotosParams = {
     pictureId: number;
     scrapCount: number;
     viewCount?: number;
-    time: number;
+    time: number; */
+    pictureId: number;
+    pictureContentUrl: string;
+    pictureContentExplain: string;
+    likeCount: number;
+    scrapCount: number;
+    commentCount: number;
+    video: boolean;
+    myLike: boolean;
+    myScrap: boolean;
+    accountId: number;
+    accountNickName: string;
+    accountProfileUrl: string;
+    viewCount: number;
 };
 
 export type IPhotoDetailsItems = {
@@ -306,6 +290,7 @@ export type IPhotoParams = {
     details?: string;
 };
 
+//수정예정
 export type IDictionariesParams = {
     plantDicId: number;
     plantName: string;
@@ -403,11 +388,14 @@ export type IPopularPic = {
     accountNickName: string;
     accountProfileUrl: string;
     pictureId: number;
-    firstContent: {
+    pictureContentUrl: string;
+    pictureContentExplain: string;
+    video: boolean;
+    /*  firstContent: {
         explain: string;
         pictureUrl: string;
         video: boolean;
-    };
+    }; */
 };
 
 export type ITodaysPhotoParams = {

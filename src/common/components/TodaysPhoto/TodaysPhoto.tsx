@@ -37,13 +37,13 @@ const TodaysPhoto: React.FC<ITodaysPhotoParams> = (props) => {
                                 <StyledNicknameBlock>{item.accountNickName}</StyledNicknameBlock>
                             </StyledProfileBlock>
                             <StyledBorderLine />
-                            <StyledDetailsText>{item.firstContent.explain}</StyledDetailsText>
+                            <StyledDetailsText>{item.pictureContentExplain}</StyledDetailsText>
                         </StyledHoverBackgrouond>
                     )}
-                    {item.firstContent.video ? (
-                        <StyledVideo src={item.firstContent.pictureUrl} width="100%" height="100%" />
+                    {item.video ? (
+                        <StyledVideo src={item.pictureContentUrl} width="100%" height="100%" />
                     ) : (
-                        <StyledImg src={item.firstContent.pictureUrl} width="100%" height="100%" />
+                        <StyledImg src={item.pictureContentUrl} width="100%" height="100%" />
                     )}
                 </StyledImgBlock>
             </Link>

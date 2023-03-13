@@ -7,9 +7,13 @@ import { ItemList, DictionaryItem, MagazineItem } from 'common/components';
 import { default as callApi } from 'common/api';
 import { IDictionaryDetailsParams } from 'common/types';
 import Faq from 'common/components/FAQ';
+import axios from 'axios';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
+
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
 
 const DictionaryDetails: React.FC = () => {
     const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
@@ -23,7 +27,8 @@ const DictionaryDetails: React.FC = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await callApi.getDetailList(Number(params.id), 'images');
+                const response = await axios.get(`${BASEURL}/api/plantDic/${params.id}/detail`);
+                console.log(response.data.value);
                 setDetails(response.data.value);
             } catch (e) {
                 console.log(e);

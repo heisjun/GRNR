@@ -46,3 +46,4 @@ export { default as UserScrapBook } from './UserFeeds/UserScrapBooks/UserScrapBo
 export { default as UserScrapDictionary } from './UserFeeds/UserScrapBooks/UserScrapDictionary';
 export { default as UserScrapMagazine } from './UserFeeds/UserScrapBooks/UserScrapMagazine';
 export { default as UserScrapPhoto } from './UserFeeds/UserScrapBooks/UserScrapPhoto';
+export { default as PersonalInformation } from './Terms/PersonalInformation';

@@ -1,13 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Footer: React.FC = () => {
+    const navigate = useNavigate();
     return (
         <div>
             <StyledFooterContainer>
                 <StyledFooterLogo src={'/footerLogo.png'} />
                 <StyledTextBlock>
-                    <StyledMiddleText>고객이용 약관</StyledMiddleText>
+                    <StyledMiddleText onClick={() => navigate('/privacy')}>고객이용 약관</StyledMiddleText>
                     <StyledMiddleText>개인정보처리방침</StyledMiddleText>
                 </StyledTextBlock>
                 <StyledSmallTextBlock>
@@ -48,6 +50,7 @@ const StyledMiddleText = styled.div`
     color: #ffffff;
     padding-right: 20px;
     opacity: 0.56;
+    cursor: pointer;
 `;
 
 const StyledSmallText = styled.div`

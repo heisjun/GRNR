@@ -1,5 +1,6 @@
 import { IAgreeBox } from './AgreeBox.type';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH) + 100;
@@ -18,6 +19,10 @@ const AgreeBox: React.FC<IAgreeBox> = (props) => {
         setAdAgree,
         handleChange,
     } = props;
+    const navigate = useNavigate();
+    const handleOpenNewTab = (url: string) => {
+        window.open(url, '_blank', 'noopener, noreferrer');
+    };
 
     const inputList = [
         {
@@ -32,24 +37,28 @@ const AgreeBox: React.FC<IAgreeBox> = (props) => {
             value: ageAgree,
             clickEvent: () => handleChange(setAgeAgree),
             text: '만 14세 이상입니다 (필수)',
+            onGoPage: '/privacy',
         },
         {
             id: 'agree-service',
             value: serviceAgree,
             clickEvent: () => handleChange(setServiceAgree),
             text: '이용약관 (필수)',
+            onGoPage: '/privacy',
         },
         {
             id: 'agree-private',
             value: privateAgree,
             clickEvent: () => handleChange(setPrivateAgree),
             text: '개인정보 처리 방침 동의(필수)',
+            onGoPage: '/privacy',
         },
         {
             id: 'agree-advertise',
             value: adAgree,
             clickEvent: () => handleChange(setAdAgree),
             text: '광고성 정보 수신 및 마케팅 활용 동의 (선택)',
+            onGoPage: '/privacy',
         },
     ];
     return (
@@ -63,10 +72,10 @@ const AgreeBox: React.FC<IAgreeBox> = (props) => {
                             <StyledAllText>{item.text}</StyledAllText>
                         </StyledAllLabel>
                     ) : (
-                        <StyledLabel htmlFor={item.id}>
+                        <StyledLabel>
                             <input id={item.id} type="checkbox" checked={item.value} onChange={item.clickEvent} />
 
-                            <StyledText>{item.text}</StyledText>
+                            <StyledText onClick={() => handleOpenNewTab(`${item.onGoPage}`)}>{item.text}</StyledText>
                         </StyledLabel>
                     )}
                 </StyledContainer>
@@ -88,9 +97,10 @@ const StyledAllLabel = styled.label`
     }
 `;
 
-const StyledLabel = styled.label`
+const StyledLabel = styled.div`
     display: flex;
     padding-left: 15px;
+    cursor: pointer;
     input {
         cursor: pointer;
         accent-color: green;

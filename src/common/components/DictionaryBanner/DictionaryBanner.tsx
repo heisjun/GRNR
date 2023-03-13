@@ -62,19 +62,18 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
                             <StyledKoreanName>{item.plantName}</StyledKoreanName>
                             <StyledContentBox>{truncate(item.description_detail)}</StyledContentBox>
                             <StyledKeywordContainer>
-                                {item.classification_flower && (
+                                {item.classification_flower !== 'null' && (
                                     <StyledKeywordBox>{item.classification_flower}</StyledKeywordBox>
                                 )}
-                                {item.classification_fruit && (
+                                {item.classification_fruit !== 'null' && (
                                     <StyledKeywordBox>{item.classification_fruit}</StyledKeywordBox>
                                 )}
-                                {item.classification_leaf && (
+                                {item.classification_leaf !== 'null' && (
                                     <StyledKeywordBox>{item.classification_leaf}</StyledKeywordBox>
                                 )}
-                                {item.classification_succulent && (
+                                {item.classification_succulent !== 'null' && (
                                     <StyledKeywordBox>{item.classification_succulent}</StyledKeywordBox>
                                 )}
-                                {item.flowerLanguage && <StyledKeywordBox>{item.flowerLanguage}</StyledKeywordBox>}
                             </StyledKeywordContainer>
                         </StyledContentContainer>
                     </StyledMainBannerContainer>
