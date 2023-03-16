@@ -309,7 +309,7 @@ export type IMyphotoParams = {
     myScrap: boolean;
     myLike: boolean;
     pictureId: number;
-    pictureUrl: string;
+    pictureContentUrl: string;
     likeCount: number;
     commentCount: number;
     scrapCount: number;
@@ -359,7 +359,7 @@ export type IUploadPicData = {
 
 export type IpicData = {
     pictureId: number;
-    pictureUrl: string;
+    pictureContentUrl: string;
     myLike: boolean;
     myScrap: boolean;
     likeCount: number;

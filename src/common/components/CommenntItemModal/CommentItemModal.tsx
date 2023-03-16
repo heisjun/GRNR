@@ -52,7 +52,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
         const fetchData = async () => {
             if (!TOKEN) {
                 try {
-                    const response = await callApi.getDetailList(Number(pictureId), 'picture');
+                    const response = await api.get(`${BASEURL}/api/picture/${pictureId}/detail`);
                     setDetails(response.data.value);
                 } catch (e) {
                     console.log(e);
@@ -511,8 +511,8 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                             <StyledCommentBlock>
                                 <StyledAvatarBlock onClick={() => onGoUserPage(item.accountId)}>
                                     <Avatar
-                                        width="100%"
-                                        paddingBottom="100%"
+                                        width="36px"
+                                        paddingBottom="36px"
                                         borderRadius="100%"
                                         picUrl={item.accountProfileUrl}
                                     />
@@ -586,12 +586,12 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                             {item.commentChildDtoList &&
                                 item.commentChildDtoList.map((recomment, idx) => {
                                     return (
-                                        <div style={{ paddingLeft: 46 }} key={idx}>
+                                        <div style={{ paddingLeft: 56 }} key={idx}>
                                             <div style={{ display: 'flex', width: '100%' }}>
                                                 <StyledAvatarBlock onClick={() => onGoUserPage(recomment.accountId)}>
                                                     <Avatar
-                                                        width="100%"
-                                                        paddingBottom="100%"
+                                                        width="36px"
+                                                        paddingBottom="36px"
                                                         borderRadius="100%"
                                                         picUrl={recomment.accountProfileUrl}
                                                     />
@@ -616,6 +616,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                                                 cursor: 'pointer',
                                                                 fontSize: 18,
                                                                 color: 'red',
+                                                                marginTop: '20',
                                                             }}
                                                             onClick={() =>
                                                                 onReCommentUnLike(
@@ -630,6 +631,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                                             style={{
                                                                 cursor: 'pointer',
                                                                 fontSize: 18,
+                                                                marginTop: '20',
                                                             }}
                                                             onClick={() =>
                                                                 onReCommentLike(
@@ -688,41 +690,36 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                     style={{
                                         display: 'flex',
                                         marginBottom: 10,
-                                        marginLeft: 36,
+                                        marginLeft: 56,
                                         justifyContent: 'space-between',
                                     }}
                                 >
                                     <StyledAvatarBlock>
                                         <Avatar
-                                            width="100%"
-                                            paddingBottom="100%"
+                                            width="36px"
+                                            paddingBottom="36px"
                                             borderRadius="100%"
                                             picUrl={localStorage.getItem('profileUrl')}
                                         />
                                     </StyledAvatarBlock>
 
-                                    <input
+                                    <StyledReInputBox
                                         type="text"
                                         value={recomment}
-                                        style={{
-                                            width: '70%',
-                                            borderRadius: 15,
-                                            paddingLeft: 5,
-                                            borderColor: 'gray',
-                                            borderWidth: 1.5,
-                                        }}
                                         onChange={(e) => {
                                             setRecomment(e.target.value);
                                         }}
                                     />
                                     <button
                                         style={{
-                                            color: 'white',
-                                            backgroundColor: '#0d6637',
+                                            color: '#0d6637',
+                                            backgroundColor: 'white',
                                             border: 'none',
-                                            borderRadius: 15,
-                                            paddingLeft: 10,
-                                            paddingRight: 10,
+                                            position: 'absolute',
+                                            fontSize: 16,
+                                            fontWeight: 'bold',
+                                            right: 5,
+                                            bottom: 33,
                                         }}
                                         onClick={() => {
                                             onReCommentSave(item.commentId, recomment);
@@ -839,6 +836,15 @@ const StyledInputContainer = styled.div`
 const StyledInputBox = styled.input`
     width: 98%;
     height: 50px;
+    font-size: 15px;
+    padding-left: 10px;
+    background-color: #fafafa;
+    border: 1px solid #b9b9b9;
+    color: #b9b9b9;
+`;
+
+const StyledReInputBox = styled.input`
+    width: 100%;
     font-size: 15px;
     padding-left: 10px;
     background-color: #fafafa;

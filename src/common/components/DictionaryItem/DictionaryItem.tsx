@@ -22,7 +22,7 @@ const DictionaryItem: React.FC<IDictionaryItem> = (props) => {
             navigate('/login');
         } else {
             try {
-                await api.post(`${BASEURL}/api/images/${item.plantDicId}/scrap`);
+                await api.post(`${BASEURL}/api/plantDic/${item.plantDicId}/scrap`);
 
                 setFunc(
                     items.map((it) => (it.plantDicId === item.plantDicId ? { ...it, myScrap: !item.myScrap } : it)),

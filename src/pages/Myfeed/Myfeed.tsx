@@ -11,7 +11,7 @@ const TOKEN = localStorage.getItem('accesstoken');
 const Myfeed: React.FC = () => {
     interface IpicData {
         pictureId: number;
-        pictureUrl: string;
+        pictureContentUrl: string;
         myLike: boolean;
         myScrap: boolean;
         likeCount: number;
@@ -33,8 +33,7 @@ const Myfeed: React.FC = () => {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-                setPicData(myfeedData.data.value.myPictureDtoList);
-                setMagazineData(myfeedData.data.value.myMagazineDtoList);
+                setPicData(myfeedData.data.value.feedPictureDtoList);
             } catch (e) {
                 console.log(e);
             }
