@@ -12,7 +12,7 @@ const TOKEN = localStorage.getItem('accesstoken');
 const UserFeed: React.FC = () => {
     interface IpicData {
         pictureId: number;
-        pictureUrl: string;
+        pictureContentUrl: string;
         myLike: boolean;
         myScrap: boolean;
         likeCount: number;

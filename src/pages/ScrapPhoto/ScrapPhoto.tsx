@@ -8,7 +8,7 @@ const TOKEN = localStorage.getItem('accesstoken');
 const Myphoto: React.FC = () => {
     interface IpicData {
         pictureId: number;
-        pictureUrl: string;
+        pictureContentUrl: string;
         likeCount: number;
         scrapCount: number;
         viewCount: number;
@@ -31,7 +31,7 @@ const Myphoto: React.FC = () => {
                         },
                     },
                 );
-                setPicData(myfeedData.data.value.scrapPictureDtoList);
+                setPicData(myfeedData.data.value.feedPictureDtoList);
             } catch (e) {
                 console.log(e);
             }

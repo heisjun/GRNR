@@ -78,7 +78,7 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                             justifyContent: 'space-between',
                         }}
                     >
-                        {/* {data[1].video ? (
+                        {data[1].video ? (
                             <StyledVideo2 src={data[1].pictureContentUrl} />
                         ) : (
                             <StyledImg2 src={data[1].pictureContentUrl} />
@@ -104,7 +104,7 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                             }}
                         >
                             <StyledSecondContent>{data[2].pictureContentExplain}</StyledSecondContent>
-                        </StyledThirdBlock> */}
+                        </StyledThirdBlock>
                     </div>
                 </div>
             )}

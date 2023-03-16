@@ -58,9 +58,10 @@ const Profile: React.FC = () => {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-                setAccountDto(myfeedData.data.value.accountDto);
-                setFollowingCount(myfeedData.data.value.accountDto.followingCount);
-                setFollowerCount(myfeedData.data.value.accountDto.followerCount);
+                setAccountDto(myfeedData.data.value.accountFeed);
+                console.log(myfeedData.data.value.accountFeed);
+                setFollowingCount(myfeedData.data.value.accountFeed.followingCount);
+                setFollowerCount(myfeedData.data.value.accountFeed.followerCount);
             } catch (e) {
                 console.log(e);
             }

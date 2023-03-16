@@ -15,7 +15,7 @@ const Myphoto: React.FC = () => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/pictures`,
+                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/picture`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,

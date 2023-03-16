@@ -112,9 +112,9 @@ const MyfeedItem: React.FC<IMyfeedItemParams> = (props) => {
                     }}
                 >
                     {item.video ? (
-                        <StyledVideo src={item.pictureUrl} width="100%" height="100%" />
+                        <StyledVideo src={item.pictureContentUrl} width="100%" height="100%" />
                     ) : (
-                        <StyledImg src={item.pictureUrl} width="100%" height="100%" imgAnim={imgAnim} />
+                        <StyledImg src={item.pictureContentUrl} width="100%" height="100%" imgAnim={imgAnim} />
                     )}
                 </StyledImgBlock>
             </Link>

@@ -39,9 +39,9 @@ const Login: React.FC = () => {
                     <img src="/naver_logo.png" />
                     <div>네이버로 시작하기</div>
                 </StyleddNaverLogin>
-                {/*  <StyledButton onClick={onTalkButton}>
+                <StyledButton onClick={onTalkButton}>
                     <StyledLoginText>로컬로그인</StyledLoginText>
-                </StyledButton> */}
+                </StyledButton>
             </StyledLoginContainer>
         </div>
     );
