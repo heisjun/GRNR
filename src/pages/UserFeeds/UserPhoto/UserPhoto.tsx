@@ -14,14 +14,11 @@ const Userphoto: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${localStorage.getItem('userId')}/pictures`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
+                const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('userId')}/picture`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
                     },
-                );
+                });
                 setPicData(myfeedData.data.value.content);
             } catch (e) {
                 console.log(e);

@@ -50,6 +50,7 @@ const Scrapbook: React.FC = () => {
                     },
                 );
                 setPicData(myfeedData.data.value.feedPictureDtoList);
+                setDicData(myfeedData.data.value.scrapDictionaryDtoList);
             } catch (e) {
                 console.log(e);
             }

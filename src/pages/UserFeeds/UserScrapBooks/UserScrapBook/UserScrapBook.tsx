@@ -46,8 +46,7 @@ const UserScrapbook: React.FC = () => {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-                setPicData(myfeedData.data.value.scrapPictureDtoList);
-                setMagazineData(myfeedData.data.value.scrapMagazineDtoList);
+                setPicData(myfeedData.data.value.feedPictureDtoList);
                 setDicData(myfeedData.data.value.scrapDictionaryDtoList);
             } catch (e) {
                 console.log(e);
