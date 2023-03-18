@@ -26,13 +26,16 @@ const UserScrapDictionary: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('userId')}/scraps`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
+                const myfeedData = await axios.get(
+                    `${BASEURL}/api/account/${localStorage.getItem('userId')}/scraps/plantDic`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
                     },
-                });
+                );
 
-                setDicData(myfeedData.data.value.scrapDictionaryDtoList);
+                setDicData(myfeedData.data.value.content);
             } catch (e) {
                 console.log(e);
             }

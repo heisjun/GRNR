@@ -24,14 +24,14 @@ const Myphoto: React.FC = () => {
         const fetchData = async () => {
             try {
                 const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/scraps`,
+                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/scraps/picture`,
                     {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
                     },
                 );
-                setPicData(myfeedData.data.value.feedPictureDtoList);
+                setPicData(myfeedData.data.value.content);
             } catch (e) {
                 console.log(e);
             }

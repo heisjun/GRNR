@@ -7,8 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { AlarmcountState } from 'recoil/count';
 import { useInView } from 'react-intersection-observer';
-import Modal from 'react-modal';
-import PhotoItemModal from 'common/components/PhotoItemModal';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -65,7 +63,7 @@ const MyAlarm: React.FC = () => {
                     size: size,
                 },
             });
-            setAlarm(response.data.value);
+            setAlarm(response.data.value.content);
         } catch (e) {
             console.log(e);
         }

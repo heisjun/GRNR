@@ -46,9 +46,8 @@ const UserFeed: React.FC = () => {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-                setUser(myfeedData.data.value.accountDto);
-                setPicData(myfeedData.data.value.myPictureDtoList);
-                setMagazineData(myfeedData.data.value.myMagazineDtoList);
+                setUser(myfeedData.data.value.accountFeed);
+                setPicData(myfeedData.data.value.feedPictureDtoList);
             } catch (e) {
                 console.log(e);
             }
