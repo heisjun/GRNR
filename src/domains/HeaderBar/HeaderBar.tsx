@@ -30,10 +30,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [crntPath, setCrntPath] = useState<string>('');
     const [isActive, setIsActive] = useState(false);
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
-    interface IAlram {
-        value: number;
-    }
-    const [alarm, setAlarm] = useState<IAlram>();
+
     const [alarmCount, setAlarmCount] = useRecoilState(AlarmcountState);
 
     const { isLogin } = useRecoilValue(UserInfo);
@@ -119,7 +116,6 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-                setAlarm(response.data);
                 setAlarmCount(response.data.value);
             } catch (err: any) {
                 if (err.response.request.status === 401) {
