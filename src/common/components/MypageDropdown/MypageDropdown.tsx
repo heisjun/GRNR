@@ -26,15 +26,19 @@ const MypageDropdown: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const profileData = await axios.get(`${BASEURL}/api/profile/view`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                });
-                setProfile(profileData.data.value);
-            } catch (e) {
-                console.log(e);
+            if (!TOKEN) {
+                return;
+            } else {
+                try {
+                    const profileData = await axios.get(`${BASEURL}/api/profile/view`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    });
+                    setProfile(profileData.data.value);
+                } catch (e) {
+                    console.log(e);
+                }
             }
         };
         fetchData();
@@ -42,17 +46,21 @@ const MypageDropdown: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const profileData = await axios.get(`${BASEURL}/api/profile/view`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                });
-                localStorage.setItem('accountId', profileData.data.value.accountId);
-                localStorage.setItem('nickName', profileData.data.value.nickName);
-                localStorage.setItem('profileUrl', profileData.data.value.profileUrl);
-            } catch (e) {
-                console.log(e);
+            if (!TOKEN) {
+                return;
+            } else {
+                try {
+                    const profileData = await axios.get(`${BASEURL}/api/profile/view`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    });
+                    localStorage.setItem('accountId', profileData.data.value.accountId);
+                    localStorage.setItem('nickName', profileData.data.value.nickName);
+                    localStorage.setItem('profileUrl', profileData.data.value.profileUrl);
+                } catch (e) {
+                    console.log(e);
+                }
             }
         };
         fetchData();

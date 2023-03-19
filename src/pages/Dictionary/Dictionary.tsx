@@ -175,19 +175,33 @@ const Dictionary: React.FC = () => {
     }, [observerInview]);
 
     const fetchData = async () => {
-        try {
-            const response = await axios.get(`${BASEURL}/api/plantDic/search${location.search}`, {
-                headers: {
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-                params: {
-                    page: 0,
-                    size: size,
-                },
-            });
-            setDictionaries(response.data.value.content);
-        } catch (e) {
-            console.log(e);
+        if (!TOKEN) {
+            try {
+                const response = await axios.get(`${BASEURL}/api/plantDic/search${location.search}`, {
+                    params: {
+                        page: 0,
+                        size: size,
+                    },
+                });
+                setDictionaries(response.data.value.content);
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            try {
+                const response = await axios.get(`${BASEURL}/api/plantDic/search${location.search}`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                    params: {
+                        page: 0,
+                        size: size,
+                    },
+                });
+                setDictionaries(response.data.value.content);
+            } catch (e) {
+                console.log(e);
+            }
         }
     };
 
