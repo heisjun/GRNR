@@ -105,17 +105,26 @@ export type IDictionaryDetailsParams = {
 };
 
 export type IFollowingsParams = {
-    id: number;
-    video: boolean;
+    pictureId: number;
     accountId: number;
     accountNickName: string;
     accountProfileUrl: string;
-    pictureUrlList: [];
+    pictureContentDtoList: {
+        pictureId: number;
+        contentId: number;
+        pictureUrl: string;
+        explain: string;
+        homePlace: string;
+        video: boolean;
+        tagList: {
+            pictureContentId: number;
+            tagName: string;
+        }[];
+    }[];
     category: string;
-    textList: [];
-    tagList: [];
     scrapCount: number;
     likeCount: number;
+    viewCount: number;
     commentCount: number;
     myLike: boolean;
     myScrap: boolean;

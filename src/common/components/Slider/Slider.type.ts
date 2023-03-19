@@ -1,15 +1,24 @@
 export type ISlider = {
     item: {
-        id: number;
-        video: boolean;
+        pictureId: number;
         accountNickName: string;
-        pictureUrlList: [];
         category: string;
-        textList: [];
-        tagList: [];
+        pictureContentDtoList: {
+            pictureId: number;
+            contentId: number;
+            pictureUrl: string;
+            video: boolean;
+            explain: string;
+            homePlace: string;
+            tagList: {
+                pictureContentId: number;
+                tagName: string;
+            }[];
+        }[];
         scrapCount: number;
         likeCount: number;
         commentCount: number;
+        viewCount: number;
         time: number;
     };
 };

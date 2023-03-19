@@ -37,6 +37,8 @@ const UserScrapbook: React.FC = () => {
     const [picData, setPicData] = useState<IpicData[]>([]);
     const [magazineData, setMagazineData] = useState([]);
     const [dicData, setDicData] = useState<IdicData[]>([]);
+    const [dicCount, setDicCount] = useState<number>();
+    const [picCount, setPicCount] = useState<number>();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,6 +50,8 @@ const UserScrapbook: React.FC = () => {
                 });
                 setPicData(myfeedData.data.value.feedPictureDtoList);
                 setDicData(myfeedData.data.value.scrapDictionaryDtoList);
+                setPicCount(myfeedData.data.value.scrapPictureCount);
+                setDicCount(myfeedData.data.value.scrapPlantDicCount);
             } catch (e) {
                 console.log(e);
             }
@@ -61,7 +65,7 @@ const UserScrapbook: React.FC = () => {
                 <StyledContexTitle>스크랩북</StyledContexTitle>
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        사진 <span>{picData.length}</span>
+                        사진 <span>{picCount}</span>
                     </StyledDetailTitle>
                     <Link
                         to={`/userpage/scrapbook/photo/${localStorage.getItem('userId')}`}
@@ -108,7 +112,7 @@ const UserScrapbook: React.FC = () => {
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        식물사전 <span>{dicData.length}</span>
+                        식물사전 <span>{dicCount}</span>
                     </StyledDetailTitle>
                     <Link
                         to={`/userpage/scrapbook/dictionary/${localStorage.getItem('userId')}`}

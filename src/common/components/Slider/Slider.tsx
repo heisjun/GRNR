@@ -4,35 +4,21 @@ import styled from 'styled-components';
 import Indicator from './Indicator';
 import { ISlider } from './Slider.type';
 import Modal from 'react-modal';
-import ItemList from '../ItemList';
-import { ICommentsParams, IPhotoDetailsParams, ItestComments } from 'common/types';
-import { TaggedPhoto } from 'domains';
-import axios from 'axios';
-import CommentItemModal from '../CommenntItemModal';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '../Avatar';
 import PhotoItemModal from '../PhotoItemModal';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 
-const BASEURL = 'https://www.gardenersclub.co.kr/api';
-const TOKEN = localStorage.getItem('accesstoken');
-
 export const Slider = forwardRef((props: ISlider, ref: any) => {
     const { item } = props;
 
-    const navigate = useNavigate();
-    const TOTAL_SLIDES = item.pictureUrlList.length;
+    const TOTAL_SLIDES = item.pictureContentDtoList.length;
     const [currentSlide, setCurrentSlide] = useState(0);
     const Slidetransform = (currentSlide * 100) / TOTAL_SLIDES;
     const [hideBtn, setHideBtn] = useState(true);
     const slideRef = useRef(document.createElement('img'));
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [details, setDetails] = useState<IPhotoDetailsParams>();
-    const [commentsList, setCommentsList] = useState<ICommentsParams>();
-    const [comment, setComment] = useState<ItestComments[]>([]);
     const dropdownListRef = useRef<any>(null);
 
     useImperativeHandle(ref, () => ({
@@ -67,91 +53,6 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
             setCurrentSlide(currentSlide - 1);
         }
     };
-
-    const fetchData = useCallback(async () => {
-        if (!TOKEN) {
-            try {
-                const CommentData = await axios.get(
-                    `${BASEURL}/api/picture/${item.id}/comment/view
-                `,
-                );
-                setCommentsList(CommentData.data.value.content[0]);
-            } catch (e) {
-                console.log(e);
-            }
-        } else {
-            try {
-                const CommentData = await axios.get(
-                    `${BASEURL}/api/picture/${item.id}/comment/view
-                `,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
-                setCommentsList(CommentData.data.value.content[0]);
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    }, []);
-
-    const fetchData2 = useCallback(async () => {
-        if (!TOKEN) {
-            try {
-                const CommentData = await axios.get(
-                    `${BASEURL}/api/picture/${item.id}/comment/view
-                `,
-                );
-                setComment(CommentData.data.value.content[0].commentDtoList);
-            } catch (e) {
-                console.log(e);
-            }
-        } else {
-            try {
-                const CommentData = await axios.get(
-                    `${BASEURL}/api/picture/${item.id}/comment/view
-                `,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
-                setComment(CommentData.data.value.content[0].commentDtoList);
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        fetchData();
-        fetchData2();
-    }, [fetchData, fetchData2]);
-
-    useEffect(() => {
-        const fetchData3 = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(
-                    `${BASEURL}/api/picture/${item.id}/detail
-                `,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
-                setDetails(response.data.value);
-            } catch (e) {
-                console.log(e);
-            }
-            setLoading(false);
-        };
-        fetchData3();
-    }, []);
 
     useEffect(() => {
         slideRef.current.style.transition = 'all 0.5s ease-in-out';
@@ -188,17 +89,17 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
             ) : null}
 
             <StyledIndicator>
-                <Indicator index={currentSlide} setIndex={setCurrentSlide} data={item.pictureUrlList} />
+                <Indicator index={currentSlide} setIndex={setCurrentSlide} data={item.pictureContentDtoList} />
             </StyledIndicator>
 
             <Modal isOpen={isOpenModal} ariaHideApp={false} style={customStyles}>
                 <div ref={dropdownListRef}>
-                    <PhotoItemModal setIsOpenModal={setIsOpenModal} pictureId={item.id} ref={dropdownListRef} />
+                    <PhotoItemModal setIsOpenModal={setIsOpenModal} pictureId={item.pictureId} ref={dropdownListRef} />
                 </div>
             </Modal>
 
             <SliderContainer ref={slideRef} pageNum={TOTAL_SLIDES} onClick={() => setIsOpenModal(true)}>
-                {item.pictureUrlList.map((items: any, index: number) => {
+                {item.pictureContentDtoList.map((items: any, index: number) => {
                     return (
                         <div
                             key={index}
@@ -206,7 +107,7 @@ export const Slider = forwardRef((props: ISlider, ref: any) => {
                             onMouseLeave={() => setHideBtn(true)}
                             style={{ width: '100%' }}
                         >
-                            <Slide data={item} index={index} viewCount={details?.viewCount} />
+                            <Slide data={item} index={index} />
                         </div>
                     );
                 })}
@@ -223,28 +124,6 @@ const Container = styled.div`
     @media screen and (min-width: ${maxWidth}px) {
         height: 735px;
     }
-`;
-
-const StyledClassification = styled.div`
-    font-size: 16px;
-    font-weight: 400;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.86;
-    letter-spacing: normal;
-    color: #888;
-    margin: 0px 0px 0px 17.2px;
-`;
-
-const StyledViewCount = styled.div`
-    font-size: 14px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.86;
-    letter-spacing: normal;
-    color: #888;
-    margin: 0px 0px 0px 17.2px;
 `;
 
 const StyledBtnText = styled.div`
@@ -327,71 +206,5 @@ const customStyles = {
         borderRadius: '0px',
     },
 };
-
-const StyledFollowText = styled.div`
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
-`;
-
-const StyledFollowButton = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 72px;
-    height: 30px;
-    padding: 4px 16px 6px 17px;
-    background-color: #0d6637;
-    cursor: pointer;
-    &:hover {
-        background-color: silver;
-    }
-`;
-
-const StyledFollowButtonBlock = styled.div`
-    width: 18%;
-`;
-
-const StyeldAvatarBlock = styled.div`
-    width: 10%;
-`;
-
-const StyledWriterText = styled.div`
-    font-size: 16px;
-    font-weight: bold;
-    margin: 0px 0px 1px 18px;
-    line-height: 1.63;
-    letter-spacing: normal;
-    color: #272727;
-`;
-
-const StyledWriterintro = styled.div`
-    margin: 1px 0px 0px 18px;
-    font-family: NotoSansKR;
-    font-size: 14px;
-    line-height: 1.86;
-    letter-spacing: normal;
-    color: #7b7b7b;
-`;
-
-const StyledWriterBlock = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const StyledProfileBlock = styled.div`
-    flex: 1;
-`;
-
-const StyledUserInfoBlock = styled.div`
-    box-sizing: border-box;
-    width: 100%;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    margin: 20px 0px 20px;
-    padding: 20px 16px;
-    background-color: #f5f5f5;
-`;
 
 export default Slider;

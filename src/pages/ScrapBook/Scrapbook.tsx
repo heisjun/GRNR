@@ -37,6 +37,8 @@ const Scrapbook: React.FC = () => {
     const [picData, setPicData] = useState<IpicData[]>([]);
     const [magazineData, setMagazineData] = useState([]);
     const [dicData, setDicData] = useState<IdicData[]>([]);
+    const [dicCount, setDicCount] = useState<number>();
+    const [picCount, setPicCount] = useState<number>();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,6 +53,8 @@ const Scrapbook: React.FC = () => {
                 );
                 setPicData(myfeedData.data.value.feedPictureDtoList);
                 setDicData(myfeedData.data.value.scrapDictionaryDtoList);
+                setPicCount(myfeedData.data.value.scrapPictureCount);
+                setDicCount(myfeedData.data.value.scrapPlantDicCount);
             } catch (e) {
                 console.log(e);
             }
@@ -64,7 +68,7 @@ const Scrapbook: React.FC = () => {
                 <StyledContexTitle>스크랩북</StyledContexTitle>
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        사진 <span>{picData.length}</span>
+                        사진 <span>{picCount}</span>
                     </StyledDetailTitle>
                     <Link to="/mypage/profile/scrapbook/photo" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
@@ -78,7 +82,7 @@ const Scrapbook: React.FC = () => {
                     cols={photoCols}
                     horizontalGap={photoGap}
                     verticalGap={photoGap}
-                    items={picData.slice(0, 4)}
+                    items={picData}
                     RenderComponent={MyfeedItem}
                 />
 
@@ -105,7 +109,7 @@ const Scrapbook: React.FC = () => {
                 <StyledBorderLine />
                 <StyledDetailsBlock>
                     <StyledDetailTitle>
-                        식물사전 <span>{dicData.length}</span>
+                        식물사전 <span>{dicCount}</span>
                     </StyledDetailTitle>
                     <Link to="/mypage/profile/scrapbook/dictionary" style={{ textDecoration: 'none' }}>
                         <StyledDetailView>
@@ -119,7 +123,7 @@ const Scrapbook: React.FC = () => {
                     cols={dicCols}
                     horizontalGap={dicGap}
                     verticalGap={dicVerticalGap}
-                    items={dicData.slice(0, 3)}
+                    items={dicData}
                     RenderComponent={ScrapDictionaryItem}
                 />
             </StyledContextContainer>

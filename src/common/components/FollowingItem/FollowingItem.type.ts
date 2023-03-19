@@ -2,15 +2,24 @@ import { IFollowingsParams } from 'common/types';
 
 export type IFollowingItem = {
     data: {
-        id: number;
-        video: boolean;
+        pictureId: number;
+
         accountId: number;
         accountNickName: string;
         accountProfileUrl: string;
-        pictureUrlList: [];
+        pictureContentDtoList: {
+            pictureId: number;
+            contentId: number;
+            pictureUrl: string;
+            explain: string;
+            homePlace: string;
+            video: boolean;
+            tagList: {
+                pictureContentId: number;
+                tagName: string;
+            }[];
+        }[];
         category: string;
-        textList: [];
-        tagList: [];
         scrapCount: number;
         likeCount: number;
         commentCount: number;
@@ -18,6 +27,7 @@ export type IFollowingItem = {
         myScrap: boolean;
         time: number;
         createTime: string;
+        viewCount: number;
     };
     setFunc: any;
     items: IFollowingsParams[];

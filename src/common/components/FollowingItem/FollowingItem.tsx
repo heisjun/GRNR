@@ -45,7 +45,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
     const onDeletePost = async () => {
         try {
             await axios.delete(
-                `${BASEURL}/api/picture/${data.id}/delete
+                `${BASEURL}/api/picture/${data.pictureId}/delete
             `,
                 {
                     headers: {
@@ -65,9 +65,9 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
 
     const onEdit = () => {
         {
-            data.video
-                ? navigate('/community/video/edit', { state: data.id })
-                : navigate('/community/photo/edit', { state: data.id });
+            data.pictureContentDtoList[0].video
+                ? navigate('/community/video/edit', { state: data.pictureId })
+                : navigate('/community/photo/edit', { state: data.pictureId });
         }
     };
 
@@ -77,7 +77,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         } else {
             try {
                 await axios.post(
-                    `${BASEURL}/api/picture/${data.id}/like`,
+                    `${BASEURL}/api/picture/${data.pictureId}/like`,
                     {},
                     {
                         headers: {
@@ -88,7 +88,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                 );
                 setFunc(
                     items.map((it) =>
-                        it.id === data.id ? { ...it, myLike: true, likeCount: data.likeCount + 1 } : it,
+                        it.pictureId === data.pictureId ? { ...it, myLike: true, likeCount: data.likeCount + 1 } : it,
                     ),
                 );
             } catch (e) {
@@ -103,7 +103,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         } else {
             try {
                 await axios.post(
-                    `${BASEURL}/api/picture/${data.id}/like`,
+                    `${BASEURL}/api/picture/${data.pictureId}/like`,
                     {},
                     {
                         headers: {
@@ -114,7 +114,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                 );
                 setFunc(
                     items.map((it) =>
-                        it.id === data.id ? { ...it, myLike: false, likeCount: data.likeCount - 1 } : it,
+                        it.pictureId === data.pictureId ? { ...it, myLike: false, likeCount: data.likeCount - 1 } : it,
                     ),
                 );
             } catch (e) {
@@ -129,7 +129,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         } else {
             try {
                 await axios.post(
-                    `${BASEURL}/api/picture/${data.id}/scrap`,
+                    `${BASEURL}/api/picture/${data.pictureId}/scrap`,
                     {},
                     {
                         headers: {
@@ -140,7 +140,9 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                 );
                 setFunc(
                     items.map((it) =>
-                        it.id === data.id ? { ...it, myScrap: true, scrapCount: data.scrapCount + 1 } : it,
+                        it.pictureId === data.pictureId
+                            ? { ...it, myScrap: true, scrapCount: data.scrapCount + 1 }
+                            : it,
                     ),
                 );
             } catch (e) {
@@ -155,7 +157,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
         } else {
             try {
                 await axios.post(
-                    `${BASEURL}/api/picture/${data.id}/scrap`,
+                    `${BASEURL}/api/picture/${data.pictureId}/scrap`,
                     {},
                     {
                         headers: {
@@ -166,7 +168,9 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                 );
                 setFunc(
                     items.map((it) =>
-                        it.id === data.id ? { ...it, myScrap: false, scrapCount: data.scrapCount - 1 } : it,
+                        it.pictureId === data.pictureId
+                            ? { ...it, myScrap: false, scrapCount: data.scrapCount - 1 }
+                            : it,
                     ),
                 );
             } catch (e) {
@@ -203,7 +207,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
     return (
         <StyledFollowingFeeds>
             <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
-                <ReportModal setOpenModal={setOpenModal} reportId={String(data.id)} type={'photo'} />
+                <ReportModal setOpenModal={setOpenModal} reportId={String(data.pictureId)} type={'photo'} />
             </Modal>
 
             <StyledFeedsBlock>
@@ -221,7 +225,7 @@ const FollowingItem: React.FC<IFollowingItem> = (props) => {
                             <StyledNickname onClick={() => onGoUserPage(data.accountId)}>
                                 {data.accountNickName}
                             </StyledNickname>
-                            <StyledTime> {data.createTime}</StyledTime>
+                            <StyledTime> {data.time}</StyledTime>
                         </div>
                     </StyledHeaderItem>
                     <StyledHeaderItem2>
