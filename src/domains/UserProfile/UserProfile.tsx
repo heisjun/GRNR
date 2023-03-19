@@ -36,10 +36,10 @@ const UserProfile: React.FC = () => {
                     },
                 });
 
-                setAccountDto(myfeedData.data.value.accountDto);
+                setAccountDto(myfeedData.data.value.accountFeed);
                 setMyFollow(myfeedData.data.value.myFollow);
-                setFollowingCount(myfeedData.data.value.accountDto.followingCount);
-                setFollowerCount(myfeedData.data.value.accountDto.followerCount);
+                setFollowingCount(myfeedData.data.value.accountFeed.followingCount);
+                setFollowerCount(myfeedData.data.value.accountFeed.followerCount);
             } catch (e) {
                 console.log(e);
             }

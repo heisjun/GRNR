@@ -21,7 +21,7 @@ const MyAlarm: React.FC = () => {
     interface IAlram {
         alarmContent: string;
         alarmLink: string;
-        alarmTime: string;
+        time: string;
         alarmCheck: false;
         alarmId: number;
         postPic: string;
@@ -137,7 +137,7 @@ const MyAlarm: React.FC = () => {
                                         <span>{item.alarmContent.split('님이')[0]}</span>
                                         님이{item.alarmContent.split('님이')[1]}
                                     </StyledUserNickname>
-                                    <StyledUserInfo>{item.alarmTime}</StyledUserInfo>
+                                    <StyledUserInfo>{item.time}</StyledUserInfo>
                                 </div>
                                 <div style={{ height: 90 }}>
                                     {item.postPic && <StyledThumbnail src={item.postPic} />}
@@ -165,7 +165,7 @@ const MyAlarm: React.FC = () => {
                                         <span>{item.alarmContent.split('님이')[0]}</span>
                                         님이{item.alarmContent.split('님이')[1]}
                                     </StyledUserNickname>
-                                    <StyledUserInfo>{item.alarmTime}</StyledUserInfo>
+                                    <StyledUserInfo>{item.time}</StyledUserInfo>
                                 </div>
                                 <div style={{ height: 90 }}>
                                     {item.postPic && <StyledThumbnailVideo src={item.postPic} />}

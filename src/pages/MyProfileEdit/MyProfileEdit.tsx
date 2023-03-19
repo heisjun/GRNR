@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
+
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
 
@@ -72,6 +73,7 @@ const MyProfileEdit: React.FC = () => {
 
     const handleClick = async () => {
         if (!imgfile) {
+            console.log('이미지 없는버전');
             CheckNickname();
             const formData = new FormData();
             const dataToSend = {
@@ -104,6 +106,8 @@ const MyProfileEdit: React.FC = () => {
             window.location.replace('/mypage/profile/edit');
             if (res.status === 201) console.log(res.data);
         } else {
+            console.log('이미지 있버전');
+            console.log('이미지', imgfile);
             CheckNickname();
             const formData = new FormData();
             const dataToSend = {
