@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ScrapDictionaryItem from 'common/components/ScrapDictionaryItem';
+import { useInView } from 'react-intersection-observer';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -17,6 +18,8 @@ const ScrapDictionary: React.FC = () => {
         korName: string;
         engName: string;
     }
+    const [observerRef, observerInview] = useInView();
+    const [size, setSize] = useState(9);
 
     const navigate = useNavigate();
     const [dicData, setDicData] = useState<IdicData[]>([]);
@@ -24,24 +27,38 @@ const ScrapDictionary: React.FC = () => {
     const [dicGap, setDicGap] = useState(window.innerWidth > Number(boundaryWidth) ? 1 : 6);
     const [dicVerticalGap, setDicVerticalGap] = useState(window.innerWidth > Number(boundaryWidth) ? 40 : 4);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/scraps/plantDic`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
+    const fetchData = async () => {
+        try {
+            const myfeedData = await axios.get(
+                `${BASEURL}/api/account/${localStorage.getItem('accountId')}/scraps/plantDic`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
                     },
-                );
+                    params: {
+                        page: 0,
+                        size: size,
+                    },
+                },
+            );
 
-                setDicData(myfeedData.data.value.content);
-            } catch (e) {
-                console.log(e);
-            }
-        };
+            setDicData(myfeedData.data.value.content);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    useEffect(() => {
+        if (observerInview) {
+            setSize((prev) => prev + 9);
+            fetchData();
+            console.log('추가로딩1');
+        }
+    }, [observerInview]);
+
+    useEffect(() => {
         fetchData();
+        console.log('처음 로딩');
     }, []);
 
     return (
@@ -54,15 +71,18 @@ const ScrapDictionary: React.FC = () => {
                     </StyledDetailTitle>
                 </StyledDetailsBlock>
                 {dicData ? (
-                    <ItemList
-                        width="100%"
-                        imgHeight="70%"
-                        cols={dicCols}
-                        horizontalGap={dicGap}
-                        verticalGap={dicVerticalGap}
-                        items={dicData}
-                        RenderComponent={ScrapDictionaryItem}
-                    />
+                    <>
+                        <ItemList
+                            width="100%"
+                            imgHeight="70%"
+                            cols={dicCols}
+                            horizontalGap={dicGap}
+                            verticalGap={dicVerticalGap}
+                            items={dicData}
+                            RenderComponent={ScrapDictionaryItem}
+                        />
+                        <div ref={observerRef} />
+                    </>
                 ) : (
                     <div>게시글이 존재하지 않습니다</div>
                 )}

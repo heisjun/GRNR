@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { followercountState } from 'recoil/count';
+import { useInView } from 'react-intersection-observer';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
@@ -18,27 +19,28 @@ const MyFollower: React.FC = () => {
         selfInfo: null;
         myFollow: boolean;
     }
+    const [observerRef, observerInview] = useInView();
+    const [size, setSize] = useState(20);
+
     const [following, setFollowing] = useState<Ifollowing[]>([]);
     const [followerCount, setFollowerCount] = useRecoilState(followercountState);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${localStorage.getItem('accountId')}/follower`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
-                setFollowing(myfeedData.data.value.content);
-            } catch (e) {
-                console.log(e);
-            }
-        };
-        fetchData();
-    }, []);
+    const fetchData = async () => {
+        try {
+            const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('accountId')}/follower`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+                params: {
+                    page: 0,
+                    size: size,
+                },
+            });
+            setFollowing(myfeedData.data.value.content);
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     const onFollowing = async (followingName: string) => {
         if (!TOKEN) {
@@ -74,6 +76,10 @@ const MyFollower: React.FC = () => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${TOKEN}`,
                 },
+                params: {
+                    page: 0,
+                    size: size,
+                },
             });
             setFollowing(following.map((it) => (it.nickName === followingName ? { ...it, myFollow: false } : it)));
             setFollowerCount(followerCount - 1);
@@ -95,37 +101,51 @@ const MyFollower: React.FC = () => {
         }
     };
 
+    useEffect(() => {
+        if (observerInview) {
+            setSize((prev) => prev + 20);
+            fetchData();
+        }
+    }, [observerInview]);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     return (
         <StyledMyphotoContainer>
             <StyledContextContainer>
                 <StyledContexTitle>팔로워</StyledContexTitle>
                 {following.map((item, index) => {
                     return (
-                        <StyledFollowingContainer key={index}>
-                            <StyledAvatarBlock onClick={() => onGoUserPage(item.accountId)}>
-                                <Avatar
-                                    width="100%"
-                                    paddingBottom="100%"
-                                    borderRadius="100%"
-                                    picUrl={item.profileUrl}
-                                />
-                            </StyledAvatarBlock>
-                            <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
-                                <StyledUserNickname onClick={() => onGoUserPage(item.accountId)}>
-                                    {item.nickName}
-                                </StyledUserNickname>
-                                <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
-                            </div>
-                            {item.myFollow ? (
-                                <StyledFollowingBtn onClick={() => onUnFollowing(item.nickName)}>
-                                    <StyledBtnText>팔로잉</StyledBtnText>
-                                </StyledFollowingBtn>
-                            ) : (
-                                <StyledFollowBtn onClick={() => onFollowing(item.nickName)}>
-                                    <StyledFollowBtnText>팔로우</StyledFollowBtnText>
-                                </StyledFollowBtn>
-                            )}
-                        </StyledFollowingContainer>
+                        <>
+                            <StyledFollowingContainer key={index}>
+                                <StyledAvatarBlock onClick={() => onGoUserPage(item.accountId)}>
+                                    <Avatar
+                                        width="100%"
+                                        paddingBottom="100%"
+                                        borderRadius="100%"
+                                        picUrl={item.profileUrl}
+                                    />
+                                </StyledAvatarBlock>
+                                <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
+                                    <StyledUserNickname onClick={() => onGoUserPage(item.accountId)}>
+                                        {item.nickName}
+                                    </StyledUserNickname>
+                                    <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
+                                </div>
+                                {item.myFollow ? (
+                                    <StyledFollowingBtn onClick={() => onUnFollowing(item.nickName)}>
+                                        <StyledBtnText>팔로잉</StyledBtnText>
+                                    </StyledFollowingBtn>
+                                ) : (
+                                    <StyledFollowBtn onClick={() => onFollowing(item.nickName)}>
+                                        <StyledFollowBtnText>팔로우</StyledFollowBtnText>
+                                    </StyledFollowBtn>
+                                )}
+                            </StyledFollowingContainer>
+                            <div ref={observerRef} />
+                        </>
                     );
                 })}
             </StyledContextContainer>

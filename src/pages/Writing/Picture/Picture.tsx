@@ -135,6 +135,7 @@ const Picture: React.FC = () => {
 
         for (let i = 0; i < getContent.length; i++) {
             if (!getContent[i].realImg) {
+                alert('사진을 업로드 해주세요');
                 return;
             }
             formData.append('file', getContent[i].realImg);

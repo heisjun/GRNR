@@ -10,6 +10,7 @@ import { MypageDropdown, WritingDropdown } from 'common/components';
 import { SubTabBar } from 'domains';
 import { useRecoilState } from 'recoil';
 import { AlarmcountState } from 'recoil/count';
+import { useInView } from 'react-intersection-observer';
 
 const minWidth = process.env.REACT_APP_MIN_WIDTH;
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -33,27 +34,41 @@ const Following: React.FC = () => {
     }
     const [alarm, setAlarm] = useState<IAlram>();
     const [alarmCount, setAlarmCount] = useRecoilState(AlarmcountState);
+    const [observerRef, observerInview] = useInView();
+    const [size, setSize] = useState(3);
     const nav = useNavigate();
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${BASEURL}/api/following`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+                params: {
+                    page: 0,
+                    size: size,
+                },
+            });
+            setFollowings(response.data.value.content);
+        } catch (e) {
+            console.log(e);
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        if (observerInview) {
+            setSize((prev) => prev + 3);
+            fetchData();
+        }
+    }, [observerInview]);
 
     useEffect(() => {
         if (!TOKEN) {
             window.location.replace('/login');
         } else {
-            const fetchData = async () => {
-                setLoading(true);
-                try {
-                    const response = await axios.get(`${BASEURL}/api/following`, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    });
-                    setFollowings(response.data.value.content);
-                } catch (e) {
-                    console.log(e);
-                }
-                setLoading(false);
-            };
             fetchData();
         }
     }, []);
@@ -173,6 +188,7 @@ const Following: React.FC = () => {
                         {followings.map((i, index) => {
                             return <FollowingItem key={index} data={i} setFunc={setFollowings} items={followings} />;
                         })}
+                        <div ref={observerRef} />
                     </>
                 )}
             </StyledFollowingContainer>

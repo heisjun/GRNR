@@ -180,10 +180,8 @@ const Register: React.FC = () => {
 
     useEffect(() => {
         if (!nickname || !detailAddress) {
-            console.log('공백값');
             setDisable(true);
         } else {
-            console.log('공백아님');
             setDisable(false);
         }
     }, [nickname, detailAddress]);

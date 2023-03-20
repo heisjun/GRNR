@@ -99,9 +99,6 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                     <StyledIndex>키워드</StyledIndex>
                     <StyledFlexDiv>
                         <StyledKeywordBox>
-                            <StyledKeywordText>{data?.flowerLanguage}</StyledKeywordText>
-                        </StyledKeywordBox>
-                        <StyledKeywordBox>
                             <StyledKeywordText>{data?.classification}</StyledKeywordText>
                         </StyledKeywordBox>
                     </StyledFlexDiv>
