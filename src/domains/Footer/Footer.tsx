@@ -13,18 +13,12 @@ const Footer: React.FC = () => {
                     <StyledMiddleText>개인정보처리방침</StyledMiddleText>
                 </StyledTextBlock>
                 <StyledSmallTextBlock>
-                    <StyledSmallText>(주) 주식회사명 (대표: 가나다)</StyledSmallText>
+                    <StyledSmallText>(주) 가드너스클럽 (대표: 서원재)</StyledSmallText>
                     <StyledBoundary> |</StyledBoundary>
-                    <StyledSmallText>서울특별시 송파구 올림픽로 300 롯</StyledSmallText>
-                    <StyledBoundary> |</StyledBoundary>
-                    <StyledSmallText>통신판매번호: 2022-서울송파-07</StyledSmallText>
+                    <StyledSmallText>세종특별자치시 나성북1로 22, 8층 803-78호(나성동, 디펠리체)</StyledSmallText>
                 </StyledSmallTextBlock>
                 <StyledSmallTextBlock>
-                    <StyledSmallText>유료직업소개사업등록번호: (국내) 제2022-1234567-89-0-12345호</StyledSmallText>
-                    <StyledBoundary> |</StyledBoundary>
-                    <StyledSmallText> (국외) 서울동부-유-2022-1</StyledSmallText>
-                    <StyledBoundary> |</StyledBoundary>
-                    <StyledSmallText>사업자등록번호: 000-12-34567</StyledSmallText>
+                    <StyledSmallText>사업자등록번호: 102-87-02659</StyledSmallText>
                 </StyledSmallTextBlock>
             </StyledFooterContainer>
         </div>

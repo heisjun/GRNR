@@ -229,7 +229,7 @@ const PhotoItemModal = forwardRef((props: IPhotoItemModal, ref: any) => {
                                     <StyledFollowButtonBlock
                                         show={localStorage.getItem('nickName') === details?.accountNickName}
                                     >
-                                        {details?.myFollow ? (
+                                        {details.myFollow ? (
                                             <StyledFollowingButton>
                                                 <StyledFollowText
                                                     onClick={() =>

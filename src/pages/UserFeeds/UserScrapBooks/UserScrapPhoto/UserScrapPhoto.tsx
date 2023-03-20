@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ItemList, MyphotoItem } from 'common/components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useInView } from 'react-intersection-observer';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
@@ -17,25 +18,39 @@ const UserScrapPhoto: React.FC = () => {
         myLike: boolean;
         myScrap: boolean;
     }
+    const [observerRef, observerInview] = useInView();
+    const [size, setSize] = useState(16);
 
     const [picData, setPicData] = useState<IpicData[]>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const myfeedData = await axios.get(
-                    `${BASEURL}/api/account/${localStorage.getItem('userId')}/scraps/picture`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
+    const fetchData = async () => {
+        try {
+            const myfeedData = await axios.get(
+                `${BASEURL}/api/account/${localStorage.getItem('userId')}/scraps/picture`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
                     },
-                );
-                setPicData(myfeedData.data.value.content);
-            } catch (e) {
-                console.log(e);
-            }
-        };
+                    params: {
+                        page: 0,
+                        size: size,
+                    },
+                },
+            );
+            setPicData(myfeedData.data.value.content);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    useEffect(() => {
+        if (observerInview) {
+            setSize((prev) => prev + 16);
+            fetchData();
+        }
+    }, [observerInview]);
+
+    useEffect(() => {
         fetchData();
     }, []);
 
@@ -49,15 +64,18 @@ const UserScrapPhoto: React.FC = () => {
                     </StyledDetailTitle>
                 </StyledDetailsBlock>
                 {picData ? (
-                    <ItemList
-                        width="100%"
-                        imgHeight="115%"
-                        cols={4}
-                        horizontalGap={2}
-                        verticalGap={2}
-                        items={picData}
-                        RenderComponent={MyphotoItem}
-                    />
+                    <>
+                        <ItemList
+                            width="100%"
+                            imgHeight="115%"
+                            cols={4}
+                            horizontalGap={2}
+                            verticalGap={2}
+                            items={picData}
+                            RenderComponent={MyphotoItem}
+                        />
+                        <div ref={observerRef} />
+                    </>
                 ) : (
                     <div>게시글이 존재하지 않습니다</div>
                 )}

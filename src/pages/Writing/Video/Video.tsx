@@ -129,10 +129,10 @@ const Video: React.FC = () => {
 
         for (let i = 0; i < getContent.length; i++) {
             if (!getContent[i].realImg) {
-                console.log('데이터없음');
+                alert('동영상을 업로드 해주세요');
                 return;
             }
-            console.log('이미지파일', getContent[i].realImg);
+            console.log('동영상파일', getContent[i].realImg);
             formData.append('file', getContent[i].realImg);
         }
 

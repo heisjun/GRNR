@@ -3,6 +3,7 @@ import { ItemList, MyphotoItem } from 'common/components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
@@ -10,37 +11,55 @@ const TOKEN = localStorage.getItem('accesstoken');
 const Userphoto: React.FC = () => {
     const navigate = useNavigate();
     const [picData, setPicData] = useState([]);
+    const [observerRef, observerInview] = useInView();
+    const [size, setSize] = useState(16);
+
+    const fetchData = async () => {
+        try {
+            const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('userId')}/picture`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+                params: {
+                    page: 0,
+                    size: size,
+                },
+            });
+            setPicData(myfeedData.data.value.content);
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const myfeedData = await axios.get(`${BASEURL}/api/account/${localStorage.getItem('userId')}/picture`, {
-                    headers: {
-                        Authorization: `Bearer ${TOKEN}`,
-                    },
-                });
-                setPicData(myfeedData.data.value.content);
-            } catch (e) {
-                console.log(e);
-            }
-        };
+        if (observerInview) {
+            setSize((prev) => prev + 16);
+            fetchData();
+        }
+    }, [observerInview]);
+
+    useEffect(() => {
         fetchData();
     }, []);
+
     return (
         <StyledScrapBookContainer>
             <StyledContextContainer>
                 <StyledContexTitle>사진</StyledContexTitle>
                 {picData.length !== 0 ? (
-                    <ItemList
-                        width="100%"
-                        imgHeight="115%"
-                        cols={4}
-                        horizontalGap={2}
-                        verticalGap={2}
-                        items={picData}
-                        RenderComponent={MyphotoItem}
-                        setFunc={setPicData}
-                    />
+                    <>
+                        <ItemList
+                            width="100%"
+                            imgHeight="115%"
+                            cols={4}
+                            horizontalGap={2}
+                            verticalGap={2}
+                            items={picData}
+                            RenderComponent={MyphotoItem}
+                            setFunc={setPicData}
+                        />
+                        <div ref={observerRef} />
+                    </>
                 ) : (
                     <div>게시글이 존재하지 않습니다</div>
                 )}

@@ -26,7 +26,7 @@ const PhotoFilter_Order = [
 const PhotoFilter_Place = [
     {
         id: 2,
-        name: '공간 (필수)',
+        name: '공간',
         list: ['원룸', '거실', '침실', '주방', '욕실', '베란다', '사무실', '가게', '야외정원'],
     },
 ];
@@ -225,7 +225,7 @@ const Photo: React.FC = () => {
                             </div>
                         </StyledSelected>
                     )}
-                    {(filterValue.homePlace || filterValue.sort) && (
+                    {(filterValue.homePlace || filterValue.sort || filterValue.classification || filterValue.video) && (
                         <StyledSelected onClick={onReset}>초기화</StyledSelected>
                     )}
                 </div>

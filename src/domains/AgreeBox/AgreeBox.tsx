@@ -31,13 +31,14 @@ const AgreeBox: React.FC<IAgreeBox> = (props) => {
             clickEvent: allHandleChange,
             text: '모두동의 (선택 정보 포함)',
             line: true,
+            underLine: false,
         },
         {
             id: 'agree-age',
             value: ageAgree,
             clickEvent: () => handleChange(setAgeAgree),
             text: '만 14세 이상입니다 (필수)',
-            onGoPage: '/privacy',
+            underLine: false,
         },
         {
             id: 'agree-service',
@@ -45,20 +46,23 @@ const AgreeBox: React.FC<IAgreeBox> = (props) => {
             clickEvent: () => handleChange(setServiceAgree),
             text: '이용약관 (필수)',
             onGoPage: '/privacy',
+            underLine: true,
         },
         {
             id: 'agree-private',
             value: privateAgree,
             clickEvent: () => handleChange(setPrivateAgree),
             text: '개인정보 처리 방침 동의(필수)',
-            onGoPage: '/privacy',
+
+            underLine: true,
         },
         {
             id: 'agree-advertise',
             value: adAgree,
             clickEvent: () => handleChange(setAdAgree),
             text: '광고성 정보 수신 및 마케팅 활용 동의 (선택)',
-            onGoPage: '/privacy',
+
+            underLine: false,
         },
     ];
     return (
@@ -71,11 +75,19 @@ const AgreeBox: React.FC<IAgreeBox> = (props) => {
 
                             <StyledAllText>{item.text}</StyledAllText>
                         </StyledAllLabel>
+                    ) : item.onGoPage ? (
+                        <StyledLabel>
+                            <input id={item.id} type="checkbox" checked={item.value} onChange={item.clickEvent} />
+
+                            <StyledText onClick={() => handleOpenNewTab(`${item.onGoPage}`)} underLine={item.underLine}>
+                                {item.text}
+                            </StyledText>
+                        </StyledLabel>
                     ) : (
                         <StyledLabel>
                             <input id={item.id} type="checkbox" checked={item.value} onChange={item.clickEvent} />
 
-                            <StyledText onClick={() => handleOpenNewTab(`${item.onGoPage}`)}>{item.text}</StyledText>
+                            <StyledText underLine={item.underLine}>{item.text}</StyledText>
                         </StyledLabel>
                     )}
                 </StyledContainer>
@@ -120,10 +132,11 @@ const StyledAllText = styled.div`
     }
 `;
 
-const StyledText = styled.div`
+const StyledText = styled.div<{ underLine: boolean }>`
     padding: 5px;
     font-size: 14px;
     color: #303030;
+    text-decoration: ${({ underLine }) => (underLine ? 'underline' : 'none')};
     @media screen and (max-width: ${boundaryWidth}px) {
         font-size: 2.5vw;
     }
