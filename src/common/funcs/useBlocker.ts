@@ -1,6 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { UNSAFE_NavigationContext as NavigationContext } from 'react-router-dom';
 import type { History, Blocker, Transition } from 'history';
+import history from './history';
 
 export const useBlocker = (blocker: Blocker, when = true): void => {
     const navigator = useContext(NavigationContext).navigator as History;
@@ -8,7 +9,7 @@ export const useBlocker = (blocker: Blocker, when = true): void => {
     useEffect(() => {
         if (!when) return;
 
-        const unblock = navigator.block((tx: Transition) => {
+        const unblock = history.block((tx: Transition) => {
             const autoUnblockingTx = {
                 ...tx,
                 retry() {

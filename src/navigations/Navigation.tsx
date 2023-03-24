@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { unstable_HistoryRouter as Router, Route, Routes } from 'react-router-dom';
 import { HeaderBar } from 'domains';
 import {
     Popular,
@@ -50,10 +50,11 @@ import {
     PersonalInformation,
 } from 'pages';
 import ScrollToTop from 'common/funcs';
+import history from 'common/funcs/history';
 
 const Navigation: React.FC = () => {
     return (
-        <Router>
+        <Router history={history}>
             <ScrollToTop />
             <HeaderBar>
                 <Routes>
