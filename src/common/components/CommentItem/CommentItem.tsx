@@ -13,7 +13,7 @@ import ReportModal from 'common/components/ReportModal';
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
-const CommentItemModal: React.FC<ICommentItem> = (props) => {
+const CommentItem: React.FC<ICommentItem> = (props) => {
     const navigate = useNavigate();
     const { commentsList, setCommentsList, pictureId, category, testComments, setTestComments, fetchData, fetchData2 } =
         props;
@@ -45,8 +45,8 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         const newIsActive = [false];
         newIsActive[index] = true;
         setIsActive(newIsActive);
-        setTagNickName(tagNickName);
-        setRecomment('@' + tagNickName + ' ');
+        /*  setTagNickName(tagNickName);
+        setRecomment('@' + tagNickName + ' '); */
     }
 
     function onCloseBtn(index: number) {
@@ -209,6 +209,24 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 ],
             };
             await api.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            setComment('');
+            /*  if (!comment) {
+            alert('댓글을 입력해 주세요!');
+            return;
+        }
+        try {
+            const body = {
+                commentId: null,
+                content: comment,
+                nickNameTag: [
+                    {
+                        nickName: null,
+                    },
+                ],
+            };
+            await api.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body);
             const newComment = {
                 inquiryId: pictureId,
                 commentId: null,
@@ -232,7 +250,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                 return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity + 1 : 0 };
             });
 
-            setComment('');
+            setComment(''); */
         } catch (e) {
             console.log(e);
         }
@@ -406,6 +424,28 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
         }
     };
 
+    const onCommentEnter = async (e: any) => {
+        if (e.key === 'Enter') {
+            if (!comment) {
+                alert('댓글을 입력해 주세요!');
+                return;
+            }
+            const body = {
+                commentId: null,
+                content: comment,
+                nickNameTag: [
+                    {
+                        nickName: null,
+                    },
+                ],
+            };
+            await api.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            setComment('');
+        }
+    };
+
     return (
         <StyledCommentListContainer>
             <Modal isOpen={openModal} ariaHideApp={false} style={customStyles}>
@@ -477,6 +517,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                         }
                         setComment(e.target.value);
                     }}
+                    onKeyPress={onCommentEnter}
                 />
                 <StyledInputBtn onClick={onCommentSave}>게시</StyledInputBtn>
             </StyledInputContainer>
@@ -559,13 +600,7 @@ const CommentItemModal: React.FC<ICommentItem> = (props) => {
                                                     >
                                                         {recomment.accountNicName}
                                                     </StyledCommentNickname>
-                                                    <StyledCommentContent>
-                                                        <span onClick={() => onGoUserPage(item.accountId)}>
-                                                            {recomment.content.split(' ')[0]}
-                                                        </span>
-
-                                                        {recomment.content.replace(recomment.content.split(' ')[0], '')}
-                                                    </StyledCommentContent>
+                                                    <StyledCommentContent>{recomment.content}</StyledCommentContent>
                                                 </StyledCommentItem>
                                                 <div
                                                     style={{
@@ -836,4 +871,4 @@ const customStyles = {
         overflow: 'hidden',
     },
 };
-export default CommentItemModal;
+export default CommentItem;

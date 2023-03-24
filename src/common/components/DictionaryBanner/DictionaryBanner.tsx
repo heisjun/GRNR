@@ -33,10 +33,10 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
 
     function truncate(text: string) {
         const replaced = text.replace(/\n/g, ' ');
-        if (replaced.length <= 230) {
+        if (replaced.length <= 180) {
             return replaced;
         }
-        return replaced.slice(0, 230).concat('...');
+        return replaced.slice(0, 180).concat('...');
     }
 
     return (
