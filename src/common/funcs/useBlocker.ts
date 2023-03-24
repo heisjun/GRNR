@@ -1,26 +1,45 @@
-import { useEffect, useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { UNSAFE_NavigationContext as NavigationContext } from 'react-router-dom';
-import type { History, Blocker, Transition } from 'history';
-import history from './history';
 
-export const useBlocker = (blocker: Blocker, when = true): void => {
-    const navigator = useContext(NavigationContext).navigator as History;
+function useConfirmExit(confirmExit: () => boolean, when = true) {
+    const { navigator } = useContext(NavigationContext);
 
     useEffect(() => {
-        if (!when) return;
+        if (!when) {
+            return;
+        }
 
-        const unblock = history.block((tx: Transition) => {
-            const autoUnblockingTx = {
-                ...tx,
-                retry() {
-                    unblock();
-                    tx.retry();
-                },
+        const push = navigator.push;
+
+        navigator.push = (...args: Parameters<typeof push>) => {
+            const result = confirmExit();
+            if (result !== false) {
+                push(...args);
+            }
+        };
+
+        return () => {
+            navigator.push = push;
+        };
+    }, [navigator, confirmExit, when]);
+}
+
+export function useBlocker(message: string, when = true) {
+    useEffect(() => {
+        if (when) {
+            window.onbeforeunload = function () {
+                return message;
             };
+        }
 
-            blocker(autoUnblockingTx);
-        });
+        return () => {
+            window.onbeforeunload = null;
+        };
+    }, [message, when]);
 
-        return unblock;
-    }, [navigator, blocker, when]);
-};
+    const confirmExit = useCallback(() => {
+        const confirm = window.confirm(message);
+        return confirm;
+    }, [message]);
+    useConfirmExit(confirmExit, when);
+}
