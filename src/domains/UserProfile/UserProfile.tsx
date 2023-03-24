@@ -185,6 +185,7 @@ const StyledFollowButtonBlock = styled.div`
 
 const StyledFollowingButtonBlock = styled.div`
     margin-top: 26px;
+    margin-bottom: 26px;
     height: 34px;
     box-sizing: border-box;
     padding: 7px 17px;
@@ -257,7 +258,7 @@ const StyledAvatarBlock = styled.div`
 const StyledProfileContainer = styled.div`
     box-sizing: border-box;
     width: 280px;
-    height: 350px;
+    height: 365px;
     display: flex;
     flex-direction: column;
     align-items: center;

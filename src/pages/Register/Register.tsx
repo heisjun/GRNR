@@ -6,6 +6,8 @@ import axios from 'axios';
 import { getDebouncedFunc } from 'common/funcs';
 import { useRecoilState } from 'recoil';
 import { UserInfo } from 'recoil/auth';
+import { useCallbackPrompt } from 'common/funcs/useCallbackPrompt';
+import DialogBox from 'common/components/DialogBox';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
@@ -34,6 +36,8 @@ const Register: React.FC = () => {
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
     const [disable, setDisable] = useState<boolean>(false);
     const dropdownListRef = useRef<any>(null);
+    const [prompt, setPrompt] = useState<boolean>(false);
+    const [showPrompt, confirmNavigation, cancelNavigation] = useCallbackPrompt(true);
 
     const CheckNickname = async () => {
         try {
@@ -205,6 +209,12 @@ const Register: React.FC = () => {
     return (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             <StyledRegisterContainer>
+                <DialogBox
+                    showDialog={showPrompt}
+                    confirmNavigation={confirmNavigation}
+                    cancelNavigation={cancelNavigation}
+                    content={'이 페이지를 벗어나면 닉네임, 주소가 등록되지 않은 상태로 남게 됩니다'}
+                />
                 <StyledContentText>추가 정보 입력</StyledContentText>
                 <StyledBorderLine />
                 <StyledRegisterBlock>
@@ -340,7 +350,7 @@ const StyledContentText = styled.div`
 
 const StyledInput = styled.input<{ error: boolean }>`
     width: 100%;
-    font-size: 14px;
+    font-size: 13px;
     padding-left: 15px;
     box-sizing: border-box;
     height: 50px;

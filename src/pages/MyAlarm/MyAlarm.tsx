@@ -113,70 +113,82 @@ const MyAlarm: React.FC = () => {
             </Modal> */}
             <div style={{ justifyContent: 'center', alignContent: 'center' }}>
                 <StyledMagazineHeader>내소식</StyledMagazineHeader>
-                {alarm.map((item, index) => (
+                {alarm.length === 0 ? (
+                    <StyledAlarmInfo>최근 내 소식이 없습니다.</StyledAlarmInfo>
+                ) : (
                     <>
-                        {item.video === null ? (
-                            <StyledAlarmBlock
-                                key={index}
-                                onClick={() => {
-                                    onCheckAlarm(item.alarmId, item.alarmCheck, item.alarmLink.split('/userpage/')[1]);
-                                    navigate(`/${item.alarmLink.split('kr/')[1]}`);
-                                }}
-                                check={item.alarmCheck}
-                            >
-                                <div style={{ width: 60, marginRight: 19 }}>
-                                    <Avatar
-                                        width="100%"
-                                        paddingBottom="100%"
-                                        borderRadius="100%"
-                                        picUrl={item.accountPic}
-                                    />
-                                </div>
-                                <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <StyledUserNickname>
-                                        <span>{item.alarmContent.split('님이')[0]}</span>
-                                        님이{item.alarmContent.split('님이')[1]}
-                                    </StyledUserNickname>
-                                    <StyledUserInfo>{item.time}</StyledUserInfo>
-                                </div>
-                                <div style={{ height: 90 }}>
-                                    {item.postPic && <StyledThumbnail src={item.postPic} />}
-                                </div>
-                            </StyledAlarmBlock>
-                        ) : (
-                            <StyledAlarmBlock
-                                key={index}
-                                onClick={() => {
-                                    onCheckAlarm(item.alarmId, item.alarmCheck, item.alarmLink.split('/userpage/')[1]);
-                                    navigate(`/${item.alarmLink.split('kr/')[1]}`);
-                                }}
-                                check={item.alarmCheck}
-                            >
-                                <div style={{ width: 60, marginRight: 19 }}>
-                                    <Avatar
-                                        width="100%"
-                                        paddingBottom="100%"
-                                        borderRadius="100%"
-                                        picUrl={item.accountPic}
-                                    />
-                                </div>
-                                <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <StyledUserNickname>
-                                        <span>{item.alarmContent.split('님이')[0]}</span>
-                                        님이{item.alarmContent.split('님이')[1]}
-                                    </StyledUserNickname>
-                                    <StyledUserInfo>{item.time}</StyledUserInfo>
-                                </div>
-                                <div style={{ height: 90 }}>
-                                    {item.postPic && <StyledThumbnailVideo src={item.postPic} />}
-                                </div>
-                            </StyledAlarmBlock>
-                        )}
+                        {alarm.map((item, index) => (
+                            <>
+                                {item.video === null ? (
+                                    <StyledAlarmBlock
+                                        key={index}
+                                        onClick={() => {
+                                            onCheckAlarm(
+                                                item.alarmId,
+                                                item.alarmCheck,
+                                                item.alarmLink.split('/userpage/')[1],
+                                            );
+                                            navigate(`/${item.alarmLink.split('kr/')[1]}`);
+                                        }}
+                                        check={item.alarmCheck}
+                                    >
+                                        <div style={{ width: 60, marginRight: 19 }}>
+                                            <Avatar
+                                                width="100%"
+                                                paddingBottom="100%"
+                                                borderRadius="100%"
+                                                picUrl={item.accountPic}
+                                            />
+                                        </div>
+                                        <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
+                                            <StyledUserNickname>
+                                                <span>{item.alarmContent.split('님이')[0]}</span>
+                                                님이{item.alarmContent.split('님이')[1]}
+                                            </StyledUserNickname>
+                                            <StyledUserInfo>{item.time}</StyledUserInfo>
+                                        </div>
+                                        <div style={{ height: 90 }}>
+                                            {item.postPic && <StyledThumbnail src={item.postPic} />}
+                                        </div>
+                                    </StyledAlarmBlock>
+                                ) : (
+                                    <StyledAlarmBlock
+                                        key={index}
+                                        onClick={() => {
+                                            onCheckAlarm(
+                                                item.alarmId,
+                                                item.alarmCheck,
+                                                item.alarmLink.split('/userpage/')[1],
+                                            );
+                                            navigate(`/${item.alarmLink.split('kr/')[1]}`);
+                                        }}
+                                        check={item.alarmCheck}
+                                    >
+                                        <div style={{ width: 60, marginRight: 19 }}>
+                                            <Avatar
+                                                width="100%"
+                                                paddingBottom="100%"
+                                                borderRadius="100%"
+                                                picUrl={item.accountPic}
+                                            />
+                                        </div>
+                                        <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
+                                            <StyledUserNickname>
+                                                <span>{item.alarmContent.split('님이')[0]}</span>
+                                                님이{item.alarmContent.split('님이')[1]}
+                                            </StyledUserNickname>
+                                            <StyledUserInfo>{item.time}</StyledUserInfo>
+                                        </div>
+                                        <div style={{ height: 90 }}>
+                                            {item.postPic && <StyledThumbnailVideo src={item.postPic} />}
+                                        </div>
+                                    </StyledAlarmBlock>
+                                )}
 
-                        <div ref={observerRef} />
-                    </>
+                                <div ref={observerRef} />
+                            </>
 
-                    /*  <StyledAlarmBlock
+                            /*  <StyledAlarmBlock
                         key={index}
                         onClick={() => {
                             onCheckAlarm(item.alarmId, item.alarmCheck, item.alarmLink.split('/userpage/')[1]);
@@ -199,7 +211,9 @@ const MyAlarm: React.FC = () => {
                             )}
                         </div>
                     </StyledAlarmBlock> */
-                ))}
+                        ))}
+                    </>
+                )}
             </div>
         </StyledAlarmContainer>
     );
@@ -224,6 +238,18 @@ const customStyles = {
         borderRadius: '0px',
     },
 };
+
+const StyledAlarmInfo = styled.div`
+    display: flex;
+    box-sizing: border-box;
+    padding-bottom: 42px;
+    padding-top: 43px;
+    font-size: 20px;
+    margin-bottom: 9px;
+    width: 720px;
+    height: 600px;
+    cursor: pointer;
+`;
 
 const StyledThumbnail = styled.img`
     width: 90px;

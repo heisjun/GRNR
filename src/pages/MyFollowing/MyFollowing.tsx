@@ -115,42 +115,57 @@ const MyFollowing: React.FC = () => {
         <StyledMyphotoContainer>
             <StyledContextContainer>
                 <StyledContexTitle>팔로잉</StyledContexTitle>
-                {following.map((item, index) => {
-                    return (
-                        <>
-                            <StyledFollowingContainer key={index}>
-                                <StyledAvatarBlock onClick={() => onGoUserPage(item.accountId)}>
-                                    <Avatar
-                                        width="100%"
-                                        paddingBottom="100%"
-                                        borderRadius="100%"
-                                        picUrl={item.profileUrl}
-                                    />
-                                </StyledAvatarBlock>
-                                <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <StyledUserNickname onClick={() => onGoUserPage(item.accountId)}>
-                                        {item.nickName}
-                                    </StyledUserNickname>
-                                    <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
-                                </div>
-                                {item.myFollow ? (
-                                    <StyledFollowingBtn onClick={() => onUnFollowing(item.nickName)}>
-                                        <StyledBtnText>팔로잉</StyledBtnText>
-                                    </StyledFollowingBtn>
-                                ) : (
-                                    <StyledFollowBtn onClick={() => onFollowing(item.nickName)}>
-                                        <StyledFollowBtnText>팔로우</StyledFollowBtnText>
-                                    </StyledFollowBtn>
-                                )}
-                            </StyledFollowingContainer>
-                            <div ref={observerRef} />
-                        </>
-                    );
-                })}
+                {following.length === 0 ? (
+                    <StyledFollowingInfo>팔로잉한 유저가 없습니다</StyledFollowingInfo>
+                ) : (
+                    <>
+                        {following.map((item, index) => {
+                            return (
+                                <>
+                                    <StyledFollowingContainer key={index}>
+                                        <StyledAvatarBlock onClick={() => onGoUserPage(item.accountId)}>
+                                            <Avatar
+                                                width="100%"
+                                                paddingBottom="100%"
+                                                borderRadius="100%"
+                                                picUrl={item.profileUrl}
+                                            />
+                                        </StyledAvatarBlock>
+                                        <div style={{ width: '80%', alignItems: 'center', justifyContent: 'center' }}>
+                                            <StyledUserNickname onClick={() => onGoUserPage(item.accountId)}>
+                                                {item.nickName}
+                                            </StyledUserNickname>
+                                            <StyledUserInfo>{item.selfInfo}소개</StyledUserInfo>
+                                        </div>
+                                        {item.myFollow ? (
+                                            <StyledFollowingBtn onClick={() => onUnFollowing(item.nickName)}>
+                                                <StyledBtnText>팔로잉</StyledBtnText>
+                                            </StyledFollowingBtn>
+                                        ) : (
+                                            <StyledFollowBtn onClick={() => onFollowing(item.nickName)}>
+                                                <StyledFollowBtnText>팔로우</StyledFollowBtnText>
+                                            </StyledFollowBtn>
+                                        )}
+                                    </StyledFollowingContainer>
+                                    <div ref={observerRef} />
+                                </>
+                            );
+                        })}
+                    </>
+                )}
             </StyledContextContainer>
         </StyledMyphotoContainer>
     );
 };
+
+const StyledFollowingInfo = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    padding-bottom: 15px;
+    font-size: 20px;
+    height: 500px;
+`;
 
 const StyledFollowingContainer = styled.div`
     display: flex;

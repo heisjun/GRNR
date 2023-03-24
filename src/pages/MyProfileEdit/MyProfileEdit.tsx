@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { getDebouncedFunc } from 'common/funcs';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
-
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = Number(process.env.REACT_APP_MAX_WIDTH);
 
@@ -26,6 +26,9 @@ const MyProfileEdit: React.FC = () => {
     const [imgfile, setImgFile] = useState<File | null>(null);
     const imgRef = useRef<any>(null);
     const [disable, setDisable] = useState<boolean>(false);
+    const [disabledToggle, setDisabledToggle] = useState<boolean>(true);
+    const dropdownListRef = useRef<any>(null);
+    const [addressData, setAddressData] = useState<[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,6 +43,7 @@ const MyProfileEdit: React.FC = () => {
                     ...inputs,
                     nickname: profileData.data.value.nickName,
                     introduction: profileData.data.value.selfInfo,
+                    address: profileData.data.value.address,
                     email: profileData.data.value.email.split('@')[0],
                     domain: profileData.data.value.email.split('@')[1],
                 });
@@ -55,8 +59,9 @@ const MyProfileEdit: React.FC = () => {
         introduction: '',
         email: '',
         domain: '',
+        address: '',
     });
-    const { nickname, introduction, email, domain } = inputs;
+    const { nickname, introduction, email, domain, address } = inputs;
 
     const CheckNickname = async () => {
         try {
@@ -153,6 +158,15 @@ const MyProfileEdit: React.FC = () => {
         });
     };
 
+    const onClickAddressItem = (address: string) => {
+        setInputs({
+            ...inputs,
+            address: address,
+        });
+        setDisabledToggle(true);
+        console.log('온클릭어드레스아이템');
+    };
+
     const onChangeImage = () => {
         const reader = new FileReader();
         const file = imgRef.current.files[0];
@@ -186,6 +200,45 @@ const MyProfileEdit: React.FC = () => {
             setNickError(false);
         }
     };
+
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent): void {
+            if (dropdownListRef.current && !dropdownListRef.current.contains(e.target as Node)) {
+                setDisabledToggle(true);
+                console.log('바깥쪽 클릭');
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownListRef]);
+
+    const loadAddressData = async (address: string) => {
+        try {
+            const { data } = await axios.get(`${BASEURL}/api/address/view?home=${address}`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            setAddressData(data.value.content);
+            setDisabledToggle(false);
+            console.log('어드레스 로드');
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const dloadClassData = useCallback(getDebouncedFunc(loadAddressData, 500), []); // 자동완성값 디바운싱 함수
+
+    useEffect(() => {
+        if (inputs.address !== '') {
+            console.log('유즈이펙트');
+            dloadClassData(inputs.address); // 검색값이 있으면 자동완성값 로딩
+        } else {
+            setAddressData([]);
+        }
+    }, [inputs.address]);
 
     useEffect(() => {
         if (!nickname) {
@@ -249,6 +302,42 @@ const MyProfileEdit: React.FC = () => {
                                 error={false}
                             />
                         </StyledRegisterBlock>
+                        <StyledRegisterBlock>
+                            <StyledTitleText>주소</StyledTitleText>
+                            <StyledInput
+                                placeholder="시,군,구,동 입력"
+                                type="text"
+                                name="address"
+                                value={address}
+                                onChange={handleInput}
+                                error={false}
+                            />
+                            {!disabledToggle && (
+                                <div ref={dropdownListRef}>
+                                    <div
+                                        style={{
+                                            height: 100,
+                                            overflow: 'auto',
+                                            fontSize: 14,
+                                            paddingLeft: 5,
+                                            maxHeight: 100,
+                                        }}
+                                    >
+                                        {addressData &&
+                                            addressData.map((item: any, index: number) => {
+                                                return (
+                                                    <StyledAdressList
+                                                        onClick={() => onClickAddressItem(item.home)}
+                                                        key={index}
+                                                    >
+                                                        {item.home}
+                                                    </StyledAdressList>
+                                                );
+                                            })}
+                                    </div>
+                                </div>
+                            )}
+                        </StyledRegisterBlock>
 
                         <StyledRegisterBlock>
                             <StyledErrorMessage>{error}</StyledErrorMessage>
@@ -262,6 +351,15 @@ const MyProfileEdit: React.FC = () => {
         </StyledMyphotoContainer>
     );
 };
+
+const StyledAdressList = styled.div`
+    background-color: white;
+    cursor: pointer;
+    :hover {
+        background-color: silver;
+    }
+    padding: 4px 0px 0px 8px;
+`;
 
 const StyledImg = styled.img`
     width: 180px;

@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { IUploadPicData } from 'common/types';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCallbackPrompt } from 'common/funcs/useCallbackPrompt';
+import DialogBox from 'common/components/DialogBox';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
@@ -33,6 +35,8 @@ const Video: React.FC = () => {
     >([]);
     const [fadeAnim, setFadeAnim] = useState<any>();
     const [disable, setDisable] = useState<boolean>(false);
+    const [prompt, setPrompt] = useState<boolean>(false);
+    const [showPrompt, confirmNavigation, cancelNavigation] = useCallbackPrompt(prompt);
 
     function convertEng(place: string) {
         if (place === '원룸') {
@@ -148,8 +152,22 @@ const Video: React.FC = () => {
         if (res.status === 201) console.log(res.data);
     };
 
+    useEffect(() => {
+        if (getOption1 === '분류') {
+            setPrompt(false);
+        } else {
+            setPrompt(true);
+        }
+    }, [getOption1]);
+
     return (
         <StyledContainer>
+            <DialogBox
+                showDialog={showPrompt}
+                confirmNavigation={confirmNavigation}
+                cancelNavigation={cancelNavigation}
+                content={'이 페이지를 벗어나면 작성한 내용은 모두 삭제됩니다.'}
+            />
             <StyledTabsContainer>
                 <StyledHeaderBarContainer fadeAnim={fadeAnim}>
                     <StyledHeaderBar>
