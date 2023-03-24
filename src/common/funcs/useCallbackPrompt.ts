@@ -29,7 +29,7 @@ export const useCallbackPrompt = (when: boolean): [boolean, () => void, () => vo
         }
     }, [blockedLocation]);
 
-    useBlocker(blocker, when);
+    useBlocker('이 페이지를 벗어나면 작성한 내용은 모두 삭제됩니다.', when);
 
     return [showPrompt, confirmNavigation, cancelNavigation];
 };
