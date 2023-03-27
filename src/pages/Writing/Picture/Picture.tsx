@@ -6,7 +6,6 @@ import { IUploadPicData } from 'common/types';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCallbackPrompt } from 'common/funcs/useCallbackPrompt';
-import DialogBox from 'common/components/DialogBox';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
@@ -144,6 +143,7 @@ const Picture: React.FC = () => {
             }
             formData.append('file', getContent[i].realImg);
         }
+        setPrompt(false);
 
         const res = await axios.post(`${BASEURL}/api/picture/save`, formData, {
             headers: {
@@ -152,12 +152,18 @@ const Picture: React.FC = () => {
             },
         });
         setDisable(true);
+
         navigate('/community/photo');
         if (res.status === 201) console.log(res.data);
     };
 
     useEffect(() => {
-        if (getOption1 === '분류') {
+        if (
+            getOption1 === '분류' &&
+            getContent[0].loc === '공간 (필수)' &&
+            !getContent[0].details &&
+            !getContent[0].realImg
+        ) {
             setPrompt(false);
         } else {
             setPrompt(true);
@@ -166,12 +172,6 @@ const Picture: React.FC = () => {
 
     return (
         <StyledContainer>
-            <DialogBox
-                showDialog={showPrompt}
-                confirmNavigation={confirmNavigation}
-                cancelNavigation={cancelNavigation}
-                content={'이 페이지를 벗어나면 작성한 내용은 모두 삭제됩니다.'}
-            />
             <StyledTabsContainer>
                 <StyledHeaderBarContainer fadeAnim={fadeAnim}>
                     <StyledHeaderBar>
