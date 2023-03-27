@@ -119,7 +119,6 @@ const Video: React.FC = () => {
                 });
             }
         }
-        console.log('공간까지 ok');
 
         const test: Uploader = {
             classification: convertEng2(getOption1),
@@ -128,7 +127,7 @@ const Video: React.FC = () => {
         };
 
         const uploaderString = JSON.stringify(test);
-        console.log('saveList:', uploaderString);
+
         formData.append('saveList', new Blob([uploaderString], { type: 'application/json' }));
 
         for (let i = 0; i < getContent.length; i++) {
@@ -140,7 +139,7 @@ const Video: React.FC = () => {
             formData.append('file', getContent[i].realImg);
         }
 
-        console.log('사진까지 ok');
+        setPrompt(false);
         const res = await axios.post(`${BASEURL}/api/picture/save`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -153,12 +152,17 @@ const Video: React.FC = () => {
     };
 
     useEffect(() => {
-        if (getOption1 === '분류') {
+        if (
+            getOption1 === '분류' &&
+            getContent[0].loc === '공간 (필수)' &&
+            !getContent[0].details &&
+            !getContent[0].realImg
+        ) {
             setPrompt(false);
         } else {
             setPrompt(true);
         }
-    }, [getOption1]);
+    }, [getOption1, getContent]);
 
     return (
         <StyledContainer>

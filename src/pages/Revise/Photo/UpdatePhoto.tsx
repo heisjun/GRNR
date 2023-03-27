@@ -6,6 +6,7 @@ import axios from 'axios';
 import UpdateWritingItem from 'common/components/UpdateWritingItem';
 import { default as callApi } from 'common/api';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useCallbackPrompt } from 'common/funcs/useCallbackPrompt';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;
@@ -38,6 +39,8 @@ const Picture: React.FC = () => {
         }[]
     >([]);
     const [disable, setDisable] = useState<boolean>(false);
+    const [prompt, setPrompt] = useState<boolean>(false);
+    const [showPrompt, confirmNavigation, cancelNavigation] = useCallbackPrompt(prompt);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -145,11 +148,16 @@ const Picture: React.FC = () => {
         const formData = new FormData();
 
         for (let i = 0; i < details.length; i++) {
-            saveDto.push({
-                explain: details[i].explain,
-                homePlace: convertEng(details[i].homePlace),
-                tagDtoList: details[i].tagList,
-            });
+            if (details[i].homePlace === '공간 (필수)') {
+                alert('공간을 입력해 주세요');
+                return;
+            } else {
+                saveDto.push({
+                    explain: details[i].explain,
+                    homePlace: convertEng(details[i].homePlace),
+                    tagDtoList: details[i].tagList,
+                });
+            }
         }
 
         const test: Uploader = {
@@ -166,13 +174,13 @@ const Picture: React.FC = () => {
 
         for (let i = 0; i < details.length; i++) {
             if (!details[i].pictureUrl) {
-                console.log('데이터없음');
+                alert('사진을 업로드 해주세요');
                 return;
             }
 
             formData.append('file', await convertURLtoFile(details[i].pictureUrl));
         }
-
+        setPrompt(false);
         const res = await axios.put(`${BASEURL}/api/picture/update`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -184,6 +192,19 @@ const Picture: React.FC = () => {
         setDisable(true);
         navigate(-1);
     };
+
+    useEffect(() => {
+        if (
+            getOption1 === '분류' &&
+            details[0].classification === '공간 (필수)' &&
+            !details[0].explain &&
+            !details[0].pictureUrl
+        ) {
+            setPrompt(false);
+        } else {
+            setPrompt(true);
+        }
+    }, [getOption1, details]);
 
     return (
         <StyledContainer>

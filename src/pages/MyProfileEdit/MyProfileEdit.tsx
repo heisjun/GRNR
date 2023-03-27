@@ -84,6 +84,7 @@ const MyProfileEdit: React.FC = () => {
             const dataToSend = {
                 nickName: inputs.nickname,
                 selfInfo: inputs.introduction,
+                address: inputs.address,
             };
             if (!dataToSend.nickName) {
                 setError('닉네임을 입력하세요');
@@ -118,6 +119,7 @@ const MyProfileEdit: React.FC = () => {
             const dataToSend = {
                 nickName: inputs.nickname,
                 selfInfo: inputs.introduction,
+                address: inputs.address,
             };
             if (!dataToSend.nickName) {
                 setError('닉네임을 입력하세요');
