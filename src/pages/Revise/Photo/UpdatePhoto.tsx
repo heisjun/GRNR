@@ -194,12 +194,7 @@ const Picture: React.FC = () => {
     };
 
     useEffect(() => {
-        if (
-            getOption1 === '분류' &&
-            details[0].classification === '공간 (필수)' &&
-            !details[0].explain &&
-            !details[0].pictureUrl
-        ) {
+        if (getOption1 === '분류') {
             setPrompt(false);
         } else {
             setPrompt(true);
