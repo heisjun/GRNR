@@ -271,15 +271,15 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
         }
     };
 
-    const onReCommenetEnter = async (commentId: number, content: string) => {
-        if (!content) {
-            alert('댓글을 입력해 주세요!');
-            return;
-        }
-        try {
+    const onReCommenetEnter = async (e: any, commentId: number) => {
+        if (e.key === 'Enter') {
+            if (!recomment) {
+                alert('댓글을 입력해 주세요!');
+                return;
+            }
             const body = {
                 commentId: commentId,
-                content: content,
+                content: recomment,
                 nickNameTag: [
                     {
                         nickName: null,
@@ -290,54 +290,53 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
             fetchData && fetchData();
             fetchData2 && fetchData2();
             fetchData3 && fetchData3();
-
-            // let commentIndex = 0;
-
-            // testComments.map((it, index) => (it.commentId === commentId ? (commentIndex = index) : it));
-
-            // interface IcommentChildDtoList {
-            //     parentId: number;
-            //     commentId: number;
-            //     myLike: boolean;
-            //     content: string;
-            //     report: boolean;
-            //     accountNicName: string;
-            //     accountProfileUrl: string;
-            //     likeCount: number;
-            //     /*   commentNicNameList: {
-            //         commentId: number;
-            //         nicNameTags: string;
-            //     }[]; */
-            //     commentNicNameList: null;
-            // }
-
-            // const commentChildDtoList: IcommentChildDtoList[] = testComments[commentIndex].commentChildDtoList;
-
-            // const newComment = {
-            //     parentId: commentId,
-            //     commentId: commentId,
-            //     myLike: false,
-            //     content: content,
-            //     report: false,
-            //     accountNicName: String(localStorage.getItem('nickName')),
-            //     accountProfileUrl: String(localStorage.getItem('profileUrl')),
-            //     likeCount: 0,
-            //     commentNicNameList: null,
-            // };
-
-            // commentChildDtoList.push(newComment);
-
-            // setTestComments(
-            //     testComments.map((it) =>
-            //         it.commentId === commentId ? { ...it, commentChildDtoList: commentChildDtoList } : it,
-            //     ),
-            // );
-            // setCommentsList((prevState: any) => {
-            //     return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity + 1 : 0 };
-            // });
-        } catch (e) {
-            console.log(e);
+            setComment('');
         }
+
+        // let commentIndex = 0;
+
+        // testComments.map((it, index) => (it.commentId === commentId ? (commentIndex = index) : it));
+
+        // interface IcommentChildDtoList {
+        //     parentId: number;
+        //     commentId: number;
+        //     myLike: boolean;
+        //     content: string;
+        //     report: boolean;
+        //     accountNicName: string;
+        //     accountProfileUrl: string;
+        //     likeCount: number;
+        //     /*   commentNicNameList: {
+        //         commentId: number;
+        //         nicNameTags: string;
+        //     }[]; */
+        //     commentNicNameList: null;
+        // }
+
+        // const commentChildDtoList: IcommentChildDtoList[] = testComments[commentIndex].commentChildDtoList;
+
+        // const newComment = {
+        //     parentId: commentId,
+        //     commentId: commentId,
+        //     myLike: false,
+        //     content: content,
+        //     report: false,
+        //     accountNicName: String(localStorage.getItem('nickName')),
+        //     accountProfileUrl: String(localStorage.getItem('profileUrl')),
+        //     likeCount: 0,
+        //     commentNicNameList: null,
+        // };
+
+        // commentChildDtoList.push(newComment);
+
+        // setTestComments(
+        //     testComments.map((it) =>
+        //         it.commentId === commentId ? { ...it, commentChildDtoList: commentChildDtoList } : it,
+        //     ),
+        // );
+        // setCommentsList((prevState: any) => {
+        //     return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity + 1 : 0 };
+        // });
     };
 
     const onReCommentSave = async (commentId: number, content: string) => {
@@ -706,10 +705,13 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                     <StyledReInputBox
                                         type="text"
                                         value={recomment}
+                                        placeholder="댓글을 입력해주세요"
                                         onChange={(e) => {
                                             setRecomment(e.target.value);
                                         }}
+                                        onKeyPress={(event) => onReCommenetEnter(event, item.commentId)}
                                     />
+
                                     <button
                                         style={{
                                             color: '#0d6637',

@@ -272,51 +272,54 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
                 ],
             };
             await api.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            setRecomment('');
 
-            let commentIndex = 0;
+            // let commentIndex = 0;
 
-            testComments.map((it, index) => (it.commentId === commentId ? (commentIndex = index) : it));
+            // testComments.map((it, index) => (it.commentId === commentId ? (commentIndex = index) : it));
 
-            interface IcommentChildDtoList {
-                parentId: number;
-                commentId: number;
-                myLike: boolean;
-                content: string;
-                report: boolean;
-                accountNicName: string;
-                accountProfileUrl: string;
-                likeCount: number;
-                /*   commentNicNameList: {
-                    commentId: number;
-                    nicNameTags: string;
-                }[]; */
-                commentNicNameList: null;
-            }
+            // interface IcommentChildDtoList {
+            //     parentId: number;
+            //     commentId: number;
+            //     myLike: boolean;
+            //     content: string;
+            //     report: boolean;
+            //     accountNicName: string;
+            //     accountProfileUrl: string;
+            //     likeCount: number;
+            //     /*   commentNicNameList: {
+            //         commentId: number;
+            //         nicNameTags: string;
+            //     }[]; */
+            //     commentNicNameList: null;
+            // }
 
-            const commentChildDtoList: IcommentChildDtoList[] = testComments[commentIndex].commentChildDtoList;
+            // const commentChildDtoList: IcommentChildDtoList[] = testComments[commentIndex].commentChildDtoList;
 
-            const newComment = {
-                parentId: commentId,
-                commentId: commentId,
-                myLike: false,
-                content: content,
-                report: false,
-                accountNicName: String(localStorage.getItem('nickName')),
-                accountProfileUrl: String(localStorage.getItem('profileUrl')),
-                likeCount: 0,
-                commentNicNameList: null,
-            };
+            // const newComment = {
+            //     parentId: commentId,
+            //     commentId: commentId,
+            //     myLike: false,
+            //     content: content,
+            //     report: false,
+            //     accountNicName: String(localStorage.getItem('nickName')),
+            //     accountProfileUrl: String(localStorage.getItem('profileUrl')),
+            //     likeCount: 0,
+            //     commentNicNameList: null,
+            // };
 
-            commentChildDtoList.push(newComment);
+            // commentChildDtoList.push(newComment);
 
-            setTestComments(
-                testComments.map((it) =>
-                    it.commentId === commentId ? { ...it, commentChildDtoList: commentChildDtoList } : it,
-                ),
-            );
-            setCommentsList((prevState: any) => {
-                return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity + 1 : 0 };
-            });
+            // setTestComments(
+            //     testComments.map((it) =>
+            //         it.commentId === commentId ? { ...it, commentChildDtoList: commentChildDtoList } : it,
+            //     ),
+            // );
+            // setCommentsList((prevState: any) => {
+            //     return { ...prevState, commentQuantity: commentsList ? commentsList.commentQuantity + 1 : 0 };
+            // });
         } catch (e) {
             console.log(e);
         }
