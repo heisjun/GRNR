@@ -448,6 +448,28 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
             setComment('');
         }
     };
+    const onReCommenetEnter = async (e: any, commentId: number, index: number) => {
+        if (e.key === 'Enter') {
+            if (!recomment) {
+                alert('댓글을 입력해 주세요!');
+                return;
+            }
+            const body = {
+                commentId: commentId,
+                content: recomment,
+                nickNameTag: [
+                    {
+                        nickName: null,
+                    },
+                ],
+            };
+            await api.post(`${BASEURL}/api/${category}/${pictureId}/comment/save`, body);
+            fetchData && fetchData();
+            fetchData2 && fetchData2();
+            onCloseBtn(index);
+            setRecomment('');
+        }
+    };
 
     return (
         <StyledCommentListContainer>
@@ -732,6 +754,7 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
                                             onChange={(e) => {
                                                 setRecomment(e.target.value);
                                             }}
+                                            onKeyPress={(event) => onReCommenetEnter(event, item.commentId, index)}
                                         />
                                         <StyledInputBtn
                                             onClick={() => {
