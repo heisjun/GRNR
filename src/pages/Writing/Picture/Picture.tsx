@@ -37,6 +37,7 @@ const Picture: React.FC = () => {
     const [fadeAnim, setFadeAnim] = useState<any>();
     const [disable, setDisable] = useState<boolean>(false);
     const [prompt, setPrompt] = useState<boolean>(false);
+    const [locationKeys, setLocationKeys] = useState([]);
     const [showPrompt, confirmNavigation, cancelNavigation] = useCallbackPrompt(prompt);
 
     function convertEng(place: string) {
