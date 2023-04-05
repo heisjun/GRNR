@@ -271,7 +271,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
         }
     };
 
-    const onReCommenetEnter = async (e: any, commentId: number) => {
+    const onReCommenetEnter = async (e: any, commentId: number, index: number) => {
         if (e.key === 'Enter') {
             if (!recomment) {
                 alert('댓글을 입력해 주세요!');
@@ -290,7 +290,8 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
             fetchData && fetchData();
             fetchData2 && fetchData2();
             fetchData3 && fetchData3();
-            setComment('');
+            onCloseBtn(index);
+            setRecomment('');
         }
 
         // let commentIndex = 0;
@@ -709,7 +710,7 @@ const CommentItemModal = forwardRef((props: ICommentItem, ref: any) => {
                                         onChange={(e) => {
                                             setRecomment(e.target.value);
                                         }}
-                                        onKeyPress={(event) => onReCommenetEnter(event, item.commentId)}
+                                        onKeyPress={(event) => onReCommenetEnter(event, item.commentId, index)}
                                     />
 
                                     <button
