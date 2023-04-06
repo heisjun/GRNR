@@ -25,7 +25,7 @@ const Popular: React.FC = () => {
             try {
                 const response = await axios.get(`${BASEURL}/api/picture/main
                 `);
-                setPopular1(response.data.value.content);
+                setPopular1(response.data.value.content || []);
             } catch (e) {
                 console.log(e);
             }
