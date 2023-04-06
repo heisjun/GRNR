@@ -39,14 +39,14 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
     }, [reportListRef]);
 
     function onOpenBtn(index: number, tagNickName: string) {
-        /* if (!TOKEN) {
+        if (!TOKEN) {
             navigate('/login');
-        } */
+        }
         const newIsActive = [false];
         newIsActive[index] = true;
         setIsActive(newIsActive);
-        setTagNickName(tagNickName);
-        setRecomment('@' + tagNickName + ' ');
+        /*  setTagNickName(tagNickName);
+        setRecomment('@' + tagNickName + ' '); */
     }
 
     function onCloseBtn(index: number) {
@@ -563,7 +563,6 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
                                     <StyledCommentNickname onClick={() => onGoUserPage(item.accountId)}>
                                         {item.accountNicName}
                                     </StyledCommentNickname>
-
                                     <StyledCommentContent>{item.content}</StyledCommentContent>
                                 </StyledCommentItem>
                                 <div style={{ display: 'flex', alignItems: 'center', paddingRight: 16 }}>
@@ -626,10 +625,7 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
                                                     >
                                                         {recomment.accountNicName}
                                                     </StyledCommentNickname>
-                                                    <div style={{ display: 'flex' }}>
-                                                        <button>{item.accountNicName}</button>
-                                                        <StyledCommentContent>{recomment.content}</StyledCommentContent>
-                                                    </div>
+                                                    <StyledCommentContent>{recomment.content}</StyledCommentContent>
                                                 </StyledCommentItem>
                                                 <div
                                                     style={{
@@ -719,6 +715,37 @@ const CommentItem: React.FC<ICommentItem> = (props) => {
                                         />
                                     </StyledAvatarBlock>
 
+                                    {/* <input
+                                        type="text"
+                                        value={recomment}
+                                        style={{
+                                            width: '70%',
+                                            borderRadius: 15,
+                                            paddingLeft: 5,
+                                            borderColor: 'gray',
+                                            borderWidth: 1.5,
+                                        }}
+                                        onChange={(e) => {
+                                            setRecomment(e.target.value);
+                                        }}
+                                    />
+                                    <button
+                                        style={{
+                                            color: 'white',
+                                            backgroundColor: '#0d6637',
+                                            border: 'none',
+                                            borderRadius: 15,
+                                            paddingLeft: 10,
+                                            paddingRight: 10,
+                                        }}
+                                        onClick={() => {
+                                            onReCommentSave(item.commentId, recomment);
+                                            onCloseBtn(index);
+                                            setRecomment('');
+                                        }}
+                                    >
+                                        입력
+                                    </button> */}
                                     <StyledRecommentInputContainer>
                                         <StyledRecommentInputBox
                                             type="text"
