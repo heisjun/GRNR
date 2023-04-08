@@ -78,33 +78,41 @@ const PhotoBanner: React.FC<IPhotoBanner> = (props) => {
                             justifyContent: 'space-between',
                         }}
                     >
-                        {data[1].video ? (
-                            <StyledVideo2 src={data[1].pictureContentUrl} />
-                        ) : (
-                            <StyledImg2 src={data[1].pictureContentUrl} />
+                        {data[1] && (
+                            <>
+                                {data[1].video ? (
+                                    <StyledVideo2 src={data[1].pictureContentUrl} />
+                                ) : (
+                                    <StyledImg2 src={data[1].pictureContentUrl} />
+                                )}
+                                <StyledSecondBlock
+                                    onClick={() => {
+                                        setIsOpenModal(true);
+                                        setPictureId(data[1].pictureId);
+                                    }}
+                                >
+                                    <StyledSecondContent>{data[1].pictureContentExplain}</StyledSecondContent>
+                                </StyledSecondBlock>
+                            </>
                         )}
-                        <StyledSecondBlock
-                            onClick={() => {
-                                setIsOpenModal(true);
-                                setPictureId(data[1].pictureId);
-                            }}
-                        >
-                            <StyledSecondContent>{data[1].pictureContentExplain}</StyledSecondContent>
-                        </StyledSecondBlock>
 
-                        {data[2].video ? (
-                            <StyledVideo3 src={data[2].pictureContentUrl} />
-                        ) : (
-                            <StyledImg3 src={data[2].pictureContentUrl} />
+                        {data[2] && (
+                            <>
+                                {data[2].video ? (
+                                    <StyledVideo3 src={data[2].pictureContentUrl} />
+                                ) : (
+                                    <StyledImg3 src={data[2].pictureContentUrl} />
+                                )}
+                                <StyledThirdBlock
+                                    onClick={() => {
+                                        setIsOpenModal(true);
+                                        setPictureId(data[2].pictureId);
+                                    }}
+                                >
+                                    <StyledSecondContent>{data[2].pictureContentExplain}</StyledSecondContent>
+                                </StyledThirdBlock>
+                            </>
                         )}
-                        <StyledThirdBlock
-                            onClick={() => {
-                                setIsOpenModal(true);
-                                setPictureId(data[2].pictureId);
-                            }}
-                        >
-                            <StyledSecondContent>{data[2].pictureContentExplain}</StyledSecondContent>
-                        </StyledThirdBlock>
                     </div>
                 </div>
             )}
