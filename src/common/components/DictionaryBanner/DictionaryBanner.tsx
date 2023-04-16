@@ -60,7 +60,6 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
                             <StyledTextStyle>Editors's Pick</StyledTextStyle>
                             <StyledEnglishName>{item.scientificName}</StyledEnglishName>
                             <StyledKoreanName>{item.plantName}</StyledKoreanName>
-                            <StyledContentBox>{truncate(item.description_detail)}</StyledContentBox>
                             <StyledKeywordContainer>
                                 {item.classification_flower !== 'null' && (
                                     <StyledKeywordBox>{item.classification_flower}</StyledKeywordBox>
@@ -214,16 +213,6 @@ const StyledKoreanName = styled.h2`
     font-weight: bold;
     line-height: 150%;
     color: #272727;
-`;
-
-const StyledContentBox = styled.p`
-    /*  width: 319px;
-    height: 156px; */
-    margin: 16px 0 30px;
-    font-family: NotoSansKR;
-    font-size: 15px;
-    line-height: 150%;
-    color: #424242;
 `;
 
 const StyledDotBox = styled.div`

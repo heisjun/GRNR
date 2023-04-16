@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { IPlantGuideProps } from './PlantGuide.interface';
 
 const data = {
     index: ['1', '2', '3', '4'],
@@ -14,7 +15,7 @@ const data = {
     ],
 };
 
-const PlantGuide: React.FC = () => {
+const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
     return (
         <StyledGuideContainer>
             <StyledGuideTitle>
@@ -29,10 +30,7 @@ const PlantGuide: React.FC = () => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>
-                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
-                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
-                            </StyledExplainText>
+                            <StyledExplainText>{data?.plantGuideSpace}</StyledExplainText>
                             <StyledDetailBtn>
                                 <StyledBtnText>자세히 보기</StyledBtnText>
                             </StyledDetailBtn>
@@ -47,10 +45,7 @@ const PlantGuide: React.FC = () => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>
-                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
-                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
-                            </StyledExplainText>
+                            <StyledExplainText>{data?.plantGuideWater}</StyledExplainText>
                             <StyledDetailBtn>
                                 <StyledBtnText>자세히 보기</StyledBtnText>
                             </StyledDetailBtn>
@@ -65,10 +60,7 @@ const PlantGuide: React.FC = () => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>
-                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
-                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
-                            </StyledExplainText>
+                            <StyledExplainText>{data?.plantGuideFertilizer}</StyledExplainText>
                             <StyledDetailBtn>
                                 <StyledBtnText>자세히 보기</StyledBtnText>
                             </StyledDetailBtn>
@@ -83,10 +75,7 @@ const PlantGuide: React.FC = () => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>
-                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
-                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
-                            </StyledExplainText>
+                            <StyledExplainText>{data?.plantGuidePest}</StyledExplainText>
                             <StyledDetailBtn>
                                 <StyledBtnText>자세히 보기</StyledBtnText>
                             </StyledDetailBtn>
