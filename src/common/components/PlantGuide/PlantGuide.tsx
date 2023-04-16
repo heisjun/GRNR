@@ -34,9 +34,6 @@ const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
                             <StyledExplainText
                                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.plantGuideSpace ?? '') }}
                             />
-                            <StyledDetailBtn>
-                                <StyledBtnText>자세히 보기</StyledBtnText>
-                            </StyledDetailBtn>
                         </div>
                     </div>
                 </StyledPlaceBlock>
@@ -51,9 +48,6 @@ const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
                             <StyledExplainText
                                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.plantGuideWater ?? '') }}
                             />
-                            <StyledDetailBtn>
-                                <StyledBtnText>자세히 보기</StyledBtnText>
-                            </StyledDetailBtn>
                         </div>
                     </div>
                 </StyledWaterBlock>
@@ -70,9 +64,6 @@ const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
                                     __html: DOMPurify.sanitize(data?.plantGuideFertilizer ?? ''),
                                 }}
                             />
-                            <StyledDetailBtn>
-                                <StyledBtnText>자세히 보기</StyledBtnText>
-                            </StyledDetailBtn>
                         </div>
                     </div>
                 </StyledFertilizerBlock>
@@ -87,9 +78,6 @@ const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
                             <StyledExplainText
                                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.plantGuidePest ?? '') }}
                             />
-                            <StyledDetailBtn>
-                                <StyledBtnText>자세히 보기</StyledBtnText>
-                            </StyledDetailBtn>
                         </div>
                     </div>
                 </StyledPestBlock>

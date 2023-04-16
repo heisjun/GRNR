@@ -207,7 +207,6 @@ const StyledFamilyDetail = styled.div`
     margin: 6px 0 0;
     font-family: NotoSansKR;
     font-size: 14px;
-
     text-align: center;
     color: #272727;
 `;
@@ -280,7 +279,7 @@ const StyledImageContainer = styled.div`
     img {
         width: 1140px;
         height: 100%;
-        object-fit: contain;
+        object-fit: ;
     }
 `;
 
