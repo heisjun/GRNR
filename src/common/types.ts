@@ -111,6 +111,30 @@ export type IDictionaryDetailsParams = {
     distribution: string;
     description_detail: string;
     flowerLanguage: string;
+    plantGuideSpace: string;
+    plantGuideWater: string;
+    plantGuideFertilizer: string;
+    plantGuidePest: string;
+    faqLevel: string;
+    faqWater: string;
+    faqLightPlace: string;
+    faqTemperature: string;
+    faqHumidity: string;
+    faqToxicity: string;
+    faqFertilizer: string;
+    faqPest: string;
+    pestName: string;
+    pestExplanation: string;
+    pestSymptom: string;
+    pestTherapy: string;
+    pestUrl: string;
+    plantContentPestFeedDtoList: {
+        pestName: string;
+        pestExplanation: string;
+        pestSymptom: string;
+        pestTherapy: string;
+        pestUrl: string;
+    }[];
 };
 
 export type IFollowingsParams = {

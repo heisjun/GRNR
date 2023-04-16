@@ -1,22 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { IFaq } from './Faq.type';
 
-const data = [
-    {
-        title: '몬스테라는 얼마나 자주 물을 줘야되나요?',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-    {
-        title: '몬스테라는 얼마나 자주 물을 줘야되나요?',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-    {
-        title: '몬스테라는 얼마나 자주 물을 줘야되나요?',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-];
-
-const Faq: React.FC = () => {
+const Faq: React.FC<IFaq> = ({ data }) => {
     const [isActive, setIsActive] = useState([false]);
 
     function onOpenBtn(index: number) {
@@ -30,30 +16,89 @@ const Faq: React.FC = () => {
         newIsActive[index] = false;
         setIsActive(newIsActive);
     }
+
+    const faqLIst = [
+        {
+            title: 'FAQ 1. 관리 난이도(Care level)',
+            answer: data?.faqLevel,
+        },
+        {
+            title: 'FAQ 2. 물(Watering)',
+            answer: data?.faqWater,
+        },
+        {
+            title: 'FAQ 3. 빛과 공간(Light&Placement)',
+            answer: data?.faqLightPlace,
+        },
+        {
+            title: 'FAQ 4. 온도(Temperature)',
+            answer: data?.faqTemperature,
+        },
+        {
+            title: 'FAQ 5. 습도(Humidity)',
+            answer: data?.faqHumidity,
+        },
+        {
+            title: 'FAQ 6. 독성(Toxicity)',
+            answer: data?.faqToxicity,
+        },
+        {
+            title: 'FAQ 7. 비료(Fertilizer)',
+            answer: data?.faqFertilizer,
+        },
+        {
+            title: 'FAQ 8. 해충(Pest)',
+            answer: data?.faqPest,
+            pestInfo: data?.plantContentPestFeedDtoList,
+        },
+    ];
+
     return (
         <StyledGuideContainer>
             <StyledGuideTitle>
                 <StyledBoldText>자주묻는 질문</StyledBoldText>
             </StyledGuideTitle>
             <StyledBorder />
-            {data.map((item, index) => (
+            {faqLIst.map((item, index) => (
                 <StyledQuestionTitleBlock>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div
+                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                        onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}
+                    >
                         <div style={{ display: 'flex' }}>
                             <StyledQuestionIcon>Q.</StyledQuestionIcon>
                             <StyledQuestionTitle>{item.title}</StyledQuestionTitle>
                         </div>
                         {isActive[index] ? (
-                            <StyledIcon src={'/btnDropUp.png'} onClick={() => onCloseBtn(index)} />
+                            <StyledIcon src={'/btnDropUp.png'} />
                         ) : (
-                            <StyledIcon src={'/btnDropdown.png'} onClick={() => onOpenBtn(index)} />
+                            <StyledIcon src={'/btnDropdown.png'} />
                         )}
                     </div>
                     {isActive[index] && (
-                        <div>
-                            <StyledQuestionBorder />
-                            <StyledQuestionAnswer>{item.answer}</StyledQuestionAnswer>
-                        </div>
+                        <>
+                            <div style={{ marginBottom: '30px' }}>
+                                <StyledQuestionBorder />
+                                <StyledQuestionAnswer>{item.answer}</StyledQuestionAnswer>
+                            </div>
+                            {item.pestInfo?.length !== 0 && (
+                                <>
+                                    {item.pestInfo?.map((item, idx) => (
+                                        <PestBoxContainer key={idx}>
+                                            <PestImage>
+                                                <img src={item.pestUrl} alt="" />
+                                            </PestImage>
+                                            <PestExplainContainer>
+                                                <PestName>{item.pestName}</PestName>
+                                                <PestExplain>{item.pestExplanation}</PestExplain>
+                                                <PestExplain>{item.pestSymptom}</PestExplain>
+                                                <PestExplain>{item.pestTherapy}</PestExplain>
+                                            </PestExplainContainer>
+                                        </PestBoxContainer>
+                                    ))}
+                                </>
+                            )}
+                        </>
                     )}
                 </StyledQuestionTitleBlock>
             ))}
@@ -139,4 +184,32 @@ const StyledIcon = styled.img`
     cursor: pointer;
 `;
 
+const PestBoxContainer = styled.div`
+    display: flex;
+    align-items: center;
+    height: 400px;
+`;
+
+const PestImage = styled.div`
+    padding: 0 24px;
+    img {
+        width: 350px;
+        object-fit: contain;
+    }
+`;
+
+const PestExplainContainer = styled.div`
+    height: 250px;
+    overflow: overlay;
+`;
+
+const PestName = styled.div`
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+`;
+
+const PestExplain = styled.div`
+    margin-bottom: 10px;
+`;
 export default Faq;
