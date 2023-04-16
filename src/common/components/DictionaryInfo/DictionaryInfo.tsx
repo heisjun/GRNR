@@ -128,7 +128,6 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                             <StyledKeywordBox>{data?.classification_succulent}</StyledKeywordBox>
                         )}
                         {data?.difficulty !== 'null' && <StyledKeywordBox>{data?.difficulty}</StyledKeywordBox>}
-                        {data?.difficulty !== 'null' && <StyledKeywordBox>{data?.difficulty}</StyledKeywordBox>}
                         {data?.growSpeed !== 'null' && <StyledKeywordBox>{data?.growSpeed}</StyledKeywordBox>}
                     </StyledKeywordDiv>
                 </StyledInfoBlock>
@@ -216,7 +215,7 @@ const StyledFamilyDetail = styled.div`
 const StyledArrow = styled.img`
     width: 12px;
     height: 12px;
-    object-fit: contain;
+    object-fit: cover;
 `;
 
 const StyledFlexDiv = styled.div`
@@ -281,7 +280,7 @@ const StyledImageContainer = styled.div`
     img {
         width: 1140px;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
 `;
 
