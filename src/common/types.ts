@@ -93,6 +93,15 @@ export type IDictionaryDetailsParams = {
     classification_flower: string;
     classification_fruit: string;
     classification_succulent: string;
+    toxicityHarmless: string;
+    toxicitySeriousness: string;
+    toxicitySlight: string;
+    toxicityIngestion: string;
+    toxicitySkin: string;
+    cat: string;
+    dog: string;
+    difficulty: string;
+    growSpeed: string;
     korClass: string;
     enClass: string;
     korOrder: string;
@@ -312,6 +321,15 @@ export type IDictionariesParams = {
     flowerLanguage: string;
     plantPicUrl: string;
     myScrap: boolean;
+    toxicityHarmless: string;
+    toxicitySeriousness: string;
+    toxicitySlight: string;
+    toxicityIngestion: string;
+    toxicitySkin: string;
+    cat: string;
+    dog: string;
+    difficulty: string;
+    growSpeed: string;
 };
 
 export type IMyphotoParams = {
