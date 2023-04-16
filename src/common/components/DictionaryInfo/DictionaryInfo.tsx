@@ -230,7 +230,7 @@ const StyledKeywordDiv = styled.div`
 
 const StyledEngName = styled.div`
     margin: 0 0px 6px 0;
-    font-family: NotoSansKR;
+    font-family: 'BodoniXt';
     font-size: 18px;
     font-weight: 500;
     color: #8c8c8c;
