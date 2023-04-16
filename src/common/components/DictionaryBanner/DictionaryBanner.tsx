@@ -74,6 +74,29 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
                                 {item.classification_succulent !== 'null' && (
                                     <StyledKeywordBox>{item.classification_succulent}</StyledKeywordBox>
                                 )}
+                                {item.toxicityHarmless !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicityHarmless}</StyledKeywordBox>
+                                )}
+                                {item.toxicitySeriousness !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicitySeriousness}</StyledKeywordBox>
+                                )}
+                                {item.toxicitySlight !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicitySlight}</StyledKeywordBox>
+                                )}
+                                {item.toxicityIngestion !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicityIngestion}</StyledKeywordBox>
+                                )}
+                                {item.toxicitySkin !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicitySkin}</StyledKeywordBox>
+                                )}
+                                {item.cat !== 'null' && <StyledKeywordBox>{item.cat}</StyledKeywordBox>}
+                                {item.dog !== 'null' && <StyledKeywordBox>{item.dog}</StyledKeywordBox>}
+                                {item.classification_succulent !== 'null' && (
+                                    <StyledKeywordBox>{item.classification_succulent}</StyledKeywordBox>
+                                )}
+                                {item.difficulty !== 'null' && <StyledKeywordBox>{item.difficulty}</StyledKeywordBox>}
+                                {item.difficulty !== 'null' && <StyledKeywordBox>{item.difficulty}</StyledKeywordBox>}
+                                {item.growSpeed !== 'null' && <StyledKeywordBox>{item.growSpeed}</StyledKeywordBox>}
                             </StyledKeywordContainer>
                         </StyledContentContainer>
                     </StyledMainBannerContainer>
