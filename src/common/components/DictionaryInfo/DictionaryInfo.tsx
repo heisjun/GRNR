@@ -279,7 +279,7 @@ const StyledImageContainer = styled.div`
     img {
         width: 1140px;
         height: 100%;
-        object-fit: ;
+        object-fit: cover;
     }
 `;
 
