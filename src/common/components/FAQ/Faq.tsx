@@ -125,7 +125,7 @@ const StyledQuestionAnswer = styled.div`
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
-    line-height: 50%;
+    line-height: 130%;
     letter-spacing: normal;
     color: #3d3d3d;
 `;
