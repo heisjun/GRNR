@@ -20,35 +20,35 @@ const Faq: React.FC<IFaq> = ({ data }) => {
 
     const faqLIst = [
         {
-            title: 'FAQ 1. 관리 난이도(Care level)',
+            title: '1. 관리 난이도(Care level)',
             answer: data?.faqLevel,
         },
         {
-            title: 'FAQ 2. 물(Watering)',
+            title: '2. 물(Watering)',
             answer: data?.faqWater,
         },
         {
-            title: 'FAQ 3. 빛과 공간(Light&Placement)',
+            title: '3. 빛과 공간(Light&Placement)',
             answer: data?.faqLightPlace,
         },
         {
-            title: 'FAQ 4. 온도(Temperature)',
+            title: '4. 온도(Temperature)',
             answer: data?.faqTemperature,
         },
         {
-            title: 'FAQ 5. 습도(Humidity)',
+            title: '5. 습도(Humidity)',
             answer: data?.faqHumidity,
         },
         {
-            title: 'FAQ 6. 독성(Toxicity)',
+            title: '6. 독성(Toxicity)',
             answer: data?.faqToxicity,
         },
         {
-            title: 'FAQ 7. 비료(Fertilizer)',
+            title: '7. 비료(Fertilizer)',
             answer: data?.faqFertilizer,
         },
         {
-            title: 'FAQ 8. 해충(Pest)',
+            title: '8. 해충(Pest)',
             answer: data?.faqPest,
             pestInfo: data?.plantContentPestFeedDtoList,
         },
@@ -95,12 +95,12 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                                             </PestImage>
                                             <PestExplainContainer>
                                                 <PestName>{item.pestName}</PestName>
-                                                <TextSubTitle>설명</TextSubTitle>
-                                                <PestExplain>{item.pestExplanation}</PestExplain>
-                                                <TextSubTitle>증상</TextSubTitle>
-                                                <PestExplain>{item.pestSymptom}</PestExplain>
-                                                <TextSubTitle>치료</TextSubTitle>
-                                                <PestExplain>{item.pestTherapy}</PestExplain>
+                                                <PestName>설명</PestName>
+                                                <PestName>{item.pestExplanation}</PestName>
+                                                <PestName>증상</PestName>
+                                                <PestName>{item.pestSymptom}</PestName>
+                                                <PestName>치료</PestName>
+                                                <PestName>{item.pestTherapy}</PestName>
                                             </PestExplainContainer>
                                         </PestBoxContainer>
                                     ))}
@@ -212,18 +212,14 @@ const PestExplainContainer = styled.div`
 `;
 
 const PestName = styled.div`
-    margin-bottom: 20px;
-    font-size: 20px;
-    font-weight: bold;
-`;
-
-const TextSubTitle = styled.div`
-    margin-bottom: 10px;
+    font-size: 14px;
     font-weight: 500;
-    font-size: 18px;
-`;
-
-const PestExplain = styled.div`
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 130%;
+    letter-spacing: normal;
+    color: #3d3d3d;
     margin-bottom: 10px;
 `;
+
 export default Faq;

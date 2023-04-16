@@ -139,7 +139,7 @@ const StyledVerticleBorder = styled.div`
 const StyledBoldText = styled.div`
     font-size: 30px;
     font-weight: bold;
-
+    font-family: 'BodoniXt';
     color: #272727;
 `;
 const StyledGuideContainer = styled.div`
