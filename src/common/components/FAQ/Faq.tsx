@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IFaq } from './Faq.type';
+import * as DOMPurify from 'dompurify';
 
 const Faq: React.FC<IFaq> = ({ data }) => {
     const [isActive, setIsActive] = useState([false]);
@@ -79,7 +80,11 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                         <>
                             <div style={{ marginBottom: '30px' }}>
                                 <StyledQuestionBorder />
-                                <StyledQuestionAnswer>{item.answer}</StyledQuestionAnswer>
+                                <StyledQuestionAnswer
+                                    dangerouslySetInnerHTML={{
+                                        __html: DOMPurify.sanitize(item.answer ?? ''),
+                                    }}
+                                />
                             </div>
                             {item.pestInfo?.length !== 0 && (
                                 <>
@@ -120,7 +125,7 @@ const StyledQuestionAnswer = styled.div`
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.57;
+    line-height: 50%;
     letter-spacing: normal;
     color: #3d3d3d;
 `;

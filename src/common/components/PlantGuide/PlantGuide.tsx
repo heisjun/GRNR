@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IPlantGuideProps } from './PlantGuide.interface';
+import * as DOMPurify from 'dompurify';
 
 const data = {
     index: ['1', '2', '3', '4'],
@@ -30,7 +31,9 @@ const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>{data?.plantGuideSpace}</StyledExplainText>
+                            <StyledExplainText
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.plantGuideSpace ?? '') }}
+                            />
                             <StyledDetailBtn>
                                 <StyledBtnText>자세히 보기</StyledBtnText>
                             </StyledDetailBtn>
@@ -45,7 +48,9 @@ const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>{data?.plantGuideWater}</StyledExplainText>
+                            <StyledExplainText
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.plantGuideWater ?? '') }}
+                            />
                             <StyledDetailBtn>
                                 <StyledBtnText>자세히 보기</StyledBtnText>
                             </StyledDetailBtn>
@@ -60,7 +65,11 @@ const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>{data?.plantGuideFertilizer}</StyledExplainText>
+                            <StyledExplainText
+                                dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(data?.plantGuideFertilizer ?? ''),
+                                }}
+                            />
                             <StyledDetailBtn>
                                 <StyledBtnText>자세히 보기</StyledBtnText>
                             </StyledDetailBtn>
@@ -75,7 +84,9 @@ const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>{data?.plantGuidePest}</StyledExplainText>
+                            <StyledExplainText
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.plantGuidePest ?? '') }}
+                            />
                             <StyledDetailBtn>
                                 <StyledBtnText>자세히 보기</StyledBtnText>
                             </StyledDetailBtn>
@@ -128,6 +139,7 @@ const StyledExplainText = styled.div`
     font-family: NotoSansKR;
     font-size: 16px;
     color: #424242;
+    line-height: 150%;
 `;
 
 const StyledVerticleBorder = styled.div`
