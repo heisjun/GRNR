@@ -95,8 +95,11 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                                             </PestImage>
                                             <PestExplainContainer>
                                                 <PestName>{item.pestName}</PestName>
+                                                <TextSubTitle>설명</TextSubTitle>
                                                 <PestExplain>{item.pestExplanation}</PestExplain>
+                                                <TextSubTitle>증상</TextSubTitle>
                                                 <PestExplain>{item.pestSymptom}</PestExplain>
+                                                <TextSubTitle>치료</TextSubTitle>
                                                 <PestExplain>{item.pestTherapy}</PestExplain>
                                             </PestExplainContainer>
                                         </PestBoxContainer>
@@ -212,6 +215,12 @@ const PestName = styled.div`
     margin-bottom: 20px;
     font-size: 20px;
     font-weight: bold;
+`;
+
+const TextSubTitle = styled.div`
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 18px;
 `;
 
 const PestExplain = styled.div`
