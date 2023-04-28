@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { IFaq } from './Faq.type';
 import * as DOMPurify from 'dompurify';
 
-
 const Faq: React.FC<IFaq> = ({ data }) => {
     const [isActive, setIsActive] = useState([false]);
     const [toggle, setToggle] = useState<boolean>(true);
@@ -55,7 +54,6 @@ const Faq: React.FC<IFaq> = ({ data }) => {
             pestInfo: data?.plantContentPestFeedDtoList,
         },
     ];
-
 
     return (
         <StyledGuideContainer>
