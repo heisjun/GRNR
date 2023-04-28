@@ -41,10 +41,10 @@ const DictionaryDetails: React.FC = () => {
         <StyledDicDetailsContainer>
             <div style={{ maxWidth: 1140, margin: 'auto' }}>
                 <DictionaryInfo data={details} />
-                <PlantGuide />
-                <Faq />
+                <PlantGuide data={details} />
+                <Faq data={details} />
 
-                <StyledDetailsBlock>
+                {/* <StyledDetailsBlock>
                     <StyledDetailTitle>
                         #<span>{details?.plantName}</span> 관련 매거진
                     </StyledDetailTitle>
@@ -62,7 +62,7 @@ const DictionaryDetails: React.FC = () => {
                         items={articleData}
                         RenderComponent={MagazineItem}
                     />
-                </div>
+                </div> */}
             </div>
         </StyledDicDetailsContainer>
     );

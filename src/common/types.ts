@@ -93,6 +93,15 @@ export type IDictionaryDetailsParams = {
     classification_flower: string;
     classification_fruit: string;
     classification_succulent: string;
+    toxicityHarmless: string;
+    toxicitySeriousness: string;
+    toxicitySlight: string;
+    toxicityIngestion: string;
+    toxicitySkin: string;
+    cat: string;
+    dog: string;
+    difficulty: string;
+    growSpeed: string;
     korClass: string;
     enClass: string;
     korOrder: string;
@@ -102,6 +111,30 @@ export type IDictionaryDetailsParams = {
     distribution: string;
     description_detail: string;
     flowerLanguage: string;
+    plantGuideSpace: string;
+    plantGuideWater: string;
+    plantGuideFertilizer: string;
+    plantGuidePest: string;
+    faqLevel: string;
+    faqWater: string;
+    faqLightPlace: string;
+    faqTemperature: string;
+    faqHumidity: string;
+    faqToxicity: string;
+    faqFertilizer: string;
+    faqPest: string;
+    pestName: string;
+    pestExplanation: string;
+    pestSymptom: string;
+    pestTherapy: string;
+    pestUrl: string;
+    plantContentPestFeedDtoList: {
+        pestName: string;
+        pestExplanation: string;
+        pestSymptom: string;
+        pestTherapy: string;
+        pestUrl: string;
+    }[];
 };
 
 export type IFollowingsParams = {
@@ -312,6 +345,15 @@ export type IDictionariesParams = {
     flowerLanguage: string;
     plantPicUrl: string;
     myScrap: boolean;
+    toxicityHarmless: string;
+    toxicitySeriousness: string;
+    toxicitySlight: string;
+    toxicityIngestion: string;
+    toxicitySkin: string;
+    cat: string;
+    dog: string;
+    difficulty: string;
+    growSpeed: string;
 };
 
 export type IMyphotoParams = {

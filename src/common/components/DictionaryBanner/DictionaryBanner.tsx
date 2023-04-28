@@ -59,7 +59,6 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
                             <StyledTextStyle>Editors's Pick</StyledTextStyle>
                             <StyledEnglishName>{item.scientificName}</StyledEnglishName>
                             <StyledKoreanName>{item.plantName}</StyledKoreanName>
-                            <StyledContentBox>{item.description_detail}</StyledContentBox>
                             <StyledKeywordContainer>
                                 {item.classification_flower !== 'null' && (
                                     <StyledKeywordBox>{item.classification_flower}</StyledKeywordBox>
@@ -73,6 +72,29 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
                                 {item.classification_succulent !== 'null' && (
                                     <StyledKeywordBox>{item.classification_succulent}</StyledKeywordBox>
                                 )}
+                                {item.toxicityHarmless !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicityHarmless}</StyledKeywordBox>
+                                )}
+                                {item.toxicitySeriousness !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicitySeriousness}</StyledKeywordBox>
+                                )}
+                                {item.toxicitySlight !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicitySlight}</StyledKeywordBox>
+                                )}
+                                {item.toxicityIngestion !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicityIngestion}</StyledKeywordBox>
+                                )}
+                                {item.toxicitySkin !== 'null' && (
+                                    <StyledKeywordBox>{item.toxicitySkin}</StyledKeywordBox>
+                                )}
+                                {item.cat !== 'null' && <StyledKeywordBox>{item.cat}</StyledKeywordBox>}
+                                {item.dog !== 'null' && <StyledKeywordBox>{item.dog}</StyledKeywordBox>}
+                                {item.classification_succulent !== 'null' && (
+                                    <StyledKeywordBox>{item.classification_succulent}</StyledKeywordBox>
+                                )}
+                                {item.difficulty !== 'null' && <StyledKeywordBox>{item.difficulty}</StyledKeywordBox>}
+                                {item.difficulty !== 'null' && <StyledKeywordBox>{item.difficulty}</StyledKeywordBox>}
+                                {item.growSpeed !== 'null' && <StyledKeywordBox>{item.growSpeed}</StyledKeywordBox>}
                             </StyledKeywordContainer>
                         </StyledContentContainer>
                     </StyledMainBannerContainer>
@@ -195,16 +217,6 @@ const StyledKoreanName = styled.h2`
     font-weight: bold;
     line-height: 150%;
     color: #272727;
-`;
-
-const StyledContentBox = styled.p`
-    /*  width: 319px;
-    height: 156px; */
-    margin: 16px 0 30px;
-    font-family: NotoSansKR;
-    font-size: 15px;
-    line-height: 150%;
-    color: #424242;
 `;
 
 const StyledDotBox = styled.div`

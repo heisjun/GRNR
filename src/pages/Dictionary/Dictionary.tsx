@@ -30,7 +30,7 @@ const Dictionary_difficulty = [
     {
         id: 3,
         name: '관리 난이도',
-        list: ['키우기 쉬운', '보통의', '키우기 어려운'],
+        list: ['초급자용', '중급자용', '상급자용'],
     },
 ];
 
@@ -45,14 +45,14 @@ const Dictionary_toxicity = [
     {
         id: 5,
         name: '독성',
-        list: ['무해한', '주의가 필요한'],
+        list: ['무해한', '심각한 독성', '경미한 독성', '섭취 주의', '발진 주의'],
     },
 ];
 const Dictionary_dog = [
     {
         id: 6,
         name: '강아지',
-        list: ['안전한', '주의가 필요한'],
+        list: ['강아지-안전한', '강아지 주의'],
     },
 ];
 
@@ -60,7 +60,7 @@ const Dictionary_cat = [
     {
         id: 6,
         name: '고양이',
-        list: ['안전한', '주의가 필요한'],
+        list: ['고양이-안전한', '고양이 주의'],
     },
 ];
 

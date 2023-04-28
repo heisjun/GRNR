@@ -97,11 +97,39 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                         </StyledCategory>
                     </StyledFlexDiv>
                     <StyledIndex>키워드</StyledIndex>
-                    <StyledFlexDiv>
-                        <StyledKeywordBox>
-                            <StyledKeywordText>{data?.classification}</StyledKeywordText>
-                        </StyledKeywordBox>
-                    </StyledFlexDiv>
+                    <StyledKeywordDiv>
+                        {data?.classification !== 'null' && <StyledKeywordBox>{data?.classification}</StyledKeywordBox>}
+                        {data?.classification_flower !== 'null' && (
+                            <StyledKeywordBox>{data?.classification_flower}</StyledKeywordBox>
+                        )}
+                        {data?.classification_fruit !== 'null' && (
+                            <StyledKeywordBox>{data?.classification_fruit}</StyledKeywordBox>
+                        )}
+                        {data?.classification_leaf !== 'null' && (
+                            <StyledKeywordBox>{data?.classification_leaf}</StyledKeywordBox>
+                        )}
+                        {data?.classification_succulent !== 'null' && (
+                            <StyledKeywordBox>{data?.classification_succulent}</StyledKeywordBox>
+                        )}
+                        {data?.toxicityHarmless !== 'null' && (
+                            <StyledKeywordBox>{data?.toxicityHarmless}</StyledKeywordBox>
+                        )}
+                        {data?.toxicitySeriousness !== 'null' && (
+                            <StyledKeywordBox>{data?.toxicitySeriousness}</StyledKeywordBox>
+                        )}
+                        {data?.toxicitySlight !== 'null' && <StyledKeywordBox>{data?.toxicitySlight}</StyledKeywordBox>}
+                        {data?.toxicityIngestion !== 'null' && (
+                            <StyledKeywordBox>{data?.toxicityIngestion}</StyledKeywordBox>
+                        )}
+                        {data?.toxicitySkin !== 'null' && <StyledKeywordBox>{data?.toxicitySkin}</StyledKeywordBox>}
+                        {data?.cat !== 'null' && <StyledKeywordBox>{data?.cat}</StyledKeywordBox>}
+                        {data?.dog !== 'null' && <StyledKeywordBox>{data?.dog}</StyledKeywordBox>}
+                        {data?.classification_succulent !== 'null' && (
+                            <StyledKeywordBox>{data?.classification_succulent}</StyledKeywordBox>
+                        )}
+                        {data?.difficulty !== 'null' && <StyledKeywordBox>{data?.difficulty}</StyledKeywordBox>}
+                        {data?.growSpeed !== 'null' && <StyledKeywordBox>{data?.growSpeed}</StyledKeywordBox>}
+                    </StyledKeywordDiv>
                 </StyledInfoBlock>
             </StyledInfoContainer>
         </div>
@@ -118,9 +146,6 @@ const StyledKeywordBox = styled.div`
     border-radius: 19px;
     border: solid 1px #dedede;
     background-color: #fff;
-`;
-
-const StyledKeywordText = styled.div`
     font-family: NotoSansKR;
     font-size: 14px;
     color: #616161;
@@ -189,7 +214,7 @@ const StyledFamilyDetail = styled.div`
 const StyledArrow = styled.img`
     width: 12px;
     height: 12px;
-    object-fit: contain;
+    object-fit: cover;
 `;
 
 const StyledFlexDiv = styled.div`
@@ -198,9 +223,14 @@ const StyledFlexDiv = styled.div`
     margin-bottom: 26px;
 `;
 
+const StyledKeywordDiv = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
 const StyledEngName = styled.div`
     margin: 0 0px 6px 0;
-    font-family: NotoSansKR;
+    font-family: 'BodoniXt';
     font-size: 18px;
     font-weight: 500;
     color: #8c8c8c;
@@ -217,7 +247,7 @@ const StyledKorName = styled.div`
 const StyledInfoContainer = styled.div`
     display: flex;
     width: 1140px;
-    height: 350px;
+    min-height: 350px;
     box-sizing: border-box;
     padding: 40px 23px 36px 30px;
     background-color: #f8f8f8;

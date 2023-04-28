@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { IPlantGuideProps } from './PlantGuide.interface';
+import * as DOMPurify from 'dompurify';
 
 const data = {
     index: ['1', '2', '3', '4'],
@@ -14,7 +16,7 @@ const data = {
     ],
 };
 
-const PlantGuide: React.FC = () => {
+const PlantGuide: React.FC<IPlantGuideProps> = ({ data }) => {
     return (
         <StyledGuideContainer>
             <StyledGuideTitle>
@@ -29,13 +31,9 @@ const PlantGuide: React.FC = () => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>
-                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
-                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
-                            </StyledExplainText>
-                            <StyledDetailBtn>
-                                <StyledBtnText>자세히 보기</StyledBtnText>
-                            </StyledDetailBtn>
+                            <StyledExplainText
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.plantGuideSpace ?? '') }}
+                            />
                         </div>
                     </div>
                 </StyledPlaceBlock>
@@ -47,13 +45,9 @@ const PlantGuide: React.FC = () => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>
-                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
-                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
-                            </StyledExplainText>
-                            <StyledDetailBtn>
-                                <StyledBtnText>자세히 보기</StyledBtnText>
-                            </StyledDetailBtn>
+                            <StyledExplainText
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.plantGuideWater ?? '') }}
+                            />
                         </div>
                     </div>
                 </StyledWaterBlock>
@@ -65,13 +59,11 @@ const PlantGuide: React.FC = () => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>
-                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
-                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
-                            </StyledExplainText>
-                            <StyledDetailBtn>
-                                <StyledBtnText>자세히 보기</StyledBtnText>
-                            </StyledDetailBtn>
+                            <StyledExplainText
+                                dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(data?.plantGuideFertilizer ?? ''),
+                                }}
+                            />
                         </div>
                     </div>
                 </StyledFertilizerBlock>
@@ -83,13 +75,9 @@ const PlantGuide: React.FC = () => {
                         </div>
                         <StyledVerticleBorder />
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <StyledExplainText>
-                                10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는
-                                전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.
-                            </StyledExplainText>
-                            <StyledDetailBtn>
-                                <StyledBtnText>자세히 보기</StyledBtnText>
-                            </StyledDetailBtn>
+                            <StyledExplainText
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.plantGuidePest ?? '') }}
+                            />
                         </div>
                     </div>
                 </StyledPestBlock>
@@ -139,6 +127,7 @@ const StyledExplainText = styled.div`
     font-family: NotoSansKR;
     font-size: 16px;
     color: #424242;
+    line-height: 150%;
 `;
 
 const StyledVerticleBorder = styled.div`
@@ -150,7 +139,7 @@ const StyledVerticleBorder = styled.div`
 const StyledBoldText = styled.div`
     font-size: 30px;
     font-weight: bold;
-
+    font-family: 'BodoniXt';
     color: #272727;
 `;
 const StyledGuideContainer = styled.div`

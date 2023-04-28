@@ -1,42 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { IFaq } from './Faq.type';
+import * as DOMPurify from 'dompurify';
 
-const data = [
-    {
-        title: '1. 관리 난이도(Care level)',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-    {
-        title: '2. 물(Watering)',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-    {
-        title: '3. 빛과 공간(Light & Placement)',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-    {
-        title: '4. 온도(Temperature)',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-    {
-        title: '5. 습도(Humadity)',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-    {
-        title: '6. 독성(Toxcity)',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-    {
-        title: '7. 비료(Fertilizer)',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-    {
-        title: '8. 해충(Pest)',
-        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
-    },
-];
 
-const Faq: React.FC = () => {
+const Faq: React.FC<IFaq> = ({ data }) => {
     const [isActive, setIsActive] = useState([false]);
     const [toggle, setToggle] = useState<boolean>(true);
 
@@ -52,30 +20,96 @@ const Faq: React.FC = () => {
         setIsActive(newIsActive);
     }
 
+    const faqLIst = [
+        {
+            title: '1. 관리 난이도(Care level)',
+            answer: data?.faqLevel,
+        },
+        {
+            title: '2. 물(Watering)',
+            answer: data?.faqWater,
+        },
+        {
+            title: '3. 빛과 공간(Light&Placement)',
+            answer: data?.faqLightPlace,
+        },
+        {
+            title: '4. 온도(Temperature)',
+            answer: data?.faqTemperature,
+        },
+        {
+            title: '5. 습도(Humidity)',
+            answer: data?.faqHumidity,
+        },
+        {
+            title: '6. 독성(Toxicity)',
+            answer: data?.faqToxicity,
+        },
+        {
+            title: '7. 비료(Fertilizer)',
+            answer: data?.faqFertilizer,
+        },
+        {
+            title: '8. 해충(Pest)',
+            answer: data?.faqPest,
+            pestInfo: data?.plantContentPestFeedDtoList,
+        },
+    ];
+
+
     return (
         <StyledGuideContainer>
             <StyledGuideTitle>
                 <StyledBoldText>자주묻는 질문</StyledBoldText>
             </StyledGuideTitle>
             <StyledBorder />
-            {data.map((item, index) => (
+            {faqLIst.map((item, index) => (
                 <StyledQuestionTitleBlock>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div
+                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                        onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}
+                    >
                         <div style={{ display: 'flex' }}>
                             <StyledQuestionIcon>FAQ.</StyledQuestionIcon>
                             <StyledQuestionTitle>{item.title}</StyledQuestionTitle>
                         </div>
                         {isActive[index] ? (
-                            <StyledIcon src={'/btnDropUp.png'} onClick={() => onCloseBtn(index)} />
+                            <StyledIcon src={'/btnDropUp.png'} />
                         ) : (
-                            <StyledIcon src={'/btnDropdown.png'} onClick={() => onOpenBtn(index)} />
+                            <StyledIcon src={'/btnDropdown.png'} />
                         )}
                     </div>
                     {isActive[index] && (
-                        <div>
-                            <StyledQuestionBorder />
-                            <StyledQuestionAnswer>{item.answer}</StyledQuestionAnswer>
-                        </div>
+                        <>
+                            <div style={{ marginBottom: '30px' }}>
+                                <StyledQuestionBorder />
+                                <StyledQuestionAnswer
+                                    dangerouslySetInnerHTML={{
+                                        __html: DOMPurify.sanitize(item.answer ?? ''),
+                                    }}
+                                />
+                            </div>
+                            {item.pestInfo?.length !== 0 && (
+                                <>
+                                    {item.pestInfo?.map((item, idx) => (
+                                        <PestBoxContainer key={idx}>
+                                            <PestImage>
+                                                <img src={item.pestUrl} alt="" />
+                                            </PestImage>
+                                            <PestExplainContainer>
+                                                <PestName>{item.pestName}</PestName>
+                                                <PestName>설명</PestName>
+                                                <PestName>{item.pestExplanation}</PestName>
+                                                <PestName>증상</PestName>
+                                                <PestName>{item.pestSymptom}</PestName>
+                                                <PestName>치료</PestName>
+                                                <PestName>{item.pestTherapy}</PestName>
+                                            </PestExplainContainer>
+                                        </PestBoxContainer>
+                                    ))}
+                                </>
+                            )}
+                        </>
                     )}
                 </StyledQuestionTitleBlock>
             ))}
@@ -97,7 +131,7 @@ const StyledQuestionAnswer = styled.div`
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.57;
+    line-height: 130%;
     letter-spacing: normal;
     color: #3d3d3d;
 `;
@@ -158,6 +192,36 @@ const StyledIcon = styled.img`
     margin: 0 24px 0px 0px;
     object-fit: contain;
     cursor: pointer;
+`;
+
+const PestBoxContainer = styled.div`
+    display: flex;
+    align-items: center;
+    height: 400px;
+`;
+
+const PestImage = styled.div`
+    padding: 0 24px;
+    img {
+        width: 350px;
+        object-fit: contain;
+    }
+`;
+
+const PestExplainContainer = styled.div`
+    height: 250px;
+    overflow: overlay;
+`;
+
+const PestName = styled.div`
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 130%;
+    letter-spacing: normal;
+    color: #3d3d3d;
+    margin-bottom: 10px;
 `;
 
 export default Faq;
