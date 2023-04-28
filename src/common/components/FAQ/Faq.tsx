@@ -5,7 +5,6 @@ import * as DOMPurify from 'dompurify';
 
 const Faq: React.FC<IFaq> = ({ data }) => {
     const [isActive, setIsActive] = useState([false]);
-    const [toggle, setToggle] = useState<boolean>(true);
 
     function onOpenBtn(index: number) {
         const newIsActive = [...isActive];
@@ -58,11 +57,11 @@ const Faq: React.FC<IFaq> = ({ data }) => {
     return (
         <StyledGuideContainer>
             <StyledGuideTitle>
-                <StyledBoldText>자주묻는 질문</StyledBoldText>
+                <StyledBoldText>자주 묻는 질문</StyledBoldText>
             </StyledGuideTitle>
-            <StyledBorder />
+
             {faqLIst.map((item, index) => (
-                <StyledQuestionTitleBlock>
+                <StyledQuestionTitleBlock isClick={isActive[index]}>
                     <div
                         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                         onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}
@@ -79,7 +78,7 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                     </div>
                     {isActive[index] && (
                         <>
-                            <div style={{ marginBottom: '30px' }}>
+                            <div>
                                 <StyledQuestionBorder />
                                 <StyledQuestionAnswer
                                     dangerouslySetInnerHTML={{
@@ -115,15 +114,8 @@ const Faq: React.FC<IFaq> = ({ data }) => {
     );
 };
 
-const StyledBorder = styled.div`
-    width: 1140px;
-    height: 1px;
-    padding: 0px;
-    background-color: #272727;
-`;
-
 const StyledQuestionAnswer = styled.div`
-    margin: 24px 24px 0px;
+    padding: 24px 24px 27px;
     font-family: AppleSDGothicNeo;
     font-size: 14px;
     font-weight: 500;
@@ -136,7 +128,7 @@ const StyledQuestionAnswer = styled.div`
 const StyledQuestionBorder = styled.div`
     width: 1092px;
     height: 1px;
-    margin: 20px 24px 24px;
+    margin: 20px 24px 0px;
     opacity: 0.65;
     background-color: #dadada;
 `;
@@ -152,11 +144,13 @@ const StyledQuestionIcon = styled.div`
     color: #0d6637;
 `;
 
-const StyledQuestionTitleBlock = styled.div`
+const StyledQuestionTitleBlock = styled.div<{ isClick: boolean }>`
     width: 1140px;
-    padding: 28px 0;
-    border-bottom: 1px solid #272727;
+    background-color: #f2f4f6;
+    padding: ;
     cursor: pointer;
+    margin-bottom: 16px;
+    padding: ${({ isClick }) => (isClick ? '20px 0px 0px' : '20px 0px')};
 `;
 
 const StyledQuestionTitle = styled.div`
