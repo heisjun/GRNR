@@ -1,23 +1,44 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 const data = [
     {
-        title: '몬스테라는 얼마나 자주 물을 줘야되나요?',
+        title: '1. 관리 난이도(Care level)',
         answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
     },
     {
-        title: '몬스테라는 얼마나 자주 물을 줘야되나요?',
+        title: '2. 물(Watering)',
         answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
     },
     {
-        title: '몬스테라는 얼마나 자주 물을 줘야되나요?',
+        title: '3. 빛과 공간(Light & Placement)',
+        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
+    },
+    {
+        title: '4. 온도(Temperature)',
+        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
+    },
+    {
+        title: '5. 습도(Humadity)',
+        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
+    },
+    {
+        title: '6. 독성(Toxcity)',
+        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
+    },
+    {
+        title: '7. 비료(Fertilizer)',
+        answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
+    },
+    {
+        title: '8. 해충(Pest)',
         answer: '10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다. 10월 중순의 북쪽은 겨울의 시작이지만 남쪽은 여전히 가을이다. 내려오길 잘했다. 광주는 전라도의 유일한 광역시다. 남도의 맛있는 게 모여 있을 게 분명하다.',
     },
 ];
 
 const Faq: React.FC = () => {
     const [isActive, setIsActive] = useState([false]);
+    const [toggle, setToggle] = useState<boolean>(true);
 
     function onOpenBtn(index: number) {
         const newIsActive = [...isActive];
@@ -30,6 +51,7 @@ const Faq: React.FC = () => {
         newIsActive[index] = false;
         setIsActive(newIsActive);
     }
+
     return (
         <StyledGuideContainer>
             <StyledGuideTitle>
@@ -40,7 +62,7 @@ const Faq: React.FC = () => {
                 <StyledQuestionTitleBlock>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ display: 'flex' }}>
-                            <StyledQuestionIcon>Q.</StyledQuestionIcon>
+                            <StyledQuestionIcon>FAQ.</StyledQuestionIcon>
                             <StyledQuestionTitle>{item.title}</StyledQuestionTitle>
                         </div>
                         {isActive[index] ? (
@@ -87,8 +109,6 @@ const StyledQuestionBorder = styled.div`
     background-color: #dadada;
 `;
 const StyledQuestionIcon = styled.div`
-    width: 16px;
-    height: 19px;
     margin: 4px 10px 0px 24px;
     font-family: AppleSDGothicNeo;
     font-size: 16px;
@@ -104,6 +124,7 @@ const StyledQuestionTitleBlock = styled.div`
     width: 1140px;
     padding: 28px 0;
     border-bottom: 1px solid #272727;
+    cursor: pointer;
 `;
 
 const StyledQuestionTitle = styled.div`

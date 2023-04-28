@@ -100,13 +100,12 @@ const StyledMenuItemBlock = styled.div<{ selected: boolean }>`
 `;
 
 const StyledSubTabBarBlock = styled.div<{ justifyContent: string }>`
-    width: ${({ justifyContent }) => (justifyContent === 'center' ? '' : '100%')};
+    background-color: white;
+    width: 1920px;
     display: flex;
-    margin-left: 10%;
-    margin-right: 10%;
-    @media screen and (max-width: 530px) {
-        margin-left: 5%;
-        margin-right: 5%;
+    @media screen and (max-width: ${1900}px) {
+        padding-left: 10%;
+        padding-right: 10%;
     }
     @media screen and (min-width: ${1900}px) {
         margin-left: 390px;
@@ -125,6 +124,13 @@ const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
     animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
     animation-fill-mode: forwards;
     box-sizing: border-box;
+    @media screen and (max-width: ${1900}px) {
+        justify-content: start;
+    }
+    @media screen and (max-width: ${boundaryWidth}px) {
+        animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
+        animation-fill-mode: forwards;
+    }
 `;
 
 export default SubTabBar;

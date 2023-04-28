@@ -2,8 +2,6 @@ import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { IDictionaryItem } from 'common/types';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
-import axios from 'axios';
 import { api } from 'common/api';
 
 const maxWidth = process.env.REACT_APP_MAX_WIDTH;

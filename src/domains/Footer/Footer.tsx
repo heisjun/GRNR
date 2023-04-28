@@ -30,7 +30,14 @@ const StyledFooterContainer = styled.div`
     min-width: 1140px;
     background-color: #494949;
     padding-top: 60px;
-    padding-left: 20%;
+    @media screen and (max-width: ${1900}px) {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+    @media screen and (min-width: ${1900}px) {
+        padding-left: 390px;
+        padding-right: 390px;
+    }
 `;
 
 const StyledFooterLogo = styled.img`
