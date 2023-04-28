@@ -288,17 +288,17 @@ const StyledSlideButtonBox = styled.div`
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    bottom: 460px;
+    top: 460px;
+    background-color: white;
     padding: 11px 16px;
     width: 91px;
     height: 38px;
-    background-color: white;
     z-index: 100;
 `;
 
 const StyledSlashImg = styled.img`
     transform: rotate(-30deg);
-    height: 90%;
+    height: 80%;
 `;
 
 const StyledArrowStyle = styled.span`

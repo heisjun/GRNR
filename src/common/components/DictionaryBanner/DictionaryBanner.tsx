@@ -165,7 +165,7 @@ const StyledSlideButtonBox = styled.div`
 
 const StyledSlashImg = styled.img`
     transform: rotate(-30deg);
-    height: 90%;
+    height: 80%;
 `;
 
 const StyledArrowStyle = styled.span`
