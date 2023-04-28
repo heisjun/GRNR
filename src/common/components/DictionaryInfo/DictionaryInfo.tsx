@@ -262,7 +262,7 @@ interface IStyled {
 const StyleBannerBoxStyle = styled.div`
     width: 1140px;
     display: flex;
-    margin: 40px 0 30px 0;
+    margin: 40px 0px 0px 0px;
 `;
 
 const StyledMainBannerContainer = styled.div<IStyled>`
