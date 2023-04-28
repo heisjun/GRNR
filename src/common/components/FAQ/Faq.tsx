@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { IFaq } from './Faq.type';
 import * as DOMPurify from 'dompurify';
 
+
 const Faq: React.FC<IFaq> = ({ data }) => {
     const [isActive, setIsActive] = useState([false]);
+    const [toggle, setToggle] = useState<boolean>(true);
 
     function onOpenBtn(index: number) {
         const newIsActive = [...isActive];
@@ -54,6 +56,7 @@ const Faq: React.FC<IFaq> = ({ data }) => {
         },
     ];
 
+
     return (
         <StyledGuideContainer>
             <StyledGuideTitle>
@@ -67,7 +70,7 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                         onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}
                     >
                         <div style={{ display: 'flex' }}>
-                            <StyledQuestionIcon>Q.</StyledQuestionIcon>
+                            <StyledQuestionIcon>FAQ.</StyledQuestionIcon>
                             <StyledQuestionTitle>{item.title}</StyledQuestionTitle>
                         </div>
                         {isActive[index] ? (
@@ -140,8 +143,6 @@ const StyledQuestionBorder = styled.div`
     background-color: #dadada;
 `;
 const StyledQuestionIcon = styled.div`
-    width: 16px;
-    height: 19px;
     margin: 4px 10px 0px 24px;
     font-family: AppleSDGothicNeo;
     font-size: 16px;
@@ -157,6 +158,7 @@ const StyledQuestionTitleBlock = styled.div`
     width: 1140px;
     padding: 28px 0;
     border-bottom: 1px solid #272727;
+    cursor: pointer;
 `;
 
 const StyledQuestionTitle = styled.div`

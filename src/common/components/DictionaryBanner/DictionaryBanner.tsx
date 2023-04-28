@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { IDictionaryBanner } from './DictionaryBanner.type';
-import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 
 const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
@@ -43,11 +42,11 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
         <div style={{ position: 'relative', overflow: 'hidden' }}>
             <StyledSlideButtonBox>
                 <StyledArrowStyle onClick={leftButton}>
-                    <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                    <img src="/prev.png" />
                 </StyledArrowStyle>
-                <img src="/slash.png" />
+                <StyledSlashImg src="/slash.png" />
                 <StyledArrowStyle onClick={rightButton}>
-                    <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                    <img src="/next.png" />
                 </StyledArrowStyle>
             </StyledSlideButtonBox>
             <StyleBannerBoxStyle ref={slideRef}>
@@ -162,9 +161,11 @@ const StyledSlideButtonBox = styled.div`
     height: 38px;
     background-color: white;
     z-index: 100;
-    img {
-        transform: rotate(-30deg);
-    }
+`;
+
+const StyledSlashImg = styled.img`
+    transform: rotate(-30deg);
+    height: 90%;
 `;
 
 const StyledArrowStyle = styled.span`
@@ -175,6 +176,9 @@ const StyledArrowStyle = styled.span`
     cursor: pointer;
     :hover {
         color: #9b9b9b;
+    }
+    img {
+        width: 17px;
     }
 `;
 

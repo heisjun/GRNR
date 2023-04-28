@@ -266,11 +266,6 @@ const Register: React.FC = () => {
                 )}
 
                 <StyledRegisterBlock>
-                    <StyledTitleText>관심사(중복선택 가능)</StyledTitleText>
-                    {/*  <KeywordBox data={KeywordData} setGetKeyword={setGetKeyword} columns={2} gap={5} /> */}
-                    <StyledBorderLine />
-                </StyledRegisterBlock>
-                <StyledRegisterBlock>
                     <StyledTitleText>이용약관</StyledTitleText>
                     <StyledAgreeBox>
                         <AgreeBox

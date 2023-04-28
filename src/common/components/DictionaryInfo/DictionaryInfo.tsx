@@ -35,11 +35,11 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
         <div style={{ position: 'relative', overflow: 'hidden' }}>
             <StyledSlideButtonBox>
                 <StyledArrowStyle onClick={leftButton}>
-                    <MdArrowBackIosNew style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                    <img src="/prev.png" />
                 </StyledArrowStyle>
-                <img src="/slash.png" />
+                <StyledSlashImg src="/slash.png" />
                 <StyledArrowStyle onClick={rightButton}>
-                    <MdArrowForwardIos style={{ color: '#9b9b9b', fontWeight: 100 }} />
+                    <img src="/next.png" />
                 </StyledArrowStyle>
             </StyledSlideButtonBox>
             <StyleBannerBoxStyle ref={slideRef}>
@@ -76,9 +76,9 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                     <StyledIndex>분류</StyledIndex>
                     <StyledFlexDiv>
                         <StyledCategory>
-                            <StyledFamily>과(Family)</StyledFamily>
+                            <StyledFamily>군/강(Clade/Class)</StyledFamily>
                             <StyledFamilyDetail>
-                                {data?.korFamily}({data?.enFamily})
+                                {data?.korClass}({data?.enClass})
                             </StyledFamilyDetail>
                         </StyledCategory>
                         <StyledArrow src={'/btnArrow.png'} />
@@ -90,9 +90,9 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                         </StyledCategory>
                         <StyledArrow src={'/btnArrow.png'} />
                         <StyledCategory>
-                            <StyledFamily>속(Genus)</StyledFamily>
+                            <StyledFamily>과(Family)</StyledFamily>
                             <StyledFamilyDetail>
-                                {data?.korClass}({data?.enClass})
+                                {data?.korFamily}({data?.enFamily})
                             </StyledFamilyDetail>
                         </StyledCategory>
                     </StyledFlexDiv>
@@ -195,7 +195,7 @@ const StyledCategory = styled.div`
 `;
 
 const StyledFamily = styled.div`
-    margin: 0 26px 6px 25px;
+    margin-bottom: 6px;
     text-align: center;
     font-family: NotoSansKR;
     font-size: 13px;
@@ -294,10 +294,11 @@ const StyledSlideButtonBox = styled.div`
     height: 38px;
     background-color: white;
     z-index: 100;
-    img {
-        transform: rotate(-30deg);
-        height: 90%;
-    }
+`;
+
+const StyledSlashImg = styled.img`
+    transform: rotate(-30deg);
+    height: 90%;
 `;
 
 const StyledArrowStyle = styled.span`
@@ -308,6 +309,9 @@ const StyledArrowStyle = styled.span`
     cursor: pointer;
     :hover {
         color: #9b9b9b;
+    }
+    img {
+        width: 17px;
     }
 `;
 
