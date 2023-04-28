@@ -83,7 +83,7 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                         </StyledCategory>
                         <StyledArrow src={'/btnArrow.png'} />
                         <StyledCategory>
-                            <StyledFamily>목(Oreder)</StyledFamily>
+                            <StyledFamily>목(Order)</StyledFamily>
                             <StyledFamilyDetail>
                                 {data?.korOrder}({data?.enOrder})
                             </StyledFamilyDetail>
@@ -262,7 +262,7 @@ interface IStyled {
 const StyleBannerBoxStyle = styled.div`
     width: 1140px;
     display: flex;
-    margin: 40px 0 30px 0;
+    margin: 40px 0px 0px 0px;
 `;
 
 const StyledMainBannerContainer = styled.div<IStyled>`

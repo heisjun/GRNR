@@ -5,7 +5,6 @@ import * as DOMPurify from 'dompurify';
 
 const Faq: React.FC<IFaq> = ({ data }) => {
     const [isActive, setIsActive] = useState([false]);
-    const [toggle, setToggle] = useState<boolean>(true);
 
     function onOpenBtn(index: number) {
         const newIsActive = [...isActive];
@@ -21,35 +20,35 @@ const Faq: React.FC<IFaq> = ({ data }) => {
 
     const faqLIst = [
         {
-            title: '1. 관리 난이도(Care level)',
+            title: '관리 난이도(Care level)',
             answer: data?.faqLevel,
         },
         {
-            title: '2. 물(Watering)',
+            title: '물(Watering)',
             answer: data?.faqWater,
         },
         {
-            title: '3. 빛과 공간(Light&Placement)',
+            title: '빛과 공간(Light&Placement)',
             answer: data?.faqLightPlace,
         },
         {
-            title: '4. 온도(Temperature)',
+            title: '온도(Temperature)',
             answer: data?.faqTemperature,
         },
         {
-            title: '5. 습도(Humidity)',
+            title: '습도(Humidity)',
             answer: data?.faqHumidity,
         },
         {
-            title: '6. 독성(Toxicity)',
+            title: '독성(Toxicity)',
             answer: data?.faqToxicity,
         },
         {
-            title: '7. 비료(Fertilizer)',
+            title: '비료(Fertilizer)',
             answer: data?.faqFertilizer,
         },
         {
-            title: '8. 해충(Pest)',
+            title: '해충(Pest)',
             answer: data?.faqPest,
             pestInfo: data?.plantContentPestFeedDtoList,
         },
@@ -58,17 +57,17 @@ const Faq: React.FC<IFaq> = ({ data }) => {
     return (
         <StyledGuideContainer>
             <StyledGuideTitle>
-                <StyledBoldText>자주묻는 질문</StyledBoldText>
+                <StyledBoldText>자주 묻는 질문</StyledBoldText>
             </StyledGuideTitle>
-            <StyledBorder />
+
             {faqLIst.map((item, index) => (
-                <StyledQuestionTitleBlock>
+                <StyledQuestionTitleBlock isClick={isActive[index]}>
                     <div
                         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                         onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}
                     >
                         <div style={{ display: 'flex' }}>
-                            <StyledQuestionIcon>FAQ.</StyledQuestionIcon>
+                            <StyledQuestionIcon>FAQ {index + 1}.</StyledQuestionIcon>
                             <StyledQuestionTitle>{item.title}</StyledQuestionTitle>
                         </div>
                         {isActive[index] ? (
@@ -79,7 +78,7 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                     </div>
                     {isActive[index] && (
                         <>
-                            <div style={{ marginBottom: '30px' }}>
+                            <div>
                                 <StyledQuestionBorder />
                                 <StyledQuestionAnswer
                                     dangerouslySetInnerHTML={{
@@ -115,15 +114,8 @@ const Faq: React.FC<IFaq> = ({ data }) => {
     );
 };
 
-const StyledBorder = styled.div`
-    width: 1140px;
-    height: 1px;
-    padding: 0px;
-    background-color: #272727;
-`;
-
 const StyledQuestionAnswer = styled.div`
-    margin: 24px 24px 0px;
+    padding: 24px 24px 27px;
     font-family: AppleSDGothicNeo;
     font-size: 14px;
     font-weight: 500;
@@ -136,7 +128,7 @@ const StyledQuestionAnswer = styled.div`
 const StyledQuestionBorder = styled.div`
     width: 1092px;
     height: 1px;
-    margin: 20px 24px 24px;
+    margin: 20px 24px 0px;
     opacity: 0.65;
     background-color: #dadada;
 `;
@@ -152,11 +144,12 @@ const StyledQuestionIcon = styled.div`
     color: #0d6637;
 `;
 
-const StyledQuestionTitleBlock = styled.div`
+const StyledQuestionTitleBlock = styled.div<{ isClick: boolean }>`
     width: 1140px;
-    padding: 28px 0;
-    border-bottom: 1px solid #272727;
+    background-color: #f2f4f6;
     cursor: pointer;
+    margin-bottom: 16px;
+    padding: ${({ isClick }) => (isClick ? '20px 0px 0px' : '20px 0px')};
 `;
 
 const StyledQuestionTitle = styled.div`

@@ -128,7 +128,7 @@ interface IStyled {
 const StyleBannerBoxStyle = styled.div`
     width: 1140px;
     display: flex;
-    margin: 40px 0 30px 0;
+    margin: 40px 0px 0px 0px;
 `;
 
 const StyledMainBannerContainer = styled.div<IStyled>`
@@ -155,7 +155,7 @@ const StyledSlideButtonBox = styled.div`
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    bottom: 70px;
+    bottom: 40px;
     padding: 11px 16px;
     width: 91px;
     height: 38px;
