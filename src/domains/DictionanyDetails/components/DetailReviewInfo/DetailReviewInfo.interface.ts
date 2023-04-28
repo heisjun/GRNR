@@ -1,0 +1,5 @@
+import { IDictionaryDetailsParams } from 'common/types';
+
+export interface IDetailReviewInfoProps {
+    data: IDictionaryDetailsParams;
+}
