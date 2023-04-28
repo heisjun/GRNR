@@ -20,35 +20,35 @@ const Faq: React.FC<IFaq> = ({ data }) => {
 
     const faqLIst = [
         {
-            title: '1. 관리 난이도(Care level)',
+            title: '관리 난이도(Care level)',
             answer: data?.faqLevel,
         },
         {
-            title: '2. 물(Watering)',
+            title: '물(Watering)',
             answer: data?.faqWater,
         },
         {
-            title: '3. 빛과 공간(Light&Placement)',
+            title: '빛과 공간(Light&Placement)',
             answer: data?.faqLightPlace,
         },
         {
-            title: '4. 온도(Temperature)',
+            title: '온도(Temperature)',
             answer: data?.faqTemperature,
         },
         {
-            title: '5. 습도(Humidity)',
+            title: '습도(Humidity)',
             answer: data?.faqHumidity,
         },
         {
-            title: '6. 독성(Toxicity)',
+            title: '독성(Toxicity)',
             answer: data?.faqToxicity,
         },
         {
-            title: '7. 비료(Fertilizer)',
+            title: '비료(Fertilizer)',
             answer: data?.faqFertilizer,
         },
         {
-            title: '8. 해충(Pest)',
+            title: '해충(Pest)',
             answer: data?.faqPest,
             pestInfo: data?.plantContentPestFeedDtoList,
         },
@@ -67,7 +67,7 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                         onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}
                     >
                         <div style={{ display: 'flex' }}>
-                            <StyledQuestionIcon>FAQ.</StyledQuestionIcon>
+                            <StyledQuestionIcon>FAQ {index + 1}.</StyledQuestionIcon>
                             <StyledQuestionTitle>{item.title}</StyledQuestionTitle>
                         </div>
                         {isActive[index] ? (
@@ -147,7 +147,6 @@ const StyledQuestionIcon = styled.div`
 const StyledQuestionTitleBlock = styled.div<{ isClick: boolean }>`
     width: 1140px;
     background-color: #f2f4f6;
-    padding: ;
     cursor: pointer;
     margin-bottom: 16px;
     padding: ${({ isClick }) => (isClick ? '20px 0px 0px' : '20px 0px')};
