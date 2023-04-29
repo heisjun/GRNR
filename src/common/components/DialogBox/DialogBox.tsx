@@ -16,7 +16,6 @@ const DialogBox: React.FC<DialogBoxProps> = ({ showDialog, cancelNavigation, con
                 <StyledContentBlock>
                     <StyledTitle>페이지를 벗어나시겠습니까?</StyledTitle>
                     <Styledcontent>{content}</Styledcontent>
-
                     <StyledConfirmBtn onClick={confirmNavigation}>확인</StyledConfirmBtn>
                 </StyledContentBlock>
             </StyledModalContainer>

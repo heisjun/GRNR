@@ -142,6 +142,11 @@ export type IDictionaryDetailsParams = {
     threeAccount: number;
     twoAccount: number;
     oneAccount: number;
+    fiveAccountPercent: number;
+    fourAccountPercent: number;
+    threeAccountPercent: number;
+    twoAccountPercent: number;
+    oneAccountPercent: number;
 };
 
 export type IFollowingsParams = {

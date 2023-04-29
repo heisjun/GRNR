@@ -2,25 +2,15 @@ import styled from 'styled-components';
 import { IDetailReviewInfoProps } from './DetailReviewInfo.interface';
 import EmptyIcon from '../../../../assets/icon/emptyHeart.png';
 import HeartIcon from 'assets/icon/heart.png';
-import { useEffect, useState } from 'react';
+
 import { ReviewModal } from '../ReviewModal/ReviewModal.impl';
 import { useRecoilState } from 'recoil';
 import { modalAtom } from 'recoil/modalAtom';
 
 export const DetailReviewInfo: React.FC<IDetailReviewInfoProps> = (props) => {
-    const { data } = props;
+    const { data, requestReview } = props;
 
-    const [totalCount, setTotalCount] = useState<number>(
-        data?.oneAccount + data?.twoAccount + data?.threeAccount + data?.fourAccount + data?.fiveAccount,
-    );
     const [openModal, setOpenModal] = useRecoilState(modalAtom);
-
-    useEffect(() => {
-        setTotalCount(
-            (prev) =>
-                prev + data?.oneAccount + data?.twoAccount + data?.threeAccount + data?.fourAccount + data?.fiveAccount,
-        );
-    }, [data]);
 
     const handleModal = () => {
         setOpenModal(!openModal);
@@ -113,49 +103,48 @@ export const DetailReviewInfo: React.FC<IDetailReviewInfoProps> = (props) => {
                     <StyledScoreBox>
                         <StyledScoreText>5점</StyledScoreText>
                         <StyledScorePercentBar>
-                            <StyledScoreBarColor totalCount={totalCount} scoreCount={data?.fiveAccount} />
+                            <StyledScoreBarColor percent={data.fiveAccountPercent} />
                         </StyledScorePercentBar>
                         <StyledScoreText>{data.fiveAccount}</StyledScoreText>
                     </StyledScoreBox>
                     <StyledScoreBox>
                         <StyledScoreText>4점</StyledScoreText>
                         <StyledScorePercentBar>
-                            <StyledScoreBarColor totalCount={totalCount} scoreCount={data?.fourAccount} />
+                            <StyledScoreBarColor percent={data.fourAccountPercent} />
                         </StyledScorePercentBar>
                         <StyledScoreText>{data.fourAccount}</StyledScoreText>
                     </StyledScoreBox>
                     <StyledScoreBox>
                         <StyledScoreText>3점</StyledScoreText>
                         <StyledScorePercentBar>
-                            <StyledScoreBarColor totalCount={totalCount} scoreCount={data?.threeAccount} />
+                            <StyledScoreBarColor percent={data.threeAccountPercent} />
                         </StyledScorePercentBar>
                         <StyledScoreText>{data.threeAccount}</StyledScoreText>
                     </StyledScoreBox>
                     <StyledScoreBox>
                         <StyledScoreText>2점</StyledScoreText>
                         <StyledScorePercentBar>
-                            <StyledScoreBarColor totalCount={totalCount} scoreCount={data?.twoAccount} />
+                            <StyledScoreBarColor percent={data.twoAccountPercent} />
                         </StyledScorePercentBar>
                         <StyledScoreText>{data.twoAccount}</StyledScoreText>
                     </StyledScoreBox>
                     <StyledScoreBox>
                         <StyledScoreText>1점</StyledScoreText>
                         <StyledScorePercentBar>
-                            <StyledScoreBarColor totalCount={totalCount} scoreCount={data?.oneAccount} />
+                            <StyledScoreBarColor percent={data.oneAccountPercent} />
                         </StyledScorePercentBar>
                         <StyledScoreText>{data.oneAccount}</StyledScoreText>
                     </StyledScoreBox>
                 </ScoreContainer>
             </StyledTotalReviewBox>
             <StyledReviewButton onClick={handleModal}>‘몬스테라 델리시오사’에 대한 나의 리뷰 쓰기</StyledReviewButton>
-            <ReviewModal open={openModal} onClose={handleModal} />
+            <ReviewModal open={openModal} onClose={handleModal} data={data} requestReview={requestReview} />
         </>
     );
 };
 
 interface IStyled {
-    scoreCount: number;
-    totalCount: number;
+    percent: number;
 }
 
 const StyledReviewTitle = styled.h2`
@@ -248,7 +237,7 @@ const StyledScorePercentBar = styled.div`
 `;
 
 const StyledScoreBarColor = styled.div<IStyled>`
-    width: ${({ totalCount, scoreCount }) => `${(scoreCount % totalCount) * 100}%`};
+    width: ${({ percent }) => `${percent * 100}%`};
     height: 10px;
     background-color: #0f3934;
     border-radius: 5px;
