@@ -39,7 +39,7 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
             {
                 file: requestFile,
                 plantReviewSaveDto: {
-                    plantDicid: Number(params.id),
+                    plantDicId: Number(params.id),
                     evaluation: satisfaction,
                     reviewText: contents,
                     tagDtoList: tagList,
