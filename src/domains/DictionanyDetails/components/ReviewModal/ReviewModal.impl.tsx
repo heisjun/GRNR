@@ -27,6 +27,7 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
     const [satisfaction, setSatisfaction] = useState(0);
     const [tagList, setTagList] = useState<ITagList[]>([]);
     const [imgFile, setFileImg] = useState<any>();
+    const [requestFile, setRequestFile] = useState<any>();
     const [contents, setContents] = useState('');
     const params = useParams();
 
@@ -36,10 +37,13 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
         await axios.post(
             `${BASEURL}/api/plantDicReview/save`,
             {
-                plantDicid: params.id,
-                evaluation: satisfaction,
-                reviewText: contents,
-                tagDtoList: tagList,
+                file: requestFile,
+                plantReviewSaveDto: {
+                    plantDicid: Number(params.id),
+                    evaluation: satisfaction,
+                    reviewText: contents,
+                    tagDtoList: tagList,
+                },
             },
             {
                 headers: {
@@ -80,11 +84,17 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
     };
 
     const changeFile = (e: any) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onloadend = () => {
+            setRequestFile(reader.result);
+        };
         if (!e.target.files || e.target.files.length === 0) {
             setFileImg(undefined);
             return;
         }
         setFileImg(URL.createObjectURL(e.target.files[0]));
+        setRequestFile(e.target.files[0]);
     };
 
     const removeFile = () => {
