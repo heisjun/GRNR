@@ -197,7 +197,7 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
                         <div>
                             <img src={LogoImg} />
                         </div>
-                        <h4>갸드너스 리뷰 - {data.plantName}</h4>
+                        <h4>가드너스 리뷰 - {data.plantName}</h4>
                     </LogoBoxStyle>
                     <PlantInfoContainerStyle>
                         <PlantImgBoxStyle>
