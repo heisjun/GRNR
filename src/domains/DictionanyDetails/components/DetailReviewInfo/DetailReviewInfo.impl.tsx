@@ -137,7 +137,7 @@ export const DetailReviewInfo: React.FC<IDetailReviewInfoProps> = (props) => {
                     </StyledScoreBox>
                 </ScoreContainer>
             </StyledTotalReviewBox>
-            <StyledReviewButton onClick={handleModal}>‘몬스테라 델리시오사’에 대한 나의 리뷰 쓰기</StyledReviewButton>
+            <StyledReviewButton onClick={handleModal}>‘{data.plantName}’에 대한 나의 리뷰 쓰기</StyledReviewButton>
             <ReviewModal open={openModal} onClose={handleModal} data={data} requestReview={requestReview} />
         </>
     );
