@@ -100,11 +100,13 @@ export const ReviewList: React.FC<IReviewListProps> = ({ data }) => {
                         __html: DOMPurify.sanitize(data?.reviewText ?? ''),
                     }}
                 />
-                {data?.tagContentList.map((item, idx) => (
-                    <StyledCategoryList key={idx}>
-                        <StyledCategoryText>{item}</StyledCategoryText>
-                    </StyledCategoryList>
-                ))}
+                <div style={{ display: 'flex' }}>
+                    {data?.tagContentList.map((item, idx) => (
+                        <StyledCategoryList key={idx}>
+                            <StyledCategoryText>{item}</StyledCategoryText>
+                        </StyledCategoryList>
+                    ))}
+                </div>
                 {!check ? (
                     <StyledReviewCheckContainer>
                         <StyledCheckBox onClick={handleHelperCheck}>도움이 돼요</StyledCheckBox>

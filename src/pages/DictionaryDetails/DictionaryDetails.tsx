@@ -18,7 +18,7 @@ const maxWidth = process.env.REACT_APP_MAX_WIDTH;
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
-const tabCategory = ['인기순', '최신순', '내가 작성한 댓글'];
+const tabCategory = ['인기순', '최신순', '내가 작성한 리뷰'];
 
 const DictionaryDetails: React.FC = () => {
     const [articleCols, setArticleCols] = useState(window.innerWidth > Number(boundaryWidth) ? 3 : 2);
@@ -51,7 +51,7 @@ const DictionaryDetails: React.FC = () => {
         } = await axios.get(`${BASEURL}/api/plantDicReview/${params.id}/search`, {
             params: { order: tabData },
         });
-        setReviewList(value.content);
+        setReviewList(value);
     };
 
     useEffect(() => {
@@ -70,13 +70,13 @@ const DictionaryDetails: React.FC = () => {
                 <Faq data={details} />
                 {details && <DetailReviewInfo data={details} />}
                 <StyledTabContainer>
-                    {tabCategory.map((item) => (
-                        <StyledTabText tabData={tabData} item={item} onClick={() => activeTab(item)}>
+                    {tabCategory.map((item, idx) => (
+                        <StyledTabText key={idx} tabData={tabData} item={item} onClick={() => activeTab(item)}>
                             {item}
                         </StyledTabText>
                     ))}
                 </StyledTabContainer>
-                {reviewList?.reviewListList?.map((item, idx) => (
+                {reviewList?.content?.map((item, idx) => (
                     <StyledReviewListContainer key={idx}>
                         <ReviewList data={item} />
                     </StyledReviewListContainer>
