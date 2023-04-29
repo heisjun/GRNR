@@ -1,13 +1,5 @@
 export interface IReviewType {
-    plantDicId: number;
-    reviewQuantity: number;
-    evaluationSum: number;
-    fiveAccount: number;
-    fourAccount: number;
-    threeAccount: number;
-    twoAccount: number;
-    oneAccount: number;
-    reviewListList: IReviewListType[];
+    content: IReviewListType[];
 }
 
 export interface IReviewListType {

@@ -61,7 +61,7 @@ const Faq: React.FC<IFaq> = ({ data }) => {
             </StyledGuideTitle>
 
             {faqLIst.map((item, index) => (
-                <StyledQuestionTitleBlock isClick={isActive[index]}>
+                <StyledQuestionTitleBlock key={index} isClick={isActive[index]}>
                     <div
                         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                         onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}

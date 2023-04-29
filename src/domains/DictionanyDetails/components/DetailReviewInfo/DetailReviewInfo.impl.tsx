@@ -10,7 +10,9 @@ import { modalAtom } from 'recoil/modalAtom';
 export const DetailReviewInfo: React.FC<IDetailReviewInfoProps> = (props) => {
     const { data } = props;
 
-    const [totalCount, setTotalCount] = useState<number>(0);
+    const [totalCount, setTotalCount] = useState<number>(
+        data?.oneAccount + data?.twoAccount + data?.threeAccount + data?.fourAccount + data?.fiveAccount,
+    );
     const [openModal, setOpenModal] = useRecoilState(modalAtom);
 
     useEffect(() => {
@@ -246,7 +248,7 @@ const StyledScorePercentBar = styled.div`
 `;
 
 const StyledScoreBarColor = styled.div<IStyled>`
-    width: ${({ totalCount, scoreCount }) => `${(scoreCount % totalCount) * 50}%`};
+    width: ${({ totalCount, scoreCount }) => `${(scoreCount % totalCount) * 100}%`};
     height: 10px;
     background-color: #0f3934;
     border-radius: 5px;
