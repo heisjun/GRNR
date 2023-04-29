@@ -68,7 +68,7 @@ const DictionaryDetails: React.FC = () => {
                 <DictionaryInfo data={details} />
                 <PlantGuide data={details} />
                 <Faq data={details} />
-                {details && <DetailReviewInfo data={details} />}
+                {details && <DetailReviewInfo data={details} requestReview={getReviewData} />}
                 <StyledTabContainer>
                     {tabCategory.map((item, idx) => (
                         <StyledTabText key={idx} tabData={tabData} item={item} onClick={() => activeTab(item)}>
@@ -181,6 +181,7 @@ const StyledTabText = styled.span<IStyled>`
     font-weight: 700;
     font-size: 14px;
     line-height: 19px;
+    cursor: pointer;
 `;
 
 const StyledReviewListContainer = styled.div`

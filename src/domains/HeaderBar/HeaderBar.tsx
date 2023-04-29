@@ -453,7 +453,7 @@ const StyledAlarmDot = styled.div`
     justify-content: center;
 `;
 const StyledSubTabBarBlock = styled.div`
-    position: fixed;
+    /* position: fixed; */
     width: 100%;
     top: 80px;
     left: 0px;
@@ -541,7 +541,7 @@ const StyledLoginContentContainer = styled.div`
 const StyledTabsContainer = styled.div``;
 
 const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
-    position: fixed;
+    /* position: fixed; */
     top: 0px;
     left: 0px;
     display: flex;
