@@ -201,6 +201,7 @@ const PestImage = styled.div`
 `;
 
 const PestExplainContainer = styled.div`
+    padding-right: 20px;
     min-height: 250px;
 `;
 
