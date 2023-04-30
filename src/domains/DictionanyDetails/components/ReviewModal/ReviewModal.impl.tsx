@@ -270,7 +270,7 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
                         </LogoBoxStyle>
                         <PlantInfoContainerStyle>
                             <PlantImgBoxStyle>
-                                <img src={data.plantContentFeedDtoList[0].plantPicUrl} />
+                                <img src={data.plantContentFeedDtoList[0]?.plantPicUrl} />
                             </PlantImgBoxStyle>
                             <div>
                                 <PlantInfoBoxStyle>
@@ -432,7 +432,9 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
                     </DialogBodyStyle>
                 </DialogStyle>
             </ModalContainer>
-            <ReviewDialogModal open={confirmModal} onClose={setConfirmModal} resetBtn={handleConfirmClose} />
+            {confirmModal && (
+                <ReviewDialogModal open={confirmModal} onClose={setConfirmModal} resetBtn={handleConfirmClose} />
+            )}
         </>
     );
 };

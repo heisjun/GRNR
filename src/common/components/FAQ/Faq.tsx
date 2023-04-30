@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IFaq } from './Faq.type';
 import * as DOMPurify from 'dompurify';
@@ -201,6 +201,7 @@ const PestImage = styled.div`
 `;
 
 const PestExplainContainer = styled.div`
+    padding-right: 20px;
     min-height: 250px;
 `;
 
