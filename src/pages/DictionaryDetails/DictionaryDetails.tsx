@@ -2,7 +2,7 @@ import DictionaryInfo from 'common/components/DictionaryInfo';
 import PlantGuide from 'common/components/PlantGuide';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ItemList, DictionaryItem, MagazineItem } from 'common/components';
 import { default as callApi } from 'common/api';
 import { IDictionaryDetailsParams } from 'common/types';
@@ -25,6 +25,7 @@ const DictionaryDetails: React.FC = () => {
     const [articleGap, setArticleGap] = useState(window.innerWidth > Number(boundaryWidth) ? 2 : 4);
     const [loading, setLoading] = useState(false);
     const params = useParams();
+    const navigate = useNavigate();
     const [details, setDetails] = useState<IDictionaryDetailsParams>();
     const [reviewList, setReviewList] = useState<IReviewType>();
     const [tabData, setTabData] = useState('인기순');
@@ -61,6 +62,9 @@ const DictionaryDetails: React.FC = () => {
 
     const activeTab = (tab: string) => {
         setTabData(tab);
+        if (tab === '내가 작성한 리뷰' && !TOKEN) {
+            navigate('/login');
+        }
     };
 
     return (
@@ -189,6 +193,7 @@ const StyledTabText = styled.span<IStyled>`
     font-size: 14px;
     line-height: 19px;
     cursor: pointer;
+    font-family: NotoSansKR;
 `;
 
 const StyledReviewListContainer = styled.div`

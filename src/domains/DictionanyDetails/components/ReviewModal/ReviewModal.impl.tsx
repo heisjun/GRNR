@@ -470,7 +470,7 @@ const DialogStyle = styled.div<IStyled>`
     background: #fff;
     width: 760px;
     height: auto;
-    overflow: scroll;
+    overflow-y: scroll;
     box-shadow: 0 6px 20px 0 rgb(0 0 0 / 10%);
     min-width: 376px;
     max-width: calc(100vw - 32px);
@@ -533,7 +533,7 @@ const LogoBoxStyle = styled.div`
 const PlantInfoContainerStyle = styled.div`
     padding: 0 40px;
     display: flex;
-    width: 100%;
+    width: 655px;
     height: 160px;
 `;
 
@@ -580,12 +580,14 @@ const LineStyle = styled.hr`
 const EvaluationContainerStyle = styled.div`
     padding: 0 40px;
     width: 100%;
+    width: 655px;
 `;
 
 const EvaluationTextStyle = styled.div<{ error: boolean }>`
     font-weight: 700;
     font-size: 15px;
     line-height: 20px;
+    font-family: NotoSansKR
     color: ${({ error }) => (!error ? '#000' : '#F06060')};
 `;
 
@@ -623,13 +625,14 @@ const KeyWordContainerStyle = styled.div`
 
 const KeyWordBoxStyle = styled.div`
     margin: 0 3px 10px 0;
-    padding: 3px 15px 5px 15px;
+    padding: 5px 15px 3px 15px;
     background: #d9d9d9;
     border-radius: 19px;
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
     cursor: pointer;
+    font-family: NotoSansKR;
 `;
 
 const SelectKeywordContainer = styled.div`
@@ -637,7 +640,7 @@ const SelectKeywordContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 9px;
-    width: 680px;
+    width: 655px;
     border: 1px solid #d9d9d9;
     min-height: 30px;
     border-radius: 5px;
@@ -665,6 +668,7 @@ const TextStyle = styled.div`
     font-size: 13px;
     line-height: 18px;
     margin-bottom: 10px;
+    font-family: NotoSansKR;
 `;
 
 const FileUploadContainer = styled.div`
@@ -733,6 +737,7 @@ const ErrorText = styled.span`
     font-size: 12px;
     line-height: 16px;
     color: #f06060;
+    font-family: NotoSansKR;
 `;
 
 const QuillWrapper = styled(ReactQuill).attrs(() => ({

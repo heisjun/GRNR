@@ -265,4 +265,5 @@ const StyledReviewButton = styled.div`
     font-size: 20px;
     color: #fff;
     cursor: pointer;
+    font-family: NotoSansKR;
 `;
