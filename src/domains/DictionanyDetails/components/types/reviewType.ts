@@ -10,5 +10,7 @@ export interface IReviewListType {
     reviewText: string;
     accountPicture: string;
     createDate: string;
-    tagContentList: string[];
+    tagDtoList: string[];
+    likeCount: number;
+    myLiken: boolean;
 }
