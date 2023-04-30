@@ -6,11 +6,34 @@ import HeartIcon from 'assets/icon/heart.png';
 import Rectangle from 'assets/icon/rectangle.png';
 import DOMPurify from 'dompurify';
 import { useState } from 'react';
+import axios from 'axios';
+import { ReviewModal } from '../ReviewModal/ReviewModal.impl';
 
-export const ReviewList: React.FC<IReviewListProps> = ({ data }) => {
+const BASEURL = 'https://www.gardenersclub.co.kr/api';
+const TOKEN = localStorage.getItem('accesstoken');
+
+export const ReviewList: React.FC<IReviewListProps> = ({ data, getReviewData, details, fetchData }) => {
     const [check, setCheck] = useState(false);
     const handleHelperCheck = () => {
         setCheck(!check);
+    };
+
+    const deleteReview = async () => {
+        await axios.delete(`${BASEURL}/api/plantDicReview/${data?.reviewId}/delete`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization:
+                    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IlFSNzBUS2ZacjVfcWp4U3J5VHQ5RDU2Q2tzODlkVk5pamJLWlJMRDVhRTgiLCJleHAiOjE2ODI4NzU3MzN9.OEcOpop0xGLBXNv5XLnIGj9wjf-zVr0RWGRg9_KYrzEOaghwBCjLIzMsOjjbpG69B9uFfX7OIujNFZJalf-Ltw',
+            },
+        });
+        getReviewData();
+        fetchData();
+    };
+
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleModal = () => {
+        setOpenModal(!openModal);
     };
     const renderEvaluationSum = () => {
         if (data?.evaluation === 0) {
@@ -83,17 +106,24 @@ export const ReviewList: React.FC<IReviewListProps> = ({ data }) => {
     return (
         <>
             <StyledImage src={data?.reviewUrl} alt="" />
-
             <StyledContent>
                 <StyledUserInfoBox>
-                    <StyledUserImage src={data?.accountPicture} alt="" />
-                    <StyledUserInfoContainer>
-                        <StyledUserId>
-                            {data?.reviewId}
-                            <span>{data?.createDate}</span>
-                        </StyledUserId>
-                        <StyledHeartBox>{renderEvaluationSum()}</StyledHeartBox>
-                    </StyledUserInfoContainer>
+                    <div style={{ display: 'flex' }}>
+                        <StyledUserImage src={data?.accountPicture} alt="" />
+                        <StyledUserInfoContainer>
+                            <StyledUserId>
+                                {data?.accountName}
+                                <span>{data?.createDate}</span>
+                            </StyledUserId>
+                            <StyledHeartBox>{renderEvaluationSum()}</StyledHeartBox>
+                        </StyledUserInfoContainer>
+                    </div>
+                    <div style={{ display: 'flex' }}>
+                        <FixDeleteTextStyle onClick={handleModal}>수정</FixDeleteTextStyle>
+                        <FixDeleteTextStyle onClick={deleteReview} style={{ marginLeft: '10px' }}>
+                            삭제
+                        </FixDeleteTextStyle>
+                    </div>
                 </StyledUserInfoBox>
                 <StyledReviewContent
                     dangerouslySetInnerHTML={{
@@ -122,6 +152,7 @@ export const ReviewList: React.FC<IReviewListProps> = ({ data }) => {
                     </StyledReviewCheckContainer>
                 )}
             </StyledContent>
+            <ReviewModal open={openModal} onClose={handleModal} data={details} requestReview={getReviewData} />
         </>
     );
 };
@@ -137,6 +168,8 @@ const StyledContent = styled.div``;
 
 const StyledUserInfoBox = styled.div`
     display: flex;
+    justify-content: space-between;
+    width: 880px;
 `;
 
 const StyledUserImage = styled.img`
@@ -203,7 +236,7 @@ const StyledCategoryText = styled.div`
 
 const StyledReviewCheckContainer = styled.div`
     display: flex;
-    justify-content: center;
+
     align-items: center;
     margin-top: 20px;
     span {
@@ -248,4 +281,12 @@ const StyledSelectedBox = styled.div`
     font-size: 16px;
     line-height: 23px;
     color: #ffffff;
+`;
+
+const FixDeleteTextStyle = styled.span`
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+    color: #d9d9d9;
+    cursor: pointer;
 `;

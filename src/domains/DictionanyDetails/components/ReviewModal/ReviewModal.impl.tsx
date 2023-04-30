@@ -13,7 +13,7 @@ import Trash from 'assets/icon/trash.png';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { ReviewDialogModal } from 'common/components/ReviewDialog/ReviewDialog.impl';
 
 interface ITagList {
     tagName: string;
@@ -29,32 +29,62 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
     const [imgFile, setFileImg] = useState<any>();
     const [requestFile, setRequestFile] = useState<any>();
     const [contents, setContents] = useState('');
-    const params = useParams();
+    const [error, setError] = useState(false);
+    const [confirmModal, setConfirmModal] = useState(false);
 
     const fileInput = useRef<any>(null);
 
-    const reviewSubmit = async () => {
-        await axios.post(
-            `${BASEURL}/api/plantDicReview/save`,
-            {
-                file: requestFile,
-                plantReviewSaveDto: {
-                    plantDicId: Number(params.id),
-                    evaluation: satisfaction,
-                    reviewText: contents,
-                    tagDtoList: tagList,
-                },
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization:
-                        'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IlFSNzBUS2ZacjVfcWp4U3J5VHQ5RDU2Q2tzODlkVk5pamJLWlJMRDVhRTgiLCJleHAiOjE2ODI4NzU3MzN9.OEcOpop0xGLBXNv5XLnIGj9wjf-zVr0RWGRg9_KYrzEOaghwBCjLIzMsOjjbpG69B9uFfX7OIujNFZJalf-Ltw',
-                },
-            },
-        );
+    const initData = () => {
+        setSatisfaction(0);
+        setTagList([]);
+        setFileImg(undefined);
+        setRequestFile(undefined);
+        setContents('');
+        setError(false);
+    };
+
+    const initClose = () => {
+        initData();
         onClose();
-        requestReview();
+    };
+
+    const openConfirmModal = () => {
+        setConfirmModal(true);
+    };
+
+    const handleConfirmClose = () => {
+        onClose();
+        initClose();
+        setConfirmModal(false);
+    };
+
+    const reviewSubmit = async () => {
+        const formData = new FormData();
+
+        if (satisfaction !== 0 && imgFile !== undefined && tagList.length >= 1 && contents !== '') {
+            await axios.post(
+                `${BASEURL}/api/plantDicReview/save`,
+                {
+                    plantReviewSaveDto: {
+                        plantDicId: data.plantDicId,
+                        evaluation: satisfaction,
+                        reviewText: contents,
+                        tagDtoList: tagList,
+                    },
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization:
+                            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IlFSNzBUS2ZacjVfcWp4U3J5VHQ5RDU2Q2tzODlkVk5pamJLWlJMRDVhRTgiLCJleHAiOjE2ODI4NzU3MzN9.OEcOpop0xGLBXNv5XLnIGj9wjf-zVr0RWGRg9_KYrzEOaghwBCjLIzMsOjjbpG69B9uFfX7OIujNFZJalf-Ltw',
+                    },
+                },
+            );
+            initClose();
+            requestReview();
+        } else {
+            setError(true);
+        }
     };
 
     useEffect(() => {
@@ -99,6 +129,7 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
 
     const removeFile = () => {
         setFileImg(undefined);
+        setRequestFile(undefined);
     };
 
     const modules = useMemo(
@@ -184,173 +215,186 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
     };
 
     return (
-        <ModalContainer open={open}>
-            <BackdropStyle open={open} onClick={onClose} />
-            <DialogStyle open={open}>
-                <DialogHeaderWrapperStyle>
-                    <CloseBox onClick={onClose}>
-                        <CloseIconStyle src={CloseImg} />
-                    </CloseBox>
-                </DialogHeaderWrapperStyle>
-                <DialogBodyStyle>
-                    <LogoBoxStyle>
-                        <div>
-                            <img src={LogoImg} />
-                        </div>
-                        <h4>가드너스 리뷰 - {data.plantName}</h4>
-                    </LogoBoxStyle>
-                    <PlantInfoContainerStyle>
-                        <PlantImgBoxStyle>
-                            <img src={data.plantContentFeedDtoList[0].plantPicUrl} />
-                        </PlantImgBoxStyle>
-                        <div>
-                            <PlantInfoBoxStyle>
-                                <InfoTextStyle>{data.scientificName}</InfoTextStyle>
-                            </PlantInfoBoxStyle>
-                            <KoNameStyle>{data.plantName}</KoNameStyle>
-                            <CateGoryStyle>출신(origin)</CateGoryStyle>
-                            <InfoTextStyle>{data?.distribution}</InfoTextStyle>
-                            <CateGoryStyle>분류(Taxonomy)</CateGoryStyle>
-                            <InfoTextStyle>
-                                {data?.korClass}({data?.enClass}) - {data?.korOrder}({data?.enOrder}) -{' '}
-                                {data?.korFamily}({data?.enFamily})
-                            </InfoTextStyle>
-                        </div>
-                    </PlantInfoContainerStyle>
-                    <div style={{ paddingInline: '40px' }}>
-                        <LineStyle />
-                    </div>
-                    <EvaluationContainerStyle>
-                        <EvaluationTextStyle style={{ marginBottom: '15px' }}>평가하기(필수)</EvaluationTextStyle>
-                        <SatisfactionBoxStyle>
-                            <SatisfactionTextStyle>만족도</SatisfactionTextStyle>
-                            {renderEvaluationSum()}
-                        </SatisfactionBoxStyle>
-                        <EvaluationTextStyle style={{ marginBottom: '18px' }}>키워드 선택(필수)</EvaluationTextStyle>
-                        <KeyWordContainerStyle>
-                            {data?.classification !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.classification)}>
-                                    {data?.classification}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.classification_flower !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.classification_flower)}>
-                                    {data?.classification_flower}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.classification_fruit !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.classification_fruit)}>
-                                    {data?.classification_fruit}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.classification_leaf !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.classification_leaf)}>
-                                    {data?.classification_leaf}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.classification_succulent !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.classification_succulent)}>
-                                    {data?.classification_succulent}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.toxicityHarmless !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.toxicityHarmless)}>
-                                    {data?.toxicityHarmless}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.toxicitySeriousness !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.toxicitySeriousness)}>
-                                    {data?.toxicitySeriousness}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.toxicitySlight !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.toxicitySlight)}>
-                                    {data?.toxicitySlight}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.toxicityIngestion !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.toxicityIngestion)}>
-                                    {data?.toxicityIngestion}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.toxicitySkin !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.toxicitySkin)}>
-                                    {data?.toxicitySkin}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.cat !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.cat)}>{data?.cat}</KeyWordBoxStyle>
-                            )}
-                            {data?.dog !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.dog)}>{data?.dog}</KeyWordBoxStyle>
-                            )}
-                            {data?.classification_succulent !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.classification_succulent)}>
-                                    {data?.classification_succulent}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.difficulty !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.difficulty)}>
-                                    {data?.difficulty}
-                                </KeyWordBoxStyle>
-                            )}
-                            {data?.growSpeed !== 'null' && (
-                                <KeyWordBoxStyle onClick={() => selectTag(data?.growSpeed)}>
-                                    {data?.growSpeed}
-                                </KeyWordBoxStyle>
-                            )}
-                        </KeyWordContainerStyle>
-                        <EvaluationTextStyle style={{ marginBottom: '11px' }}>선택한 키워드</EvaluationTextStyle>
-                        <SelectKeywordContainer>
-                            {tagList.map((item, idx) => (
-                                <SelectKeyWordBoxStyle key={idx}>
-                                    {item.tagName}
-                                    <img src={GreenCloseImg} onClick={() => removeTag(item.tagName)} />
-                                </SelectKeyWordBoxStyle>
-                            ))}
-                        </SelectKeywordContainer>
-                        <div style={{ paddingRight: '80px' }}>
+        <>
+            <ModalContainer open={open}>
+                <BackdropStyle open={open} />
+                <DialogStyle open={open}>
+                    <DialogHeaderWrapperStyle>
+                        <CloseBox onClick={openConfirmModal}>
+                            <CloseIconStyle src={CloseImg} />
+                        </CloseBox>
+                    </DialogHeaderWrapperStyle>
+                    <DialogBodyStyle>
+                        <LogoBoxStyle>
+                            <div>
+                                <img src={LogoImg} />
+                            </div>
+                            <h4>가드너스 리뷰 - {data.plantName}</h4>
+                        </LogoBoxStyle>
+                        <PlantInfoContainerStyle>
+                            <PlantImgBoxStyle>
+                                <img src={data.plantContentFeedDtoList[0].plantPicUrl} />
+                            </PlantImgBoxStyle>
+                            <div>
+                                <PlantInfoBoxStyle>
+                                    <InfoTextStyle>{data.scientificName}</InfoTextStyle>
+                                </PlantInfoBoxStyle>
+                                <KoNameStyle>{data.plantName}</KoNameStyle>
+                                <CateGoryStyle>출신(origin)</CateGoryStyle>
+                                <InfoTextStyle>{data?.distribution}</InfoTextStyle>
+                                <CateGoryStyle>분류(Taxonomy)</CateGoryStyle>
+                                <InfoTextStyle>
+                                    {data?.korClass}({data?.enClass}) - {data?.korOrder}({data?.enOrder}) -{' '}
+                                    {data?.korFamily}({data?.enFamily})
+                                </InfoTextStyle>
+                            </div>
+                        </PlantInfoContainerStyle>
+                        <div style={{ paddingInline: '40px' }}>
                             <LineStyle />
                         </div>
-                        <EvaluationTextStyle style={{ marginBottom: '15px', marginTop: '5px' }}>
-                            사진 첨부(필수)
-                        </EvaluationTextStyle>
-                        <TextStyle>가드너 님의 정원 속 함꼐 하는 식물의 모습을 공유해 주세요.(최대 1장)</TextStyle>
-                        <FileUploadContainer>
-                            <FileStyle onClick={() => (!imgFile ? handleFileUpload() : null)}>
-                                {!imgFile ? (
-                                    <PlusIconStyle src={Plus} />
-                                ) : (
-                                    <>
-                                        <PlantImgStyle src={imgFile} />
-                                        <div onClick={removeFile}>
-                                            <TrashIcon src={Trash} />
-                                        </div>
-                                    </>
+                        <EvaluationContainerStyle>
+                            <EvaluationTextStyle error={error} style={{ marginBottom: '15px' }}>
+                                평가하기(필수)
+                                {error && <ErrorText>필수 입력 항목입니다.</ErrorText>}
+                            </EvaluationTextStyle>
+
+                            <SatisfactionBoxStyle>
+                                <SatisfactionTextStyle>만족도</SatisfactionTextStyle>
+                                {renderEvaluationSum()}
+                            </SatisfactionBoxStyle>
+                            <EvaluationTextStyle error={error} style={{ marginBottom: '18px' }}>
+                                키워드 선택(필수) {error && <ErrorText>필수 입력 항목입니다.</ErrorText>}
+                            </EvaluationTextStyle>
+                            <KeyWordContainerStyle>
+                                {data?.classification !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification)}>
+                                        {data?.classification}
+                                    </KeyWordBoxStyle>
                                 )}
-                            </FileStyle>
-                            <FileUploadButton
-                                accept="image/jpg,image/png,image/jpeg,image/gif"
-                                ref={fileInput}
-                                onChange={changeFile}
-                                type="file"
+                                {data?.classification_flower !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_flower)}>
+                                        {data?.classification_flower}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.classification_fruit !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_fruit)}>
+                                        {data?.classification_fruit}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.classification_leaf !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_leaf)}>
+                                        {data?.classification_leaf}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.classification_succulent !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_succulent)}>
+                                        {data?.classification_succulent}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.toxicityHarmless !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicityHarmless)}>
+                                        {data?.toxicityHarmless}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.toxicitySeriousness !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicitySeriousness)}>
+                                        {data?.toxicitySeriousness}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.toxicitySlight !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicitySlight)}>
+                                        {data?.toxicitySlight}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.toxicityIngestion !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicityIngestion)}>
+                                        {data?.toxicityIngestion}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.toxicitySkin !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicitySkin)}>
+                                        {data?.toxicitySkin}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.cat !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.cat)}>{data?.cat}</KeyWordBoxStyle>
+                                )}
+                                {data?.dog !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.dog)}>{data?.dog}</KeyWordBoxStyle>
+                                )}
+                                {data?.classification_succulent !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_succulent)}>
+                                        {data?.classification_succulent}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.difficulty !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.difficulty)}>
+                                        {data?.difficulty}
+                                    </KeyWordBoxStyle>
+                                )}
+                                {data?.growSpeed !== 'null' && (
+                                    <KeyWordBoxStyle onClick={() => selectTag(data?.growSpeed)}>
+                                        {data?.growSpeed}
+                                    </KeyWordBoxStyle>
+                                )}
+                            </KeyWordContainerStyle>
+                            <EvaluationTextStyle error={error} style={{ marginBottom: '11px' }}>
+                                선택한 키워드 {error && <ErrorText>필수 입력 항목입니다.</ErrorText>}
+                            </EvaluationTextStyle>
+                            <SelectKeywordContainer>
+                                {tagList.map((item, idx) => (
+                                    <SelectKeyWordBoxStyle key={idx}>
+                                        {item.tagName}
+                                        <img src={GreenCloseImg} onClick={() => removeTag(item.tagName)} />
+                                    </SelectKeyWordBoxStyle>
+                                ))}
+                            </SelectKeywordContainer>
+                            <div style={{ paddingRight: '80px' }}>
+                                <LineStyle />
+                            </div>
+                            <EvaluationTextStyle error={error} style={{ marginBottom: '15px', marginTop: '5px' }}>
+                                사진 첨부(필수) {error && <ErrorText>필수 입력 항목입니다.</ErrorText>}
+                            </EvaluationTextStyle>
+                            <TextStyle>가드너 님의 정원 속 함꼐 하는 식물의 모습을 공유해 주세요.(최대 1장)</TextStyle>
+                            <FileUploadContainer>
+                                <FileStyle onClick={() => (!imgFile ? handleFileUpload() : null)}>
+                                    {!imgFile ? (
+                                        <PlusIconStyle src={Plus} />
+                                    ) : (
+                                        <>
+                                            <PlantImgStyle src={imgFile} />
+                                            <div onClick={removeFile}>
+                                                <TrashIcon src={Trash} />
+                                            </div>
+                                        </>
+                                    )}
+                                </FileStyle>
+                                <FileUploadButton
+                                    accept="image/jpg,image/png,image/jpeg,image/gif"
+                                    ref={fileInput}
+                                    onChange={changeFile}
+                                    type="file"
+                                />
+                            </FileUploadContainer>
+                            <EvaluationTextStyle error={error} style={{ marginBottom: '15px' }}>
+                                리뷰 작성(필수) {error && <ErrorText>필수 입력 항목입니다.</ErrorText>}
+                            </EvaluationTextStyle>
+                            <QuillWrapper
+                                value={contents}
+                                onChange={(content: string, delta: any, source: any, editor: any) =>
+                                    setContents(editor.getHTML())
+                                }
+                                modules={modules}
+                                theme="snow"
+                                placeholder="다른 가드너를 위해 당신의 식물과 함께 한 시간들에 대해 자세히 공유해주세요. (최소 20자)"
                             />
-                        </FileUploadContainer>
-                        <EvaluationTextStyle style={{ marginBottom: '15px' }}>리뷰 작성(필수)</EvaluationTextStyle>
-                        <QuillWrapper
-                            value={contents}
-                            onChange={(content: string, delta: any, source: any, editor: any) =>
-                                setContents(editor.getHTML())
-                            }
-                            modules={modules}
-                            theme="snow"
-                            placeholder="다른 가드너를 위해 당신의 식물과 함께 한 시간들에 대해 자세히 공유해주세요. (최소 20자)"
-                        />
-                        <StyledReviewButton onClick={reviewSubmit}>리뷰 제출하기</StyledReviewButton>
-                    </EvaluationContainerStyle>
-                </DialogBodyStyle>
-            </DialogStyle>
-        </ModalContainer>
+                            <StyledReviewButton onClick={reviewSubmit}>리뷰 제출하기</StyledReviewButton>
+                        </EvaluationContainerStyle>
+                    </DialogBodyStyle>
+                </DialogStyle>
+            </ModalContainer>
+            <ReviewDialogModal open={confirmModal} onClose={setConfirmModal} resetBtn={handleConfirmClose} />
+        </>
     );
 };
 
@@ -499,10 +543,11 @@ const EvaluationContainerStyle = styled.div`
     width: 100%;
 `;
 
-const EvaluationTextStyle = styled.div`
+const EvaluationTextStyle = styled.div<{ error: boolean }>`
     font-weight: 700;
     font-size: 15px;
     line-height: 20px;
+    color: ${({ error }) => (!error ? '#000' : '#F06060')};
 `;
 
 const SatisfactionBoxStyle = styled.div`
@@ -639,6 +684,16 @@ const StyledReviewButton = styled.div`
     line-height: 23px;
     color: #fff;
     cursor: pointer;
+`;
+
+const ErrorText = styled.span`
+    position: relative;
+    bottom: 4px;
+    margin-left: 4px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #f06060;
 `;
 
 const QuillWrapper = styled(ReactQuill).attrs(() => ({

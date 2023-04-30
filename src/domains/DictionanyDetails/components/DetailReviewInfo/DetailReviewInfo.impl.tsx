@@ -4,13 +4,13 @@ import EmptyIcon from '../../../../assets/icon/emptyHeart.png';
 import HeartIcon from 'assets/icon/heart.png';
 
 import { ReviewModal } from '../ReviewModal/ReviewModal.impl';
-import { useRecoilState } from 'recoil';
-import { modalAtom } from 'recoil/modalAtom';
+
+import { useState } from 'react';
 
 export const DetailReviewInfo: React.FC<IDetailReviewInfoProps> = (props) => {
     const { data, requestReview } = props;
 
-    const [openModal, setOpenModal] = useRecoilState(modalAtom);
+    const [openModal, setOpenModal] = useState(false);
 
     const handleModal = () => {
         setOpenModal(!openModal);
