@@ -111,7 +111,7 @@ interface IStyled {
 }
 
 const StyledDicDetailsContainer = styled.div`
-    margin-bottom: 120px;
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -128,7 +128,7 @@ const StyledDicDetailsContainer = styled.div`
 const StyledDetailsBlock = styled.div`
     width: 1140px;
     display: flex;
-    margin-bottom: 15px;
+   /* margin-bottom: 15px;*/
     margin-top: 15px;
     justify-content: space-between;
 `;
