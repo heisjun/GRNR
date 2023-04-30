@@ -11,7 +11,6 @@ import { Login } from 'pages';
 import UserProfile from 'domains/UserProfile';
 import axios, { AxiosError } from 'axios';
 import { AlarmcountState } from 'recoil/count';
-import { modalAtom } from 'recoil/modalAtom';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -31,7 +30,6 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
     const [crntPath, setCrntPath] = useState<string>('');
     const [isActive, setIsActive] = useState(false);
     const [loginStatus, setLoginStatus] = useRecoilState(UserInfo);
-    const modalValue = useRecoilValue(modalAtom);
 
     const [alarmCount, setAlarmCount] = useRecoilState(AlarmcountState);
 
@@ -167,7 +165,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                 setScrollDownToggle(false);
                             }}
                         >
-                            <StyledHeaderBar modalValue={modalValue}>
+                            <StyledHeaderBar>
                                 <StyledTitleBlock>
                                     <Link
                                         to="/"
@@ -280,7 +278,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                 setScrollDownToggle(false);
                             }}
                         >
-                            <StyledHeaderBar modalValue={modalValue}>
+                            <StyledHeaderBar>
                                 <StyledTitleBlock>
                                     <Link
                                         to="/"
@@ -326,7 +324,7 @@ const HeaderBar: React.FC<IHeaderBar> = (props) => {
                                 setScrollDownToggle(false);
                             }}
                         >
-                            <StyledHeaderBar modalValue={modalValue}>
+                            <StyledHeaderBar>
                                 <StyledTitleBlock>
                                     <Link
                                         to="/"
@@ -561,7 +559,7 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     }
 `;
 
-const StyledHeaderBar = styled.div<{ modalValue: boolean }>`
+const StyledHeaderBar = styled.div`
     display: flex;
     align-items: center;
     width: 1920px;
@@ -575,7 +573,6 @@ const StyledHeaderBar = styled.div<{ modalValue: boolean }>`
         margin-left: 390px;
         margin-right: 390px;
     }
-    background-color: ${({ modalValue }) => (!modalValue ? '#fff' : 'rgba(0, 0, 0, 0.6)')};
 `;
 
 const StyledContainer = styled.div`

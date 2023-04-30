@@ -30,18 +30,19 @@ const DictionaryDetails: React.FC = () => {
     const [tabData, setTabData] = useState('인기순');
     const articleData = [{}, {}, {}];
 
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${BASEURL}/api/plantDic/${params.id}/detail`);
+            console.log(response.data.value);
+            setDetails(response.data.value);
+        } catch (e) {
+            console.log(e);
+        }
+        setLoading(false);
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(`${BASEURL}/api/plantDic/${params.id}/detail`);
-                console.log(response.data.value);
-                setDetails(response.data.value);
-            } catch (e) {
-                console.log(e);
-            }
-            setLoading(false);
-        };
         fetchData();
     }, []);
 
@@ -78,7 +79,14 @@ const DictionaryDetails: React.FC = () => {
                 </StyledTabContainer>
                 {reviewList?.content?.map((item, idx) => (
                     <StyledReviewListContainer key={idx}>
-                        <ReviewList data={item} />
+                        {details && (
+                            <ReviewList
+                                fetchData={fetchData}
+                                getReviewData={getReviewData}
+                                data={item}
+                                details={details}
+                            />
+                        )}
                     </StyledReviewListContainer>
                 ))}
                 {/* <StyledDetailsBlock>
@@ -128,7 +136,6 @@ const StyledDicDetailsContainer = styled.div`
 const StyledDetailsBlock = styled.div`
     width: 1140px;
     display: flex;
-   /* margin-bottom: 15px;*/
     margin-top: 15px;
     justify-content: space-between;
 `;

@@ -1,37 +1,28 @@
-import { useEffect } from 'react';
 import styled from 'styled-components';
+import { IReviewDialogProps } from './ReviewDialog.interface';
 
-export const ReviewModal: React.FC = () => {
-    // const { open, onClose } = props;
+export const ReviewDialogModal: React.FC<IReviewDialogProps> = (props) => {
+    const { open, onClose, resetBtn } = props;
 
     return (
-        <></>
-        // <ModalContainer open={open}>
-        //     <BackdropStyle open={open} onClick={onClose} />
-        //     <DialogStyle open={open}>
-        //         <DialogHeaderWrapperStyle>
-        //             <DialogHeaderBoxStyle>
-        //                 <DialogHeaderStyle></DialogHeaderStyle>
-        //                 <CloseBox onClick={onClose}>{/* <CloseIconStyle fontSize="small" /> */}</CloseBox>
-        //             </DialogHeaderBoxStyle>
-        //         </DialogHeaderWrapperStyle>
-        //         <DialogBodyStyle>sda</DialogBodyStyle>
-        //     </DialogStyle>
-        // </ModalContainer>
+        <ModalContainer open={open}>
+            <BackdropStyle open={open} onClick={() => onClose(false)} />
+            <DialogStyle open={open}>
+                <DialogBodyStyle>
+                    <TextBox>리뷰를 작성하지 않고 나가겠습니까?</TextBox>
+                    <TextBox style={{ marginBottom: '17px' }}> 작성한 내용은 저장되지 않습니다.</TextBox>
+                    <ButtonContainer>
+                        <CancelBtnStyle onClick={() => onClose(false)}>취소</CancelBtnStyle>
+                        <LeaveBtStyle onClick={resetBtn}>나가기</LeaveBtStyle>
+                    </ButtonContainer>
+                </DialogBodyStyle>
+            </DialogStyle>
+        </ModalContainer>
     );
 };
 
 interface IStyled {
     open?: boolean;
-    textArea?: boolean;
-    width?: number;
-    bodyPadding?: boolean;
-    bodyOverflow?: boolean;
-    headerPadding?: string;
-    headerLineHeight?: string;
-    headerLeftBoxPosition?: string;
-    titleTextColor?: string;
-    windowAllVisible?: boolean;
 }
 
 const ModalContainer = styled.div<IStyled>`
@@ -44,7 +35,7 @@ const ModalContainer = styled.div<IStyled>`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3000;
+    z-index: 4000;
     background-color: rgba(0, 0, 0, 0.6);
     opacity: ${({ open }) => (open ? 1 : 0)};
     transition: all 0.3s;
@@ -61,12 +52,9 @@ const BackdropStyle = styled.div<IStyled>`
 
 const DialogStyle = styled.div<IStyled>`
     background: #fff;
-    width: 760px;
-    height: auto;
+    width: 300px;
+    height: 150px;
     box-shadow: 0 6px 20px 0 rgb(0 0 0 / 10%);
-    min-width: 376px;
-    max-width: calc(100vw - 32px);
-    max-height: calc(100vh - 32px);
     display: flex;
     flex-direction: column;
     font-size: 14px;
@@ -75,45 +63,49 @@ const DialogStyle = styled.div<IStyled>`
     transition: all 0.3s;
 `;
 
-const DialogHeaderWrapperStyle = styled.div<IStyled>`
-    padding: ${({ headerPadding }) => (headerPadding !== '' ? headerPadding : '32px 32px 16px 32px')};
+const DialogBodyStyle = styled.div<IStyled>`
+    padding: 16px 16px 9px 16px;
 `;
 
-const DialogHeaderBoxStyle = styled.div<IStyled>`
-    width: 100%;
-    position: relative;
+const TextBox = styled.div`
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
+const CancelBtnStyle = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    line-height: ${({ headerLineHeight }) => (headerLineHeight !== '' ? headerLineHeight : 'inherit')};
-`;
-
-const DialogHeaderStyle = styled.div<IStyled>`
-    text-align: center;
-    font-size: 16px;
+    width: 129px;
+    height: 50px;
+    background: #ffffff;
+    border: 0.3px solid #d9d9d9;
+    border-radius: 5px;
     font-weight: 700;
-    ${({ titleTextColor }) => titleTextColor && `color: ${titleTextColor};`};
-`;
-
-const CloseBox = styled.div`
-    width: 24px;
-    height: 24px;
+    font-size: 16px;
+    line-height: 22px;
     cursor: pointer;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
 `;
 
-const DialogBodyStyle = styled.div<IStyled>`
+const LeaveBtStyle = styled.div`
     display: flex;
-    flex-direction: column;
-    align-items: ${({ textArea }) => !textArea && 'center'};
     justify-content: center;
-    padding: ${({ bodyPadding }) => (bodyPadding ? '0 32px' : '0')};
-    ${({ bodyOverflow }) => (bodyOverflow ? 'overflow: overlay;' : '')}
-    text-align: center;
-    line-height: 150%;
-    pointer-events: all;
+    align-items: center;
+    width: 129px;
+    height: 50px;
+    background: #0d6637;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    color: #ffffff;
+    cursor: pointer;
 `;
