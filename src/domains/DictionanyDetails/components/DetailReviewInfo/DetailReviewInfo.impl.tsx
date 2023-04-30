@@ -18,11 +18,11 @@ export const DetailReviewInfo: React.FC<IDetailReviewInfoProps> = (props) => {
     const [openModal, setOpenModal] = useState(false);
 
     const handleModal = () => {
-        if (TOKEN) {
-            setOpenModal(!openModal);
-        } else {
-            navigate('/login');
-        }
+        // if (TOKEN) {
+        setOpenModal(!openModal);
+        // } else {
+        // navigate('/login');
+        // }
     };
 
     const renderEvaluationSum = () => {
@@ -265,4 +265,5 @@ const StyledReviewButton = styled.div`
     font-size: 20px;
     color: #fff;
     cursor: pointer;
+    font-family: NotoSansKR;
 `;

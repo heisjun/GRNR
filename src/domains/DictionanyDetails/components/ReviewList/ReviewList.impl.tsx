@@ -191,10 +191,10 @@ const StyledUserInfoContainer = styled.div`
 `;
 
 const StyledUserId = styled.div`
-    margin-bottom: 4px;
     font-weight: 700;
     font-size: 16px;
     line-height: 22px;
+    font-family: NotoSansKR;
 
     span {
         margin-left: 6px;
