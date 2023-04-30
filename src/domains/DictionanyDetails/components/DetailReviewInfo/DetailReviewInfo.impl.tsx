@@ -6,14 +6,23 @@ import HeartIcon from 'assets/icon/heart.png';
 import { ReviewModal } from '../ReviewModal/ReviewModal.impl';
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const TOKEN = localStorage.getItem('accesstoken');
 
 export const DetailReviewInfo: React.FC<IDetailReviewInfoProps> = (props) => {
     const { data, requestReview } = props;
 
+    const navigate = useNavigate();
+
     const [openModal, setOpenModal] = useState(false);
 
     const handleModal = () => {
-        setOpenModal(!openModal);
+        if (TOKEN) {
+            setOpenModal(!openModal);
+        } else {
+            navigate('/login');
+        }
     };
 
     const renderEvaluationSum = () => {

@@ -14,33 +14,44 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { ReviewDialogModal } from 'common/components/ReviewDialog/ReviewDialog.impl';
-
-interface ITagList {
-    tagName: string;
-}
+import { useParams } from 'react-router-dom';
 
 const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
-    const { open, onClose, data, requestReview } = props;
+    const { open, onClose, data, requestReview, reviewData } = props;
+
+    const params = useParams();
+
     const [satisfaction, setSatisfaction] = useState(0);
-    const [tagList, setTagList] = useState<ITagList[]>([]);
+    const [tagList, setTagList] = useState<string[]>([]);
     const [imgFile, setFileImg] = useState<any>();
     const [requestFile, setRequestFile] = useState<any>();
     const [contents, setContents] = useState('');
     const [error, setError] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
 
+    useEffect(() => {
+        if (reviewData) {
+            setSatisfaction(reviewData.evaluation);
+            setFileImg(reviewData.reviewUrl);
+            setContents(reviewData.reviewText);
+            setTagList(reviewData.tagDtoList);
+        }
+    }, [reviewData]);
+
     const fileInput = useRef<any>(null);
 
     const initData = () => {
-        setSatisfaction(0);
-        setTagList([]);
-        setFileImg(undefined);
-        setRequestFile(undefined);
-        setContents('');
-        setError(false);
+        if (!reviewData) {
+            setSatisfaction(0);
+            setTagList([]);
+            setFileImg(undefined);
+            setRequestFile(undefined);
+            setContents('');
+            setError(false);
+        }
     };
 
     const initClose = () => {
@@ -60,23 +71,28 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
 
     const reviewSubmit = async () => {
         const formData = new FormData();
+        formData.append('file', requestFile);
 
         if (satisfaction !== 0 && imgFile !== undefined && tagList.length >= 1 && contents !== '') {
-            await axios.post(
-                `${BASEURL}/api/plantDicReview/save`,
+            const { data } = await axios.post(`${BASEURL}/api/plantDicReview/picture/save`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+
+            await axios.put(
+                `${BASEURL}/api/plantDicReview/${params.id}/content/save`,
                 {
-                    plantReviewSaveDto: {
-                        plantDicId: data.plantDicId,
-                        evaluation: satisfaction,
-                        reviewText: contents,
-                        tagDtoList: tagList,
-                    },
+                    reviewId: data.value,
+                    evaluation: satisfaction,
+                    reviewText: contents,
+                    tagDtoList: tagList,
                 },
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization:
-                            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IlFSNzBUS2ZacjVfcWp4U3J5VHQ5RDU2Q2tzODlkVk5pamJLWlJMRDVhRTgiLCJleHAiOjE2ODI4NzU3MzN9.OEcOpop0xGLBXNv5XLnIGj9wjf-zVr0RWGRg9_KYrzEOaghwBCjLIzMsOjjbpG69B9uFfX7OIujNFZJalf-Ltw',
+                        Authorization: `Bearer ${TOKEN}`,
                     },
                 },
             );
@@ -87,10 +103,35 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
         }
     };
 
-    useEffect(() => {
-        if (open) document.body.style.overflow = 'hidden';
-        if (!open) document.body.style.overflow = 'unset';
-    });
+    const updateReview = async () => {
+        const formData = new FormData();
+        const uploaderData = JSON.stringify({
+            plantDicId: Number(params.id),
+            reviewId: reviewData?.reviewId,
+            evaluation: satisfaction,
+            reviewText: contents,
+            tagDtoList: tagList,
+        });
+        formData.append('file', requestFile);
+        formData.append('plantReviewSaveDto', new Blob([uploaderData], { type: 'application/json' }));
+        if (satisfaction !== 0 && imgFile !== undefined && tagList.length >= 1 && contents !== '') {
+            await axios.put(`${BASEURL}/api/plantDicReview/update`, formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            });
+            initClose();
+            requestReview();
+        } else {
+            setError(true);
+        }
+    };
+
+    // useEffect(() => {
+    //     if (open) document.body.style.overflow = 'hidden';
+    //     if (!open) document.body.style.overflow = 'unset';
+    // }, [open]);
 
     const handleSatisfaction = (score: number) => {
         setSatisfaction(score);
@@ -98,15 +139,15 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
 
     const selectTag = (tag: string) => {
         for (const i in tagList) {
-            if (tagList[i].tagName === tag) {
+            if (tagList[i] === tag) {
                 return false;
             }
         }
-        setTagList(tagList.concat({ tagName: tag }));
+        setTagList(tagList.concat(tag));
     };
 
     const removeTag = (tag: string) => {
-        setTagList(tagList.filter((item) => item.tagName !== tag));
+        setTagList(tagList.filter((item) => item !== tag));
     };
 
     const handleFileUpload = () => {
@@ -114,11 +155,7 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
     };
 
     const changeFile = (e: any) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onloadend = () => {
-            setRequestFile(reader.result);
-        };
+        console.log(e.target.files[0]);
         if (!e.target.files || e.target.files.length === 0) {
             setFileImg(undefined);
             return;
@@ -344,8 +381,8 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
                             <SelectKeywordContainer>
                                 {tagList.map((item, idx) => (
                                     <SelectKeyWordBoxStyle key={idx}>
-                                        {item.tagName}
-                                        <img src={GreenCloseImg} onClick={() => removeTag(item.tagName)} />
+                                        {item}
+                                        <img src={GreenCloseImg} onClick={() => removeTag(item)} />
                                     </SelectKeyWordBoxStyle>
                                 ))}
                             </SelectKeywordContainer>
@@ -388,7 +425,9 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
                                 theme="snow"
                                 placeholder="다른 가드너를 위해 당신의 식물과 함께 한 시간들에 대해 자세히 공유해주세요. (최소 20자)"
                             />
-                            <StyledReviewButton onClick={reviewSubmit}>리뷰 제출하기</StyledReviewButton>
+                            <StyledReviewButton onClick={() => (!reviewData ? reviewSubmit() : updateReview())}>
+                                리뷰 제출하기
+                            </StyledReviewButton>
                         </EvaluationContainerStyle>
                     </DialogBodyStyle>
                 </DialogStyle>

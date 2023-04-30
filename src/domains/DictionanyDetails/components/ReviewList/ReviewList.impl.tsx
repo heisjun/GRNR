@@ -13,7 +13,7 @@ const BASEURL = 'https://www.gardenersclub.co.kr/api';
 const TOKEN = localStorage.getItem('accesstoken');
 
 export const ReviewList: React.FC<IReviewListProps> = ({ data, getReviewData, details, fetchData }) => {
-    const [check, setCheck] = useState(false);
+    const [check, setCheck] = useState(data?.myLiken);
     const handleHelperCheck = () => {
         setCheck(!check);
     };
@@ -131,7 +131,7 @@ export const ReviewList: React.FC<IReviewListProps> = ({ data, getReviewData, de
                     }}
                 />
                 <div style={{ display: 'flex' }}>
-                    {data?.tagContentList.map((item, idx) => (
+                    {data?.tagDtoList.map((item, idx) => (
                         <StyledCategoryList key={idx}>
                             <StyledCategoryText>{item}</StyledCategoryText>
                         </StyledCategoryList>
@@ -140,7 +140,7 @@ export const ReviewList: React.FC<IReviewListProps> = ({ data, getReviewData, de
                 {!check ? (
                     <StyledReviewCheckContainer>
                         <StyledCheckBox onClick={handleHelperCheck}>도움이 돼요</StyledCheckBox>
-                        <span>13명에게 도움이 되었습니다.</span>
+                        <span>{data?.likeCount}명에게 도움이 되었습니다.</span>
                     </StyledReviewCheckContainer>
                 ) : (
                     <StyledReviewCheckContainer>
@@ -148,11 +148,19 @@ export const ReviewList: React.FC<IReviewListProps> = ({ data, getReviewData, de
                             <CheckImage src={Rectangle} />
                             도움됨
                         </StyledSelectedBox>
-                        <span>13명에게 도움이 되었습니다.</span>
+                        <span>{data?.likeCount}명에게 도움이 되었습니다.</span>
                     </StyledReviewCheckContainer>
                 )}
             </StyledContent>
-            <ReviewModal open={openModal} onClose={handleModal} data={details} requestReview={getReviewData} />
+            {openModal && (
+                <ReviewModal
+                    open={openModal}
+                    onClose={handleModal}
+                    data={details}
+                    requestReview={getReviewData}
+                    reviewData={data}
+                />
+            )}
         </>
     );
 };
