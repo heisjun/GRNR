@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IFaq } from './Faq.type';
 import * as DOMPurify from 'dompurify';
