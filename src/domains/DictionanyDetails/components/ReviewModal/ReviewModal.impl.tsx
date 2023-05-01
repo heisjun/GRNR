@@ -303,11 +303,11 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
                                 키워드 선택(필수) {error && <ErrorText>필수 입력 항목입니다.</ErrorText>}
                             </EvaluationTextStyle>
                             <KeyWordContainerStyle>
-<!--                                 {data?.classification !== 'null' && (
+                                 /*  {data?.classification !== 'null' && (
                                     <KeyWordBoxStyle onClick={() => selectTag(성장 속도: 빠름)}>
                                         {data?.classification}
                                     </KeyWordBoxStyle>
-                                )} -->
+                                )}*/
                                 <KeyWordBoxStyle onClick={() => selectTag(성장 속도: 빠름)}>
                                         {성장 속도: 빠름}
                                 </KeyWordBoxStyle>
