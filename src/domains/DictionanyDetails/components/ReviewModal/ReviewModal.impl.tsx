@@ -304,7 +304,7 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
                             </EvaluationTextStyle>
                             <KeyWordContainerStyle>
                                 {data?.classification !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification)}>
+                                    <KeyWordBoxStyle onClick={() => selectTag(성장 속도: 빠름)}>
                                         {data?.classification}
                                     </KeyWordBoxStyle>
                                 )}
