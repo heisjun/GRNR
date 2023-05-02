@@ -35,7 +35,6 @@ const DictionaryDetails: React.FC = () => {
         setLoading(true);
         try {
             const response = await axios.get(`${BASEURL}/api/plantDic/${params.id}/detail`);
-            console.log(response.data.value);
             setDetails(response.data.value);
         } catch (e) {
             console.log(e);
@@ -48,12 +47,25 @@ const DictionaryDetails: React.FC = () => {
     }, []);
 
     const getReviewData = async () => {
-        const {
-            data: { value },
-        } = await axios.get(`${BASEURL}/api/plantDicReview/${params.id}/search`, {
-            params: { order: tabData },
-        });
-        setReviewList(value);
+        if (tabData !== '내가 작성한 리뷰') {
+            const {
+                data: { value },
+            } = await axios.get(`${BASEURL}/api/plantDicReview/${params.id}/search`, {
+                params: { order: tabData },
+            });
+            setReviewList(value);
+        } else {
+            const {
+                data: { value },
+            } = await axios.get(`${BASEURL}/api/plantDicReview/${params.id}/search`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+                params: { order: tabData },
+            });
+            setReviewList(value);
+        }
     };
 
     useEffect(() => {
