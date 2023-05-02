@@ -74,30 +74,35 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
         formData.append('file', requestFile);
 
         if (satisfaction !== 0 && imgFile !== undefined && tagList.length >= 1 && contents !== '') {
-            const { data } = await axios.post(`${BASEURL}/api/plantDicReview/picture/save`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
-
-            await axios.put(
-                `${BASEURL}/api/plantDicReview/${params.id}/content/save`,
-                {
-                    reviewId: data.value,
-                    evaluation: satisfaction,
-                    reviewText: contents,
-                    tagDtoList: tagList,
-                },
-                {
+            if (contents.length <= 500) {
+                const { data } = await axios.post(`${BASEURL}/api/plantDicReview/picture/save`, formData, {
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${TOKEN}`,
                     },
-                },
-            );
-            initClose();
-            requestReview();
+                });
+
+                await axios.put(
+                    `${BASEURL}/api/plantDicReview/content/save`,
+                    {
+                        plantDicId: params.id,
+                        reviewId: data.value,
+                        evaluation: satisfaction,
+                        reviewText: contents,
+                        tagDtoList: tagList,
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    },
+                );
+                initClose();
+                requestReview();
+            } else {
+                alert('500자 이내로 입력해 주세요.');
+            }
         } else {
             setError(true);
         }
@@ -169,18 +174,9 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
         setRequestFile(undefined);
     };
 
-    const modules = useMemo(
-        () => ({
-            toolbar: {
-                container: [
-                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                    [{ size: ['small', false, 'large', 'huge'] }, { color: [] }],
-                    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }, { align: [] }],
-                ],
-            },
-        }),
-        [],
-    );
+    const modules = {
+        toolbar: false,
+    };
 
     const renderEvaluationSum = () => {
         if (satisfaction === 0) {
@@ -303,77 +299,22 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
                                 키워드 선택(필수) {error && <ErrorText>필수 입력 항목입니다.</ErrorText>}
                             </EvaluationTextStyle>
                             <KeyWordContainerStyle>
-                                 {data?.classification !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification)}>
-                                        {data?.classification}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.classification_flower !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_flower)}>
-                                        {data?.classification_flower}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.classification_fruit !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_fruit)}>
-                                        {data?.classification_fruit}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.classification_leaf !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_leaf)}>
-                                        {data?.classification_leaf}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.classification_succulent !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_succulent)}>
-                                        {data?.classification_succulent}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.toxicityHarmless !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicityHarmless)}>
-                                        {data?.toxicityHarmless}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.toxicitySeriousness !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicitySeriousness)}>
-                                        {data?.toxicitySeriousness}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.toxicitySlight !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicitySlight)}>
-                                        {data?.toxicitySlight}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.toxicityIngestion !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicityIngestion)}>
-                                        {data?.toxicityIngestion}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.toxicitySkin !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.toxicitySkin)}>
-                                        {data?.toxicitySkin}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.cat !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.cat)}>{data?.cat}</KeyWordBoxStyle>
-                                )}
-                                {data?.dog !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.dog)}>{data?.dog}</KeyWordBoxStyle>
-                                )}
-                                {data?.classification_succulent !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.classification_succulent)}>
-                                        {data?.classification_succulent}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.difficulty !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.difficulty)}>
-                                        {data?.difficulty}
-                                    </KeyWordBoxStyle>
-                                )}
-                                {data?.growSpeed !== 'null' && (
-                                    <KeyWordBoxStyle onClick={() => selectTag(data?.growSpeed)}>
-                                        {data?.growSpeed}
-                                    </KeyWordBoxStyle>
-                                )}
+                                <KeyWordBoxStyle onClick={() => selectTag('성장 속도: 빠름')}>
+                                    성장 속도: 빠름
+                                </KeyWordBoxStyle>
+                                <KeyWordBoxStyle onClick={() => selectTag('생존력: 강함')}>
+                                    생존력: 강함
+                                </KeyWordBoxStyle>
+                                <KeyWordBoxStyle onClick={() => selectTag('해충: 약함')}>해충: 약함</KeyWordBoxStyle>
+                                <KeyWordBoxStyle onClick={() => selectTag('관리 난이도: 쉬움')}>
+                                    관리 난이도: 쉬움
+                                </KeyWordBoxStyle>
+                                <KeyWordBoxStyle onClick={() => selectTag('잎의 크기: 큼')}>
+                                    잎의 크기: 큼
+                                </KeyWordBoxStyle>
+                                <KeyWordBoxStyle onClick={() => selectTag('잎의 갈변: 잦음')}>
+                                    잎의 갈변: 잦음
+                                </KeyWordBoxStyle>
                             </KeyWordContainerStyle>
                             <EvaluationTextStyle error={error} style={{ marginBottom: '11px' }}>
                                 선택한 키워드 {error && <ErrorText>필수 입력 항목입니다.</ErrorText>}
@@ -750,4 +691,7 @@ const QuillWrapper = styled(ReactQuill).attrs(() => ({
     display: flex;
     flex-direction: column;
     margin-bottom: 38px;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
 `;

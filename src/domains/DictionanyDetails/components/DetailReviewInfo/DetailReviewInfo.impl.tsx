@@ -21,7 +21,8 @@ export const DetailReviewInfo: React.FC<IDetailReviewInfoProps> = (props) => {
         if (TOKEN) {
             setOpenModal(!openModal);
         } else {
-            navigate('/login');
+            setOpenModal(!openModal);
+            // navigate('/login');
         }
     };
 
