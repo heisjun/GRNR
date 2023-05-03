@@ -68,7 +68,7 @@ const Register: React.FC = () => {
         } else if (nickError) {
             setError('닉네임을 확인해주세요');
             return;
-        } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
+        } else if (check === '사용 중인 닉네임입니다') {
             setError('이미 사용 중인 닉네임입니다');
             return;
         } else if (!inputs.detailAddress) {
@@ -119,7 +119,7 @@ const Register: React.FC = () => {
             setUserInfo('닉네임은 2자 ~ 15자 내외입니다');
             setNickError(true);
         } else if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {
-            setUserInfo('닉네임에는 문자(영문), 숫자, 밑줄 및 마침표만 사용할 수 있습니다');
+            setUserInfo('닉네임은 영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다');
             setNickError(true);
         } else if (check === '다른 유저가 사용하는 닉네임입니다') {
             setUserInfo('다른 유저가 사용하는 닉네임입니다');
@@ -220,7 +220,7 @@ const Register: React.FC = () => {
                 <StyledRegisterBlock>
                     <StyledTitleText>닉네임</StyledTitleText>
                     <StyledInput
-                        placeholder="닉네임을 입력해주세요(문자(영문), 숫자, 밑줄, 마침표)"
+                        placeholder="닉네임을 입력해주세요(영문, 숫자, 밑줄, 마침표)"
                         type="text"
                         name="nickname"
                         value={nickname}
