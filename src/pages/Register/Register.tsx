@@ -69,7 +69,7 @@ const Register: React.FC = () => {
             setError('닉네임을 확인해주세요');
             return;
         } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
-            setError('이미 사용중인 닉네임입니다. 다른 닉네임으로 만들어주세요');
+            setError('이미 사용 중인 닉네임입니다');
             return;
         } else if (!inputs.detailAddress) {
             setError('주소를 입력하세요');
@@ -121,8 +121,8 @@ const Register: React.FC = () => {
         } else if (regExp.test(e.target.value) || regExp2.test(e.target.value)) {
             setUserInfo('닉네임에는 문자(영문), 숫자, 밑줄 및 마침표만 사용할 수 있습니다');
             setNickError(true);
-        } else if (check === '다른 유저가 사용하는 닉네임입니다. 다른 닉네임으로 만들어주세요') {
-            setUserInfo('다른 유저가 사용하는 닉네임입니다.');
+        } else if (check === '다른 유저가 사용하는 닉네임입니다') {
+            setUserInfo('다른 유저가 사용하는 닉네임입니다');
             setNickError(true);
         } else {
             setUserInfo('');
