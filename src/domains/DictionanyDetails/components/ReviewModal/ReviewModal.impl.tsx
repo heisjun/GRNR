@@ -71,33 +71,23 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
 
     const reviewSubmit = async () => {
         const formData = new FormData();
+        const uploaderData = JSON.stringify({
+            plantDicId: Number(params.id),
+            reviewId: reviewData?.reviewId,
+            evaluation: satisfaction,
+            reviewText: contents,
+            tagDtoList: tagList,
+        });
         formData.append('file', requestFile);
-
+        formData.append('plantReviewSaveDto', new Blob([uploaderData], { type: 'application/json' }));
         if (satisfaction !== 0 && imgFile !== undefined && tagList.length >= 1 && contents !== '') {
             if (contents.length <= 500) {
-                const { data } = await axios.post(`${BASEURL}/api/plantDicReview/picture/save`, formData, {
+                await axios.post(`${BASEURL}/api/plantDicReview/picture/save`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-
-                await axios.put(
-                    `${BASEURL}/api/plantDicReview/content/save`,
-                    {
-                        plantDicId: params.id,
-                        reviewId: data.value,
-                        evaluation: satisfaction,
-                        reviewText: contents,
-                        tagDtoList: tagList,
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
                 initClose();
                 requestReview();
             } else {
@@ -120,14 +110,18 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
         formData.append('file', requestFile);
         formData.append('plantReviewSaveDto', new Blob([uploaderData], { type: 'application/json' }));
         if (satisfaction !== 0 && imgFile !== undefined && tagList.length >= 1 && contents !== '') {
-            await axios.put(`${BASEURL}/api/plantDicReview/update`, formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
-            initClose();
-            requestReview();
+            if (contents.length <= 500) {
+                await axios.put(`${BASEURL}/api/plantDicReview/update`, formData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+                initClose();
+                requestReview();
+            } else {
+                alert('500자 이내로 입력해 주세요.');
+            }
         } else {
             setError(true);
         }
