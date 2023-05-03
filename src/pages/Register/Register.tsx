@@ -231,7 +231,7 @@ const Register: React.FC = () => {
                     <StyledErrorMessage>{userInfo}</StyledErrorMessage>
                 </StyledRegisterBlock>
 
-                <div style={{ marginTop: '5%', paddingBottom: 10 }}>
+                <div style={{ marginTop: '5%' }}>
                     <StyledTitleText>주소</StyledTitleText>
                     <StyledInput
                         placeholder="시,군,구,동 입력"
@@ -246,11 +246,9 @@ const Register: React.FC = () => {
                     <div ref={dropdownListRef}>
                         <div
                             style={{
-                                height: 100,
+                                height: 'auto',
                                 overflow: 'auto',
-                                fontSize: '1vw',
-                                paddingLeft: 5,
-                                maxHeight: 100,
+                                maxHeight: 250,
                             }}
                         >
                             {addressData &&
@@ -306,12 +304,18 @@ const StyledRegisterContainer = styled.div`
 `;
 
 const StyledAdressList = styled.div`
+    display: flex;
+    align-items: center;
     background-color: white;
+    font-size: 14px;
+    font-weight: 400;
+    height: 50px;
+    padding-left: 16px;
+    border-bottom: 1px solid #dbdbdb;
     cursor: pointer;
     :hover {
         background-color: silver;
     }
-    padding: 2px 0px;
 `;
 
 const StyledRegisterBlock = styled.div`

@@ -61,11 +61,8 @@ const Faq: React.FC<IFaq> = ({ data }) => {
             </StyledGuideTitle>
 
             {faqLIst.map((item, index) => (
-                <StyledQuestionTitleBlock isClick={isActive[index]}>
-                    <div
-                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                        onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}
-                    >
+                <StyledQuestionTitleContainer isClick={isActive[index]}>
+                    <StyledQuestionTitleBlock onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}>
                         <div style={{ display: 'flex' }}>
                             <StyledQuestionIcon>FAQ {index + 1}.</StyledQuestionIcon>
                             <StyledQuestionTitle>{item.title}</StyledQuestionTitle>
@@ -75,7 +72,7 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                         ) : (
                             <StyledIcon src={'/btnDropdown.png'} />
                         )}
-                    </div>
+                    </StyledQuestionTitleBlock>
                     {isActive[index] && (
                         <>
                             <div>
@@ -108,7 +105,7 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                             )}
                         </>
                     )}
-                </StyledQuestionTitleBlock>
+                </StyledQuestionTitleContainer>
             ))}
         </StyledGuideContainer>
     );
@@ -144,12 +141,18 @@ const StyledQuestionIcon = styled.div`
     color: #0d6637;
 `;
 
-const StyledQuestionTitleBlock = styled.div<{ isClick: boolean }>`
+const StyledQuestionTitleContainer = styled.div<{ isClick: boolean }>`
     width: 1140px;
     background-color: #f2f4f6;
-    cursor: pointer;
     margin-bottom: 16px;
     padding: ${({ isClick }) => (isClick ? '20px 0px 0px' : '20px 0px')};
+`;
+
+const StyledQuestionTitleBlock = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
 `;
 
 const StyledQuestionTitle = styled.div`

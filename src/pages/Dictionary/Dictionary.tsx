@@ -322,7 +322,7 @@ const Dictionary: React.FC = () => {
 const StyledLine = styled.div`
     width: 1140px;
     height: 1px;
-    margin: 40px 0px;
+    margin: 15px 0px 40px 0px;
     background-color: #ececec;
 `;
 

@@ -65,11 +65,11 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                 ))}
             </StyledDotBox>
             <StyledInfoContainer>
-                <StyledInfoBlock>
+                <StyledInfoBlockLeft>
                     <StyledEngName>{data?.scientificName}</StyledEngName>
                     <StyledKorName>{data?.plantName}</StyledKorName>
                     <StyledFigure>{data?.description_detail}</StyledFigure>
-                </StyledInfoBlock>
+                </StyledInfoBlockLeft>
                 <StyledInfoBlock>
                     <StyledIndex>출신</StyledIndex>
                     <StyledIndexContent>{data?.distribution}</StyledIndexContent>
@@ -153,6 +153,12 @@ const StyledKeywordBox = styled.div`
 
 const StyledInfoBlock = styled.div`
     width: 50%;
+    padding-left: 26px;
+`;
+
+const StyledInfoBlockLeft = styled.div`
+    width: 50%;
+    border-right: 1px solid #ececec;
 `;
 
 const StyledIndex = styled.div`
@@ -230,9 +236,9 @@ const StyledKeywordDiv = styled.div`
 
 const StyledEngName = styled.div`
     margin: 0 0px 6px 0;
-    font-family: 'BodoniXt';
+    font-family: NotoSerif;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: bold;
     color: #8c8c8c;
 `;
 
@@ -325,7 +331,7 @@ const StyledDot = styled.div<IStyled>`
 `;
 
 const StyledDotBox = styled.div`
-    margin-bottom: 40px;
+    margin-bottom: 15px;
     display: flex;
     overflow: hidden;
 `;
