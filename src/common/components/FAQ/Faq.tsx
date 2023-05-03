@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IFaq } from './Faq.type';
 import * as DOMPurify from 'dompurify';
@@ -61,7 +61,7 @@ const Faq: React.FC<IFaq> = ({ data }) => {
             </StyledGuideTitle>
 
             {faqLIst.map((item, index) => (
-                <StyledQuestionTitleContainer isClick={isActive[index]}>
+                <StyledQuestionTitleContainer key={index} isClick={isActive[index]}>
                     <StyledQuestionTitleBlock onClick={() => (isActive[index] ? onCloseBtn(index) : onOpenBtn(index))}>
                         <div style={{ display: 'flex' }}>
                             <StyledQuestionIcon>FAQ {index + 1}.</StyledQuestionIcon>
@@ -86,20 +86,23 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                             {item.pestInfo?.length !== 0 && (
                                 <>
                                     {item.pestInfo?.map((item, idx) => (
-                                        <PestBoxContainer key={idx}>
-                                            <PestImage>
-                                                <img src={item.pestUrl} alt="" />
-                                            </PestImage>
-                                            <PestExplainContainer>
-                                                <PestName>{item.pestName}</PestName>
-                                                <PestName>설명</PestName>
-                                                <PestName>{item.pestExplanation}</PestName>
-                                                <PestName>증상</PestName>
-                                                <PestName>{item.pestSymptom}</PestName>
-                                                <PestName>치료</PestName>
-                                                <PestName>{item.pestTherapy}</PestName>
-                                            </PestExplainContainer>
-                                        </PestBoxContainer>
+                                        <>
+                                            <PestBoxContainer key={idx}>
+                                                <PestImage>
+                                                    <img src={item.pestUrl} alt="" />
+                                                </PestImage>
+                                                <PestExplainContainer>
+                                                    <PestName>{item.pestName}</PestName>
+                                                    <PestName>설명</PestName>
+                                                    <PestName>{item.pestExplanation}</PestName>
+                                                    <PestName>증상</PestName>
+                                                    <PestName>{item.pestSymptom}</PestName>
+                                                    <PestName>치료</PestName>
+                                                    <PestName>{item.pestTherapy}</PestName>
+                                                </PestExplainContainer>
+                                            </PestBoxContainer>
+                                            <LineStyle />
+                                        </>
                                     ))}
                                 </>
                             )}
@@ -190,8 +193,6 @@ const StyledIcon = styled.img`
 
 const PestBoxContainer = styled.div`
     display: flex;
-    align-items: center;
-    height: 400px;
 `;
 
 const PestImage = styled.div`
@@ -203,8 +204,8 @@ const PestImage = styled.div`
 `;
 
 const PestExplainContainer = styled.div`
-    height: 250px;
-    overflow: overlay;
+    padding-right: 20px;
+    min-height: 250px;
 `;
 
 const PestName = styled.div`
@@ -216,6 +217,12 @@ const PestName = styled.div`
     letter-spacing: normal;
     color: #3d3d3d;
     margin-bottom: 10px;
+`;
+
+const LineStyle = styled.div`
+    margin: 30px 0;
+    height: 1px;
+    border-top: 1px solid #d9d9d9;
 `;
 
 export default Faq;

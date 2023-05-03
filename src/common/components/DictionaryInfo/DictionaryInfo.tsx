@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { IDictionaryInfo } from './DictionaryInfo.type';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+import DOMPurify from 'dompurify';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
 
@@ -68,7 +69,9 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                 <StyledInfoBlockLeft>
                     <StyledEngName>{data?.scientificName}</StyledEngName>
                     <StyledKorName>{data?.plantName}</StyledKorName>
-                    <StyledFigure>{data?.description_detail}</StyledFigure>
+                    <StyledFigure
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.description_detail ?? '') }}
+                    />
                 </StyledInfoBlockLeft>
                 <StyledInfoBlock>
                     <StyledIndex>출신</StyledIndex>

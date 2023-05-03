@@ -135,6 +135,18 @@ export type IDictionaryDetailsParams = {
         pestTherapy: string;
         pestUrl: string;
     }[];
+    reviewQuantity: number;
+    evaluationSum: number;
+    fiveAccount: number;
+    fourAccount: number;
+    threeAccount: number;
+    twoAccount: number;
+    oneAccount: number;
+    fiveAccountPercent: number;
+    fourAccountPercent: number;
+    threeAccountPercent: number;
+    twoAccountPercent: number;
+    oneAccountPercent: number;
 };
 
 export type IFollowingsParams = {

@@ -451,7 +451,7 @@ const StyledAlarmDot = styled.div`
     justify-content: center;
 `;
 const StyledSubTabBarBlock = styled.div`
-    position: fixed;
+    /* position: fixed; */
     width: 100%;
     top: 80px;
     left: 0px;
@@ -539,7 +539,7 @@ const StyledLoginContentContainer = styled.div`
 const StyledTabsContainer = styled.div``;
 
 const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
-    position: fixed;
+    /* position: fixed; */
     top: 0px;
     left: 0px;
     display: flex;
@@ -564,7 +564,7 @@ const StyledHeaderBar = styled.div`
     align-items: center;
     width: 1920px;
     height: 80px;
-    background-color: white;
+
     @media screen and (max-width: ${1900}px) {
         padding-left: 10%;
         padding-right: 10%;
