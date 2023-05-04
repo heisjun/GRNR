@@ -93,18 +93,30 @@ const DictionaryDetails: React.FC = () => {
                         </StyledTabText>
                     ))}
                 </StyledTabContainer>
-                {reviewList?.content?.map((item, idx) => (
-                    <StyledReviewListContainer key={idx}>
-                        {details && (
-                            <ReviewList
-                                fetchData={fetchData}
-                                getReviewData={getReviewData}
-                                data={item}
-                                details={details}
-                            />
-                        )}
-                    </StyledReviewListContainer>
-                ))}
+                {reviewList?.content.length !== 0 ? (
+                    <>
+                        {reviewList?.content?.map((item, idx) => (
+                            <StyledReviewListContainer key={idx}>
+                                {details && (
+                                    <ReviewList
+                                        fetchData={fetchData}
+                                        getReviewData={getReviewData}
+                                        data={item}
+                                        details={details}
+                                    />
+                                )}
+                            </StyledReviewListContainer>
+                        ))}
+                    </>
+                ) : (
+                    <EmptyDataContainer>
+                        <div>
+                            아직 ‘몬스테라 델리시오사’에 대한 리뷰가 없어요.
+                            <br /> 처음으로 이 식물과 함께 한 경험을 공유해주세요!
+                        </div>
+                    </EmptyDataContainer>
+                )}
+
                 {/* <StyledDetailsBlock>
                     <StyledDetailTitle>
                         #<span>{details?.plantName}</span> 관련 매거진
@@ -213,6 +225,20 @@ const StyledReviewListContainer = styled.div`
     height: 250px;
     margin-bottom: 15px;
     padding: 10px;
+`;
+
+const EmptyDataContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 108px;
+    margin-bottom: 200px;
+    div {
+        font-family: 'Noto Sans';
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 27px;
+        color: #d9d9d9;
+    }
 `;
 
 export default DictionaryDetails;
