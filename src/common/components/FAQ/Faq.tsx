@@ -92,12 +92,14 @@ const Faq: React.FC<IFaq> = ({ data }) => {
                                                     <img src={item.pestUrl} alt="" />
                                                 </PestImage>
                                                 <PestExplainContainer>
-                                                    <PestName>{item.pestName}</PestName>
-                                                    <PestName>설명</PestName>
+                                                    <PestName style={{ fontSize: '16px', fontWeight: 700 }}>
+                                                        {item.pestName}
+                                                    </PestName>
+                                                    <PestName style={{ fontWeight: 700 }}>설명</PestName>
                                                     <PestName>{item.pestExplanation}</PestName>
-                                                    <PestName>증상</PestName>
+                                                    <PestName style={{ fontWeight: 700 }}>증상</PestName>
                                                     <PestName>{item.pestSymptom}</PestName>
-                                                    <PestName>치료</PestName>
+                                                    <PestName style={{ fontWeight: 700 }}>치료</PestName>
                                                     <PestName>{item.pestTherapy}</PestName>
                                                 </PestExplainContainer>
                                             </PestBoxContainer>

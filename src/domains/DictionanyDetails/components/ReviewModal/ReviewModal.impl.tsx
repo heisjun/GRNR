@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { IReviewModalProps } from './ReviewModal.interface';
 
@@ -9,6 +9,7 @@ import EmptyIcon from '../../../../assets/icon/emptyHeart.png';
 import HeartIcon from 'assets/icon/heart.png';
 import Plus from 'assets/icon/plus.png';
 import Trash from 'assets/icon/trash.png';
+import MainLogo from 'assets/icon/mainLogo.png';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -71,33 +72,23 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
 
     const reviewSubmit = async () => {
         const formData = new FormData();
+        const uploaderData = JSON.stringify({
+            plantDicId: Number(params.id),
+            reviewId: reviewData?.reviewId,
+            evaluation: satisfaction,
+            reviewText: contents,
+            tagDtoList: tagList,
+        });
         formData.append('file', requestFile);
-
+        formData.append('plantReviewSaveDto', new Blob([uploaderData], { type: 'application/json' }));
         if (satisfaction !== 0 && imgFile !== undefined && tagList.length >= 1 && contents !== '') {
             if (contents.length <= 500) {
-                const { data } = await axios.post(`${BASEURL}/api/plantDicReview/picture/save`, formData, {
+                await axios.post(`${BASEURL}/api/plantDicReview/picture/save`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${TOKEN}`,
                     },
                 });
-
-                await axios.put(
-                    `${BASEURL}/api/plantDicReview/content/save`,
-                    {
-                        plantDicId: params.id,
-                        reviewId: data.value,
-                        evaluation: satisfaction,
-                        reviewText: contents,
-                        tagDtoList: tagList,
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${TOKEN}`,
-                        },
-                    },
-                );
                 initClose();
                 requestReview();
             } else {
@@ -120,14 +111,18 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
         formData.append('file', requestFile);
         formData.append('plantReviewSaveDto', new Blob([uploaderData], { type: 'application/json' }));
         if (satisfaction !== 0 && imgFile !== undefined && tagList.length >= 1 && contents !== '') {
-            await axios.put(`${BASEURL}/api/plantDicReview/update`, formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${TOKEN}`,
-                },
-            });
-            initClose();
-            requestReview();
+            if (contents.length <= 500) {
+                await axios.put(`${BASEURL}/api/plantDicReview/update`, formData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${TOKEN}`,
+                    },
+                });
+                initClose();
+                requestReview();
+            } else {
+                alert('500자 이내로 입력해 주세요.');
+            }
         } else {
             setError(true);
         }
@@ -370,6 +365,28 @@ export const ReviewModal: React.FC<IReviewModalProps> = (props) => {
                                 리뷰 제출하기
                             </StyledReviewButton>
                         </EvaluationContainerStyle>
+                        <GuideContainer>
+                            <GuideTitle>
+                                <img src={MainLogo} />
+                                리뷰 작성 가이드
+                            </GuideTitle>
+                            <GuideContent>
+                                · 식물과 함께 한 가드너님의 경험을 공유해주세요. 당신의 경험은 다른 가드너들에게 소중한
+                                정보가 될 수 있습니다.
+                            </GuideContent>
+                            <GuideContent>
+                                · ‘가드너스클럽 식물사전’은 식물을 사랑하는 모든 가드너들을 위한 공간입니다. 타인에 대한
+                                비난 및 명예를 훼손하는 게시물,
+                                <br /> 음란 및 혐오성 게시물, 광고성 게시물 등 공간의 취지에 부합하지 않은 게시물의
+                                공유를 금합니다.
+                            </GuideContent>
+                            <GuideContent>
+                                · 식물의 모습이 잘 보이는 사진 이미지와 함께 그에 대한 자세한 설명을 작성해주세요.
+                            </GuideContent>
+                            <GuideContent>
+                                · 리뷰 내용(글)과 첨부하는 이미지가 타인의 지적 재산권을 침해하지 않도록 유의해주세요.
+                            </GuideContent>
+                        </GuideContainer>
                     </DialogBodyStyle>
                 </DialogStyle>
             </ModalContainer>
@@ -681,6 +698,35 @@ const ErrorText = styled.span`
     line-height: 16px;
     color: #f06060;
     font-family: NotoSansKR;
+`;
+
+const GuideContainer = styled.div`
+    padding-top: 20px;
+    width: 100%;
+    background: #d9d9d9;
+`;
+
+const GuideTitle = styled.div`
+    padding: 0 40px;
+    margin-bottom: 16px;
+    font-family: 'Noto Sans';
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    display: flex;
+    img {
+        margin-right: 4px;
+        width: 165px;
+        height: 24px;
+    }
+`;
+
+const GuideContent = styled.div`
+    padding: 0 40px 10px 40px;
+    font-family: 'Noto Sans';
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
 `;
 
 const QuillWrapper = styled(ReactQuill).attrs(() => ({

@@ -7,17 +7,12 @@ export const headerItems = [
 
 export const subTabBarItems = [
     [
-        { name: '인기', link: '/community/popular', value: 'popular' },
-        { name: '팔로잉', link: '/community/following', value: 'following' },
-        { name: '사진', link: '/community/photo', value: 'photo' },
-        { name: '매거진', link: '/community/magazine', value: 'magazine' },
+        { name: '인기', value: 'popular' },
+        { name: '팔로잉', value: 'following' },
+        { name: '사진', value: 'photo' },
+        { name: '매거진',  value: 'magazine' },
         { name: '식물사전', link: '/community/dictionary', value: 'dictionary' },
-        { name: 'Q&A', link: '/community/question', value: 'question' },
-    ],
-    [
-        { name: '스토어 메뉴1', link: '/store/menu1', value: 'menu1' },
-        { name: '스토어 메뉴2', link: '/store/menu2', value: 'menu2' },
-        { name: '스토어 메뉴3', link: '/store/menu3', value: 'menu3' },
+        { name: 'Q&A', value: 'question' },
     ],
     [
         { name: '사진', link: '/upload/photo', value: 'photo' },
@@ -27,16 +22,10 @@ export const subTabBarItems = [
 
 export const mypageTabBarItems = [
     {
-        name: '프로필',
-        link: '/mypage/profile',
+        name: '프로필'
     },
     {
-        name: '마이가든',
-        link: '/mypage/mygarden',
-    },
-    {
-        name: '설정',
-        link: '/mypage/setting',
+        name: '설정'
     },
 ];
 

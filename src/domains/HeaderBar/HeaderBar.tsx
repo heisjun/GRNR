@@ -514,14 +514,14 @@ const StyledMenuItemBlock = styled.h2`
     margin-left: 50px;
     @media screen and (max-width: ${720}px) {
         display: none;
-    }
+    }                 
 `;
 
 const StyledContentBlock = styled.div`
     width: 100%;
 `;
 
-const StyledContentContainer = styled.div`
+  const StyledContentContainer = styled.div`
     display: flex;
     z-index: 0;
 `;
