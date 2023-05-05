@@ -523,7 +523,7 @@ const StyledContentBlock = styled.div`
 
 const StyledContentContainer = styled.div`
     display: flex;
-    margin-top: 130px;
+    margin-top: 40px;
     z-index: 0;
 `;
 
