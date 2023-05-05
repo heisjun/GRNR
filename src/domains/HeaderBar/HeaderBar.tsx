@@ -521,9 +521,8 @@ const StyledContentBlock = styled.div`
     width: 100%;
 `;
 
-const StyledContentContainer = styled.div`
+  const StyledContentContainer = styled.div`
     display: flex;
-    margin-top: 0px;
     z-index: 0;
 `;
 
@@ -564,38 +563,38 @@ const StyledHeaderBar = styled.div`
     align-items: center;
     width: 1920px;
     height: 80px;
-                        
-    @media screen and (max-width: ${1900}px) {
+    margin-left: 390px;
+    margin-right: 390px;
+
+    /*   @media screen and (max-width: ${1900}px) {
         padding-left: 10%;
         padding-right: 10%;
     }
     @media screen and (min-width: ${1900}px) {
         margin-left: 390px;
         margin-right: 390px;
-    }
+    } */
 `;
 
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    width: 100%;
+    width: 1920px;
+    z-index: 99;
+    @media screen and (min-width: ${1800}px) {
+        width: 100%;
+    }
 `;
 
 const StyledLoginContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
-    background-color: #f5f5f5;
-`;
-
-const StyledSearchBaInput = styled.input`
-    transition: width 1s linear;
-    width: 270px;
-    height: 40px;
-
-    padding: 6px 0 4px 14px;
-    border: solid 1px #e3e5ec;
+    width: 1920px;
+    z-index: 99;
+    @media screen and (min-width: ${1800}px) {
+        width: 100%;
+    }
     background-color: #f5f5f5;
 `;
 

@@ -243,7 +243,7 @@ const Register: React.FC = () => {
                     />
                 </div>
                 {!disabledToggle && (
-                    <div ref={dropdownListRef}>
+                    <StyledAddressContainer ref={dropdownListRef}>
                         <div
                             style={{
                                 height: 'auto',
@@ -260,7 +260,7 @@ const Register: React.FC = () => {
                                     );
                                 })}
                         </div>
-                    </div>
+                    </StyledAddressContainer>
                 )}
 
                 <StyledRegisterBlock>
@@ -301,21 +301,29 @@ const StyledRegisterContainer = styled.div`
     background-color: white;
     display: flex;
     flex-direction: column;
+    position: relative;
 `;
 
 const StyledAdressList = styled.div`
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     background-color: white;
     font-size: 14px;
     font-weight: 400;
     height: 50px;
+    width: 350px;
     padding-left: 16px;
     border-bottom: 1px solid #dbdbdb;
     cursor: pointer;
     :hover {
         background-color: silver;
     }
+`;
+
+const StyledAddressContainer = styled.div`
+    position: absolute;
+    top: 350px;
 `;
 
 const StyledRegisterBlock = styled.div`

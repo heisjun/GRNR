@@ -103,14 +103,16 @@ const StyledSubTabBarBlock = styled.div<{ justifyContent: string }>`
     background-color: white;
     width: 1920px;
     display: flex;
-    @media screen and (max-width: ${1900}px) {
+    margin-left: 390px;
+    margin-right: 390px;
+    /*  @media screen and (max-width: ${1900}px) {
         padding-left: 10%;
         padding-right: 10%;
     }
     @media screen and (min-width: ${1900}px) {
         margin-left: 390px;
         margin-right: 390px;
-    }
+    } */
 `;
 
 const StyledSubTabBarContainer = styled.div<{ fadeAnim: any }>`
