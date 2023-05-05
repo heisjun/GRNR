@@ -485,9 +485,15 @@ const StyledButtonsCotainer = styled.div`
     height: 25px;
     display: flex;
     align-items: center;
+    @media screen and (min-width: ${boundaryWidth}px) {
+        height: 30px;
+    }
 `;
 
 const StyledTitleBlock = styled.div`
+    @media screen and (max-width: ${boundaryWidth}px) {
+        margin-right: auto;
+    }
 `;
 
 const StyledMenuItemsContainer = styled.div`
@@ -506,6 +512,9 @@ const StyledMenuItemText = styled.div<{ color: string }>`
 
 const StyledMenuItemBlock = styled.h2`
     margin-left: 50px;
+    @media screen and (max-width: ${720}px) {
+        display: none;
+    }                 
 `;
 
 const StyledContentBlock = styled.div`
@@ -541,6 +550,13 @@ const StyledHeaderBarContainer = styled.div<{ fadeAnim: any }>`
     background-color: white;
     border-bottom: solid 1px;
     border-color: silver;
+    @media screen and (max-width: ${1900}px) {
+        justify-content: start;
+    }
+    @media screen and (max-width: ${boundaryWidth}px) {
+        animation: ${({ fadeAnim }) => fadeAnim} 0.1s;
+        animation-fill-mode: forwards;
+    }
 `;
 
 const StyledHeaderBar = styled.div`
@@ -548,6 +564,15 @@ const StyledHeaderBar = styled.div`
     align-items: center;
     width: 1920px;
     height: 80px;
+                        
+    @media screen and (max-width: ${1900}px) {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+    @media screen and (min-width: ${1900}px) {
+        margin-left: 390px;
+        margin-right: 390px;
+    }
 `;
 
 const StyledContainer = styled.div`
