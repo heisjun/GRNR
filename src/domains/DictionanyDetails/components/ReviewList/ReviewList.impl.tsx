@@ -22,8 +22,7 @@ export const ReviewList: React.FC<IReviewListProps> = ({ data, getReviewData, de
         await axios.delete(`${BASEURL}/api/plantDicReview/${data?.reviewId}/delete`, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization:
-                    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzbnNJZCI6IlFSNzBUS2ZacjVfcWp4U3J5VHQ5RDU2Q2tzODlkVk5pamJLWlJMRDVhRTgiLCJleHAiOjE2ODI4NzU3MzN9.OEcOpop0xGLBXNv5XLnIGj9wjf-zVr0RWGRg9_KYrzEOaghwBCjLIzMsOjjbpG69B9uFfX7OIujNFZJalf-Ltw',
+                Authorization: `Bearer ${TOKEN}`,    
             },
         });
         getReviewData();
