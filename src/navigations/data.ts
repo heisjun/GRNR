@@ -10,7 +10,7 @@ export const subTabBarItems = [
         { name: '인기', link: '/community/popular', value: 'popular' },
         { name: '팔로잉', link: '/community/following', value: 'following' },
         { name: '사진', link: '/community/photo', value: 'photo' },
-        { name: '매거진', link: '/community/magazine', value: 'magazine' },
+        { name: '매거진',  value: 'magazine' },
         { name: '식물사전', link: '/community/dictionary', value: 'dictionary' },
         { name: 'Q&A', link: '/community/question', value: 'question' },
     ],
