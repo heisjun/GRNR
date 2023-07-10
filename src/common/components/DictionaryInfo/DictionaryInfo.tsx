@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { IDictionaryInfo } from './DictionaryInfo.type';
-import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import DOMPurify from 'dompurify';
 
 const boundaryWidth = process.env.REACT_APP_BOUNDARY_WIDTH;
@@ -11,26 +10,31 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
     const slideRef = useRef(document.createElement('img'));
     const [slidePage, setSlidePage] = useState<number>(0);
     const [slideIdx, setSlideIdx] = useState<number>(0);
-    const Slidetransform = slidePage / 11.4;
 
     const leftButton = () => {
         if (slidePage > 0) {
             setSlidePage((prev) => prev - 1140);
             setSlideIdx((prev) => prev - 1);
+        } else {
+            setSlidePage((prev) => prev + 1140 * (data.plantContentFeedDtoList.length - 1));
+            setSlideIdx((prev) => prev + 1 * (data.plantContentFeedDtoList.length - 1));
         }
     };
 
     const rightButton = () => {
-        if ((data?.plantContentFeedDtoList.length ? data.plantContentFeedDtoList.length - 1 : 0) > slideIdx) {
+        if (data.plantContentFeedDtoList.length - 1 > slideIdx) {
             setSlidePage((prev) => prev + 1140);
             setSlideIdx((prev) => prev + 1);
+        } else {
+            setSlidePage((prev) => prev - 1140 * (data.plantContentFeedDtoList.length - 1));
+            setSlideIdx((prev) => prev - 1 * (data.plantContentFeedDtoList.length - 1));
         }
     };
 
     useEffect(() => {
-        slideRef.current.style.transition = 'all 0.5s ease-in-out';
-        slideRef.current.style.transform = `translateX(-${Slidetransform}%)`;
-    }, [slideIdx]);
+        slideRef.current.style.transition = 'all 0.8s ease-in-out';
+        slideRef.current.style.transform = `translateX(-${slidePage}px)`;
+    }, [slidePage]);
 
     return (
         <div style={{ position: 'relative', overflow: 'hidden' }}>
@@ -45,7 +49,7 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
             </StyledSlideButtonBox>
             <StyleBannerBoxStyle ref={slideRef}>
                 {data?.plantContentFeedDtoList.map((item, idx) => (
-                    <StyledMainBannerContainer key={idx} slidePage={slidePage}>
+                    <StyledMainBannerContainer>
                         <StyledImageContainer>
                             <img src={item.plantPicUrl} alt="" />
                         </StyledImageContainer>
@@ -101,37 +105,29 @@ const DictionaryInfo: React.FC<IDictionaryInfo> = (props) => {
                     </StyledFlexDiv>
                     <StyledIndex>키워드</StyledIndex>
                     <StyledKeywordDiv>
-                        {data?.classification !== 'null' && <StyledKeywordBox>{data?.classification}</StyledKeywordBox>}
-                        {data?.classification_flower !== 'null' && (
+                        {data?.classification && <StyledKeywordBox>{data?.classification}</StyledKeywordBox>}
+                        {data?.classification_flower && (
                             <StyledKeywordBox>{data?.classification_flower}</StyledKeywordBox>
                         )}
-                        {data?.classification_fruit !== 'null' && (
+                        {data?.classification_fruit && (
                             <StyledKeywordBox>{data?.classification_fruit}</StyledKeywordBox>
                         )}
-                        {data?.classification_leaf !== 'null' && (
-                            <StyledKeywordBox>{data?.classification_leaf}</StyledKeywordBox>
-                        )}
-                        {data?.classification_succulent !== 'null' && (
+                        {data?.classification_leaf && <StyledKeywordBox>{data?.classification_leaf}</StyledKeywordBox>}
+                        {data?.classification_succulent && (
                             <StyledKeywordBox>{data?.classification_succulent}</StyledKeywordBox>
                         )}
-                        {data?.toxicityHarmless !== 'null' && (
-                            <StyledKeywordBox>{data?.toxicityHarmless}</StyledKeywordBox>
-                        )}
-                        {data?.toxicitySeriousness !== 'null' && (
-                            <StyledKeywordBox>{data?.toxicitySeriousness}</StyledKeywordBox>
-                        )}
-                        {data?.toxicitySlight !== 'null' && <StyledKeywordBox>{data?.toxicitySlight}</StyledKeywordBox>}
-                        {data?.toxicityIngestion !== 'null' && (
-                            <StyledKeywordBox>{data?.toxicityIngestion}</StyledKeywordBox>
-                        )}
-                        {data?.toxicitySkin !== 'null' && <StyledKeywordBox>{data?.toxicitySkin}</StyledKeywordBox>}
-                        {data?.cat !== 'null' && <StyledKeywordBox>{data?.cat}</StyledKeywordBox>}
-                        {data?.dog !== 'null' && <StyledKeywordBox>{data?.dog}</StyledKeywordBox>}
-                        {data?.classification_succulent !== 'null' && (
+                        {data?.toxicityHarmless && <StyledKeywordBox>{data?.toxicityHarmless}</StyledKeywordBox>}
+                        {data?.toxicitySeriousness && <StyledKeywordBox>{data?.toxicitySeriousness}</StyledKeywordBox>}
+                        {data?.toxicitySlight && <StyledKeywordBox>{data?.toxicitySlight}</StyledKeywordBox>}
+                        {data?.toxicityIngestion && <StyledKeywordBox>{data?.toxicityIngestion}</StyledKeywordBox>}
+                        {data?.toxicitySkin && <StyledKeywordBox>{data?.toxicitySkin}</StyledKeywordBox>}
+                        {data?.cat && <StyledKeywordBox>{data?.cat}</StyledKeywordBox>}
+                        {data?.dog && <StyledKeywordBox>{data?.dog}</StyledKeywordBox>}
+                        {data?.classification_succulent && (
                             <StyledKeywordBox>{data?.classification_succulent}</StyledKeywordBox>
                         )}
-                        {data?.difficulty !== 'null' && <StyledKeywordBox>{data?.difficulty}</StyledKeywordBox>}
-                        {data?.growSpeed !== 'null' && <StyledKeywordBox>{data?.growSpeed}</StyledKeywordBox>}
+                        {data?.difficulty && <StyledKeywordBox>{data?.difficulty}</StyledKeywordBox>}
+                        {data?.growSpeed && <StyledKeywordBox>{data?.growSpeed}</StyledKeywordBox>}
                     </StyledKeywordDiv>
                 </StyledInfoBlock>
             </StyledInfoContainer>
@@ -274,7 +270,7 @@ const StyleBannerBoxStyle = styled.div`
     margin: 40px 0px 0px 0px;
 `;
 
-const StyledMainBannerContainer = styled.div<IStyled>`
+const StyledMainBannerContainer = styled.div`
     position: relative;
     display: flex;
     height: 480px;
@@ -336,6 +332,5 @@ const StyledDot = styled.div<IStyled>`
 const StyledDotBox = styled.div`
     margin-bottom: 15px;
     display: flex;
-    overflow: hidden;
 `;
 export default DictionaryInfo;
