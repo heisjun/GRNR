@@ -82,7 +82,7 @@ const DictionaryDetails: React.FC = () => {
     return (
         <StyledDicDetailsContainer>
             <div style={{ maxWidth: 1140, margin: 'auto' }}>
-                <DictionaryInfo data={details} />
+                {details && <DictionaryInfo data={details} />}
                 <PlantGuide data={details} />
                 <Faq data={details} />
                 {details && <DetailReviewInfo data={details} requestReview={getReviewData} />}

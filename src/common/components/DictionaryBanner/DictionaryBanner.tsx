@@ -60,41 +60,35 @@ const DictionaryBanner: React.FC<IDictionaryBanner> = (props) => {
                             <StyledEnglishName>{item.scientificName}</StyledEnglishName>
                             <StyledKoreanName>{item.plantName}</StyledKoreanName>
                             <StyledKeywordContainer>
-                                {item.classification_flower !== 'null' && (
+                                {item.classification_flower && (
                                     <StyledKeywordBox>{item.classification_flower}</StyledKeywordBox>
                                 )}
-                                {item.classification_fruit !== 'null' && (
+                                {item.classification_fruit && (
                                     <StyledKeywordBox>{item.classification_fruit}</StyledKeywordBox>
                                 )}
-                                {item.classification_leaf !== 'null' && (
+                                {item.classification_leaf && (
                                     <StyledKeywordBox>{item.classification_leaf}</StyledKeywordBox>
                                 )}
-                                {item.classification_succulent !== 'null' && (
+                                {item.classification_succulent && (
                                     <StyledKeywordBox>{item.classification_succulent}</StyledKeywordBox>
                                 )}
-                                {item.toxicityHarmless !== 'null' && (
-                                    <StyledKeywordBox>{item.toxicityHarmless}</StyledKeywordBox>
-                                )}
-                                {item.toxicitySeriousness !== 'null' && (
+                                {item.toxicityHarmless && <StyledKeywordBox>{item.toxicityHarmless}</StyledKeywordBox>}
+                                {item.toxicitySeriousness && (
                                     <StyledKeywordBox>{item.toxicitySeriousness}</StyledKeywordBox>
                                 )}
-                                {item.toxicitySlight !== 'null' && (
-                                    <StyledKeywordBox>{item.toxicitySlight}</StyledKeywordBox>
-                                )}
-                                {item.toxicityIngestion !== 'null' && (
+                                {item.toxicitySlight && <StyledKeywordBox>{item.toxicitySlight}</StyledKeywordBox>}
+                                {item.toxicityIngestion && (
                                     <StyledKeywordBox>{item.toxicityIngestion}</StyledKeywordBox>
                                 )}
-                                {item.toxicitySkin !== 'null' && (
-                                    <StyledKeywordBox>{item.toxicitySkin}</StyledKeywordBox>
-                                )}
-                                {item.cat !== 'null' && <StyledKeywordBox>{item.cat}</StyledKeywordBox>}
-                                {item.dog !== 'null' && <StyledKeywordBox>{item.dog}</StyledKeywordBox>}
-                                {item.classification_succulent !== 'null' && (
+                                {item.toxicitySkin && <StyledKeywordBox>{item.toxicitySkin}</StyledKeywordBox>}
+                                {item.cat && <StyledKeywordBox>{item.cat}</StyledKeywordBox>}
+                                {item.dog && <StyledKeywordBox>{item.dog}</StyledKeywordBox>}
+                                {item.classification_succulent && (
                                     <StyledKeywordBox>{item.classification_succulent}</StyledKeywordBox>
                                 )}
-                                {item.difficulty !== 'null' && <StyledKeywordBox>{item.difficulty}</StyledKeywordBox>}
-                                {item.difficulty !== 'null' && <StyledKeywordBox>{item.difficulty}</StyledKeywordBox>}
-                                {item.growSpeed !== 'null' && <StyledKeywordBox>{item.growSpeed}</StyledKeywordBox>}
+                                {item.difficulty && <StyledKeywordBox>{item.difficulty}</StyledKeywordBox>}
+                                {item.difficulty && <StyledKeywordBox>{item.difficulty}</StyledKeywordBox>}
+                                {item.growSpeed && <StyledKeywordBox>{item.growSpeed}</StyledKeywordBox>}
                             </StyledKeywordContainer>
                         </StyledContentContainer>
                     </StyledMainBannerContainer>
